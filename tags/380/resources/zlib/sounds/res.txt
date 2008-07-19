@@ -1,0 +1,4 @@
+//type	path	desc
+audio/midi	/sounds/tuk.mid	tuk.mid
+none		none
+tone		tone sequence
