@@ -35,6 +35,7 @@
     * Ping ([http://xmpp.org/extensions/xep-0199.html XEP-0199]), client-client, client-server.
     * Сохранение и загрузка настроек на сервере.
     * Транслитерация отправляемого сообщения.
+    * Удобное использование instant-blogging сервиса juick@juick.com.
 
 История
 
