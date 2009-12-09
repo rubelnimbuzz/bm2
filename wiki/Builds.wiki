@@ -1,23 +1,23 @@
 #summary Особенности и характеристики выкладываемых бинарных сборок.
 
-= Introduction =
+= Общее =
 
-Обычно выкладываются три различные сборки:
+Обычно выкладываются три различные сборки, отличающиеся набором [http://bm2.googlecode.com/svn/trunk/abilities.txt возможностей] (англ. abilities):
 
-BombusMod`*`.jar;
+ * BombusMod`*`.jar;
+ * BombusMod`*`FilinX.jar;
+ * BombusMod`*`Classic.jar.
 
-BombusMod`*`FilinX.jar;
+Также время от времени появляются специфические сборки, для тестов некоторых экспериментальных патчей и отладки фич, которым ещё рано в главную ветку разработки. Скачивать их лучше, предварительно узнав для чего они предназначены.
 
-BombusMod`*`Classic.jar.
+= Детали традиционных сборок =
 
+* BombusMod`*`.jar - полные (с всеми возможными и невозможными абилити)
 
-= Details =
-
-BombusMod`*`.jar и BombusMod`*`FilinX.jar отличается набором [http://bm2.googlecode.com/svn/trunk/abilities.txt абилити]:
-
-BombusMod`*`.jar - полные (с всеми возможными и невозможными абилити)
 ANI.abilities= HISTORY_READER=, HISTORY=, FILE_TRANSFER=, CLIENTS_ICONS=, USE_ROTATOR=, ZLIB=,CLIPBOARD=, POPUPS=, RUNNING_MESSAGE=, SERVICE_DISCOVERY=, DETRANSLIT=, PEP=, LOGROTATE=, ANISMILES=, JUICK=, SMILES=, PEP_ACTIVITY=, MENU_LISTENER=, FILE_IO=, PEP_TUNE=, GRADIENT=, NICK_COLORS=, LAST_MESSAGES=
 
-BombusMod`*`.jar - облегченная, в ней: FilinX.abilities=FILE_IO=, HISTORY=, USER_KEYS=, POPUPS=, IMPORT_EXPORT=, SMILES=, TEMPLATES=, JUICK=, WSYSTEMGC=, ARCHIVE=, USE_ROTATOR=, ZLIB=, MENU_LISTENER=, CLIPBOARD=, FILE_TRANSFER=, DETRANSLIT=, SERVICE_DISCOVERY=, CLIENTS_ICONS=, NICK_COLORS=
+* BombusMod`*`FilinX.jar - облегченная
 
-BombusMod`*`Classic.jar - с классическим (не графическим) меню, как в офф бомбе.
+FilinX.abilities=FILE_IO=, HISTORY=, USER_KEYS=, POPUPS=, IMPORT_EXPORT=, SMILES=, TEMPLATES=, JUICK=, WSYSTEMGC=, ARCHIVE=, USE_ROTATOR=, ZLIB=, MENU_LISTENER=, CLIPBOARD=, FILE_TRANSFER=, DETRANSLIT=, SERVICE_DISCOVERY=, CLIENTS_ICONS=, NICK_COLORS=
+
+* BombusMod`*`Classic.jar - с классическим (не графическим) меню, как в официальном бомбусе.
