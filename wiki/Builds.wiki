@@ -20,4 +20,4 @@ ANI.abilities= HISTORY_READER=, HISTORY=, FILE_TRANSFER=, CLIENTS_ICONS=, USE_RO
 
 BombusMod`*`.jar - облегченная, в ней: FilinX.abilities=FILE_IO=, HISTORY=, USER_KEYS=, POPUPS=, IMPORT_EXPORT=, SMILES=, TEMPLATES=, JUICK=, WSYSTEMGC=, ARCHIVE=, USE_ROTATOR=, ZLIB=, MENU_LISTENER=, CLIPBOARD=, FILE_TRANSFER=, DETRANSLIT=, SERVICE_DISCOVERY=, CLIENTS_ICONS=, NICK_COLORS=
 
-BombusMod581Classic.jar - с классическим (не графическим) меню, как в офф бомбе.
+BombusMod`*`Classic.jar - с классическим (не графическим) меню, как в офф бомбе.
