@@ -4,20 +4,22 @@
 
 Обычно выкладываются три различные сборки, отличающиеся набором [http://bm2.googlecode.com/svn/trunk/abilities.txt возможностей] (англ. abilities):
 
- * BombusMod`*`.jar;
- * BombusMod`*`FilinX.jar;
- * BombusMod`*`Classic.jar.
+ * BombusModNNN.jar;
+ * BombusModNNNFilinX.jar;
+ * BombusModNNNClassic.jar.
 
 Также время от времени появляются специфические сборки, для тестов некоторых экспериментальных патчей и отладки фич, которым ещё рано в главную ветку разработки. Скачивать их лучше, предварительно узнав для чего они предназначены.
 
 = Детали традиционных сборок =
 
-* BombusMod`*`.jar - полные (с всеми возможными и невозможными абилити)
+* BombusModNNN.jar - полные (с всеми возможными и невозможными абилити):
 
 ANI.abilities= HISTORY_READER=, HISTORY=, FILE_TRANSFER=, CLIENTS_ICONS=, USE_ROTATOR=, ZLIB=,CLIPBOARD=, POPUPS=, RUNNING_MESSAGE=, SERVICE_DISCOVERY=, DETRANSLIT=, PEP=, LOGROTATE=, ANISMILES=, JUICK=, SMILES=, PEP_ACTIVITY=, MENU_LISTENER=, FILE_IO=, PEP_TUNE=, GRADIENT=, NICK_COLORS=, LAST_MESSAGES=
 
-* BombusMod`*`FilinX.jar - облегченная
+* BombusModNNNFilinX.jar - облегченная:
 
 FilinX.abilities=FILE_IO=, HISTORY=, USER_KEYS=, POPUPS=, IMPORT_EXPORT=, SMILES=, TEMPLATES=, JUICK=, WSYSTEMGC=, ARCHIVE=, USE_ROTATOR=, ZLIB=, MENU_LISTENER=, CLIPBOARD=, FILE_TRANSFER=, DETRANSLIT=, SERVICE_DISCOVERY=, CLIENTS_ICONS=, NICK_COLORS=
 
-* BombusMod`*`Classic.jar - с классическим (не графическим) меню, как в официальном бомбусе.
+* BombusModNNNClassic.jar - с классическим (не графическим) меню, как в официальном бомбусе:
+
+STATS=,POPUPS=,AUTOSTATUS=,SMILES=,USE_ROTATOR=, CLIPBOARD=,FILE_TRANSFER=,SERVICE_DISCOVERY=,CLIENTS_ICONS=,NICK_COLORS=,PEP_TUNE=,PEP_ACTIVITY=, GRADIENT=,FILE_IO=,CONSOLE=,PEP=,ARCHIVE=,ZLIB=,ADHOC=,SASL_XGOOGLETOKEN=,JUICK= 
