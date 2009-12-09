@@ -4,19 +4,20 @@
 
 Обычно выкладываются три различные сборки:
 
-BombusMod\*.jar;
+BombusMod***.jar;
 
-BombusMod\*FilinX.jar;
+BombusMod***FilinX.jar;
 
-BombusMod\*Classic.jar.
+BombusMod***Classic.jar.
 
 
 = Details =
 
-BombusMod\*.jar и BombusMod\*FilinX.jar отличается набором абилити: configs.ANI.abilities=HISTORY_READER=,HISTORY=,FILE_TRANSFER=,CLIENTS_ICONS=,USE_ROTATOR=,ZLIB=,CLIPBOARD=,POPUPS=,RUNNING_MESSAGE=,SERVICE_DISCOVERY=,DETRANSLIT=,PEP=,LOGROTATE=,ANISMILES=,JUICK=,SMILES=,PEP_ACTIVITY=,MENU_LISTENER=,FILE_IO=,PEP_TUNE=,GRADIENT=,NICK_COLORS=,LAST_MESSAGES=
+BombusMod***.jar и BombusMod\*FilinX.jar отличается набором абилити:
 
-BombusMod\*.jar - полные (с всеми возможными и невозмодными абилити)
+BombusMod***.jar - полные (с всеми возможными и невозможными абилити)
+ANI.abilities=HISTORY_READER=,HISTORY=,FILE_TRANSFER=,CLIENTS_ICONS=,USE_ROTATOR=,ZLIB=,CLIPBOARD=,POPUPS=,RUNNING_MESSAGE=,SERVICE_DISCOVERY=,DETRANSLIT=,PEP=,LOGROTATE=,ANISMILES=,JUICK=,SMILES=,PEP_ACTIVITY=,MENU_LISTENER=,FILE_IO=,PEP_TUNE=,GRADIENT=,NICK_COLORS=,LAST_MESSAGES=
 
-BombusMod\*.jar - облегченная, в ней: FilinX.abilities=FILE_IO=, HISTORY=, USER_KEYS=, POPUPS=, IMPORT_EXPORT=, SMILES=, TEMPLATES=, JUICK=, WSYSTEMGC=, ARCHIVE=, USE_ROTATOR=, ZLIB=, MENU_LISTENER=, CLIPBOARD=, FILE_TRANSFER=, DETRANSLIT=, SERVICE_DISCOVERY=, CLIENTS_ICONS=, NICK_COLORS=
+BombusMod***.jar - облегченная, в ней: FilinX.abilities=FILE_IO=, HISTORY=, USER_KEYS=, POPUPS=, IMPORT_EXPORT=, SMILES=, TEMPLATES=, JUICK=, WSYSTEMGC=, ARCHIVE=, USE_ROTATOR=, ZLIB=, MENU_LISTENER=, CLIPBOARD=, FILE_TRANSFER=, DETRANSLIT=, SERVICE_DISCOVERY=, CLIENTS_ICONS=, NICK_COLORS=
 
 BombusMod581Classic.jar - с классическим (не графическим) меню, как в офф бомбе.
