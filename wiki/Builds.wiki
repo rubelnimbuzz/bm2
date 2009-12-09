@@ -13,7 +13,7 @@ BombusMod***Classic.jar.
 
 = Details =
 
-BombusMod***.jar и BombusMod\*FilinX.jar отличается набором абилити:
+BombusMod***.jar и BombusMod***FilinX.jar отличается набором абилити:
 
 BombusMod***.jar - полные (с всеми возможными и невозможными абилити)
 ANI.abilities=HISTORY_READER=,HISTORY=,FILE_TRANSFER=,CLIENTS_ICONS=,USE_ROTATOR=,ZLIB=,CLIPBOARD=,POPUPS=,RUNNING_MESSAGE=,SERVICE_DISCOVERY=,DETRANSLIT=,PEP=,LOGROTATE=,ANISMILES=,JUICK=,SMILES=,PEP_ACTIVITY=,MENU_LISTENER=,FILE_IO=,PEP_TUNE=,GRADIENT=,NICK_COLORS=,LAST_MESSAGES=
