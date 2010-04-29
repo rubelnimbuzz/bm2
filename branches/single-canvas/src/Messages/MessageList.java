@@ -32,14 +32,9 @@ import Client.Msg;
 import Client.StaticData;
 import Colors.ColorTheme;
 import java.util.Vector;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
 import Menu.MenuListener;
 import Menu.Command;
 import Menu.MyMenu;
-//#endif
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
@@ -52,11 +47,7 @@ import ui.reconnectWindow;
 
 public abstract class MessageList extends VirtualList
     implements
-//#ifndef MENU_LISTENER
-//#         CommandListener
-//#else
         MenuListener
-//#endif
     {
     
     private Config cf;
@@ -79,9 +70,7 @@ public abstract class MessageList extends VirtualList
         super();
         messages=null;
 	messages=new Vector();
-//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
-//#endif
         cf=Config.getInstance();
         
 //#ifdef SMILES
@@ -182,7 +171,6 @@ public abstract class MessageList extends VirtualList
 
     protected void keyPressed(int keyCode) { // overriding this method to avoid autorepeat
         //kHold=0;
-//#ifdef MENU_LISTENER
         if (keyCode==Config.SOFT_RIGHT || keyCode==Config.KEY_BACK) {
             if (!reconnectWindow.getInstance().isActive() && !cf.oldSE) {
                 StaticData.getInstance().roster.activeContact=null;
@@ -190,11 +178,9 @@ public abstract class MessageList extends VirtualList
                 return;
             }
         }
-//#endif
         super.keyPressed(keyCode);
     }
    
-//#ifdef MENU_LISTENER
     public void showMenu() {
         commandState();
         String capt="";
@@ -203,7 +189,6 @@ public abstract class MessageList extends VirtualList
         } catch (Exception ex){ }
         new MyMenu(display, parentView, this, capt, null, menuCommands);
    }
-//#endif
 
     public void commandState() { }
 }

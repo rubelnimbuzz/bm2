@@ -31,14 +31,9 @@ import Conference.ConferenceForm;
 //#endif
 import images.RosterIcons;
 import java.util.*;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
 import Menu.MenuListener;
 import Menu.Command;
 import Menu.MyMenu;
-//#endif
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
@@ -61,11 +56,7 @@ import xmpp.XmppError;
 public class ServiceDiscovery 
         extends VirtualList
         implements
-//#ifndef MENU_LISTENER
-//#         CommandListener,
-//#else
         MenuListener,
-//#endif
         JabberBlockListener
 {
     private final static String NS_ITEMS="http://jabber.org/protocol/disco#items";
@@ -117,11 +108,7 @@ public class ServiceDiscovery
         stream.addBlockListener(this);
         //sd.roster.discoveryListener=this;
         
-//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
-//#else
-//#         addCommand(cmdBack);
-//#endif
         setCommandListener(this);
         addCommand(cmdRfsh);
         addCommand(cmdSrv);
@@ -189,11 +176,7 @@ public class ServiceDiscovery
 	removeCommand(cmdOk);
         
 	if (size>0) {
-//#ifdef MENU_LISTENER
 	    menuCommands.insertElementAt(cmdOk, 0); 
-//#else
-//#             addCommand(cmdOk);
-//#endif
 	    count=" ("+size+") ";
 	}
         getMainBarItem().setElementAt(count,1);
@@ -509,7 +492,6 @@ public class ServiceDiscovery
         destroyView();
     }
 
-//#ifdef MENU_LISTENER
     protected void keyPressed(int keyCode) {
         //kHold=0;
         if (keyCode==Config.SOFT_RIGHT || keyCode==Config.KEY_BACK) {
@@ -524,7 +506,6 @@ public class ServiceDiscovery
     public void showMenu() {
         new MyMenu(display, parentView, this, SR.MS_DISCO, null, menuCommands);
     }
-//#endif
 
 }
 class State{

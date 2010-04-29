@@ -19,11 +19,7 @@ import io.file.browse.BrowserListener;
 import images.camera.*;
 //#endif
 import java.util.*;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.Command;
-//#else
 import Menu.Command;
-//#endif
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Image;
@@ -102,23 +98,6 @@ public class VCardEdit
         
         setPhoto();
 
-//#ifndef MENU_LISTENER
-//#         removeCommand(cmdOk);
-//#         addCommand(cmdPublish);
-//#         addCommand(cmdRefresh);
-//#if FILE_IO
-//#         addCommand(cmdLoadPhoto);
-//#         addCommand(cmdSavePhoto);
-//#endif
-//#ifndef NOMMEDIA
-//#         String cameraAvailable=System.getProperty("supports.video.capture");
-//#         if (cameraAvailable!=null) if (cameraAvailable.startsWith("true"))
-//#             addCommand(cmdCamera);
-//#         addCommand(cmdDelPhoto);
-//#endif
-//#         addCommand(cmdCancel);
-//#         setCommandListener(this);
-//#endif       
 
         attachDisplay(display);
         this.parentView=pView;
@@ -234,7 +213,6 @@ public class VCardEdit
         itemsList.addElement(publish);
      }
 
-//#ifdef MENU_LISTENER
     public final void commandState() {
         menuCommands.removeAllElements();
         addCommand(cmdPublish);
@@ -254,5 +232,4 @@ public class VCardEdit
     }
     public String touchLeftCommand() { return SR.MS_MENU; }
     public void touchLeftPressed() { showMenu(); }
-//#endif
  }

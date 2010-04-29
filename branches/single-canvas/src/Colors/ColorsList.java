@@ -91,11 +91,9 @@ public class ColorsList extends DefForm
 //#         
 //#endif
     }
-//#ifdef MENU_LISTENER
     public String touchLeftCommand() {
         return SR.MS_EDIT;
     }
-//#endif
 
 //#ifdef COLOR_TUNE
 //#     public static final String[] NAMES = {

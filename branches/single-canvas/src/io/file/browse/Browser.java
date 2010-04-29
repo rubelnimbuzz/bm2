@@ -29,14 +29,9 @@ package io.file.browse;
 
 import Client.Config;
 import Client.StaticData;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
 import Menu.MenuListener;
 import Menu.Command;
 import Menu.MyMenu;
-//#endif
 
 import ui.MainBar;
 import images.RosterIcons;
@@ -58,11 +53,7 @@ import ui.VirtualList;
 public class Browser
     extends VirtualList
     implements
-//#ifndef MENU_LISTENER
-//#         CommandListener
-//#else
         MenuListener
-//#endif
     {
  
     private Vector dir;
@@ -95,9 +86,7 @@ public class Browser
 
         setMainBarItem(new MainBar(2, null, null, false));
         
-//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
-//#endif
         
         addCommand(cmdOk);
         
@@ -314,11 +303,9 @@ public class Browser
             return type;
         }
     }
-//#ifdef MENU_LISTENER
     public void showMenu() {
         new MyMenu(display, parentView, this, SR.MS_DISCO, null, menuCommands);
     }
     
     public void touchRightPressed() { cmdCancel(); }
-//#endif
 }

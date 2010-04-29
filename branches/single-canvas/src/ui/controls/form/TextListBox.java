@@ -36,14 +36,9 @@ import ui.VirtualList;
 import java.util.Vector;
 import locale.SR;
 
-//#ifndef MENU_LISTENER
-import javax.microedition.lcdui.CommandListener;
-import javax.microedition.lcdui.Command;
-//#else
-//# import Menu.MenuListener;
-//# import Menu.Command;
-//# import Menu.MyMenu;
-//#endif
+import Menu.MenuListener;
+import Menu.Command;
+import Menu.MyMenu;
 
 /**
  *
@@ -52,11 +47,7 @@ import javax.microedition.lcdui.Command;
 public class TextListBox 
         extends VirtualList 
         implements
-//#ifndef MENU_LISTENER
-        CommandListener
-//#else
-//#         MenuListener
-//#endif
+        MenuListener
     {
 
     private Command cmdCancel=new Command(SR.MS_CANCEL, Command.BACK,99);
@@ -77,9 +68,7 @@ public class TextListBox
     }
     
     public void commandState() {
-//#ifdef MENU_LISTENER
-//#         menuCommands.removeAllElements();
-//#endif
+        menuCommands.removeAllElements();
         addCommand(cmdOk);
         addCommand(cmdClear);
         addCommand(cmdCancel);
@@ -111,14 +100,12 @@ public class TextListBox
     }
     public int getItemCount() { return recentList.size(); }
     
-//#ifdef MENU_LISTENER
-//#     public void showMenu() {
-//#         commandState();
-//#         String capt="";
-//#         try {
-//#             capt=getMainBarItem().elementAt(0).toString();
-//#         } catch (Exception ex){ }
-//#         new MyMenu(display, parentView, this, capt, null, menuCommands);
-//#    }
-//#endif
+    public void showMenu() {
+        commandState();
+        String capt="";
+        try {
+            capt=getMainBarItem().elementAt(0).toString();
+        } catch (Exception ex){ }
+        new MyMenu(display, parentView, this, capt, null, menuCommands);
+   }
 }

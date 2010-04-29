@@ -35,25 +35,16 @@ import ui.MainBar;
 import ui.VirtualElement;
 import ui.VirtualList;
 
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
 import Menu.MenuListener;
 import Menu.Command;
 import Menu.MyMenu;
-//#endif
 import java.util.Enumeration;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import util.StringLoader;
 
 public class UserKeysList extends VirtualList implements
-//#ifndef MENU_LISTENER
-//#         CommandListener
-//#else
         MenuListener
-//#endif
     {
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_USER_KEYS");
@@ -123,9 +114,7 @@ public class UserKeysList extends VirtualList implements
 
     void commandState() {
 //#ifdef USER_KEYS
-//#ifdef MENU_LISTENER
-//#         menuCommands.removeAllElements();
-//#endif
+//#       menuCommands.removeAllElements();
 //#         addCommand(cmdAdd);
 //#         if (userKeysList.isEmpty()) {
 //#             removeCommand(cmdEdit);
@@ -202,7 +191,7 @@ public class UserKeysList extends VirtualList implements
         rmsUpdate(userKeysList);
     }
     
-//#if (MENU_LISTENER && USER_KEYS)
+//#if (USER_KEYS)
 //#     public void showMenu() {
 //#         commandState();
 //#         new MyMenu(display, parentView, this, SR.MS_CUSTOM_KEYS, null, menuCommands);

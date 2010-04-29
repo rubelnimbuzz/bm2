@@ -40,7 +40,7 @@ import java.util.*;
 import midlet.BombusMod;
 import Fonts.FontCache;
 //#ifdef CLIENTS_ICONS
-import images.ClientsIcons;
+//# import images.ClientsIcons;
 //#endif
 import util.StringLoader;
 import ui.Time;
@@ -129,12 +129,7 @@ public class Config {
 //#endif
     // non-volatile values
     public int accountIndex=-1;
-public static boolean fullscreen=
-//#ifdef MENU_LISTENER
-            true;
-//#else
-//#             false;
-//#endif    
+public static boolean fullscreen = true;
     public int def_profile=0;
 //#ifdef SMILES
     public boolean smiles=true;
@@ -168,12 +163,7 @@ public static boolean fullscreen=
     public boolean istreamWaiting;
     public int phoneManufacturer=NOT_DETECTED;
 
-    public int panelsState=
-//#ifdef MENU_LISTENER
-            2; //default state both panels show, reverse disabled
-//#else
-//#             1; // for old menu - show only top panel
-//#endif
+    public int panelsState = 2;
 
     public boolean lightState=false;
     public boolean autoScroll=true;
@@ -232,7 +222,7 @@ public static boolean fullscreen=
     
     public boolean IQNotify=false;
 //#ifdef CLIENTS_ICONS
-    public boolean showClientIcon=true;
+//#     public boolean showClientIcon=true;
 //#endif
 
     public int reconnectCount=10;
@@ -283,7 +273,7 @@ public static boolean fullscreen=
 //#ifdef PLUGINS
 //#                 if (sd.ClientsIcons) {
 //#endif
-                if (showClientIcon) ClientsIcons.getInstance();
+//#                 if (showClientIcon) ClientsIcons.getInstance();
 //#ifdef PLUGINS
 //#                 }
 //#endif
@@ -493,9 +483,9 @@ public static boolean fullscreen=
             inputStream.readBoolean();
 //#endif
 //#ifdef CLIENTS_ICONS
-            showClientIcon=inputStream.readBoolean();
+//#             showClientIcon=inputStream.readBoolean();
 //#else
-//#             inputStream.readBoolean();
+            inputStream.readBoolean();
 //#endif
             
             reconnectCount=inputStream.readInt();
@@ -736,9 +726,9 @@ public static boolean fullscreen=
             outputStream.writeBoolean(false);
 //#endif
 //#ifdef CLIENTS_ICONS
-            outputStream.writeBoolean(showClientIcon);
+//#             outputStream.writeBoolean(showClientIcon);
 //#else
-//#             outputStream.writeBoolean(false);
+            outputStream.writeBoolean(false);
 //#endif
             
             outputStream.writeInt(reconnectCount);

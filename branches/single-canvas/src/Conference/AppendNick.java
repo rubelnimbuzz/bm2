@@ -40,77 +40,42 @@ import java.util.Vector;
 import ui.VirtualElement;
 import ui.VirtualList;
 
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
 import Menu.MenuListener;
 import Menu.Command;
-//#endif
+import ui.controls.form.DefForm;
 
 /**
  *
  * @author EvgS
  */
 public final class AppendNick
-        extends VirtualList 
-        implements
-//#ifndef MENU_LISTENER
-//#         CommandListener
-//#else
-        MenuListener
-//#endif
+        extends DefForm
 {
 
     Vector nicknames;
     int caretPos; 
     
     Command cmdOk=new Command(SR.MS_APPEND, Command.OK, 1);
-    Command cmdCancel=new Command(SR.MS_CANCEL, Command.BACK, 99);
-
+    
     private MessageEdit me;
     
     public AppendNick(Display display, Displayable pView, Contact to, int caretPos, MessageEdit me) {
-        super(display);
+        super(display, pView, SR.MS_SELECT_NICKNAME);
         this.caretPos=caretPos;
         
-        this.me = me;
+        this.me = me;      
         
-        setMainBarItem(new MainBar(SR.MS_SELECT_NICKNAME));
         
-        nicknames=null;
-        nicknames=new Vector();
         for (Enumeration e=StaticData.getInstance().roster.getHContacts().elements(); e.hasMoreElements(); ) {
             Contact c=(Contact)e.nextElement();
             if (c.group==to.group && c.origin>Contact.ORIGIN_GROUPCHAT && c.status<Presence.PRESENCE_OFFLINE)
-                nicknames.addElement(c);
+                itemsList.addElement(c);
         }
-        commandState();
-
+        attachDisplay(display);
         this.parentView=pView;
-    }
-    
-    public void commandState() {
-//#ifdef MENU_LISTENER
-        menuCommands.removeAllElements();
-//#endif
-        addCommand(cmdOk);
-        addCommand(cmdCancel);
+    }    
         
-        setCommandListener(this);
-    }
-    
-    public VirtualElement getItemRef(int Index) { return (VirtualElement)nicknames.elementAt(Index); }
-    protected int getItemCount() { return nicknames.size();  }
-
-    public void commandAction(Command c, Displayable d){
-        if (c==cmdOk)
-            eventOk();
-        else
-            destroyView();
-    }
-    
-     public void eventOk(){
+    public void eventOk(){
          try {
              String nick=((Contact)getFocusedObject()).getJid();
              int rp=nick.indexOf('/');
@@ -127,10 +92,8 @@ public final class AppendNick
          destroyView();
     }
      
-//#ifdef MENU_LISTENER
-    public void showMenu(){ eventOk(); }
+    public void cmdOk() { eventOk(); }
      
     public String touchLeftCommand(){ return SR.MS_SELECT; }
     public String touchRightCommand(){ return SR.MS_BACK; }
-//#endif
 }

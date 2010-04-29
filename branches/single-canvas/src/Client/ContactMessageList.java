@@ -47,11 +47,7 @@ import locale.SR;
 import ui.MainBar;
 import java.util.*;
 import ui.reconnectWindow;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.Command;
-//#else
 import Menu.Command;
-//#endif
 //#ifdef CLIPBOARD
 //# import util.ClipBoard;
 //#endif
@@ -171,9 +167,7 @@ public class ContactMessageList extends MessageList {
     }
 
     public void commandState(){
-//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
-//#endif
         if (startSelection) addCommand(cmdSelect);
         
         if (contact.msgSuspended!=null) addCommand(cmdResume);
@@ -207,13 +201,9 @@ public class ContactMessageList extends MessageList {
 //#                 if (!clipboard.isEmpty()) addCommand(cmdCopyPlus);
 //#             }
 //#endif
-//#ifdef MENU_LISTENER
             if (isHasScheme())
-//#endif
                 addCommand(cmdxmlSkin);
-//#ifdef MENU_LISTENER
             if (isHasUrl())
-//#endif
                 addCommand(cmdUrl);
         }
         
@@ -303,26 +293,6 @@ public void showNotify() {
 //#         getRedraw(true);
 //#endif
         super.showNotify();
-//#ifndef MENU_LISTENER
-//#         if (cmdResume==null) return;
-//#         if (contact.msgSuspended==null)
-//#             removeCommand(cmdResume);
-//#         else
-//#             addCommand(cmdResume);
-//# 
-//#         if (cmdSubscribe==null) return;
-//#         try {
-//#             Msg msg=(Msg) contact.msgs.elementAt(cursor);
-//#             if (msg.messageType==Msg.MESSAGE_TYPE_AUTH) {
-//#                 addCommand(cmdSubscribe);
-//#                 addCommand(cmdUnsubscribed);
-//#             }
-//#             else {
-//#                 removeCommand(cmdSubscribe);
-//#                 removeCommand(cmdUnsubscribed);
-//#             }
-//#         } catch (Exception e) {}
-//#endif
     }
     
     public void forceScrolling() { //by voffk
@@ -804,10 +774,8 @@ public void showNotify() {
         }
     }
 
-//#ifdef MENU_LISTENER
     public void touchRightPressed(){ if (cf.oldSE) showMenu(); else destroyView(); }
     public void touchLeftPressed(){ if (cf.oldSE) keyGreen(); else showMenu(); }
-//#endif
     
     private void Reply() {
         if (!sd.roster.isLoggedIn()) return;
@@ -976,14 +944,7 @@ public void showNotify() {
         if (display!=null) display.setCurrent(sd.roster);
     }
 
-//#ifndef MENU_LISTENER
-//#         public void eventOk(){ // For Juick without MENU_LISTENER, but possibly for other commands need this
-//#         super.eventOk();
-//#         commandState(); // Если переделывать на событие открытия меню, то поменять местами вызовы ф-ий.
-//#     }
-//#endif
 
-//#ifdef MENU_LISTENER
     public void showMenu() {
          commandState();
          super.showMenu();
@@ -1014,5 +975,5 @@ public void showNotify() {
 
     public String touchLeftCommand(){ return (cf.oldSE)?((contact.msgSuspended!=null)?SR.MS_RESUME:SR.MS_NEW):SR.MS_MENU; }
     public String touchRightCommand(){ return (cf.oldSE)?SR.MS_MENU:SR.MS_BACK; }
-//#endif
+
 }

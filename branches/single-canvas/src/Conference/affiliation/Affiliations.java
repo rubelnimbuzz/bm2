@@ -39,11 +39,7 @@ import locale.SR;
 import ui.MainBar;
 import ui.VirtualElement;
 import ui.controls.form.DefForm;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.Command;
-//#else
 import Menu.Command;
-//#endif
 //#ifdef CLIPBOARD
 //# import util.ClipBoard;
 //#endif
@@ -96,18 +92,6 @@ public class Affiliations
         
         items=null;
         items=new Vector();
-//#ifndef MENU_LISTENER
-//#         addCommand(cmdCancel);
-//#         addCommand(cmdModify);
-//#         addCommand(cmdNew);
-//#ifdef CLIPBOARD
-//#         if (Config.getInstance().useClipBoard) {
-//#             clipboard=ClipBoard.getInstance();
-//#             addCommand(cmdCopy);
-//#         }
-//#endif
-//#         removeCommand(cmdOk);
-//#endif
         
         setCommandListener(this);
         attachDisplay(display);
@@ -192,7 +176,6 @@ public class Affiliations
         stream.addBlockListener(this);
         stream.send(request);
     }
-//#ifdef MENU_LISTENER
     public void commandState(){
         menuCommands.removeAllElements();
         addCommand(cmdModify);
@@ -210,7 +193,6 @@ public class Affiliations
     public String touchLeftCommand() {
         return SR.MS_MENU;
     }
-//#endif
 
 
 }

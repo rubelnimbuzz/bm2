@@ -40,12 +40,8 @@ import ui.controls.form.DefForm;
 import ui.controls.form.LinkString;
 import ui.controls.form.MultiLine;
 import ui.controls.form.SpacerItem;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.Command;
-//#else
 import Menu.Command;
 import Menu.MyMenu;
-//#endif
 import util.ClipBoard;
 
 /**
@@ -125,9 +121,7 @@ public class InfoWindow
     }
 
     public void commandStateTest() {
-//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
-//#endif
 //#ifdef CLIPBOARD
 //#             if (Config.getInstance().useClipBoard) {
 //#                 addCommand(cmdCopy);
@@ -138,7 +132,6 @@ public class InfoWindow
         addCommand(cmdCancel);
     }
 
-//#ifdef MENU_LISTENER
     public String touchLeftCommand(){ return SR.MS_MENU; }
     
     public void touchLeftPressed(){ cmdOk(); }
@@ -149,7 +142,6 @@ public class InfoWindow
         commandStateTest();
         new MyMenu(display, parentView, this, "", null, menuCommands);
     }
-//#endif
 
     public void commandAction(Command command, Displayable displayable) {
 //#ifdef CLIPBOARD
@@ -221,7 +213,7 @@ public class InfoWindow
 //#ifdef PLUGINS
 //#         if (sd.ClientsIcons)
 //#endif
-            abilitiesList.addElement("CLIENTS_ICONS");
+//#             abilitiesList.addElement("CLIENTS_ICONS");
 //#endif
 //#ifdef CLIPBOARD
 //#         abilitiesList.addElement("CLIPBOARD");
@@ -294,9 +286,6 @@ public class InfoWindow
 //#endif
 //#ifdef LOGROTATE
 //#         abilitiesList.addElement("LOGROTATE");
-//#endif
-//#ifdef MENU_LISTENER
-        abilitiesList.addElement("MENU_LISTENER");
 //#endif
 //#ifdef NEW_SKIN
 //#         abilitiesList.addElement("NEW_SKIN");

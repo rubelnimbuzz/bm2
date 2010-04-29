@@ -42,12 +42,8 @@ import util.StringUtils;
 //# import util.ClipBoard;
 //#endif
 import javax.microedition.lcdui.Displayable;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.Command;
-//#else
 import Menu.Command;
 import Menu.MyMenu;
-//#endif
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Image;
 import locale.SR;
@@ -217,9 +213,7 @@ public class VCardView
 //#endif
 
     public void commandStateTest() {
-//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
-//#endif
 
         if (vcard!=null) {
             if (vcard.hasPhoto) {
@@ -241,14 +235,10 @@ public class VCardView
         addCommand(cmdCancel);
     }
 
-//#ifdef MENU_LISTENER
     public void showMenu() {
         commandStateTest();
         new MyMenu(display, parentView, this, "", null, menuCommands);
     }
-//#endif
-
-//#ifdef MENU_LISTENER
 
     public String touchLeftCommand() { return SR.MS_MENU; }
     
@@ -257,7 +247,6 @@ public class VCardView
     public void cmdCancel() {
         clearVcard();
     }
-//#endif
     
     public void cmdExit() {
         super.cmdCancel();

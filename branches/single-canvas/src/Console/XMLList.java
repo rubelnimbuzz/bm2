@@ -32,11 +32,7 @@ import Client.Msg;
 import Client.StaticData;
 import Messages.MessageList;
 import java.util.Vector;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.Command;
-//#else
 import Menu.Command;
-//#endif
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
@@ -91,9 +87,7 @@ public final class XMLList
     }
     
     public void commandState() {
-//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
-//#endif
 	addCommand(cmdBack);
         addCommand(cmdNew);
 //#ifdef CLIPBOARD

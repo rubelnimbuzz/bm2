@@ -28,11 +28,7 @@
 package io.file.transfer;
 
 import Client.StaticData;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.Command;
-//#else
 import Menu.Command;
-//#endif
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
@@ -71,7 +67,6 @@ public class TransferManager
         parentView = pView;
     }    
     
-//#ifdef MENU_LISTENER
     public void commandState(){
         super.commandState();
 //#ifdef BYTESTREAMS
@@ -93,7 +88,6 @@ public class TransferManager
             cmdOk();
         } 
     }
-//#endif
 
     
 
@@ -142,7 +136,6 @@ public class TransferManager
         destroyView();
     }
     
-//#ifdef MENU_LISTENER
     protected void keyPressed(int keyCode) { // overriding this method to avoid autorepeat
         //kHold=0;
         if (keyCode==KEY_POUND) {
@@ -151,7 +144,6 @@ public class TransferManager
         }
         super.keyPressed(keyCode);
     }    
-//#endif
 
     private void cmdInfo() {
         if (getItemCount()>0) {

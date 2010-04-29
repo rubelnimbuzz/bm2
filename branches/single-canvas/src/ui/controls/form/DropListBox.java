@@ -10,13 +10,8 @@
 package ui.controls.form;
 
 import java.util.Vector;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
 import Menu.MenuListener;
 import Menu.Command;
-//#endif
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
@@ -31,16 +26,10 @@ import ui.VirtualList;
 public class DropListBox 
         extends VirtualList 
         implements
-//#ifndef MENU_LISTENER
-//#         CommandListener
-//#else
         MenuListener
-//#endif
     {
-//#ifndef MENU
     private Command cmdCancel=new Command(SR.MS_CANCEL, Command.BACK,99);
     private Command cmdOk=new Command(SR.MS_OK, Command.OK,1);
-//#endif
     private Vector listItems;
 
     private DropChoiceBox cb;
@@ -59,9 +48,7 @@ public class DropListBox
     }
     
     public void commandState() {
-//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
-//#endif
         addCommand(cmdOk);
         addCommand(cmdCancel);
     }
@@ -72,13 +59,11 @@ public class DropListBox
         destroyView();
     }
 
-//#ifdef MENU_LISTENER
     public String touchLeftCommand() { return SR.MS_OK; }
     public void touchLeftPressed(){ eventOk(); }
 
     public String touchRightCommand() { return SR.MS_CANCEL; }
     public void touchRightPressed(){ destroyView(); }
-//#endif
     
     public void destroyView()	{
 	if (display!=null)
@@ -91,10 +76,8 @@ public class DropListBox
     
     public int getItemCount() { return listItems.size(); }
 
-    public void commandAction(Command c, Displayable displayable) {
-//#ifndef MENU_LISTENER
-//#         if (c==cmdOk) eventOk();
-//#         else if (c==cmdCancel) destroyView();
-//#endif
+    public void commandAction(Command command, Displayable displayable) {
+        
     }
+
 }

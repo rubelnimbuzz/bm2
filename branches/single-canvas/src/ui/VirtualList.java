@@ -44,11 +44,9 @@ import ui.keys.UserKeyExec;
 
 import java.util.Vector;
 
-//#ifdef MENU_LISTENER
 import ui.controls.CommandsPointer;
 import Menu.Command;
 import Menu.MenuListener;
-//#endif
 
 /**
  * Вертикальный список виртуальных элементов.
@@ -96,12 +94,8 @@ public abstract class VirtualList
 //#     Gradient grMB;
 //#endif
 
-    public static int panelsState=
-//#ifdef MENU_LISTENER
-            2;
-//#else
-//#             1;
-//#endif
+    public static int panelsState = 2;
+
     private static boolean reverse=false;
     private static boolean paintTop=true;
     private static boolean paintBottom=true;
@@ -191,12 +185,7 @@ public abstract class VirtualList
     public static short keyBack=-11;
     public static short greenKeyCode=SIEMENS_GREEN;
 
-    public static boolean fullscreen=
-//#ifdef MENU_LISTENER
-            true;
-//#else
-//#             false;
-//#endif
+    public static boolean fullscreen = true;
     public static boolean memMonitor;
     public static boolean showBalloons;
     public static boolean showTimeTraffic = true;
@@ -234,9 +223,7 @@ public abstract class VirtualList
 //#     public Image img;
 //#endif
     
-//#ifdef MENU_LISTENER
     CommandsPointer ar=new CommandsPointer();
-//#endif
 
     protected synchronized void updateLayout(){
         int size=getItemCount();
@@ -611,19 +598,15 @@ public abstract class VirtualList
                 if (mainbar!=null) {
                     setAbsOrg(g, 0, height-mHeight);
                     drawMainPanel(g);
-//#ifdef MENU_LISTENER
                     if (hasPointerEvents())
                         ar.init(width, height, mHeight);
-//#endif
                 }
             } else {
                 if (infobar!=null) {
                     setAbsOrg(g, 0, height-iHeight);
                     drawInfoPanel(g);
-//#ifdef MENU_LISTENER
                     if (hasPointerEvents())
                         ar.init(width, height, iHeight);
-//#endif
                 }
             }
             setAbsClip(g, width, height);
@@ -718,7 +701,6 @@ public abstract class VirtualList
             g.setColor(ColorTheme.getColor(ColorTheme.HEAP_FREE));  g.fillRect(0,y,ram,1);
         }
     }
-//#ifndef MENU
     private void drawInfoPanel (final Graphics g) {
         int h=infobar.getVHeight()+1;
 
@@ -743,7 +725,6 @@ public abstract class VirtualList
 
         infobar.drawItem(g,(phoneManufacturer==Config.NOKIA && reverse)?17:0,false);
     }
-//#endif
     
     private void drawMainPanel (final Graphics g) {    
         int h=mainbar.getVHeight()+1;
@@ -830,7 +811,7 @@ public abstract class VirtualList
     }
 
     protected int kHold;
-    
+    protected void keyReRepeated(int keyCode){ key(keyCode); }
     protected void keyRepeated(int keyCode){ key(keyCode); }
     protected void keyReleased(int keyCode) { kHold=0; }
     protected void keyPressed(int keyCode) { kHold=0; key(keyCode);  }
@@ -843,7 +824,6 @@ public abstract class VirtualList
             return;
         }
 //#endif
-//#ifdef MENU_LISTENER
         int act=ar.pointerPressed(x, y);
         if (act==1) {
              touchLeftPressed();
@@ -854,7 +834,6 @@ public abstract class VirtualList
             stickyWindow=false;
             return;
         }
-//#endif
         yPointerPos = y;
 
         if (scrollbar.pointerPressed(x, y, this)) {
@@ -1056,7 +1035,6 @@ public abstract class VirtualList
             repaint();
             return;
         }
-//#ifdef MENU_LISTENER
         if (keyCode==Config.SOFT_LEFT || keyCode=='(') {
             if (reconnectWindow.getInstance().isActive()) {
                 reconnectYes();
@@ -1073,25 +1051,6 @@ public abstract class VirtualList
             touchRightPressed();
             return;
          }
-//#else
-//#         if (keyCode==Config.SOFT_LEFT) {
-//#             if (reconnectWindow.getInstance().isActive()) {
-//#                 reconnectYes();
-//#                 return;
-//#             }
-//#         }
-//#          if (keyCode==Config.SOFT_RIGHT) {
-//#              if (reconnectWindow.getInstance().isActive()) {
-//#                  reconnectNo();
-//#                  return;
-//#              }
-//#             if (phoneManufacturer!=Config.SONYE) { // || phoneManufacturer==Config.SIEMENS || phoneManufacturer==Config.SIEMENS2 || phoneManufacturer==Config.MOTO) {
-//#                if (canBack==true)
-//#                     destroyView();
-//#                 return;
-//#             }
-//#          }
-//#endif
         if (keyCode == keyClear) {
             keyClear();
             return;
@@ -1519,7 +1478,6 @@ public abstract class VirtualList
         return StringUtils.getSizeString((traffic>0)?traffic*2:0);
     }
     
-//#ifdef MENU_LISTENER
     public Vector menuCommands=new Vector();
 
     public void addCommand(Command command) {
@@ -1548,7 +1506,6 @@ public abstract class VirtualList
     public void touchRightPressed(){
         if (canBack) destroyView();
     }
-//#endif
     public void captionPressed() {};
     
     public String touchLeftCommand(){ return SR.MS_MENU; }

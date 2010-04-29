@@ -34,13 +34,8 @@ import java.io.InputStream;
 import java.util.Vector;
 import javax.microedition.io.Connector;
 import javax.microedition.io.HttpConnection;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
 import Menu.MenuListener;
 import Menu.Command;
-//#endif
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
@@ -53,11 +48,7 @@ import ui.MainBar;
 public class Upgrade 
         extends MessageList 
         implements Runnable,
-//#ifndef MENU_LISTENER
-//#         CommandListener
-//#else
         MenuListener
-//#endif
     {
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_VERSION_UPGRADE");

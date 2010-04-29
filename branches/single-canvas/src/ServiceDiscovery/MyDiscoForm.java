@@ -168,7 +168,5 @@ public class MyDiscoForm extends DefForm{
             destroyView();        
     }
 
-//#ifdef MENU_LISTENER
     public String touchLeftCommand() {return (completed)? SR.MS_OK : SR.MS_SEND; }
-//#endif
 }

@@ -38,11 +38,7 @@ import ui.MIDPTextBox.TextBoxNotify;
 import ui.controls.form.DefForm;
 import ui.controls.form.ListItem;
 import locale.SR;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.Command;
-//#else
 import Menu.Command;
-//#endif
 //#ifdef CLIPBOARD
 //# import util.ClipBoard;
 //# import Client.Msg;
@@ -70,9 +66,6 @@ public class MessageUrl extends DefForm implements TextBoxNotify {
         this.display = display;        
 	this.urlList=urlList;
 
-//#ifndef MENU_LISTENER
-//#         commandStateForClassicMenu();
-//#endif
         commandStateCommon();
 
 	for (int i=0; i<urlList.size(); i++) { // throws exception
@@ -131,17 +124,7 @@ public class MessageUrl extends DefForm implements TextBoxNotify {
         destroyView();
         Display.getDisplay(BombusMod.getInstance()).setCurrent(parentView);
     }
-//#ifndef MENU_LISTENER
-//#     public void commandStateForClassicMenu() {
-//#         addCommand(cmdGoto);
-//#         addCommand(cmdEdit);
-//#         addCommand(cmdCancel);
-//#         removeCommand(cmdOk);
-//#         commandStateCommon();
-//#     }
-//#endif
     
-//#ifdef MENU_LISTENER
      public void commandState() {
          menuCommands.removeAllElements();
          addCommand(cmdOk);
@@ -150,7 +133,6 @@ public class MessageUrl extends DefForm implements TextBoxNotify {
          addCommand(cmdCancel);
          commandStateCommon();
      }
-//#endif
      
      public void commandStateCommon() {
 //#ifdef CLIPBOARD
@@ -161,12 +143,10 @@ public class MessageUrl extends DefForm implements TextBoxNotify {
 //#endif
      }
      
-//#ifdef MENU_LISTENER
     public String touchLeftCommand(){ return SR.MS_MENU; }
 
     public void touchLeftPressed(){
         showMenu();
     }
-//#endif
     
 }

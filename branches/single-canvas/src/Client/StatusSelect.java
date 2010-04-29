@@ -39,34 +39,21 @@ import ui.controls.form.NumberInput;
 import ui.controls.form.SimpleString;
 import ui.controls.form.SpacerItem;
 import ui.controls.form.TextInput;
-//#ifndef MENU_LISTENER
-import javax.microedition.lcdui.CommandListener;
-import javax.microedition.lcdui.Command;
-//#else
-//# import Menu.MenuListener;
-//# import Menu.Command;
-//# import Menu.MyMenu;
-//#endif
+import Menu.MenuListener;
+import Menu.Command;
+import Menu.MyMenu;
 
 /**
  *
  * @author ad
  */
 public class StatusSelect
-        extends VirtualList
-        implements
-//#ifndef MENU_LISTENER
-        CommandListener,
-//#else
-//#         MenuListener,
-//#endif
-        Runnable{
+        extends DefForm
+        implements Runnable{
     
-    private Command cmdOk=new Command(SR.MS_SELECT,Command.OK,1);
     private Command cmdEdit=new Command(SR.MS_EDIT,Command.SCREEN,2);
     private Command cmdDef=new Command(SR.MS_SETDEFAULT,Command.OK,3);
-    private Command cmdCancel=new Command(SR.MS_CANCEL,Command.BACK,99);
-
+    
     private Vector statusList;
     private int defp;
     private Contact to;
@@ -75,15 +62,13 @@ public class StatusSelect
     private StaticData sd = StaticData.getInstance();
     
     public StatusSelect(Display d, Displayable pView, Contact to) {
-        super();
+        super(d, pView, SR.MS_STATUS);
         
         cf=Config.getInstance();
         statusList=StatusList.getInstance().statusList;
         this.to=to;
-        if (to==null) { 
-            setMainBarItem(new MainBar(SR.MS_STATUS));
-        } else {
-            setMainBarItem(new MainBar(to));
+        if (to!=null) {
+             setMainBarItem(new MainBar(to));
         }
 
         commandState();
@@ -98,9 +83,7 @@ public class StatusSelect
     }
     
     public void commandState() {
-//#ifdef MENU_LISTENER
-//#         menuCommands.removeAllElements();
-//#endif
+        menuCommands.removeAllElements();
         addCommand(cmdOk);
         addCommand(cmdEdit);
         addCommand(cmdDef);
@@ -155,18 +138,14 @@ public class StatusSelect
         StatusList.getInstance().saveStatusToStorage();
     }
     
-//#ifdef MENU_LISTENER
-//#     public void showMenu() {
-//#         commandState();
-//#         new MyMenu(display, parentView, this, SR.MS_STATUS, null, menuCommands);
-//#     }
-//#endif
+    public void showMenu() {
+        commandState();
+        new MyMenu(display, parentView, this, SR.MS_STATUS, null, menuCommands);
+    }
     
     class StatusForm 
         extends DefForm {
         
-        private Display display;
-
         private NumberInput tfPriority;
         private TextInput tfMessage;
         private TextInput tfAutoRespondMessage;

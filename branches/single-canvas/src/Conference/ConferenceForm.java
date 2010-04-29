@@ -39,11 +39,7 @@ import ui.controls.form.LinkString;
 import ui.controls.form.NumberInput;
 import ui.controls.form.PasswordInput;
 import ui.controls.form.TextInput;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.Command;
-//#else
 import Menu.Command;
-//#endif
 
 /**
  *
@@ -55,11 +51,9 @@ public class ConferenceForm
     private Display display;
     
     private Config cf=Config.getInstance();
-//#ifndef MENU
     Command cmdJoin=new Command(SR.MS_JOIN, Command.SCREEN, 1);
     Command cmdAdd=new Command(SR.MS_ADD_BOOKMARK, Command.SCREEN, 5);
     Command cmdEdit=new Command(SR.MS_SAVE, Command.SCREEN, 6);
-//#endif
     private TextInput roomField;
     private TextInput hostField;
     private TextInput nickField;
@@ -171,14 +165,7 @@ public class ConferenceForm
             }
         };
         itemsList.addElement(linkJoin);
-        
-//#ifndef MENU_LISTENER
-//#         addCommand(cmdJoin);
-//#         addCommand(cmdAdd);
-//#         addCommand(cmdEdit);
-//#         addCommand(cmdCancel);
-//#         removeCommand(cmdOk);
-//#endif
+       
         
 	setCommandListener(this);
 
@@ -233,7 +220,6 @@ public class ConferenceForm
         pass=null;
     }
     
-//#ifdef MENU_LISTENER
     public void commandState(){
         menuCommands.removeAllElements();
         addCommand(cmdJoin);
@@ -247,7 +233,6 @@ public class ConferenceForm
     public void touchLeftPressed(){
         showMenu();
     }
-//#endif
 
     private void saveMsgCount(int msgLimit) {
         if (cf.confMessageCount!=msgLimit) {

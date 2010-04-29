@@ -101,9 +101,7 @@ package PEP;
 //#         } catch (Exception e) {e.printStackTrace(); }
 //#         destroyView();
 //#     }
-//#ifdef MENU_LISTENER
 //#     public String touchLeftCommand() { return SR.MS_PUBLISH; }
-//#endif
 //# }
 //# 
 //# 

@@ -42,11 +42,7 @@ import ui.controls.form.SpacerItem;
 import ui.controls.form.TrackItem;
 import util.StringLoader;
 import java.util.Enumeration;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.Command;
-//#else
 import Menu.Command;
-//#endif
 
 
 public class AlertCustomizeForm
@@ -142,15 +138,6 @@ public class AlertCustomizeForm
         itemsList.addElement(new SpacerItem(10));
         IQNotify=new CheckBox(SR.MS_SHOW_IQ_REQUESTS, cf.IQNotify); itemsList.addElement(IQNotify);
 
-//#ifndef MENU_LISTENER        
-//#
-//#         if (playable()>-1)
-//#             addCommand(cmdTest);
-//#         addCommand(cmdSave);
-//#         addCommand(cmdCancel);
-//#         removeCommand(cmdOk);
-//#endif
-
         setCommandListener(this);        
 
         attachDisplay(display);
@@ -224,7 +211,6 @@ public class AlertCustomizeForm
         new EventNotify(display, soundType, soundFile, soundVol, 0).startNotify();
     }
 
-//#ifdef MENU_LISTENER
     public void commandState(){
         menuCommands.removeAllElements();
         
@@ -236,5 +222,4 @@ public class AlertCustomizeForm
 
     public String touchLeftCommand(){ return SR.MS_MENU; }
     public void touchLeftPressed(){ showMenu(); }
-//#endif
 }

@@ -32,14 +32,9 @@ import Client.StaticData;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import images.RosterIcons;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
 import Menu.MenuListener;
 import Menu.Command;
 import Menu.MyMenu;
-//#endif
 import locale.SR;
 import ui.*;
 import java.util.*;
@@ -52,11 +47,7 @@ import com.alsutton.jabber.*;
 public class PrivacyModifyList 
         extends VirtualList 
         implements
-//#ifndef MENU_LISTENER
-//#         CommandListener,
-//#else
         MenuListener,
-//#endif
         JabberBlockListener
 {
 //#ifdef PLUGINS
@@ -96,9 +87,7 @@ public class PrivacyModifyList
     }
 
     public void commandState() {
-//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
-//#endif
         addCommand(cmdCancel);
         addCommand(cmdEdit);
         addCommand(cmdAdd);
@@ -108,12 +97,10 @@ public class PrivacyModifyList
         addCommand(cmdSave);
     }
     
-//#ifdef MENU_LISTENER
     public void showMenu() {
         commandState();
         new MyMenu(display, parentView, this, SR.MS_STATUS, null, menuCommands);
     }
-//#endif
     
     private void processIcon(boolean processing){
         getMainBarItem().setElementAt((processing)?(Object)new Integer(RosterIcons.ICON_PROGRESS_INDEX):(Object)null, 0);

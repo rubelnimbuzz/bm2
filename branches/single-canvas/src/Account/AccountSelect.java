@@ -34,11 +34,7 @@ import midlet.BombusMod;
 import ui.*;
 import java.io.*;
 import java.util.*;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.Command;
-//#else
 import Menu.Command;
-//#endif
 import ui.MainBar;
 import io.NvStorage;
 import ui.controls.AlertBox;
@@ -105,22 +101,6 @@ public class AccountSelect extends DefForm {
 //#         }
 //#endif
         }
-//#ifndef MENU_LISTENER
-//#        removeCommand(cmdOk);
-//#        if ((accountList != null) && !accountList.isEmpty()) {
-//#             addCommand(cmdLogin);
-//#             addCommand(cmdSelect);
-//# 
-//#             addCommand(cmdEdit);
-//#             addCommand(cmdDel);
-//#         }
-//#         addCommand(cmdAdd);
-//#         addCommand(cmdConfig);
-//#         if (activeAccount<0 && enableQuit)
-//#             removeCommand(cmdCancel);  // нельз�? выйти без активного аккаунта
-//#         if (enableQuit)
-//#             addCommand(cmdQuit);
-//#endif
         setCommandListener(this);
         
         attachDisplay(display);
@@ -141,11 +121,8 @@ public class AccountSelect extends DefForm {
        } while (a!=null);
     }
 
-//#ifdef MENU_LISTENER
     public final void commandState(){
-//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
-//#endif
         if ((accountList != null) && !accountList.isEmpty()) {
             addCommand(cmdLogin);
             addCommand(cmdSelect);
@@ -155,10 +132,6 @@ public class AccountSelect extends DefForm {
         }
         addCommand(cmdAdd);
         addCommand(cmdConfig);
-//#ifndef MENU_LISTENER
-//#         if (activeAccount>=0 && !enableQuit)
-//#             addCommand(cmdCancel);  // нельзя выйти без активного аккаунта
-//#endif
         if (enableQuit) 
             addCommand(cmdQuit);
     }
@@ -173,7 +146,6 @@ public class AccountSelect extends DefForm {
     public void touchLeftPressed() {
         showMenu();
     }
-//#endif
 
     public VirtualElement getItemRef(int Index) { return (VirtualElement)accountList.elementAt(Index); }
     protected int getItemCount() { return accountList.size();  }

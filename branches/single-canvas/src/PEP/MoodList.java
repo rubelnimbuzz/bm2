@@ -34,7 +34,13 @@ public class MoodList extends DefForm implements MIDPTextBox.TextBoxNotify {
 
     Vector moods;
     public MoodList(Display display) {
-        super(display, StaticData.getInstance().roster, SR.MS_USERMOOD);
+        super(display, StaticData.getInstance().roster, 
+//#ifdef PEP
+//#                 SR.MS_USERMOOD
+//#else
+                ""
+//#endif
+                );
 
         setCommandListener(this);
         

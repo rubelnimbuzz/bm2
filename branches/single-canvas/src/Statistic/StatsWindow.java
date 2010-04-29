@@ -30,12 +30,8 @@ package Statistic;
 import Client.Config;
 import Client.Roster;
 import Client.StaticData;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.Command;
-//#else
 import Menu.Command;
 import Menu.MyMenu;
-//#endif
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
@@ -99,9 +95,7 @@ public class StatsWindow
     }
 
     public void commandStateTest() {
-//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
-//#endif
 //#ifdef CLIPBOARD
 //#             if (Config.getInstance().useClipBoard) {
 //#                 addCommand(cmdCopy);
@@ -113,18 +107,14 @@ public class StatsWindow
         addCommand(cmdCancel);
     }
 
-//#ifdef MENU_LISTENER
     public String touchLeftCommand(){ return SR.MS_MENU; }
     public void touchLeftPressed(){ cmdOk(); }
     public void cmdOk() { showMenu(); }
-//#endif
 
-//#ifdef MENU_LISTENER
     public void showMenu() {
         commandStateTest();
         new MyMenu(display, parentView, this, "", null, menuCommands);
     }
-//#endif
 
     public void commandAction(Command command, Displayable displayable) {
 //#ifdef CLIPBOARD

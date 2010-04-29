@@ -29,14 +29,9 @@ package ui.controls.form;
 
 //import Client.Config;
 import java.util.Vector;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
 import Menu.MenuListener;
 import Menu.Command;
 import Menu.MyMenu;
-//#endif
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
@@ -50,12 +45,7 @@ import ui.VirtualList;
  */
 public class DefForm 
         extends VirtualList
-        implements
-//#ifndef MENU_LISTENER
-//#         CommandListener
-//#else
-        MenuListener
-//#endif
+        implements MenuListener
     {
 
     
@@ -115,14 +105,11 @@ public class DefForm
     public void cmdOk() { }
     
     public void commandState() {
-//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
-//#endif
 	addCommand(cmdOk);
 	addCommand(cmdCancel);
     }
     
-//#ifdef MENU_LISTENER
     public void showMenu() {
         commandState();
         if (menuCommands.size()==2) {
@@ -135,5 +122,4 @@ public class DefForm
     }
     
     public String touchLeftCommand(){ return SR.MS_OK; }
-//#endif
 }

@@ -29,11 +29,7 @@ package Client;
 
 import java.util.Enumeration;
 import java.util.Vector;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.Command;
-//#else
 import Menu.Command;
-//#endif
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
@@ -149,7 +145,5 @@ public class ActiveContacts
         sd.roster.reEnumRoster();
         display.setCurrent(parentView);
     }
-//#ifdef MENU_LISTENER
     public String touchLeftCommand(){ return SR.MS_SELECT; }    
-//#endif
 }

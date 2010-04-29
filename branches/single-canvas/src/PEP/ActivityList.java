@@ -37,7 +37,13 @@ public class ActivityList extends DefForm implements MIDPTextBox.TextBoxNotify {
     String acttext;
             
     public ActivityList(Display display) {
-        super(display, StaticData.getInstance().roster, SR.MS_USERACTIVITY);
+        super(display, StaticData.getInstance().roster, 
+//#ifdef PEP_ACTIVITY
+//#                 SR.MS_USERACTIVITY
+//#else
+                ""
+//#endif
+                );
 
         setCommandListener(this);
         

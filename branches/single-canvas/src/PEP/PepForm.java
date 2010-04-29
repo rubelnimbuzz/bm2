@@ -48,7 +48,13 @@ public class PepForm extends DefForm {
     LinkString updmood, updact;
     
     public PepForm(Display display, Displayable pView) {
-        super(display, pView, SR.MS_PEP);
+        super(display, pView, 
+//#ifdef PEP
+//#                 SR.MS_PEP
+//#else
+                ""
+//#endif
+                );
         this.display = display;
         
 //#ifdef PEP

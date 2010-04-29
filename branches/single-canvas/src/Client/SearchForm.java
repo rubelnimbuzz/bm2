@@ -45,11 +45,7 @@ import util.StringLoader;
 //#ifdef SERVICE_DISCOVERY
 import ServiceDiscovery.*;
 //#endif
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.Command;
-//#else
 import Menu.Command;
-//#endif
 import ui.controls.form.DefForm;
 
 /**
@@ -77,12 +73,6 @@ public class SearchForm
         if (getItemCount()<1) loadDefaults();
 
         updateMainBar();
-//#ifndef MENU_LISTENER
-//#         addCommand(cmdOk);
-//#         addCommand(cmdAddServer);
-//#         addCommand(cmdDel);
-//#         addCommand(cmdCancel);
-//#endif
         setCommandListener(this);
         attachDisplay(display);
         this.parentView=pView;
@@ -92,7 +82,6 @@ public class SearchForm
         setMainBarItem(new MainBar(2, null, SR.MS_USERS_SEARCH+" ("+getItemCount()+") ", false));
     }
 
-//#ifdef MENU_LISTENER
     public void commandState() {
         menuCommands.removeAllElements();
         addCommand(cmdAddServer);
@@ -103,7 +92,6 @@ public class SearchForm
     public void touchLeftPressed(){
         showMenu();
     }
-//#endif
     
     public void commandAction(Command c, Displayable d) {
         super.commandAction(c, d);     

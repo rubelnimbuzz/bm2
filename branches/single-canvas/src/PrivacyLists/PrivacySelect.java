@@ -33,14 +33,9 @@ import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import images.RosterIcons;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
 import Menu.MenuListener;
 import Menu.Command;
 import Menu.MyMenu;
-//#endif
 import locale.SR;
 import ui.*;
 import ui.controls.AlertBox;
@@ -54,11 +49,7 @@ import com.alsutton.jabber.*;
 public class PrivacySelect 
         extends VirtualList 
         implements
-//#ifndef MENU_LISTENER
-//#         CommandListener,
-//#else
         MenuListener,
-//#endif
         JabberBlockListener,
         MIDPTextBox.TextBoxNotify
 {
@@ -96,9 +87,7 @@ public class PrivacySelect
     }
     
     public void commandState() {
-//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
-//#endif
         addCommand(cmdActivate);
         addCommand(cmdDefault);
         addCommand(cmdCancel);
@@ -159,12 +148,10 @@ public class PrivacySelect
             new MIDPTextBox(display, this, SR.MS_NEW, "", this, TextField.ANY);
     }
     
-//#ifdef MENU_LISTENER
     public void showMenu() {
         commandState();
         new MyMenu(display, parentView, this, SR.MS_STATUS, null, menuCommands);
     }
-//#endif
     
     // MIDPTextBox interface
     public void OkNotify(String listName) {

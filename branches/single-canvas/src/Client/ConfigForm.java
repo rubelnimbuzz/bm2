@@ -56,7 +56,7 @@ public class ConfigForm
     private CheckBox useBoldFont;
     private CheckBox rosterStatus;
 //#ifdef CLIENTS_ICONS
-    private CheckBox showClientIcon;
+//#     private CheckBox showClientIcon;
 //#endif
     
     private DropChoiceBox subscr;
@@ -161,11 +161,11 @@ public class ConfigForm
         useBoldFont = new CheckBox(SR.MS_BOLD_FONT, cf.useBoldFont); itemsList.addElement(useBoldFont);
         rosterStatus = new CheckBox(SR.MS_SHOW_STATUSES, cf.rosterStatus); itemsList.addElement(rosterStatus);
 //#ifdef CLIENTS_ICONS
-        showClientIcon = new CheckBox(SR.MS_SHOW_CLIENTS_ICONS, cf.showClientIcon);
+//#         showClientIcon = new CheckBox(SR.MS_SHOW_CLIENTS_ICONS, cf.showClientIcon);
 //#ifdef PLUGINS
 //#         if (sd.ClientsIcons)
 //#endif
-            itemsList.addElement(showClientIcon);
+//#             itemsList.addElement(showClientIcon);
 //#endif
         
         itemsList.addElement(new SpacerItem(10));
@@ -245,10 +245,8 @@ public class ConfigForm
         memMonitor = new CheckBox(SR.MS_HEAP_MONITOR, cf.memMonitor); itemsList.addElement(memMonitor);
         enableVersionOs = new CheckBox(SR.MS_SHOW_HARDWARE, cf.enableVersionOs); itemsList.addElement(enableVersionOs);
         queryExit = new CheckBox(SR.MS_CONFIRM_EXIT, cf.queryExit); itemsList.addElement(queryExit);
-//#ifdef MENU_LISTENER
         oldSE = new CheckBox(SR.MS_KEYS_FOR_OLD_SE, cf.oldSE);
         if (phoneManufacturer==Config.SONYE) itemsList.addElement(oldSE);
-//#endif
 
         lightState = new CheckBox(SR.MS_FLASHLIGHT, cf.lightState);
         if (phoneManufacturer==Config.SIEMENS || phoneManufacturer==Config.SIEMENS2 || phoneManufacturer==Config.SONYE || phoneManufacturer==Config.NOKIA) itemsList.addElement(lightState);
@@ -277,9 +275,7 @@ public class ConfigForm
             popupFromMinimized = new CheckBox(SR.MS_ENABLE_POPUP, cf.popupFromMinimized);
             itemsList.addElement(popupFromMinimized);
         }
-//#ifdef MENU_LISTENER
         executeByNum = new CheckBox(SR.MS_EXECUTE_MENU_BY_NUMKEY, cf.executeByNum); itemsList.addElement(executeByNum);
-//#endif
 
         itemsList.addElement(new SpacerItem(10));
         itemsList.addElement(new SimpleString("Memory usage", true));
@@ -372,7 +368,7 @@ public class ConfigForm
 //#ifdef PLUGINS
 //#         if (sd.ClientsIcons)
 //#endif
-            cf.showClientIcon=showClientIcon.getValue();
+//#             cf.showClientIcon=showClientIcon.getValue();
 //#endif
         cf.autoSubscribe=subscr.getSelectedIndex();
         
@@ -403,9 +399,7 @@ public class ConfigForm
 //#         cf.autoDeTranslit=autoDetranslit.getValue();
 //#endif
         cf.showNickNames=showNickNames.getValue();
-//#ifdef MENU_LISTENER
         cf.executeByNum=executeByNum.getValue();
-//#endif
 
         cf.autoLogin=autoLogin.getValue();
         cf.autoJoinConferences=autoJoinConferences.getValue();
@@ -436,9 +430,7 @@ public class ConfigForm
         VirtualList.memMonitor=cf.memMonitor=memMonitor.getValue();
         cf.enableVersionOs=enableVersionOs.getValue();
         cf.queryExit=queryExit.getValue();
-//#ifdef MENU_LISTENER
         if (phoneManufacturer==Config.SONYE) cf.oldSE=oldSE.getValue();
-//#endif
 
         cf.lightState=lightState.getValue();
         if (cf.allowMinimize)

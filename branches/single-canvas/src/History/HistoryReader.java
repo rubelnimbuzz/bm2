@@ -29,11 +29,7 @@ package History;
 
 import Client.Contact;
 import Client.Msg;
-//#ifdef MENU_LISTENER
 import Menu.Command;
-//#else
-//# import javax.microedition.lcdui.Command;
-//#endif
 import Messages.MessageList;
 import java.util.Vector;
 import javax.microedition.lcdui.Display;

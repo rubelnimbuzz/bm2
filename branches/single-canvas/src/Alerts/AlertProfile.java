@@ -33,11 +33,7 @@ import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import ui.*;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.Command;
-//#else
 import Menu.Command;
-//#endif
 import ui.controls.form.DefForm;
 
 /**
@@ -69,11 +65,6 @@ public class AlertProfile extends DefForm
         
         cf=Config.getInstance();
                 
-//#ifndef MENU_LISTENER
-//#         addCommand(cmdDef);
-//#         addCommand(cmdSel);
-//#         removeCommand(cmdOk);
-//#endif
 
         setCommandListener(this);
         
@@ -85,7 +76,6 @@ public class AlertProfile extends DefForm
         this.parentView=pView;
     }
 
-//#ifdef MENU_LISTENER
     public void commandState() {
         menuCommands.removeAllElements();
         addCommand(cmdSel);
@@ -95,7 +85,6 @@ public class AlertProfile extends DefForm
     public void touchLeftPressed(){
         showMenu();
     }
-//#endif
     
     int index;
     public VirtualElement getItemRef(int Index){
