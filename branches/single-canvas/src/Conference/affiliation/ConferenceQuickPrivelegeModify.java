@@ -120,7 +120,7 @@ public class ConferenceQuickPrivelegeModify
     }
     
     public void destroyView(){
-        display.setCurrent(StaticData.getInstance().roster);
+        midlet.BombusMod.getInstance().setDisplayable(StaticData.getInstance().roster);
     }
     public void commandAction(Command c, Displayable d) {
         if (c==cmdNoReason) { 

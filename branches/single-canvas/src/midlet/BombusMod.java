@@ -128,7 +128,7 @@ public class BombusMod extends MIDlet implements Runnable{
         if (!selAccount && cf.autoLogin)
             Account.loadAccount(cf.autoLogin, cf.accountIndex); // connect whithout account select
         else
-            new AccountSelect(display, sd.roster, true);
+            new AccountSelect(true).show(sd.roster);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -138,9 +138,9 @@ public class BombusMod extends MIDlet implements Runnable{
 
     public void hideApp(boolean hide) {
         if (hide)
-            display.setCurrent(null);
+            midlet.BombusMod.getInstance().setDisplayable(null);
         else if (isMinimized) {
-            display.setCurrent(display.getCurrent());
+            midlet.BombusMod.getInstance().setDisplayable(display.getCurrent());
         }
         isMinimized=hide;
     }

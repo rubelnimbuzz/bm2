@@ -55,7 +55,7 @@ public class HistoryReader extends MessageList {
      * @param c 
      */
     public HistoryReader(Display display, Contact c) {
-        super(display);
+        super();
         cmdNext = new Command(SR.MS_NEXT, Command.ITEM, 1);
         cmdPrev = new Command(SR.MS_PREVIOUS, Command.ITEM, 1);
         hl = new HistoryLoader(c.bareJid);

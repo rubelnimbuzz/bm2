@@ -119,7 +119,7 @@ class UserKeyEdit extends DefForm {
 
         //keysList.rmsUpdate();
         keysList.commandState();
-        display.setCurrent(keysList);
+        midlet.BombusMod.getInstance().setDisplayable(keysList);
     }
 
     public void keyPressed(int keyCode) {

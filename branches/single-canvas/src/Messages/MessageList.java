@@ -83,15 +83,11 @@ public abstract class MessageList extends VirtualList
         cursor=0;//activate
 
         setCommandListener(this);
-    }
-
-    public MessageList(Display display) {
-        this();
         show(parentView);
-    }
+    }    
     
     
-    public abstract int getItemCount(); // из protected �?делали public
+    public abstract int getItemCount(); // из protected сделали public
 
     protected VirtualElement getItemRef(int index) {
 	if (messages.size()<getItemCount()) messages.setSize(getItemCount());

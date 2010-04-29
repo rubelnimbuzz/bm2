@@ -9,8 +9,7 @@
 
 package ui;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import Client.Config;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
 
@@ -23,10 +22,9 @@ public class VirtualCanvas extends Canvas {
     
     /** Creates a new instance of NativeCanvas */
     public VirtualCanvas() {
-        setFullScreenMode(true);
+        setFullScreenMode(Config.fullscreen);
     }
     public void show(VirtualList virtualList) {
-        KeyRepeatTimer.stop();
         if (this == midlet.BombusMod.getInstance().getDisplay().getCurrent()
                 && isShown()) {
             if (null != list) {
@@ -51,20 +49,19 @@ public class VirtualCanvas extends Canvas {
         list.paint(graphics);
     }
     protected void keyPressed(int keyCode) {
-        list.keyPressed(keyCode);
-        KeyRepeatTimer.start(keyCode, list);
+        System.out.println("pressed");
+        list.keyPressed(keyCode);        
     }
     protected final void keyRepeated(int keyCode){
-        if (Canvas.KEY_POUND == keyCode) {
-            list.keyReRepeated(keyCode);
-        }
+        list.keyRepeated(keyCode);        
     }
     protected void keyReleased(int keyCode) {
-        KeyRepeatTimer.stop();
+        System.out.println("released");
         list.keyReleased(keyCode);
     }
     
     protected void pointerPressed(int x, int y) {
+        System.out.println("pointer");
         list.pointerPressed(x, y);
     }
     protected void pointerDragged(int x, int y) {
@@ -78,57 +75,15 @@ public class VirtualCanvas extends Canvas {
         list.showNotify();
     }
     protected void hideNotify() {
-        if (null != list) {
-            KeyRepeatTimer.stop();
+        if (list != null) {
             list.hideNotify();
         }
     }
     
     protected void sizeChanged(int w, int h) {
-        list.sizeChanged(w, h);
+        if (list != null)
+            list.sizeChanged(w, h);
     }
     public static final VirtualCanvas nativeCanvas = new VirtualCanvas();
-}
 
-class KeyRepeatTimer extends TimerTask {
-    private static Timer timer = new Timer();
-    private int key;
-    private VirtualList canvas;
-    private int slowlyIterations = 8;
-    
-    
-    public static void start(int key, VirtualList c) {
-        if (Canvas.KEY_POUND == key) {
-            return;
-        }
-        stop();
-        timer = new Timer();
-        KeyRepeatTimer repeater = new KeyRepeatTimer(key, c);
-        timer.schedule(repeater, 400, 100);
-    }
-    public static void stop() {
-        if (null != timer) {
-            timer.cancel();
-            timer = null;
-        }
-    }
-    
-    private KeyRepeatTimer(int keyCode, VirtualList c) {
-        key = keyCode;
-        canvas = c;
-    }
-    
-    public void run() {
-        if (0 < slowlyIterations) {
-            slowlyIterations--;
-            if (0 != slowlyIterations % 2) {
-                return;
-            }
-        }
-        if (!canvas.isShown()) {
-            KeyRepeatTimer.stop();
-            return;
-        }
-        canvas.keyReRepeated(key);
-    }
 }

@@ -482,11 +482,5 @@ public class ConfigForm
 
         sd.roster.reEnumRoster();
         destroyView();
-    }
-
-    public void destroyView(){
-        if (display!=null)  
-            display.setCurrent(parentView);
-        ((Canvas)parentView).setFullScreenMode(Config.fullscreen);
-    }
+    }    
 }

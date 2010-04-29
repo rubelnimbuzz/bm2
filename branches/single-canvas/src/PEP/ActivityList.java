@@ -71,7 +71,7 @@ public class ActivityList extends DefForm implements MIDPTextBox.TextBoxNotify {
         //String moodName=((MoodItem)getFocusedObject()).getTipString();
         publish(cursor, actText);
         destroyView();
-        display.setCurrent(StaticData.getInstance().roster);
+        midlet.BombusMod.getInstance().setDisplayable(StaticData.getInstance().roster);
     }
 
      public void publish(int activity, String text) {

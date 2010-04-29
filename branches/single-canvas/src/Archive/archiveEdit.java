@@ -94,7 +94,7 @@ public class archiveEdit
         if (Config.getInstance().phoneManufacturer == Config.SONYE) System.gc(); // prevent flickering on Sony Ericcsson C510
         setCommandListener(this);
         
-        display.setCurrent(this);
+        midlet.BombusMod.getInstance().setDisplayable(this);
     }
     
     public void commandAction(Command c, Displayable d){
@@ -122,6 +122,6 @@ public class archiveEdit
             al.reFresh();
         }
         
-        display.setCurrent(/*parentView*/al);
+        midlet.BombusMod.getInstance().setDisplayable(/*parentView*/al);
     }
 }

@@ -83,7 +83,7 @@ public class StanzaEdit
         if (Config.getInstance().phoneManufacturer == Config.SONYE) System.gc(); // prevent flickering on Sony Ericcsson C510
         setCommandListener(this);
         
-        display.setCurrent(this);
+        midlet.BombusMod.getInstance().setDisplayable(this);
         parentView=pView;
     }
     

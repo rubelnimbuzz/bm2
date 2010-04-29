@@ -161,7 +161,7 @@ public class ConferenceForm
         linkJoin=new LinkString(SR.MS_JOIN) {
             public void doAction() {
                 join(nameField.getValue(), roomField.getValue().trim()+"@"+hostField.getValue().trim()+"/"+nickField.getValue(), passField.getValue(), Integer.parseInt(msgLimitField.getValue()));
-                display.setCurrent(sd.roster);
+                midlet.BombusMod.getInstance().setDisplayable(sd.roster);
             }
         };
         itemsList.addElement(linkJoin);
@@ -200,7 +200,7 @@ public class ConferenceForm
             sd.roster.bookmarks.removeElement(editConf);
             sd.roster.bookmarks.insertElementAt(new BookmarkItem(name, gchat.toString(), nick, pass, autojoin), cursor);
             new BookmarkQuery(BookmarkQuery.SAVE);
-            display.setCurrent(parentView);
+            midlet.BombusMod.getInstance().setDisplayable(parentView);
         } else if (c==cmdAdd) {
             new Bookmarks(display, sd.roster, new BookmarkItem(name, gchat.toString(), nick, pass, autojoin));
         } else if (c==cmdJoin) {
@@ -209,7 +209,7 @@ public class ConferenceForm
                 cf.saveToStorage();
                 gchat.append('/').append(nick);
                 join(name, gchat.toString(), pass, msgLimit);
-                display.setCurrent(sd.roster);
+                midlet.BombusMod.getInstance().setDisplayable(sd.roster);
             } catch (Exception e) { }
         }
         gchat=null;

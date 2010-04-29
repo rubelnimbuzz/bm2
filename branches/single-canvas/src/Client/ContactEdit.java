@@ -222,7 +222,7 @@ public final class ContactEdit
     }
  
     public void destroyView(){
-        if (display!=null)   display.setCurrent(parentView/*roster*/);
+        if (display!=null)   midlet.BombusMod.getInstance().setDisplayable(parentView/*roster*/);
     }
 
 }

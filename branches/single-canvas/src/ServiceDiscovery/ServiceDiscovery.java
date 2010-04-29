@@ -413,7 +413,7 @@ public class ServiceDiscovery
         if (cancel || stackItems.isEmpty()) {
             stream.cancelBlockListener(this);
             if (display!=null && parentView!=null /*prevents potential app hiding*/ )   
-                display.setCurrent(parentView);
+                midlet.BombusMod.getInstance().setDisplayable(parentView);
         } else {
             State st=(State)stackItems.lastElement();
             stackItems.removeElement(st);

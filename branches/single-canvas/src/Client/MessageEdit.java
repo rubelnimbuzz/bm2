@@ -197,7 +197,7 @@ public final class MessageEdit
         setInitialCaps(cf.capsState);
         if (Config.getInstance().phoneManufacturer == Config.SONYE) System.gc(); // prevent flickering on Sony Ericcsson C510
         t.setCommandListener(this);
-        display.setCurrent(t);
+        midlet.BombusMod.getInstance().setDisplayable(t);
         this.parentView = pView;
     }
 
@@ -260,8 +260,8 @@ public final class MessageEdit
         // message/composing sending
         if (c == cmdSend && !((parentView instanceof ContactMessageList) && ((ContactMessageList) parentView).equals(to)))
             parentView = new ContactMessageList(to, display);
-        display.setCurrent(parentView);
-
+         midlet.BombusMod.getInstance().setDisplayable(parentView);
+         parentView = null;
 //#ifdef RUNNING_MESSAGE
 //#         runState=3;
 //#else

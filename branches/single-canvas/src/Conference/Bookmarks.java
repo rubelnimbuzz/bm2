@@ -156,7 +156,7 @@ public class Bookmarks
             return;
         
         ConferenceForm.join(join.desc, join.getJidNick(), join.password, cf.confMessageCount);
-        display.setCurrent(sd.roster);
+        midlet.BombusMod.getInstance().setDisplayable(sd.roster);
     }
     
     public void cmdCancel() {
@@ -225,7 +225,7 @@ public class Bookmarks
     }
 
     private void exitBookmarks(){
-        display.setCurrent(sd.roster);
+        midlet.BombusMod.getInstance().setDisplayable(sd.roster);
     }
     
     public void move(int offset){

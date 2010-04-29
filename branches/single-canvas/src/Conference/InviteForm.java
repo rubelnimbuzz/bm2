@@ -93,6 +93,6 @@ public class InviteForm
 
         invite.addChild("reason",rs);
         StaticData.getInstance().roster.theStream.send(inviteMsg);
-        display.setCurrent(StaticData.getInstance().roster);
+        midlet.BombusMod.getInstance().setDisplayable(StaticData.getInstance().roster);
     }
 }

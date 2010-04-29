@@ -86,7 +86,7 @@ public class ShowFile implements CommandListener{
 
         form.addCommand(back);
         form.setCommandListener(this);
-        display.setCurrent(form);
+        midlet.BombusMod.getInstance().setDisplayable(form);
     }
     
     private void read(String file) {
@@ -116,7 +116,7 @@ public class ShowFile implements CommandListener{
         }
 
        tb.setCommandListener(this);
-       display.setCurrent(tb);
+       midlet.BombusMod.getInstance().setDisplayable(tb);
     }
     
     private void play(String file) {
@@ -134,11 +134,11 @@ public class ShowFile implements CommandListener{
         a.addCommand(stop);
         a.addCommand(back);
         a.setCommandListener(this);
-        display.setCurrent(a);
+        midlet.BombusMod.getInstance().setDisplayable(a);
     }
     
     public void commandAction(Command c, Displayable d) {
-        if (c==back) display.setCurrent(parentView);
+        if (c==back) midlet.BombusMod.getInstance().setDisplayable(parentView);
         if (c==stop) {
             try {
                 pl.stop();

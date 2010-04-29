@@ -73,7 +73,7 @@ public class XDataForm implements CommandListener {
         f.setCommandListener(this);
         f.addCommand(cmdOk);
         f.addCommand(cmdCancel);
-        display.setCurrent(f);
+        midlet.BombusMod.getInstance().setDisplayable(f);
     }
     
     public void fetchMediaElements(Vector bobCache) {
@@ -114,7 +114,7 @@ public class XDataForm implements CommandListener {
             }
             notifyListener.XDataFormSubmit(resultForm);
         }
-        display.setCurrent(parentView);
+        midlet.BombusMod.getInstance().setDisplayable(parentView);
     }
     
 }

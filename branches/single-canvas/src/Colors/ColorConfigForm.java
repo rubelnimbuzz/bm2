@@ -130,7 +130,7 @@ public class ColorConfigForm
 
     public void destroyView(){
         if (display!=null)  
-            display.setCurrent(parentView);
+            midlet.BombusMod.getInstance().setDisplayable(parentView);
     }
     
 //#if FILE_IO

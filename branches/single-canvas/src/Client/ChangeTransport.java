@@ -74,7 +74,7 @@ public class ChangeTransport implements CommandListener {
         
         f.setCommandListener(this);
         
-        display.setCurrent(f);
+        midlet.BombusMod.getInstance().setDisplayable(f);
     }
     
     public void commandAction(Command command, Displayable displayable) {
@@ -84,6 +84,6 @@ public class ChangeTransport implements CommandListener {
 //#             //System.out.println(srcTransport+"->"+tTranspList.getString(tTranspList.getSelectedIndex()));
 //#endif
         }
-        display.setCurrent(sd.roster);
+        midlet.BombusMod.getInstance().setDisplayable(sd.roster);
     }
 }

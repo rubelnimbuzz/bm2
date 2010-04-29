@@ -144,7 +144,7 @@ public class ActiveContacts
     
     public void destroyView(){
         sd.roster.reEnumRoster();
-        display.setCurrent(parentView);
+        midlet.BombusMod.getInstance().setDisplayable(parentView);
     }
     public String touchLeftCommand(){ return SR.MS_SELECT; }    
 }

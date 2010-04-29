@@ -121,7 +121,7 @@ public class ExTextBox
     }
     
     public void destroyView(){
-        display.setCurrent(parentView);
+        midlet.BombusMod.getInstance().setDisplayable(parentView);
     }
 
     public int getCaretPos() {     

@@ -75,7 +75,7 @@ public class MoodList extends DefForm implements MIDPTextBox.TextBoxNotify {
         String moodName=((MoodItem)getFocusedObject()).getTipString();
         publishTune(moodText, moodName);
         destroyView();
-        display.setCurrent(StaticData.getInstance().roster);
+        midlet.BombusMod.getInstance().setDisplayable(StaticData.getInstance().roster);
     }
 
     private void publishTune(final String moodText, final String moodName) {

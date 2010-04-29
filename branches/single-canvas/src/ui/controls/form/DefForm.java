@@ -94,7 +94,7 @@ public class DefForm
 
     public void destroyView()	{
 	if (display!=null)
-            display.setCurrent(parentView);
+            midlet.BombusMod.getInstance().setDisplayable(parentView);
     }
 
     public void cmdCancel() {

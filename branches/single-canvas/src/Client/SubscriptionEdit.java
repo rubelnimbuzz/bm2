@@ -95,7 +95,7 @@ public class SubscriptionEdit
 
     public void destroyView(){
         if (display!=null)
-            display.setCurrent(StaticData.getInstance().roster);
+            midlet.BombusMod.getInstance().setDisplayable(StaticData.getInstance().roster);
     }
 
 }

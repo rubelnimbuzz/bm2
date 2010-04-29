@@ -67,6 +67,6 @@ public class ServerBox
         if (server!=null) sd.browse(server, null);
         
         //destroyView();
-        display.setCurrent(sd);
+        midlet.BombusMod.getInstance().setDisplayable(sd);
     }
 }

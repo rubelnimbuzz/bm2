@@ -94,11 +94,10 @@ public class AccountForm
     private boolean doConnect;
     
     /** Creates a new instance of AccountForm */
-    public AccountForm(Display display, Displayable pView, AccountSelect accountSelect, Account account) {
+    public AccountForm(AccountSelect accountSelect, Account account) {
         super(null);
 	this.accountSelect = accountSelect;
-        this.display=display;
-
+        
 	newaccount=(account==null);
 	if (newaccount) account=new Account();
 	this.account=account;
@@ -275,7 +274,7 @@ public class AccountForm
                 public void no() { startLogin(false); }
             };
         } else
-            display.setCurrent(accountSelect);
+            midlet.BombusMod.getInstance().setDisplayable(accountSelect);
     }
     
     private void startLogin(boolean login){
@@ -284,8 +283,8 @@ public class AccountForm
         SplashScreen.getInstance(display).close();
     }
     
-    protected void keyReRepeated(int keyCode) {
-        super.keyReRepeated(keyCode);
+    protected void keyRepeated(int keyCode) {
+        super.keyRepeated(keyCode);
         if (kHold==keyCode) return;
         kHold=keyCode;
         

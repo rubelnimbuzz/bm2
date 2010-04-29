@@ -85,13 +85,11 @@ public class CameraImage implements CommandListener{
             form.addCommand(cmdShot);
             form.addCommand(cmdCancel);
             form.setCommandListener(this);
-            display.setCurrent(form);
+            midlet.BombusMod.getInstance().setDisplayable(form);
             
             player.start();
         } catch (Exception e) { 
-            display.setCurrent(
-                    new Alert("Error", e.toString(), null, null), 
-                    parentView);
+            //TODO: alert error
             e.printStackTrace(); 
         }
     }
@@ -109,7 +107,7 @@ public class CameraImage implements CommandListener{
         player = null;
         videoControl = null;
 
-        display.setCurrent(parentView);
+        midlet.BombusMod.getInstance().setDisplayable(parentView);
 
     }
 }

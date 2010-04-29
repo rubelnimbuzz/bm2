@@ -1338,7 +1338,7 @@ public class Roster
             setQuerySign(false);
             doReconnect=false;
             if (splash!=null)
-                splash.close(); // display.setCurrent(this);
+                splash.close(); // midlet.BombusMod.getInstance().setDisplayable(this);
             splash=null;
             
             //query bookmarks
@@ -2276,11 +2276,11 @@ public class Roster
 //#             case SIEMENS_FLIPCLOSE:
 //#             case MOTOROLA_FLIP:
 //#                 if (phoneManufacturer!=Config.SONYE) { //workaround for SE JP6 - enabling vibra in closed state
-//#                     display.setCurrent(null);
+//#                     midlet.BombusMod.getInstance().setDisplayable(null);
 //#                     try {
 //#                         Thread.sleep(300);
 //#                     } catch (Exception ex) {}
-//#                     display.setCurrent(this);
+//#                     midlet.BombusMod.getInstance().setDisplayable(this);
 //#                 }
 //#if DEBUG
 //#             System.out.println("Flip closed");
@@ -2354,8 +2354,8 @@ public class Roster
 //#endif
      }
  
-    protected void keyReRepeated(int keyCode) {
-        super.keyReRepeated(keyCode);
+    protected void keyRepeated(int keyCode) {
+        super.keyRepeated(keyCode);
         if (kHold==keyCode) return;
         kHold=keyCode;
         
@@ -2643,7 +2643,7 @@ public class Roster
 
     public void cmdMinimize() { BombusMod.getInstance().hideApp(true);  }
     public void cmdActiveContacts() { new ActiveContacts(display, this, null); }
-    public void cmdAccount(){ new AccountSelect(display, this, false); }
+    public void cmdAccount(){ new AccountSelect( false); }
     public void cmdStatus() { currentReconnect=0; new StatusSelect(display, this, null); }
     public void cmdAlert() { new AlertProfile(display, this); }
 //#ifdef ARCHIVE

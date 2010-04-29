@@ -67,7 +67,7 @@ public class MIDPTextBox implements CommandListener {
             
 
         parentView=pView;
-        display.setCurrent(t);
+        midlet.BombusMod.getInstance().setDisplayable(t);
     }
     
     /**
@@ -79,6 +79,6 @@ public class MIDPTextBox implements CommandListener {
     }
 
     public void destroyView(){
-        if (display!=null)   display.setCurrent(parentView);
+        if (display!=null)   midlet.BombusMod.getInstance().setDisplayable(parentView);
     }
 }

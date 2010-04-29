@@ -186,7 +186,7 @@ public class AutoTask
 
         this.setCommandListener(this);
 
-        display.setCurrent(this);
+        midlet.BombusMod.getInstance().setDisplayable(this);
         isShowing=true;
     }
     
@@ -262,7 +262,7 @@ public class AutoTask
         if (display==null) {
             Display.getDisplay(BombusMod.getInstance()).setCurrent(parentView);
         } else {
-            display.setCurrent(next);
+            midlet.BombusMod.getInstance().setDisplayable(next);
         }
     }
 }

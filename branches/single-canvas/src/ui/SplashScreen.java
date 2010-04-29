@@ -88,7 +88,7 @@ public class SplashScreen extends Canvas implements Runnable, CommandListener {
     private SplashScreen(Display display) {
         setFullScreenMode(Config.fullscreen);
         this.display = display; // http://code.google.com/p/bm2/issues/detail?id=93
-        display.setCurrent(this);
+        midlet.BombusMod.getInstance().setDisplayable(this);
     }
     
     public SplashScreen(Display display, ComplexString status, char exitKey) {
@@ -183,7 +183,7 @@ public class SplashScreen extends Canvas implements Runnable, CommandListener {
     
     public void close(){
         //if (parentView!=null)
-        display.setCurrent(StaticData.getInstance().roster);
+        midlet.BombusMod.getInstance().setDisplayable(StaticData.getInstance().roster);
         //parentView=null;
         //repaint();
         //serviceRepaints();
@@ -201,7 +201,7 @@ public class SplashScreen extends Canvas implements Runnable, CommandListener {
                 img=Image.createImage("/images/splash.png");
         } catch (Exception e) {}
         
-        display.setCurrent(this);
+        midlet.BombusMod.getInstance().setDisplayable(this);
     }
 
     private class TimerTaskClock extends TimerTask {

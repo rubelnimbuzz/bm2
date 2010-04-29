@@ -288,6 +288,7 @@ public class ContactMessageList extends MessageList {
 //#endif
 
 public void showNotify() {
+    if (contact != null)
         sd.roster.activeContact=contact;
 //#ifdef LOGROTATE
 //#         getRedraw(true);
@@ -698,11 +699,11 @@ public void showNotify() {
             clearReadedMessageList();
     }
     
-    public void keyReRepeated(int keyCode) {
+    public void keyRepeated(int keyCode) {
         if (keyCode==KEY_NUM0) 
             clearReadedMessageList();
 	else 
-            super.keyReRepeated(keyCode);
+            super.keyRepeated(keyCode);
     }
 
 //#ifdef JUICK    
@@ -941,7 +942,7 @@ public void showNotify() {
         contact.mark = on_end ? -1 : cursor;        
         sd.roster.activeContact=null;
         sd.roster.reEnumRoster(); //to reset unread messages icon for this conference in roster
-        if (display!=null) display.setCurrent(sd.roster);
+        if (display!=null) midlet.BombusMod.getInstance().setDisplayable(sd.roster);
     }
 
 

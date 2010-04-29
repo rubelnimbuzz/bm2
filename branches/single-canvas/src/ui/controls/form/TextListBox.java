@@ -79,7 +79,7 @@ public class TextListBox
         if (recentList.size()>0)
             ti.setValue((String) recentList.elementAt(cursor));
         
-        display.setCurrent(parentView);
+        midlet.BombusMod.getInstance().setDisplayable(parentView);
     }
 
     public void commandAction(Command c, Displayable d){
@@ -92,7 +92,7 @@ public class TextListBox
             return;
         }
         
-        display.setCurrent(parentView);
+        midlet.BombusMod.getInstance().setDisplayable(parentView);
     }
 
     public VirtualElement getItemRef(int index){ 

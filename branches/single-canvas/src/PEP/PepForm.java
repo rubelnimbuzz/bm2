@@ -136,7 +136,7 @@ public class PepForm extends DefForm {
 //#         Config.getInstance().saveToStorage();
 //#endif       
         
-        display.setCurrent(StaticData.getInstance().roster);
+        midlet.BombusMod.getInstance().setDisplayable(StaticData.getInstance().roster);
     }   
 }
 

@@ -64,11 +64,10 @@ public class AccountSelect extends DefForm {
     private Config cf;
     
     /** Creates a new instance of AccountPicker */
-    public AccountSelect(Display display, Displayable pView, boolean enableQuit) {
+    public AccountSelect(boolean enableQuit) {
         super(SR.MS_ACCOUNTS);
         this.enableQuit=enableQuit;
-        this.display=display;
-
+        
         enableListWrapping(true);
         cf=Config.getInstance();        
         
@@ -80,6 +79,8 @@ public class AccountSelect extends DefForm {
                 
         activeAccount=cf.accountIndex;
         loadAccounts();
+    }
+    public void show(Displayable pView) {
         
         if (!accountList.isEmpty()) {
             moveCursorTo(activeAccount);
@@ -95,16 +96,15 @@ public class AccountSelect extends DefForm {
 //#             loadAccounts();
 //#         if (accountList.isEmpty()) {
 //#endif
-            new AccountForm(display, this, this, null);
+            super.show(pView);
+            new AccountForm(this, null).show(pView);
             return;
 //#ifdef IMPORT_EXPORT
 //#         }
 //#endif
-        }
-        setCommandListener(this);        
-        
+        }        
 
-        show(parentView);
+        super.show(pView);
     }
 
     public final void loadAccounts() {
@@ -161,9 +161,9 @@ public class AccountSelect extends DefForm {
         if (c==cmdConfig) new ConfigForm(display, this);
         if (c==cmdLogin) switchAccount(true);
         if (c==cmdSelect) switchAccount(false);
-        if (c==cmdEdit) new AccountForm(display, this, this, (Account)getFocusedObject());
+        if (c==cmdEdit) new AccountForm(this, (Account)getFocusedObject()).show(this);
         if (c==cmdAdd) {
-            new AccountForm(display, this, this, null);
+            new AccountForm(this, null).show(this);
         }
         if (c==cmdDel) {
             if (cursor==cf.accountIndex && StaticData.getInstance().roster.isLoggedIn()) return;
@@ -183,7 +183,7 @@ public class AccountSelect extends DefForm {
         if(accountList.size()>0) {
             if (StaticData.getInstance().account==null)
                 Account.loadAccount(false, cf.accountIndex);
-            display.setCurrent(StaticData.getInstance().roster);
+            midlet.BombusMod.getInstance().setDisplayable(StaticData.getInstance().roster);
         }
     }
 
@@ -222,8 +222,8 @@ public class AccountSelect extends DefForm {
         NvStorage.writeFileRecord(outputStream, "accnt_db", 0, true); //Account.storage
     }
     
-    protected void keyReRepeated(int keyCode) {
-        super.keyReRepeated(keyCode);
+    protected void keyRepeated(int keyCode) {
+        super.keyRepeated(keyCode);
         if (kHold==keyCode) return;
         kHold=keyCode;
         

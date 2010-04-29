@@ -122,7 +122,7 @@ public class DiscoForm implements CommandListener{
         this.display=display;
         this.parentView=display.getCurrent();
         this.stream=stream;
-        display.setCurrent(form);
+        midlet.BombusMod.getInstance().setDisplayable(form);
     }
     
     private void sendForm(String id){
@@ -170,6 +170,6 @@ public class DiscoForm implements CommandListener{
     }
 
     public void destroyView(){
-        display.setCurrent(parentView);
+        midlet.BombusMod.getInstance().setDisplayable(parentView);
     }
 }

@@ -61,7 +61,7 @@ public class AccountRegister
         raccount=account;
         splash=SplashScreen.getInstance(display);
         splash.setProgress(SR.MS_STARTUP,5);
-        display.setCurrent(splash);
+        midlet.BombusMod.getInstance().setDisplayable(splash);
         splash.addCommand(cmdCancel);
         splash.setCommandListener(this);
         
@@ -133,7 +133,7 @@ public class AccountRegister
     }
     
     public void destroyView(){
-        if (display!=null) display.setCurrent(parentView);
+        if (display!=null) midlet.BombusMod.getInstance().setDisplayable(parentView);
     }
 
 }

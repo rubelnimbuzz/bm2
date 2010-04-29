@@ -78,7 +78,7 @@ public class RenameGroup
     }
     
     public void destroyView() {
-        display.setCurrent(StaticData.getInstance().roster);
+        midlet.BombusMod.getInstance().setDisplayable(StaticData.getInstance().roster);
     }
     
     

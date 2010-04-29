@@ -326,14 +326,15 @@ public abstract class VirtualList
 //#ifdef POPUPS
         PopUp.getInstance();
 //#endif
-
+        if (!isDoubleBuffered())
+            System.out.println("offscreen");
         if (phoneManufacturer==Config.WINDOWS) {
             setTitle("BombusMod");
         }
 
         changeOrient(cf.panelsState);
 
-        setFullScreenMode(fullscreen);
+//        setFullScreenMode(fullscreen);
 
         itemBorder = new int[32]; // TODO: remove
 
@@ -427,7 +428,7 @@ public abstract class VirtualList
 //#         iHeight=0;
 //#         mHeight=0;
 //#endif
-        if (!isDoubleBuffered()) offscreen=Image.createImage(width, height);
+        if (!isDoubleBuffered())  offscreen=Image.createImage(width, height);
     }
 
     /**
@@ -820,8 +821,7 @@ public abstract class VirtualList
     }
 
     protected int kHold;
-    protected void keyReRepeated(int keyCode){ key(keyCode); }
-    protected final void keyRepeated(int keyCode){ key(keyCode); }
+    protected void keyRepeated(int keyCode){ key(keyCode); }
     protected void keyReleased(int keyCode) { kHold=0; }
     protected void keyPressed(int keyCode) { kHold=0; key(keyCode);  }
     private int yPointerPos;

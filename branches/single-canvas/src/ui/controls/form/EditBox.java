@@ -102,7 +102,7 @@ public class EditBox implements CommandListener {
         if (Config.getInstance().capsState)
             t.setConstraints(TextField.INITIAL_CAPS_SENTENCE);
         if (Config.getInstance().phoneManufacturer == Config.SONYE) System.gc(); // prevent flickering on Sony Ericcsson C510
-        display.setCurrent(t);
+        midlet.BombusMod.getInstance().setDisplayable(t);
     }
 
     public void commandAction(Command c, Displayable d){
@@ -150,7 +150,7 @@ public class EditBox implements CommandListener {
            }
         }
 
-        display.setCurrent(parentView);
+        midlet.BombusMod.getInstance().setDisplayable(parentView);
     }
 //#if (CLIPBOARD||SMILES)
     public int getCaretPos() {     
