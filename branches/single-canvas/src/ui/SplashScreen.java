@@ -93,13 +93,15 @@ public class SplashScreen extends Canvas implements Runnable, CommandListener {
     
     public SplashScreen(Display display, ComplexString status, char exitKey) {
         this.status=status;
-        this.display=display;
+        this.display=midlet.BombusMod.getInstance().getDisplay();
         this.exitKey=exitKey;
         kHold=exitKey;
         
-        parentView=display.getCurrent();
+        parentView=midlet.BombusMod.getInstance().getCurrentDisplayable();
 
         status.setElementAt(new Integer(RosterIcons.ICON_KEYBLOCK_INDEX),6);
+    }
+    public void show() {
         repaint();
         //serviceRepaints();
 
@@ -169,7 +171,6 @@ public class SplashScreen extends Canvas implements Runnable, CommandListener {
     private Command cmdExit=new Command("Hide Splash", Command.BACK, 99);
     
     public void setExit(Display display, Displayable nextDisplayable){
-        this.display=display;
         parentView=nextDisplayable;
         setCommandListener(this);
         addCommand(cmdExit);
@@ -234,8 +235,7 @@ public class SplashScreen extends Canvas implements Runnable, CommandListener {
 
     private void destroyView(){
         status.setElementAt(null,6);
-        if (display!=null) 
-            display.setCurrent(parentView);
+        midlet.BombusMod.getInstance().setDisplayable(parentView);
         img=null;
         tc.stop();
 //#ifdef AUTOSTATUS

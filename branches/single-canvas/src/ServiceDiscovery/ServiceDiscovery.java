@@ -97,7 +97,7 @@ public class ServiceDiscovery
     
     /** Creates a new instance of ServiceDiscovery */
     public ServiceDiscovery(Display display, String service, String node, boolean search) {
-        super(display);
+        super();
 
         setMainBarItem(new MainBar(3, null, null, false));
         getMainBarItem().addRAlign();
@@ -224,7 +224,7 @@ public class ServiceDiscovery
             
             XmppError xe=XmppError.findInStanza(data);
             
-            new AlertBox(data.getAttribute("from"), xe.toString(), display, this) {
+            new AlertBox(data.getAttribute("from"), xe.toString()) {
                 public void yes() { };
                 public void no() { };
             };
@@ -342,7 +342,7 @@ public class ServiceDiscovery
             if (text.equals(SR.MS_DONE) && id.endsWith("Search") ) {
                 new SearchResult(display, data);
             } else {
-                new AlertBox(mainbar, text, display, StaticData.getInstance().roster) {
+                new AlertBox(mainbar, text) {
                     public void yes() { }
                     public void no() { }
                 };

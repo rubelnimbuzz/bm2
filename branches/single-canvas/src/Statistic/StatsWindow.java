@@ -66,7 +66,7 @@ public class StatsWindow
      * Creates a new instance of StatsWindow
      */
     public StatsWindow(Display display, Displayable pView) {
-        super(display, pView, SR.MS_STATS);
+        super(SR.MS_STATS);
         this.display=display;
         item=new MultiLine(SR.MS_ALL, StringUtils.getSizeString(st.getAllTraffic()), super.superWidth); item.selectable=true; itemsList.addElement(item);
 
@@ -90,7 +90,7 @@ public class StatsWindow
 //        removeCommand(cmdOk);
         //setCommandListener(this);
         commandStateTest();
-        attachDisplay(display);
+        show(parentView);
         this.parentView=pView;
     }
 

@@ -59,7 +59,7 @@ class UserKeyEdit extends DefForm {
     boolean newKey;
 
     public UserKeyEdit(Display display, UserKeysList keysList, UserKey u) {
-        super(display, keysList, (u==null)?
+        super((u==null)?
 //#ifdef USER_KEYS
 //#             SR.MS_ADD_CUSTOM_KEY:
 //#else
@@ -96,7 +96,7 @@ class UserKeyEdit extends DefForm {
 //#endif
         
         moveCursorTo(getNextSelectableRef(-1));
-        attachDisplay(display);
+        show(parentView);
         parentView = keysList;
     }
     

@@ -93,7 +93,7 @@ public class VCardView
 
     /** Creates a new instance of VCardView */
     public VCardView(Display display, Displayable pView, Contact contact) {
-        super(display, pView, contact.getNickJid());
+        super(contact.getNickJid());
         this.display = display;
 
         this.vcard=contact.vcard;
@@ -132,7 +132,7 @@ public class VCardView
         //this.commandState();
         //setCommandListener(this);
         commandStateTest();
-        attachDisplay(display);
+        show(parentView);
         this.parentView=pView;
     }
     
@@ -253,7 +253,7 @@ public class VCardView
     }
     
     public void clearVcard() {
-        new AlertBox(SR.MS_ACTION, SR.MS_DELETE+" "+SR.MS_VCARD+"?", display, StaticData.getInstance().roster) {
+        new AlertBox(SR.MS_ACTION, SR.MS_DELETE+" "+SR.MS_VCARD+"?") {
             public void yes() {
                 c.vcard=null;                
             }

@@ -54,7 +54,7 @@ public class RenameGroup
     
     /** Creates a new instance of newRenameGroup */
     public RenameGroup(Display display, Displayable pView, Group group/*, Contact contact*/) {
-        super(display, pView, SR.MS_RENAME);
+        super(SR.MS_RENAME);
         //this.contact=contact;
         this.group=group;
         this.display=display;
@@ -65,8 +65,7 @@ public class RenameGroup
         itemsList.addElement(new SpacerItem(0));
         
         moveCursorTo(getNextSelectableRef(-1));
-        attachDisplay(display);
-        this.parentView=pView;
+        show(parentView);
     }
 
     public void  cmdOk() {

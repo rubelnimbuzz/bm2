@@ -60,7 +60,7 @@ public class TransferAcceptFile
 
     /** Creates a new instance of TransferAcceptFile */
     public TransferAcceptFile(Display display, Displayable pView, TransferTask transferTask) {
-        super(display, pView, SR.MS_ACCEPT_FILE);
+        super(SR.MS_ACCEPT_FILE);
         
         this.display=display;
         
@@ -97,7 +97,7 @@ public class TransferAcceptFile
 
         itemsList.addElement(new MultiLine(SR.MS_DESCRIPTION, t.description, super.superWidth));
 
-        attachDisplay(display);
+        show(parentView);
         this.parentView=pView;
     }
 

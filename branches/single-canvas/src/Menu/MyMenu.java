@@ -56,7 +56,7 @@ public class MyMenu extends Menu {
             addItem(c.getName(), i, c.getImg());
         }
 
-        attachDisplay(display);
+        show(parentView);
     }
     
     public void eventOk(){

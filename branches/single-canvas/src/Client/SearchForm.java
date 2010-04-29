@@ -66,7 +66,7 @@ public class SearchForm
      * Creates a new instance of SearchForm
      */
     public SearchForm(Display display, Displayable pView) {
-        super(display, pView, SR.MS_SEARCH);
+        super(SR.MS_SEARCH);
         this.display=display;
         loadRecentList();
 
@@ -74,8 +74,7 @@ public class SearchForm
 
         updateMainBar();
         setCommandListener(this);
-        attachDisplay(display);
-        this.parentView=pView;
+        show(parentView);
     }
     
     private void updateMainBar() {

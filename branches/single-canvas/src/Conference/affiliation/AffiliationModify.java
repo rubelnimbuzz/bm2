@@ -54,7 +54,7 @@ public class AffiliationModify
     
     /** Creates a new instance of AffiliationModify */
     public AffiliationModify(Display display, Displayable pView, String room, String jid, String affiliation, String reason) {
-        super(display, pView, SR.MS_AFFILIATION);
+        super(SR.MS_AFFILIATION);
         
         this.display=display;
 
@@ -75,7 +75,7 @@ public class AffiliationModify
 	reasonItem=new TextInput(display, SR.MS_REASON, reason, "reason", TextField.ANY);
 	itemsList.addElement(reasonItem);
 
-        attachDisplay(display);
+        show(parentView);
         this.parentView=pView;
     }
     
@@ -112,7 +112,7 @@ public class AffiliationModify
             .append(SR.MS_FROM_OWNER_TO/*" from OWNER to "*/)
             .append(AffiliationItem.getAffiliationName((short)affiliationItem.getSelectedIndex()));
             
-            new AlertBox(SR.MS_MODIFY_AFFILIATION, warn.toString(), display, StaticData.getInstance().roster) {
+            new AlertBox(SR.MS_MODIFY_AFFILIATION, warn.toString()) {
                     public void yes() {
                         modify();
                         destroyView();

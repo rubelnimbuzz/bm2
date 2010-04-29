@@ -62,7 +62,7 @@ public class MessageUrl extends DefForm implements TextBoxNotify {
 
     /** Creates a new instance of MessageUrl */
     public MessageUrl(Display display, Displayable pView, Vector urlList) {
-	super(display, pView, "URLs");
+	super("URLs");
         this.display = display;        
 	this.urlList=urlList;
 
@@ -73,7 +73,7 @@ public class MessageUrl extends DefForm implements TextBoxNotify {
 	}
 
         setCommandListener(this);
-	attachDisplay(display);
+	show(parentView);
         this.parentView = pView;
     }
     

@@ -73,11 +73,9 @@ public class ExTextBox
     int maxSize=500;
             
     /** Creates a new instance of UniTextEdit */
-    public ExTextBox(Display display, Displayable pView, String body, String subj, int type) {
+    public ExTextBox(String body, String subj, int type) {
         super(subj, "", 500, type);
         
-        this.display=display;
-
         cf=Config.getInstance();
         
         this.subj=subj;
@@ -111,8 +109,7 @@ public class ExTextBox
 //#endif
 //#             addCommand(cmdTemplate);
 //#endif
-        setInitialCaps(cf.capsState);
-        this.parentView=pView;
+        setInitialCaps(cf.capsState);     
     }
     
     public void setText(String body) {

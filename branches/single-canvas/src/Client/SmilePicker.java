@@ -77,7 +77,7 @@ public class SmilePicker
  
      /** Creates a new instance of SmilePicker */
     public SmilePicker(Display display, Displayable pView, int caretPos, MessageEdit me) {
-         super(display);
+         super();
          this.caretPos=caretPos;
 
          this.me = me;
@@ -102,8 +102,7 @@ public class SmilePicker
 
         xBorder=(realWidth-(xCnt*imgWidth))/2;
 
-        commandState();
-        this.parentView=pView;
+        commandState();        
     }
     
     public void commandState() {

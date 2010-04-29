@@ -60,7 +60,7 @@ package PEP;
 //#         itemsList.addElement(descr);
 //#         itemsList.addElement(detect);
 //#         
-//#         attachDisplay(display);
+//#         show(parentView);
 //#         parentView = parent;
 //#     }
 //# 

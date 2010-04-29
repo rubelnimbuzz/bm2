@@ -35,7 +35,7 @@ public class DropListBox
     private DropChoiceBox cb;
 
     public DropListBox(Display display, Vector listItems, DropChoiceBox cb) {
-        super(display);
+        super();
         this.listItems=listItems;
         this.cb=cb;
         

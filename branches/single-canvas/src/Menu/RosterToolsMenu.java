@@ -172,7 +172,7 @@ public class RosterToolsMenu extends Menu {
 //#             addItem("Tools for Juick.Com", 20, MenuIcons.ICON_JUICK);
 //#endif
         addItem(SR.MS_BREAK_CONECTION, 21, MenuIcons.ICON_RECONNECT);
-        attachDisplay(display);
+        show(parentView);
         this.parentView=pView;
     }
     

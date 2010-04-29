@@ -24,7 +24,7 @@ import ui.controls.form.DefForm;
 //#         selector = new ColorSelector(list, color);
 //#         itemsList.addElement(selector);
 //#         setCommandListener(this);
-//#         attachDisplay(display);
+//#         show(parentView);
 //#     }
 //#     public void cmdOk() {
 //#         selector.eventOk();

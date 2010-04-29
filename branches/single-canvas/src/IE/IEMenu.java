@@ -51,7 +51,7 @@ public class IEMenu
     private int choice = -1;
     
     public IEMenu(Display display, Displayable pView) {
-        super(display, pView, 
+        super(
 //#if IMPORT_EXPORT
 //#         SR.MS_IMPORT_EXPORT
 //#else
@@ -111,7 +111,7 @@ public class IEMenu
 //#ifdef PLUGINS
 //#         }
 //#endif        
-        attachDisplay(display);
+        show(parentView);
         this.parentView=pView;
     }
     public void SelectFile(boolean getDir) {

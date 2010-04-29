@@ -52,7 +52,7 @@ public class ActiveContacts
 
     /** Creates a new instance of ActiveContacts */
     public ActiveContacts(Display display, Displayable pView, Contact current) {
-	super(display, pView, SR.MS_ACTIVE_CONTACTS);
+	super(SR.MS_ACTIVE_CONTACTS);
 	parentView=pView;
         enableListWrapping(true);
         activeContacts=null;
@@ -74,7 +74,7 @@ public class ActiveContacts
             moveCursorTo(focus);
         } catch (Exception e) {}
 
-	attachDisplay(display);
+	show(parentView);
     }
     
     protected int getItemCount() { return activeContacts.size(); }
@@ -84,7 +84,8 @@ public class ActiveContacts
 
     public void eventOk() {
 	Contact c=(Contact)getFocusedObject();
-	new ContactMessageList(c, display).setParentView(sd.roster);
+	ContactMessageList l = new ContactMessageList(c, display);
+        l.show(StaticData.getInstance().roster);
         //c.msgSuspended=null; // clear suspended message for selected contact
     }
 

@@ -84,8 +84,7 @@ public class ArchiveList
         addCommands();
         setCommandListener(this);
         
-        attachDisplay(display);
-        this.parentView=pView;
+        show(parentView);
     }
 
     public void commandState() {
@@ -156,7 +155,7 @@ public class ArchiveList
     }
     
     private void deleteAllMessages() {
-        new AlertBox(SR.MS_ACTION, SR.MS_DELETE_ALL+"?", display, this) {
+        new AlertBox(SR.MS_ACTION, SR.MS_DELETE_ALL+"?") {
             public void yes() {
                 archive.deleteAll();
                 messages=null;
@@ -189,7 +188,7 @@ public class ArchiveList
     
     public void keyClear() { 
         if (getItemCount()>0) {
-            new AlertBox(SR.MS_DELETE, SR.MS_SURE_DELETE, display, this) {
+            new AlertBox(SR.MS_DELETE, SR.MS_SURE_DELETE) {
                 public void yes() {
                     deleteMessage();
                 }

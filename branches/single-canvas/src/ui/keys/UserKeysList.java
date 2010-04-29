@@ -77,7 +77,7 @@ public class UserKeysList extends VirtualList implements
         commandState();
         setCommandListener(this);
         
-        attachDisplay(display);
+        show(parentView);
     }
 
     private Vector copyVector(Vector v1) {

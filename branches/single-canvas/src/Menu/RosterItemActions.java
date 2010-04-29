@@ -60,7 +60,6 @@ import xmpp.extensions.IqVersionReply;
 import com.alsutton.jabber.datablocks.Presence;
 
 import java.util.Enumeration;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
 //#ifdef CLIPBOARD
@@ -91,7 +90,7 @@ public class RosterItemActions extends Menu {
     Config cf=Config.getInstance();
     
     /** Creates a new instance of RosterItemActions */
-    public RosterItemActions(Display display, Displayable pView, Object item, int action) {
+    public RosterItemActions(Displayable pView, Object item, int action) {
         super(item.toString(), ActionsIcons.getInstance());
 
         this.item=item;
@@ -308,10 +307,9 @@ public class RosterItemActions extends Menu {
  	}
 	if (getItemCount()>0) {
             if (action<0) {
-                attachDisplay(display);
-                this.parentView=pView;
+                show(pView);
             } else try {
-                this.display=display; // to invoke dialog Y/N
+                //this.display=display; // to invoke dialog Y/N
                 doAction(action);
             } catch (Exception e) { 
                 //e.printStackTrace();
@@ -364,7 +362,7 @@ public class RosterItemActions extends Menu {
                     new SubscriptionEdit(display, sd.roster, c);
                     return; //break;
                 case 4:
-                    new AlertBox(SR.MS_DELETE_ASK, c.getNickJid(), display,  sd.roster) {
+                    new AlertBox(SR.MS_DELETE_ASK, c.getNickJid()) {
                         public void yes() {
                             sd.roster.deleteContact((Contact)item);
                         }
@@ -606,7 +604,7 @@ public class RosterItemActions extends Menu {
                         new RenameGroup(display, sd.roster, sg/*, null*/);
                         return;
                     case 1004: //delete
-                        new AlertBox(SR.MS_DELETE_GROUP_ASK, sg.getName(), display, sd.roster) {
+                        new AlertBox(SR.MS_DELETE_GROUP_ASK, sg.getName()) {
                             public void yes() {
                                 sd.roster.deleteGroup((Group)item);
                             }

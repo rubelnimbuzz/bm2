@@ -68,7 +68,7 @@ public class StanzaEdit
     private static final String TEMPLATE_MESSAGE="<message to='???' type='???'>\n<body>???</body>\n</message>";
 
     public StanzaEdit(Display display, Displayable pView, String body) {
-        super(display, pView, body, SR.MS_XML_CONSOLE, TextField.ANY);
+        super(body, SR.MS_XML_CONSOLE, TextField.ANY);
         
         this.display=display;
         

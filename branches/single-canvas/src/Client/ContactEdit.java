@@ -68,7 +68,7 @@ public final class ContactEdit
     StaticData sd=StaticData.getInstance();
     
     public ContactEdit(Display display, Displayable pView, Contact c) {
-        super(display, pView, SR.MS_ADD_CONTACT);
+        super(SR.MS_ADD_CONTACT);
         this.display=display;
         cf=Config.getInstance();
         
@@ -162,8 +162,7 @@ public final class ContactEdit
         }
         
         moveCursorTo(getNextSelectableRef(-1));
-        attachDisplay(display);
-        this.parentView=pView;
+        show(parentView);
     }
     
     private void requestVCard() {

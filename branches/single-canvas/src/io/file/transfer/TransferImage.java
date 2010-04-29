@@ -61,7 +61,7 @@ public class TransferImage
     
     /** Creates a new instance of TransferImage */
     public TransferImage(final Display display, Displayable pView, String recipientJid) {
-        super(display, pView, SR.MS_SEND_PHOTO);
+        super(SR.MS_SEND_PHOTO);
         this.display=display;
         this.to=recipientJid;
 
@@ -74,7 +74,7 @@ public class TransferImage
         itemsList.addElement(description);
         
         moveCursorTo(1);
-        attachDisplay(display);
+        show(parentView);
         this.parentView=pView;
     }
     

@@ -98,7 +98,7 @@ public class Bookmarks
         commandState();
 
         setCommandListener(this);
-	attachDisplay(display);
+	show(parentView);
         this.parentView=pView;
     }
     
@@ -254,7 +254,7 @@ public class Bookmarks
     }
     
     protected void keyClear(){
-        new AlertBox(SR.MS_DELETE_ASK, ((BookmarkItem)getFocusedObject()).getJid(), display, this) {
+        new AlertBox(SR.MS_DELETE_ASK, ((BookmarkItem)getFocusedObject()).getJid()) {
             public void yes() {
                 deleteBookmark();
             }

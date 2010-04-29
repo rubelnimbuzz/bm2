@@ -82,7 +82,7 @@ public final class XMLList
 //# 	MainBar mainbar=new MainBar(SR.MS_XML_CONSOLE);
 //#         setMainBarItem(mainbar);
 //#endif
-        attachDisplay(display);
+        show(parentView);
         this.parentView=pView;
     }
     

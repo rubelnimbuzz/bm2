@@ -52,7 +52,7 @@ public class SearchResult
     
     /** Creates a new instance of SearchResult */
     public SearchResult(Display display, JabberDataBlock result) {
-        super(display);
+        super();
         
         String service=result.getAttribute("from");
         

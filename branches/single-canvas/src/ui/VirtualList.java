@@ -359,31 +359,40 @@ public abstract class VirtualList
 //#endif
     }
 
-    /** Creates a new instance of VirtualList */
-    public VirtualList(Display display) {
-        this();
-        attachDisplay(display);
-    }
-
-    /**
-     * Запоминание предыдущего отображаемого объекта, подключенного к менеджеру
-     * дисплея и подключение к дисплею виртуального списка (this)
-     * @param display менеджер дисплея мобильного устройства {@link }
-     */
-    public void attachDisplay (Display display) {
-        this.display=display;
-        parentView=display.getCurrent();
-        display.setCurrent(this);
-        redraw();
-    }
-
-    /** запуск отложенной отрисовки активного Canvas */
-    public void redraw() {
-        Displayable d = display.getCurrent();
-        if (d instanceof Canvas) {
-            ((Canvas)d).repaint();
+    public final void show() {
+        show(midlet.BombusMod.getInstance().getCurrentDisplayable());
+     }
+    public void show(Displayable parent) {
+        parentView = parent;
+        if (null == parent) {
+            parentView = midlet.BombusMod.getInstance().getCurrentDisplayable();
         }
+        midlet.BombusMod.getInstance().setDisplayable(this);
+         redraw();
+     }
+
+    public void destroy() {
+        //TODO: this.setCommandListener(null);
+        parentView = null;
+        //TODO: if (null != mainbar) mainbar.destroy();
+        mainbar = null;
+        //TODO: if (null != infobar) infobar.destroy();
+        infobar = null;
     }
+
+    public void redraw() {
+        if (VirtualCanvas.nativeCanvas.getList() == this) {
+            VirtualCanvas.nativeCanvas.repaint();
+            return;
+         }
+     }
+    public boolean isShown() {
+        if (midlet.BombusMod.getInstance().getCurrentDisplayable() == this) {
+            return VirtualCanvas.nativeCanvas.isShown();
+        }
+        return false;
+    }
+
 
     /** Вызывается после скрытия VirtualList. переопределяет наследуемый метод
      * Canvas.hideNotify(). действие по умолчанию - освобождение экранного
@@ -812,7 +821,7 @@ public abstract class VirtualList
 
     protected int kHold;
     protected void keyReRepeated(int keyCode){ key(keyCode); }
-    protected void keyRepeated(int keyCode){ key(keyCode); }
+    protected final void keyRepeated(int keyCode){ key(keyCode); }
     protected void keyReleased(int keyCode) { kHold=0; }
     protected void keyPressed(int keyCode) { kHold=0; key(keyCode);  }
     private int yPointerPos;
@@ -1397,19 +1406,16 @@ public abstract class VirtualList
         alphaBuffer = null;
     }
 */
-
-    public void setParentView(Displayable parentView){
-        this.parentView=parentView;
-    }
+    
 
     /**
      * отсоединение от менеджера дисплея текущего виртуального списка,
      * присоединение к менеджеру предыдущего Displayable
      */
     public void destroyView(){
-        sd.roster.activeContact=null;
-        if (display!=null && parentView!=null) /*prevents potential app hiding*/ 
-            display.setCurrent(parentView);
+        sd.roster.activeContact=null;        
+        midlet.BombusMod.getInstance().setDisplayable(parentView);
+        parentView = null;
     }
 
     public int getListWidth() {

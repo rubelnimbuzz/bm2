@@ -68,7 +68,7 @@ public class HistoryConfig
 
     /** Creates a new instance of HistoryConfig */
     public HistoryConfig(Display display, Displayable pView) {
-        super(display, pView, SR.MS_HISTORY_OPTIONS);
+        super(SR.MS_HISTORY_OPTIONS);
 
         cf=Config.getInstance();
 //#if HISTORY
@@ -93,7 +93,7 @@ public class HistoryConfig
         
         moveCursorTo(0);
 
-        attachDisplay(display);
+        show(parentView);
         this.parentView=pView;
     }
 

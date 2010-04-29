@@ -89,7 +89,7 @@ public class Upgrade
         mainbar.addRAlign();
         mainbar.addElement(null);
 
-        attachDisplay(display);
+        show(parentView);
         this.parentView=pView;
         
         new Thread(this).start();

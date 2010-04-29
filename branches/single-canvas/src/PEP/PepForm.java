@@ -48,7 +48,7 @@ public class PepForm extends DefForm {
     LinkString updmood, updact;
     
     public PepForm(Display display, Displayable pView) {
-        super(display, pView, 
+        super(
 //#ifdef PEP
 //#                 SR.MS_PEP
 //#else
@@ -111,7 +111,7 @@ public class PepForm extends DefForm {
 //#endif
 //#endif
         
-        attachDisplay(display);
+        show(parentView);
     }
     public void cmdOk() {        
         //publish(activity.getSelectedIndex(), ti.getText());

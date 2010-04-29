@@ -73,7 +73,7 @@ public class Browser
     
     /** Creates a new instance of Browser */
     public Browser(String path, Display display, Displayable pView, BrowserListener browserListener, boolean getDirectory) {
-        super(display);
+        super();
         
         this.browserListener=browserListener;
 	this.getDirectory=getDirectory;
@@ -110,7 +110,7 @@ public class Browser
 
         chDir(path);
         
-        attachDisplay(display);
+        show(parentView);
         this.parentView=pView;
     }
     

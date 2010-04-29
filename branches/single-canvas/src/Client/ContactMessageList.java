@@ -147,7 +147,7 @@ public class ContactMessageList extends MessageList {
 //#endif
         if (contact.msgs.size()>0)
             moveCursorTo(firstUnread());
-        attachDisplay(display);
+        show(parentView);
     }
 
     public int firstUnread(){
@@ -414,10 +414,10 @@ public void showNotify() {
 //#ifndef WMUC
             if (contact instanceof MucContact) {
                 MucContact mc=(MucContact) contact;
-                new RosterItemActions(display, this, mc, -1);
+                new RosterItemActions(this, mc, -1);
             } else
 //#endif
-                new RosterItemActions(display, this, contact, -1);
+                new RosterItemActions(this, contact, -1);
         }
 	if (c==cmdActive) new ActiveContacts(display, this, contact);
         
@@ -698,11 +698,11 @@ public void showNotify() {
             clearReadedMessageList();
     }
     
-    public void keyRepeated(int keyCode) {
+    public void keyReRepeated(int keyCode) {
         if (keyCode==KEY_NUM0) 
             clearReadedMessageList();
 	else 
-            super.keyRepeated(keyCode);
+            super.keyReRepeated(keyCode);
     }
 
 //#ifdef JUICK    

@@ -26,8 +26,6 @@
 
 package ui.controls;
 
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Graphics;
 import ui.controls.form.DefForm;
 import ui.controls.form.MultiLine;
@@ -38,14 +36,12 @@ import ui.controls.form.MultiLine;
 public abstract class AlertBox extends DefForm {   
     
     
-    public AlertBox(String mainbar, String text, Display display, Displayable nextDisplayable) {
-        super(display, nextDisplayable, mainbar);
-        this.display=display;
+    public AlertBox(String mainbar, String text) {
+        super(mainbar);
         MultiLine lines = new MultiLine("", text, super.superWidth);
         lines.selectable = false;
         itemsList.addElement(lines);
-        attachDisplay(display);
-        parentView = nextDisplayable;
+        show(parentView);
     }
     
     public void cmdOk() {

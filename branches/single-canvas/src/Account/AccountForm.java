@@ -95,7 +95,7 @@ public class AccountForm
     
     /** Creates a new instance of AccountForm */
     public AccountForm(Display display, Displayable pView, AccountSelect accountSelect, Account account) {
-        super(display, pView, null);
+        super(null);
 	this.accountSelect = accountSelect;
         this.display=display;
 
@@ -129,8 +129,7 @@ public class AccountForm
         linkSave = new LinkString(SR.MS_SAVE) { public void doAction() { cmdOk(); } };
         itemsList.addElement(linkSave);
 
-        attachDisplay(display);
-        this.parentView=pView;
+        show(parentView);
     }
     
     public void showExtended() {
@@ -271,7 +270,7 @@ public class AccountForm
 
     public void destroyView(){
         if (newaccount && doConnect) {
-            new AlertBox(SR.MS_CONNECT_TO, account.getBareJid()+"?", display, StaticData.getInstance().roster) {
+            new AlertBox(SR.MS_CONNECT_TO, account.getBareJid()+"?") {
                 public void yes() { startLogin(true); }
                 public void no() { startLogin(false); }
             };
@@ -285,8 +284,8 @@ public class AccountForm
         SplashScreen.getInstance(display).close();
     }
     
-    protected void keyRepeated(int keyCode) {
-        super.keyRepeated(keyCode);
+    protected void keyReRepeated(int keyCode) {
+        super.keyReRepeated(keyCode);
         if (kHold==keyCode) return;
         kHold=keyCode;
         

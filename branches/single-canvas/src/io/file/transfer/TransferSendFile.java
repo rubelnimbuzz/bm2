@@ -54,7 +54,7 @@ public class TransferSendFile
 
     /** Creates a new instance of TransferAcceptFile */
     public TransferSendFile(final Display display, Displayable pView, String recipientJid) {
-        super(display, pView, SR.MS_SEND_FILE);
+        super(SR.MS_SEND_FILE);
         this.display=display;
         this.to=recipientJid;
 
@@ -71,7 +71,7 @@ public class TransferSendFile
         itemsList.addElement(description);
         
         moveCursorTo(2);
-        attachDisplay(display);
+        show(parentView);
         this.parentView=pView;
     }
     

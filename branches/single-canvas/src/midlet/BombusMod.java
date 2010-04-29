@@ -37,7 +37,7 @@ import Account.Account;
 import Account.AccountSelect;
 import Colors.ColorTheme;
 //#ifdef CLIENTS_ICONS
-import images.ClientsIconsData;
+//# import images.ClientsIconsData;
 //#endif
 import javax.microedition.midlet.*;
 import javax.microedition.lcdui.*;
@@ -201,4 +201,24 @@ public class BombusMod extends MIDlet implements Runnable{
     public Display getDisplay() {
         return display;
     }
+    private boolean isLocked = false;
+    public Displayable getCurrentDisplayable() {
+        Displayable d = getDisplay().getCurrent();
+        return (d instanceof VirtualCanvas) ? ((VirtualCanvas)d).getList() : d;
+    }
+    public void setDisplayable(Displayable d) {
+        if (!isLocked) {
+            if (null == d) {
+                sd.roster.errorLog("Displayable is null. Compensate.");
+                try {throw new Exception("Displayable is null."); } catch (Exception e) { e.printStackTrace(); }
+                d = sd.roster;
+            }
+            if (d instanceof VirtualList) {
+                VirtualCanvas.nativeCanvas.show((VirtualList)d);
+                return;
+            }
+            getDisplay().setCurrent(d);
+        }
+    }
+
 }

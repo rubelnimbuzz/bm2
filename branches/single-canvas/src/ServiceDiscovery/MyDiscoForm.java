@@ -67,7 +67,7 @@ public class MyDiscoForm extends DefForm{
     
     /** Creates a new instance of RegForm */
     public MyDiscoForm(Display display, JabberDataBlock regform, JabberStream stream, String resultId, String childName) {
-        super(display, null, regform.getAttribute("from"));
+        super(regform.getAttribute("from"));
         service=regform.getAttribute("from");
         this.childName=childName;
         JabberDataBlock query=regform.getChildBlock(childName);
@@ -124,7 +124,7 @@ public class MyDiscoForm extends DefForm{
         this.display=display;
         this.parentView=display.getCurrent();
         this.stream=stream;
-        attachDisplay(display);
+        show(parentView);
     }
     
     private void sendForm(String id){

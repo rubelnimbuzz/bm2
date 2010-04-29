@@ -30,7 +30,7 @@ import ui.controls.form.TextInput;
 //#         itemsList.addElement(streamhost);
 //#         itemsList.addElement(port);
 //# 
-//#         attachDisplay(display);
+//#         show(parentView);
 //#         this.parentView = parentView;
 //#     }
 //# 

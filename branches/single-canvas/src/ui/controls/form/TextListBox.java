@@ -59,7 +59,7 @@ public class TextListBox
     private EditBox ti;
 
     public TextListBox(Display display, EditBox ti) {
-        super(display);
+        super();
         this.ti=ti;
         this.recentList=ti.recentList;
         setMainBarItem(new MainBar(SR.MS_SELECT));

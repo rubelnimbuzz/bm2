@@ -69,7 +69,7 @@ public class InfoWindow
      * Creates a new instance of InfoWindow
      */
     public InfoWindow(Display display, Displayable pView) {
-        super(display, pView, SR.MS_ABOUT);
+        super(SR.MS_ABOUT);
         this.display = display;
 
         name = new MultiLine(Version.getName(), Version.getVersionNumber() + "\n" + Config.getOs() + "\nMobile Jabber client", super.superWidth);
@@ -116,7 +116,7 @@ public class InfoWindow
         itemsList.addElement(abilities);
 
         commandStateTest();
-        attachDisplay(display);
+        show(parentView);
         this.parentView = pView;
     }
 

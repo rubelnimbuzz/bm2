@@ -74,7 +74,7 @@ public class ColorConfigForm
 
     /** Creates a new instance of ColorConfigForm */
     public ColorConfigForm(final Display display, Displayable pView) {
-        super(display, pView, SR.MS_COLOR_TUNE);
+        super(SR.MS_COLOR_TUNE);
         this.display=display;
 
 
@@ -120,7 +120,7 @@ public class ColorConfigForm
         itemsList.addElement(reset);
         
         moveCursorTo(getNextSelectableRef(-1));
-        attachDisplay(display);
+        show(parentView);
         this.parentView=pView;
     }
     

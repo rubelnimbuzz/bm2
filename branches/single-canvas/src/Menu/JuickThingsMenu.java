@@ -34,7 +34,7 @@ public class JuickThingsMenu extends Menu {
         this.things = things;
         this.contact = contact;
 
-        attachDisplay(display);
+        show(parentView);
         this.parentView = pView;
 
         int quantity = things.size();

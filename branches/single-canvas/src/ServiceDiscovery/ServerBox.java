@@ -49,7 +49,7 @@ public class ServerBox
      * Creates a new instance of ServerBox
      */
     public ServerBox(Display display, Displayable pView, String service, ServiceDiscovery sd) {
-        super(display, pView, SR.MS_DISCO);
+        super(SR.MS_DISCO);
         
         this.display=display;
         this.sd=sd;
@@ -57,7 +57,7 @@ public class ServerBox
         itemsList.addElement(serverName);
         
         moveCursorTo(getNextSelectableRef(-1));
-        attachDisplay(display);
+        show(parentView);
         this.parentView=pView;
     }
 

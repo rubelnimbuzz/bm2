@@ -145,9 +145,8 @@ public class ConfigForm
     
     /** Creates a new instance of ConfigForm */
     public ConfigForm(Display display, Displayable pView) {
-        super(display, pView, SR.MS_OPTIONS);
-        this.display=display;
-
+        super(SR.MS_OPTIONS);
+        
         cf=Config.getInstance();
 
         itemsList.addElement(new SimpleString(SR.MS_ROSTER_ELEMENTS, true));
@@ -350,8 +349,7 @@ public class ConfigForm
         }
 
         enableListWrapping(false);
-        attachDisplay(display);
-        this.parentView=pView;
+        show(parentView);
     }
     
     public void cmdOk() {

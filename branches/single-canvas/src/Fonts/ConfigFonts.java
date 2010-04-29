@@ -48,7 +48,7 @@ public class ConfigFonts
     
     /** Creates a new instance of ConfigFonts */
     public ConfigFonts(Display display, Displayable pView) {
-        super(display, pView, SR.MS_FONTS_OPTIONS);
+        super(SR.MS_FONTS_OPTIONS);
         this.display=display;
         
         cf=Config.getInstance();
@@ -81,7 +81,7 @@ public class ConfigFonts
         font4.setSelectedIndex(cf.baloonFont/8);
         itemsList.addElement(font4);
 
-        attachDisplay(display);
+        show(parentView);
         this.parentView=pView;
     }
     

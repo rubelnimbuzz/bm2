@@ -71,7 +71,7 @@ public class PrivacyForm
 
     /** Creates a new instance of PrivacyForm */
     public PrivacyForm(Display display, Displayable pView, PrivacyItem item, PrivacyList plist) {
-        super(display, pView, SR.MS_PRIVACY_RULE);
+        super(SR.MS_PRIVACY_RULE);
         this.display=display;
         
         this.item=item;
@@ -108,7 +108,7 @@ public class PrivacyForm
         iqStz=new CheckBox(PrivacyItem.stanzas[3], item.iqStz); itemsList.addElement(iqStz);
         
         moveCursorTo(getNextSelectableRef(-1));
-        attachDisplay(display);
+        show(parentView);
         this.parentView=pView;
     }
     

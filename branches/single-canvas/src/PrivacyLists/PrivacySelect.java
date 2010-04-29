@@ -71,7 +71,7 @@ public class PrivacySelect
     
     /** Creates a new instance of PrivacySelect */
     public PrivacySelect(Display display, Displayable pView) {
-        super(display);
+        super();
         this.parentView=pView;
 
         setMainBarItem(new MainBar(2, null, SR.MS_PRIVACY_LISTS, false));
@@ -83,7 +83,7 @@ public class PrivacySelect
         
         getLists();
         
-        //attachDisplay(display);        
+        //show(parentView);        
     }
     
     public void commandState() {
@@ -217,7 +217,7 @@ public class PrivacySelect
     }
         
     protected void keyClear(){
-        new AlertBox(SR.MS_DELETE, getFocusedObject().toString(), display, this) {
+        new AlertBox(SR.MS_DELETE, getFocusedObject().toString()) {
             public void yes() {
                 PrivacyList pl=(PrivacyList) getFocusedObject();
                 if (pl!=null) {

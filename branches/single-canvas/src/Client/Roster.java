@@ -513,7 +513,7 @@ public class Roster
     
     public void cmdCleanAllMessages(){
         if (messageCount>0) {
-           new AlertBox(SR.MS_UNREAD_MESSAGES+": "+messageCount, SR.MS_SURE_DELETE, display, this) {
+           new AlertBox(SR.MS_UNREAD_MESSAGES+": "+messageCount, SR.MS_SURE_DELETE) {
                 public void yes() { cleanAllMessages(); }
                 public void no() { }
             };
@@ -2224,7 +2224,7 @@ public class Roster
 //#                 boolean isMucContact=false;
 //#endif
                 if (isContact && !isMucContact) {
-                   new AlertBox(SR.MS_DELETE_ASK, c.getNickJid(), display, sd.roster) {
+                   new AlertBox(SR.MS_DELETE_ASK, c.getNickJid()) {
                         public void yes() {
                             deleteContact(c);
                         }
@@ -2354,8 +2354,8 @@ public class Roster
 //#endif
      }
  
-    protected void keyRepeated(int keyCode) {
-        super.keyRepeated(keyCode);
+    protected void keyReRepeated(int keyCode) {
+        super.keyReRepeated(keyCode);
         if (kHold==keyCode) return;
         kHold=keyCode;
         
@@ -2632,7 +2632,7 @@ public class Roster
 //menu actions
     public void cmdQuit() { 
         if (cf.queryExit) {
-            new AlertBox(SR.MS_QUIT_ASK, SR.MS_SURE_QUIT, display, StaticData.getInstance().roster) {
+            new AlertBox(SR.MS_QUIT_ASK, SR.MS_SURE_QUIT) {
                 public void yes() { quit(); }
                 public void no() { }
             };
@@ -2660,7 +2660,7 @@ public class Roster
    public void cmdActions() {
        if (isLoggedIn()) {
            try {
-                new RosterItemActions(display, this, getFocusedObject(), -1);
+                new RosterItemActions(this, getFocusedObject(), -1);
            } catch (Exception ex) {}
        }
    }

@@ -57,9 +57,9 @@ public class DefForm
     public int superWidth;
     /**
      * Creates a new instance of DefForm
+     * @param caption
      */
-    public DefForm(final Display display, Displayable pView, String caption) {
-	this.display=display;
+    public DefForm(String caption) {	
         
 	setMainBarItem(new MainBar(caption));
         
@@ -69,9 +69,8 @@ public class DefForm
         
 	setCommandListener(this);
         
-        enableListWrapping(false);
+        enableListWrapping(false);        
         
-        this.parentView=pView;
     }
 
     protected int getItemCount() { return itemsList.size(); }
@@ -118,7 +117,8 @@ public class DefForm
                 return;
             }
         }
-        new MyMenu(display, parentView, this, "", null, menuCommands);
+        MyMenu menu = new MyMenu(display, parentView, this, "", null, menuCommands);
+        menu.show(parentView);
     }
     
     public String touchLeftCommand(){ return SR.MS_OK; }

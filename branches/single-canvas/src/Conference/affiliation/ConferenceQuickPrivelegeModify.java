@@ -72,7 +72,7 @@ public class ConferenceQuickPrivelegeModify
      * Creates a new instance of ConferenceQuickPrivelegeModify
      */
     public ConferenceQuickPrivelegeModify(Display display, Displayable pView, MucContact victim, int action, String myNick) {
-        super(display, pView, null);
+        super(null);
         
         this.display=display;
         
@@ -110,7 +110,7 @@ public class ConferenceQuickPrivelegeModify
         
         addCommand(cmdNoReason);
         user=null;
-        attachDisplay(display);
+        show(parentView);
         this.parentView=pView;
     }
 

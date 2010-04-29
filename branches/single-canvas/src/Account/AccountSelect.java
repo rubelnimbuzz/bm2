@@ -65,7 +65,7 @@ public class AccountSelect extends DefForm {
     
     /** Creates a new instance of AccountPicker */
     public AccountSelect(Display display, Displayable pView, boolean enableQuit) {
-        super(display, pView, SR.MS_ACCOUNTS);
+        super(SR.MS_ACCOUNTS);
         this.enableQuit=enableQuit;
         this.display=display;
 
@@ -101,11 +101,10 @@ public class AccountSelect extends DefForm {
 //#         }
 //#endif
         }
-        setCommandListener(this);
+        setCommandListener(this);        
         
-        attachDisplay(display);
 
-        this.parentView=pView;
+        show(parentView);
     }
 
     public final void loadAccounts() {
@@ -170,7 +169,7 @@ public class AccountSelect extends DefForm {
             if (cursor==cf.accountIndex && StaticData.getInstance().roster.isLoggedIn()) return;
             //if (((Account)getFocusedObject()).equals(StaticData.getInstance().account)) return;
             
-            new AlertBox(SR.MS_DELETE, getFocusedObject().toString(), display, this) {
+            new AlertBox(SR.MS_DELETE, getFocusedObject().toString()) {
                 public void yes() {
                     delAccount();
                 }
@@ -223,8 +222,8 @@ public class AccountSelect extends DefForm {
         NvStorage.writeFileRecord(outputStream, "accnt_db", 0, true); //Account.storage
     }
     
-    protected void keyRepeated(int keyCode) {
-        super.keyRepeated(keyCode);
+    protected void keyReRepeated(int keyCode) {
+        super.keyReRepeated(keyCode);
         if (kHold==keyCode) return;
         kHold=keyCode;
         

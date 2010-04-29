@@ -61,7 +61,7 @@ public class AlertProfile extends DefForm
     private Command cmdSel=new Command(SR.MS_SELECT,Command.SCREEN,2);
     /** Creates a new instance of SelectStatus */
     public AlertProfile(Display d, Displayable pView) {
-        super(d, pView, SR.MS_ALERT_PROFILE);
+        super(SR.MS_ALERT_PROFILE);
         
         cf=Config.getInstance();
                 
@@ -72,8 +72,7 @@ public class AlertProfile extends DefForm
         defp=cf.def_profile;
         
         moveCursorTo(p);
-        attachDisplay(d);
-        this.parentView=pView;
+        show(parentView);
     }
 
     public void commandState() {

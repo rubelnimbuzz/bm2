@@ -31,18 +31,17 @@ public class JuickConfig extends DefForm {
     Records records;
 
     public JuickConfig(Display display, Displayable pView, String caption) {
-        super(display, pView, caption);
+        super(caption);
         this.display=display;
 
         readFromStorage();
         addJuickContactsBox();
 
-        attachDisplay(display);
-        this.parentView=pView;
+        show(parentView);
     }
 
     public JuickConfig(Display display, Displayable pView) {
-        super(display, pView, null);
+        super(null);
         readFromStorage();
     }
 

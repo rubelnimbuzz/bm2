@@ -54,7 +54,7 @@ public class ColorsList extends DefForm
      * Creates a new instance of ColorsList
      */
     public ColorsList(Display display, Displayable pView) {
-        super(display, pView, SR.MS_COLOR_TUNE);       
+        super(SR.MS_COLOR_TUNE);       
         
         int cnt=0;
         itemsList.removeAllElements();
@@ -68,7 +68,7 @@ public class ColorsList extends DefForm
         this.display=display;
 
         setCommandListener(this);
-        attachDisplay(display);
+        show(parentView);
         this.parentView=pView;
     }
 

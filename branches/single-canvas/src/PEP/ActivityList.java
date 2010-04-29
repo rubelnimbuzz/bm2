@@ -37,7 +37,7 @@ public class ActivityList extends DefForm implements MIDPTextBox.TextBoxNotify {
     String acttext;
             
     public ActivityList(Display display) {
-        super(display, StaticData.getInstance().roster, 
+        super(
 //#ifdef PEP_ACTIVITY
 //#                 SR.MS_USERACTIVITY
 //#else
@@ -53,7 +53,7 @@ public class ActivityList extends DefForm implements MIDPTextBox.TextBoxNotify {
               itemsList.addElement(item);
         }
                 
-        attachDisplay(display);
+        show(parentView);
     }
 
     public void cmdOk() {

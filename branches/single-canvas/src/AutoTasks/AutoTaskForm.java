@@ -71,9 +71,9 @@ public class AutoTaskForm
     /** Creates a new instance of AutoTaskForm */
     public AutoTaskForm(Display display, Displayable pView) {
 //#if !AUTOTASK
-        super(display, pView, "");
+        super("");
 //#else
-//#         super(display, pView, SR.MS_AUTOTASKS);
+//#         super(SR.MS_AUTOTASKS);
 //#         this.display=display;
 //#         
 //#         typeIndex=at.taskType;
@@ -106,7 +106,7 @@ public class AutoTaskForm
 //#         itemsList.addElement(actionType);
 //#         
 //#         update();
-//#         attachDisplay(display);
+//#         show(parentView);
 //#         this.parentView=pView;
 //#     }
 //# 

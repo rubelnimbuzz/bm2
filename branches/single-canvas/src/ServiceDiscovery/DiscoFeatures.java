@@ -41,7 +41,7 @@ public class DiscoFeatures extends DefForm {
 
     /** Creates a new instance of DiscoFeatures */
     public DiscoFeatures(Display display, String entity, Vector features) {
-        super(display, display.getCurrent(), entity);
+        super(entity);
         if (features.isEmpty()) {
             itemsList.addElement(new SimpleString(SR.MS_ERROR, true));
         } else {
@@ -52,7 +52,7 @@ public class DiscoFeatures extends DefForm {
         }
         parentView = display.getCurrent();
         this.display = display;
-        attachDisplay(display);
+        show(parentView);
     }
     public void cmdOk() {
         destroyView();

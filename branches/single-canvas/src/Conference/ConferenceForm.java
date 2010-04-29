@@ -73,7 +73,7 @@ public class ConferenceForm
     
     /** Creates a new instance of GroupChatForm */
     public ConferenceForm(Display display, Displayable pView, String name, String confJid, String password, boolean autojoin) {
-        super(display, pView, SR.MS_JOIN_CONFERENCE);
+        super(SR.MS_JOIN_CONFERENCE);
         int roomEnd=confJid.indexOf('@');
         String room="";
         if (roomEnd>0) room=confJid.substring(0, roomEnd);
@@ -95,7 +95,7 @@ public class ConferenceForm
     
     /** Creates a new instance of GroupChatForm */
     public ConferenceForm(Display display, Displayable pView, BookmarkItem join, int cursor) {
-        super(display, pView, SR.MS_JOIN_CONFERENCE);
+        super(SR.MS_JOIN_CONFERENCE);
         if (join==null) return;
         if (join.isUrl) return;
         
@@ -111,7 +111,7 @@ public class ConferenceForm
     
     /** Creates a new instance of GroupChatForm */
     public ConferenceForm(Display display, Displayable pView) {
-        super(display, pView, SR.MS_JOIN_CONFERENCE);
+        super(SR.MS_JOIN_CONFERENCE);
         String room=cf.defGcRoom;
         String server=null;
         // trying to split string like room@server
@@ -129,7 +129,7 @@ public class ConferenceForm
 	
     /** Creates a new instance of GroupChatForm */
     public ConferenceForm(Display display, Displayable pView, String name, String room, String server, String nick, String password, boolean autojoin) {
-        super(display, pView, SR.MS_JOIN_CONFERENCE);
+        super(SR.MS_JOIN_CONFERENCE);
         createForm(display, pView, name, room, server, nick, password, autojoin);
     }
     
@@ -170,7 +170,7 @@ public class ConferenceForm
 	setCommandListener(this);
 
         moveCursorTo(getNextSelectableRef(-1));
-        attachDisplay(display);
+        show(parentView);
         this.parentView=pView;
     }
 

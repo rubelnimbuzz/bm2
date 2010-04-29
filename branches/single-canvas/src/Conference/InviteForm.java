@@ -56,7 +56,7 @@ public class InviteForm
     
     /** Creates a new instance of InviteForm */
     public InviteForm(Display display, Displayable pView, Contact contact) {
-        super(display, pView, SR.MS_INVITE);
+        super(SR.MS_INVITE);
         this.display=display;
         this.contact=contact;
         
@@ -77,8 +77,7 @@ public class InviteForm
         itemsList.addElement(reason);
         
         moveCursorTo(getNextSelectableRef(-1));
-        attachDisplay(display);
-        this.parentView=pView;
+        show(parentView);
     }
 
     public void cmdOk() {

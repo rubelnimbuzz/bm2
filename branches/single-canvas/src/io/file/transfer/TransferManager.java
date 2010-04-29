@@ -59,11 +59,11 @@ public class TransferManager
     
     /** Creates a new instance of TransferManager */
     public TransferManager(Display display, Displayable pView) {
-        super(display, pView, SR.MS_TRANSFERS);        
+        super(SR.MS_TRANSFERS);        
         itemsList=TransferDispatcher.getInstance().getTaskList();
         // TODO: add classic menu
         setCommandListener(this);
-        attachDisplay(display);
+        show(parentView);
         parentView = pView;
     }    
     

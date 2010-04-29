@@ -80,8 +80,7 @@ public class AlertCustomizeForm
 
     /** Creates a new instance of ConfigForm */
     public AlertCustomizeForm(Display display, Displayable pView) {
-        super(display, pView, SR.MS_NOTICES_OPTIONS);
-        this.display=display;
+        super(SR.MS_NOTICES_OPTIONS);
         
         ac=AlertCustomize.getInstance();
         cf=Config.getInstance();
@@ -139,9 +138,8 @@ public class AlertCustomizeForm
         IQNotify=new CheckBox(SR.MS_SHOW_IQ_REQUESTS, cf.IQNotify); itemsList.addElement(IQNotify);
 
         setCommandListener(this);        
-
-        attachDisplay(display);
-        this.parentView=pView;
+        
+        show(parentView);
     }
     
     public void cmdSave() {

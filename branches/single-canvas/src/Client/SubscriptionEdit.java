@@ -47,7 +47,7 @@ public class SubscriptionEdit
     String to;
     /** Creates a new instance of YesNoAlert */
     public SubscriptionEdit(Display display, Displayable pView, Contact c) {
-        super(display, pView, SR.MS_SUBSCRIPTION);
+        super(SR.MS_SUBSCRIPTION);
         
         this.display=display;
         
@@ -67,7 +67,7 @@ public class SubscriptionEdit
         itemsList.addElement(action);
 
         moveCursorTo(getNextSelectableRef(-1));
-        attachDisplay(display);
+        show(parentView);
         this.parentView=pView;
     }
     

@@ -62,7 +62,7 @@ public class StatusSelect
     private StaticData sd = StaticData.getInstance();
     
     public StatusSelect(Display d, Displayable pView, Contact to) {
-        super(d, pView, SR.MS_STATUS);
+        super(SR.MS_STATUS);
         
         cf=Config.getInstance();
         statusList=StatusList.getInstance().statusList;
@@ -77,9 +77,7 @@ public class StatusSelect
         
         defp=cf.loginstatus;
         moveCursorTo(defp);
-        attachDisplay(d);
-        
-        this.parentView=pView;
+        show(parentView);
     }
     
     public void commandState() {
@@ -155,7 +153,7 @@ public class StatusSelect
         private CheckBox autoRespond;
         
         public StatusForm(Display display, Displayable pView, ExtendedStatus status){
-            super(display, pView, SR.MS_STATUS+": "+status.getScreenName());
+            super(SR.MS_STATUS+": "+status.getScreenName());
             this.display=display;
             this.status=status;
             
@@ -180,7 +178,7 @@ public class StatusSelect
             itemsList.addElement(new SimpleString("%dt - date time", false));
             
             moveCursorTo(getNextSelectableRef(-1));
-            attachDisplay(display);
+            show(parentView);
             this.parentView=pView;
         }
         

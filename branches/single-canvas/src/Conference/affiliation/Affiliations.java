@@ -75,7 +75,7 @@ public class Affiliations
     
     /** Creates a new instance of AffiliationList */
     public Affiliations(Display display, Displayable pView, String room, short affiliationIndex) {
-        super (display, pView, AffiliationItem.getAffiliationName(affiliationIndex));
+        super (AffiliationItem.getAffiliationName(affiliationIndex));
         this.room=room;
         
 	//fix for old muc
@@ -94,8 +94,7 @@ public class Affiliations
         items=new Vector();
         
         setCommandListener(this);
-        attachDisplay(display);
-        this.parentView=pView;
+        show(parentView);        
         getList();
     }
     

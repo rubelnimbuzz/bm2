@@ -60,7 +60,7 @@ public final class AppendNick
     private MessageEdit me;
     
     public AppendNick(Display display, Displayable pView, Contact to, int caretPos, MessageEdit me) {
-        super(display, pView, SR.MS_SELECT_NICKNAME);
+        super(SR.MS_SELECT_NICKNAME);
         this.caretPos=caretPos;
         
         this.me = me;      
@@ -71,7 +71,7 @@ public final class AppendNick
             if (c.group==to.group && c.origin>Contact.ORIGIN_GROUPCHAT && c.status<Presence.PRESENCE_OFFLINE)
                 itemsList.addElement(c);
         }
-        attachDisplay(display);
+        show(parentView);
         this.parentView=pView;
     }    
         
