@@ -116,7 +116,7 @@ public class RosterItemActions extends Menu {
 	    }
 	    addItem(SR.MS_VCARD,1, ActionsIcons.ICON_VCARD);
 //#ifdef POPUPS
-            addItem(SR.MS_INFO,86, ActionsIcons.ICON_INFO);
+//#             addItem(SR.MS_INFO,86, ActionsIcons.ICON_INFO);
 //#endif
             addItem(SR.MS_CLIENT_INFO,0, ActionsIcons.ICON_VERSION);
 //#ifdef SERVICE_DISCOVERY
@@ -307,7 +307,8 @@ public class RosterItemActions extends Menu {
  	}
 	if (getItemCount()>0) {
             if (action<0) {
-                show(pView);
+                show(parentView);
+                this.parentView = pView;
             } else try {
                 //this.display=display; // to invoke dialog Y/N
                 doAction(action);
@@ -342,7 +343,7 @@ public class RosterItemActions extends Menu {
                     break;
                 case 86: // info
 //#ifdef POPUPS
-                    sd.roster.showInfo();
+//#                     sd.roster.showInfo();
 //#endif
                     break;
                 case 1: // vCard

@@ -39,7 +39,6 @@ import ui.controls.form.NumberInput;
 import ui.controls.form.SimpleString;
 import ui.controls.form.SpacerItem;
 import ui.controls.form.TextInput;
-import Menu.MenuListener;
 import Menu.Command;
 import Menu.MyMenu;
 
@@ -135,11 +134,13 @@ public class StatusSelect
     private void save(){
         StatusList.getInstance().saveStatusToStorage();
     }
-    
-    public void showMenu() {
-        commandState();
-        new MyMenu(display, parentView, this, SR.MS_STATUS, null, menuCommands);
+    public void touchLeftPressed() {
+        showMenu();
     }
+    public String touchLeftCommand() {
+        return SR.MS_MENU;
+    }
+    
     
     class StatusForm 
         extends DefForm {
@@ -178,8 +179,9 @@ public class StatusSelect
             itemsList.addElement(new SimpleString("%dt - date time", false));
             
             moveCursorTo(getNextSelectableRef(-1));
-            show(parentView);
             this.parentView=pView;
+            show(parentView);
+            
         }
         
         public void cmdOk() {

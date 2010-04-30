@@ -321,6 +321,7 @@ public abstract class VirtualList
     
     /** Creates a new instance of VirtualList */
     public VirtualList() {
+        setFullScreenMode(Config.fullscreen);
         width=getWidth();
         height=getHeight();
 //#ifdef POPUPS
@@ -420,6 +421,8 @@ public abstract class VirtualList
      * Canvas.sizeChanged(int width, int heigth). сохраняет новые размеры области рисования.
      * также создаёт новый экранный буфер offscreen, используемый при работе без автоматической
      * двойной буферизации
+     * @param w
+     * @param h
      */
     protected void sizeChanged(int w, int h) {
         width=w;
