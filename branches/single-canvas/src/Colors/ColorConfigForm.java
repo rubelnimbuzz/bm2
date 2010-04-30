@@ -72,12 +72,11 @@ public class ColorConfigForm
     
     private LinkString reset;
 
-    /** Creates a new instance of ColorConfigForm */
-    public ColorConfigForm(final Display display, Displayable pView) {
-        super(SR.MS_COLOR_TUNE);
-        this.display=display;
-
-
+    /** Creates a new instance of ColorConfigForm
+     * @param pView
+     */
+    public ColorConfigForm(Displayable pView) {
+        super(SR.MS_COLOR_TUNE);        
 //#ifdef COLOR_TUNE
 //#ifdef PLUGINS
 //#             if (StaticData.getInstance().Colors) {
@@ -120,7 +119,7 @@ public class ColorConfigForm
         itemsList.addElement(reset);
         
         moveCursorTo(getNextSelectableRef(-1));
-        show(parentView);
+        show(pView);
         this.parentView=pView;
     }
     

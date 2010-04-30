@@ -26,6 +26,7 @@
 
 package ui.controls;
 
+import Client.StaticData;
 import javax.microedition.lcdui.Graphics;
 import ui.controls.form.DefForm;
 import ui.controls.form.MultiLine;
@@ -41,7 +42,7 @@ public abstract class AlertBox extends DefForm {
         MultiLine lines = new MultiLine("", text, super.superWidth);
         lines.selectable = false;
         itemsList.addElement(lines);
-        show(parentView);
+        show(StaticData.getInstance().roster);
     }
     
     public void cmdOk() {

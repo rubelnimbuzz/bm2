@@ -203,7 +203,7 @@ public class RosterToolsMenu extends Menu {
                 if (! connected) break;
                 Contact c=sd.roster.selfContact();
                 if (c.vcard!=null) {
-                    new VCardEdit(display, parentView, c.vcard);
+                    new VCardEdit(parentView, c.vcard);
                     return;
                 }
                 VCard.request(c.bareJid, c.getJid());
@@ -234,7 +234,7 @@ public class RosterToolsMenu extends Menu {
                 return;
 //#endif
             case 10:
-                new ColorConfigForm(display, parentView);
+                new ColorConfigForm(this);
                 return;
 //#if IMPORT_EXPORT
 //#             case 11:

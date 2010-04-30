@@ -49,8 +49,6 @@ public class VCardEdit
 //#endif
 {
     
-    private Display display;
-
     Command cmdPublish=new Command(SR.MS_PUBLISH, Command.OK, 1);
     Command cmdRefresh=new Command(SR.MS_REFRESH, Command.SCREEN, 2);
 //#if FILE_IO
@@ -77,9 +75,8 @@ public class VCardEdit
     private LinkString publish;
 
     /** Creates a new instance of vCardForm */
-    public VCardEdit(Display display, Displayable pView, VCard vcard) {
+    public VCardEdit(Displayable pView, VCard vcard) {
         super(SR.MS_VCARD+" "+StaticData.getInstance().account.getBareJid());
-        this.display=display;
         this.vcard=vcard;
 
         for (int index=0; index<vcard.getCount(); index++) {
@@ -99,8 +96,7 @@ public class VCardEdit
         setPhoto();
 
 
-        show(parentView);
-        this.parentView=pView;
+        show(pView);        
     }
     
     public void publish() {

@@ -349,9 +349,9 @@ public class RosterItemActions extends Menu {
                 case 1: // vCard
                     if (c.vcard!=null) {
                         if (c.getGroupType()==Groups.TYPE_SELF)
-                            new VCardEdit(display, sd.roster, c.vcard);
+                            new VCardEdit(sd.roster, c.vcard);
                         else
-                            new VCardView(display, sd.roster, c);
+                            new VCardView(sd.roster, c);
                         return;
                     }
                     VCard.request(c.bareJid, c.getJid());

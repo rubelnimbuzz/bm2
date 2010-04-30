@@ -244,7 +244,8 @@ public class ConfigForm
         enableVersionOs = new CheckBox(SR.MS_SHOW_HARDWARE, cf.enableVersionOs); itemsList.addElement(enableVersionOs);
         queryExit = new CheckBox(SR.MS_CONFIRM_EXIT, cf.queryExit); itemsList.addElement(queryExit);
         oldSE = new CheckBox(SR.MS_KEYS_FOR_OLD_SE, cf.oldSE);
-        if (phoneManufacturer==Config.SONYE) itemsList.addElement(oldSE);
+        if (phoneManufacturer==Config.SONYE)
+            itemsList.addElement(oldSE);
 
         lightState = new CheckBox(SR.MS_FLASHLIGHT, cf.lightState);
         if (phoneManufacturer==Config.SIEMENS || phoneManufacturer==Config.SIEMENS2 || phoneManufacturer==Config.SONYE || phoneManufacturer==Config.NOKIA) itemsList.addElement(lightState);
@@ -348,8 +349,7 @@ public class ConfigForm
         }
 
         enableListWrapping(false);
-        show(pView);
-        super.parentView = pView;
+        show(sd.roster);
     }
     
     public void cmdOk() {
@@ -428,7 +428,8 @@ public class ConfigForm
         VirtualList.memMonitor=cf.memMonitor=memMonitor.getValue();
         cf.enableVersionOs=enableVersionOs.getValue();
         cf.queryExit=queryExit.getValue();
-        if (phoneManufacturer==Config.SONYE) cf.oldSE=oldSE.getValue();
+        if (phoneManufacturer==Config.SONYE)
+            cf.oldSE=oldSE.getValue();
 
         cf.lightState=lightState.getValue();
         if (cf.allowMinimize)

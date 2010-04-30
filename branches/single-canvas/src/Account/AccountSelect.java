@@ -27,7 +27,6 @@
 
 package Account;
 import Client.*;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import midlet.BombusMod;
@@ -35,7 +34,6 @@ import ui.*;
 import java.io.*;
 import java.util.*;
 import Menu.Command;
-import ui.MainBar;
 import io.NvStorage;
 import ui.controls.AlertBox;
 //#ifdef IMPORT_EXPORT
@@ -79,9 +77,10 @@ public class AccountSelect extends DefForm {
                 
         activeAccount=cf.accountIndex;
         loadAccounts();
+        show(StaticData.getInstance().roster);
     }
     public void show(Displayable pView) {
-        
+        super.show(pView);
         if (!accountList.isEmpty()) {
             moveCursorTo(activeAccount);
         } else {
@@ -96,15 +95,14 @@ public class AccountSelect extends DefForm {
 //#             loadAccounts();
 //#         if (accountList.isEmpty()) {
 //#endif
-            super.show(pView);
             new AccountForm(this, null).show(pView);
             return;
 //#ifdef IMPORT_EXPORT
 //#         }
 //#endif
-        }        
+        }  
 
-        super.show(pView);
+        
     }
 
     public final void loadAccounts() {

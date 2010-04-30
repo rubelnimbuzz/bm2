@@ -1394,13 +1394,13 @@ public class Roster
                             c.vcard=vcard;
                             if (display.getCurrent() instanceof VirtualList) {
                                 if (c.getGroupType()==Groups.TYPE_SELF) {
-                                    new VCardEdit(display, this, vcard);
+                                    new VCardEdit(this, vcard);
                                 } else {
-                                    new VCardView(display, this, c);
+                                    new VCardView(this, c);
                                 }
                             }
                         } else {
-                            new VCardView(display, this, c);
+                            new VCardView(this, c);
                         }
                         return JabberBlockListener.BLOCK_PROCESSED;
                     }

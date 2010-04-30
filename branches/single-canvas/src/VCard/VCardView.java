@@ -91,11 +91,12 @@ public class VCardView
 //#endif
     Command cmdDelPhoto  = new Command(SR.MS_CLEAR_PHOTO, Command.SCREEN,5);
 
-    /** Creates a new instance of VCardView */
-    public VCardView(Display display, Displayable pView, Contact contact) {
+    /** Creates a new instance of VCardView
+     * @param pView
+     * @param contact
+     */
+    public VCardView(Displayable pView, Contact contact) {
         super(contact.getNickJid());
-        this.display = display;
-
         this.vcard=contact.vcard;
         this.c=contact;
         
@@ -128,12 +129,7 @@ public class VCardView
             itemsList.addElement(endVCard);
             itemsList.addElement(refresh);
         }
-
-        //this.commandState();
-        //setCommandListener(this);
-        commandStateTest();
         show(parentView);
-        this.parentView=pView;
     }
     
     
@@ -212,7 +208,7 @@ public class VCardView
     }
 //#endif
 
-    public void commandStateTest() {
+    public void commandState() {
         menuCommands.removeAllElements();
 
         if (vcard!=null) {
@@ -234,13 +230,10 @@ public class VCardView
         addCommand(cmdRefresh);
         addCommand(cmdCancel);
     }
-
-    public void showMenu() {
-        commandStateTest();
-        new MyMenu(display, parentView, this, "", null, menuCommands);
-    }
+    
 
     public String touchLeftCommand() { return SR.MS_MENU; }
+    public void touchLeftPressed() { showMenu(); }
     
     public void cmdOk() { showMenu(); }
     

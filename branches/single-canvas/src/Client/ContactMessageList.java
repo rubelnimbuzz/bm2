@@ -120,10 +120,12 @@ public class ContactMessageList extends MessageList {
     private boolean composing=true;
 
     private boolean startSelection;
-    /** Creates a new instance of MessageList */
-    public ContactMessageList(Contact contact) {
+    /** Creates a new instance of MessageList
+     * @param c
+     */
+    public ContactMessageList(Contact c) {
         super();
-        this.contact=contact;
+        this.contact=c;
         sd.roster.activeContact=contact;
 
         cf=Config.getInstance();
@@ -291,12 +293,13 @@ public void showNotify() {
     if (contact != null)
         sd.roster.activeContact=contact;
 //#ifdef LOGROTATE
-//#         getRedraw(true);
+        getRedraw(true);
 //#endif
         super.showNotify();
     }
     
     public void forceScrolling() { //by voffk
+        if (contact != null)
         if (contact.moveToLatest) {
             contact.moveToLatest = false;
             if (on_end)
@@ -316,20 +319,20 @@ public void showNotify() {
 
         sd.roster.countNewMsgs();
 //#ifdef LOGROTATE
-//#         getRedraw(contact.redraw);
+        getRedraw(contact.redraw);
 //#endif
     }
 //#ifdef LOGROTATE
-//#     private void getRedraw(boolean redraw) {
-//#         if (!redraw) return;
-//#
-//#         contact.redraw=false;
-//#         messages=null;
-//#         messages=new Vector();
-//#         redraw();
-//#     }
+    private void getRedraw(boolean redraw) {
+        if (!redraw) return;
+
+        contact.redraw=false;
+        messages=null;
+        messages=new Vector();
+        redraw();
+    }
 //#endif
-    public int getItemCount(){ return contact.msgs.size(); }
+    public int getItemCount(){ return (contact == null)? 0 :contact.msgs.size(); }
 
     public Msg getMessage(int index) {
         if (index> getItemCount()-1) return null;

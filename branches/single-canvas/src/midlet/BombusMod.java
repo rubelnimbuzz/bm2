@@ -138,7 +138,7 @@ public class BombusMod extends MIDlet implements Runnable{
 
     public void hideApp(boolean hide) {
         if (hide)
-            midlet.BombusMod.getInstance().setDisplayable(null);
+            display.setCurrent(null);
         else if (isMinimized) {
             midlet.BombusMod.getInstance().setDisplayable(display.getCurrent());
         }
