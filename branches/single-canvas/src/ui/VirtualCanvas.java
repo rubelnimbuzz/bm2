@@ -49,27 +49,27 @@ public class VirtualCanvas extends Canvas {
         list.paint(graphics);
     }
     protected void keyPressed(int keyCode) {
-        list.keyPressed(keyCode);        
+        list.keyPressed(keyCode);           
     }
     protected final void keyRepeated(int keyCode){
-        list.keyRepeated(keyCode);        
+        list.keyRepeated(keyCode);           
     }
     protected void keyReleased(int keyCode) {
-        list.keyReleased(keyCode);
+        list.keyReleased(keyCode);           
     }
     
     protected void pointerPressed(int x, int y) {
-        list.pointerPressed(x, y);
+        list.pointerPressed(x, y);        
     }
     protected void pointerDragged(int x, int y) {
-        list.pointerDragged(x, y);
+        list.pointerDragged(x, y);         
     }
     protected void pointerReleased(int x, int y) {
-        list.pointerReleased(x, y);
+        list.pointerReleased(x, y);           
     }
 
     protected void showNotify() {
-        list.showNotify();
+        list.showNotify();        
     }
     protected void hideNotify() {
         if (list != null) {
