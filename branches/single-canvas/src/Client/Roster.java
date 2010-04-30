@@ -361,7 +361,7 @@ public class Roster
     // establishing connection process
     public void run(){
 //#ifdef POPUPS
-        //if (cf.firstRun) setWobbler(1, (Contact) null, SR.MS_ENTER_SETTINGS);
+//#         //if (cf.firstRun) setWobbler(1, (Contact) null, SR.MS_ENTER_SETTINGS);
 //#endif
         setQuerySign(true);
 	if (!doReconnect) {
@@ -853,9 +853,9 @@ public class Roster
     }
 
 //#ifdef POPUPS
-    public void showContactMessageList(String jid) {
-        new ContactMessageList(sd.roster.getContact(jid, false), display);
-    }
+//#     public void showContactMessageList(String jid) {
+//#         new ContactMessageList(sd.roster.getContact(jid, false), display);
+//#     }
 //#endif
 
     public void addContact(Contact c) {
@@ -1881,13 +1881,13 @@ public class Roster
     }
 
 //#ifdef POPUPS
-    boolean showWobbler(Contact c) {
-        if (!cf.popUps)
-            return false;
-        if (activeContact==null)
-            return true;
-        return(!c.equals(activeContact));
-        }
+//#     boolean showWobbler(Contact c) {
+//#         if (!cf.popUps)
+//#             return false;
+//#         if (activeContact==null)
+//#             return true;
+//#         return(!c.equals(activeContact));
+//#         }
 //#endif
     
 //#ifdef FILE_TRANSFER
@@ -1922,9 +1922,9 @@ public class Roster
             return;    // no signalling/focus on ignore
         
 //#ifdef POPUPS
-        if (cf.popUps)
-            if (message.messageType==Msg.MESSAGE_TYPE_AUTH && showWobbler(c))
-                setWobbler(2, c, message.from+"\n"+message.body);
+//#         if (cf.popUps)
+//#             if (message.messageType==Msg.MESSAGE_TYPE_AUTH && showWobbler(c))
+//#                 setWobbler(2, c, message.from+"\n"+message.body);
 //#endif
 
 	if (cf.popupFromMinimized)
@@ -1936,8 +1936,8 @@ public class Roster
         if (message.highlite) {
             playNotify(SOUND_FOR_ME);
 //#ifdef POPUPS
-            if (showWobbler(c))
-                setWobbler(2, c, message.body);
+//#             if (showWobbler(c))
+//#                 setWobbler(2, c, message.body);
 //#endif
             autorespond = true;
         } else if (message.messageType==Msg.MESSAGE_TYPE_IN || message.messageType==Msg.MESSAGE_TYPE_HEADLINE) {
@@ -1946,10 +1946,10 @@ public class Roster
                 if (!(c instanceof MucContact))
 //#endif
 //#ifdef POPUPS
-                    if (showWobbler(c)) {
-                        setWobbler(2, c, c.toString()+": "+message.body);
-                        autorespond = true;
-                    }
+//#                     if (showWobbler(c)) {
+//#                         setWobbler(2, c, c.toString()+": "+message.body);
+//#                         autorespond = true;
+//#                     }
 //#endif
                 if (c.group.type==Groups.TYPE_VIP) {
                     playNotify(SOUND_FOR_VIP);
@@ -2186,7 +2186,7 @@ public class Roster
         super.eventLongOk();
 //#ifndef WMUC
 //#ifdef POPUPS
-        showInfo();
+//#         showInfo();
 //#endif
 //#endif
     }
@@ -2194,7 +2194,7 @@ public class Roster
     private Displayable createMsgList(){
         Object e=getFocusedObject();
         if (e instanceof Contact) {
-            return new ContactMessageList((Contact)e,display);
+            return new ContactMessageList((Contact)e);
         }
         return null;
     }
@@ -2250,11 +2250,11 @@ public class Roster
         
         switch (keyCode) {
 //#ifdef POPUPS
-            case KEY_POUND:            
-                if (getItemCount()==0)
-                    return;
-                showInfo();
-                return;
+//#             case KEY_POUND:            
+//#                 if (getItemCount()==0)
+//#                     return;
+//#                 showInfo();
+//#                 return;
 //#endif
             case KEY_NUM1:            
                 if (cf.collapsedGroups) { //collapse all groups
@@ -2392,7 +2392,7 @@ public class Roster
         else if ((keyCode==KEY_NUM1)&& isLoggedIn()) new Bookmarks(display, this, null);
 //#endif
        	else if (keyCode==KEY_NUM3) new ActiveContacts(display, this, null);
-       	else if (keyCode==KEY_NUM4) new ConfigForm(display, this);
+       	else if (keyCode==KEY_NUM4) new ConfigForm(this);
         else if (keyCode==KEY_NUM6) {
             Config.fullscreen=!Config.fullscreen;
             cf.saveToStorage();
@@ -2450,53 +2450,53 @@ public class Roster
 //#endif
 
 //#ifdef POPUPS
-    public void showInfo() {
-        if (getFocusedObject()==null)
-            return;
-
-        try {
-            PopUp.getInstance().next();
-            if (getFocusedObject() instanceof Group
+//#     public void showInfo() {
+//#         if (getFocusedObject()==null)
+//#             return;
+//# 
+//#         try {
+//#             PopUp.getInstance().next();
+//#             if (getFocusedObject() instanceof Group
 //#ifndef WMUC
-                    || getFocusedObject() instanceof ConferenceGroup
+//#                     || getFocusedObject() instanceof ConferenceGroup
 //#endif
-                    )
-                return;
-            setWobbler(1, (Contact) null, null);
-        } catch (Exception e) { }
-    }
-
-    public void setWobbler(int type, Contact contact, String info) {
-        if (info==null) {
-            StringBuffer mess=new StringBuffer();
-            boolean isContact=(getFocusedObject() instanceof Contact);
-            Contact cntact=(Contact)getFocusedObject();
+//#                     )
+//#                 return;
+//#             setWobbler(1, (Contact) null, null);
+//#         } catch (Exception e) { }
+//#     }
+//# 
+//#     public void setWobbler(int type, Contact contact, String info) {
+//#         if (info==null) {
+//#             StringBuffer mess=new StringBuffer();
+//#             boolean isContact=(getFocusedObject() instanceof Contact);
+//#             Contact cntact=(Contact)getFocusedObject();
 //#ifndef WMUC
-            boolean isMucContact=(getFocusedObject() instanceof MucContact);
-            if (isMucContact) {
-                MucContact mucContact=(MucContact)getFocusedObject();
-
-                if (mucContact.origin!=Contact.ORIGIN_GROUPCHAT){
-                    mess.append((mucContact.realJid==null)?"":"jid: "+mucContact.realJid+"\n");
-
-                    if (mucContact.affiliationCode>MucContact.AFFILIATION_NONE)
-                        mess.append(MucContact.getAffiliationLocale(mucContact.affiliationCode));
-
-                    if (!(mucContact.roleCode==MucContact.ROLE_PARTICIPANT && mucContact.affiliationCode==MucContact.AFFILIATION_MEMBER)) {
-                        if (mucContact.affiliationCode>MucContact.AFFILIATION_NONE)
-                            mess.append(SR.MS_AND);
-                        mess.append(MucContact.getRoleLocale(mucContact.roleCode));
-                    }
-                }
-            } else {
+//#             boolean isMucContact=(getFocusedObject() instanceof MucContact);
+//#             if (isMucContact) {
+//#                 MucContact mucContact=(MucContact)getFocusedObject();
+//# 
+//#                 if (mucContact.origin!=Contact.ORIGIN_GROUPCHAT){
+//#                     mess.append((mucContact.realJid==null)?"":"jid: "+mucContact.realJid+"\n");
+//# 
+//#                     if (mucContact.affiliationCode>MucContact.AFFILIATION_NONE)
+//#                         mess.append(MucContact.getAffiliationLocale(mucContact.affiliationCode));
+//# 
+//#                     if (!(mucContact.roleCode==MucContact.ROLE_PARTICIPANT && mucContact.affiliationCode==MucContact.AFFILIATION_MEMBER)) {
+//#                         if (mucContact.affiliationCode>MucContact.AFFILIATION_NONE)
+//#                             mess.append(SR.MS_AND);
+//#                         mess.append(MucContact.getRoleLocale(mucContact.roleCode));
+//#                     }
+//#                 }
+//#             } else {
 //#endif
-                mess.append("jid: ")
-                    .append(cntact.bareJid)
-                    .append(cntact.jid.getResource())
-                    .append("\n")
-                    .append(SR.MS_SUBSCRIPTION)
-                    .append(": ")
-                    .append(cntact.subscr);
+//#                 mess.append("jid: ")
+//#                     .append(cntact.bareJid)
+//#                     .append(cntact.jid.getResource())
+//#                     .append("\n")
+//#                     .append(SR.MS_SUBSCRIPTION)
+//#                     .append(": ")
+//#                     .append(cntact.subscr);
 //#ifdef PEP
 //#                 if (cntact.hasMood()) {
 //#                     mess.append("\n")
@@ -2525,10 +2525,10 @@ public class Roster
 //#endif
 //#endif
 //#ifndef WMUC
-            }
+//#             }
 //#endif
-            if (cntact.origin!=Contact.ORIGIN_GROUPCHAT){
-                mess.append((cntact.j2j!=null)?"\nJ2J: "+cntact.j2j:"");
+//#             if (cntact.origin!=Contact.ORIGIN_GROUPCHAT){
+//#                 mess.append((cntact.j2j!=null)?"\nJ2J: "+cntact.j2j:"");
 //#ifdef CLIENTS_ICONS
 //#ifdef PLUGINS
 //#                 if (cf.showClientIcon)
@@ -2540,43 +2540,43 @@ public class Roster
 //#                             .append(cntact.clientName);
 //#                     }
 //#endif
-                if (cntact.version!=null) {
-                    mess.append("\n")
-                        .append(SR.MS_VERSION)
-                        .append(": ")
-                        .append(cntact.version);
-                }
-                if (cntact.lang!=null) {
-                    mess.append("\n")
-                        .append(SR.MS_LANGUAGE)
-                        .append(": ")
-                        .append(cntact.lang);
-                }
-            }
-
-            if (cntact.statusString!=null) {
-                if (cntact.origin!=Contact.ORIGIN_GROUPCHAT){
-                    mess.append("\n")
-                        .append(SR.MS_STATUS)
-                        .append(": ");
-                }
-                mess.append(cntact.statusString);
-
-            if (cntact.priority!=0) {
-                    mess.append(" [")
-                        .append(cntact.priority)
-                        .append("]");
-                }
-            }
-
-            setWobble(1, null, mess.toString());
-            mess=null;
-        } else {
-            setWobble(type, contact.getJid(), info);
-        }
-
-        redraw();
-    }
+//#                 if (cntact.version!=null) {
+//#                     mess.append("\n")
+//#                         .append(SR.MS_VERSION)
+//#                         .append(": ")
+//#                         .append(cntact.version);
+//#                 }
+//#                 if (cntact.lang!=null) {
+//#                     mess.append("\n")
+//#                         .append(SR.MS_LANGUAGE)
+//#                         .append(": ")
+//#                         .append(cntact.lang);
+//#                 }
+//#             }
+//# 
+//#             if (cntact.statusString!=null) {
+//#                 if (cntact.origin!=Contact.ORIGIN_GROUPCHAT){
+//#                     mess.append("\n")
+//#                         .append(SR.MS_STATUS)
+//#                         .append(": ");
+//#                 }
+//#                 mess.append(cntact.statusString);
+//# 
+//#             if (cntact.priority!=0) {
+//#                     mess.append(" [")
+//#                         .append(cntact.priority)
+//#                         .append("]");
+//#                 }
+//#             }
+//# 
+//#             setWobble(1, null, mess.toString());
+//#             mess=null;
+//#         } else {
+//#             setWobble(type, contact.getJid(), info);
+//#         }
+//# 
+//#         redraw();
+//#     }
 //#endif
     
     public void logoff(String mess){
@@ -2652,7 +2652,7 @@ public class Roster
     public void cmdInfo() { new Info.InfoWindow(display, this); }
     public void cmdTools() { new RosterToolsMenu(display, this); }
 //#ifdef POPUPS
-    public void cmdClearPopups() { PopUp.getInstance().clear(); }
+//#     public void cmdClearPopups() { PopUp.getInstance().clear(); }
 //#endif
 //#ifndef WMUC
    public void cmdConference() { if (isLoggedIn()) new Bookmarks(display, this, null); }
@@ -2780,7 +2780,7 @@ public class Roster
             if (currentContact==nowContact) return;
             
             Contact c=(Contact)activeContacts.elementAt(nowContact);
-            new ContactMessageList(c, display);
+            new ContactMessageList(c);
         } catch (Exception e) { }
     }
 

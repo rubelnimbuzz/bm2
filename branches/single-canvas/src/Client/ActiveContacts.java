@@ -35,8 +35,10 @@ import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import ui.MainBar;
 import ui.VirtualElement;
-import ui.controls.PopUp;
 import ui.controls.form.DefForm;
+//#ifdef POPUPS
+//# import ui.controls.PopUp;
+//#endif
 
 /**
  *
@@ -81,23 +83,20 @@ public class ActiveContacts
     protected VirtualElement getItemRef(int index) { 
 	return (VirtualElement) activeContacts.elementAt(index);
     }
-
+    public void cmdOk() {
+        eventOk();
+    }
     public void eventOk() {
 	Contact c=(Contact)getFocusedObject();
-	ContactMessageList l = new ContactMessageList(c, display);
-        l.show(StaticData.getInstance().roster);
+	new ContactMessageList(c);        
         //c.msgSuspended=null; // clear suspended message for selected contact
     }
-
-    public void commandAction(Command c, Displayable d) {
-	if (c==cmdCancel) destroyView();
-	if (c==cmdOk) eventOk();
-    }
+    
 
     public void keyPressed(int keyCode) {
         kHold=0;
 //#ifdef POPUPS
-        PopUp.getInstance().next();
+//#         PopUp.getInstance().next();
 //#endif
 	if (keyCode==KEY_NUM3) {
             destroyView();
@@ -144,7 +143,7 @@ public class ActiveContacts
     
     public void destroyView(){
         sd.roster.reEnumRoster();
-        midlet.BombusMod.getInstance().setDisplayable(parentView);
+        super.destroyView();
     }
     public String touchLeftCommand(){ return SR.MS_SELECT; }    
 }

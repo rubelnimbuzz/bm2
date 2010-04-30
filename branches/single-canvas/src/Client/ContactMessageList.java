@@ -121,7 +121,7 @@ public class ContactMessageList extends MessageList {
 
     private boolean startSelection;
     /** Creates a new instance of MessageList */
-    public ContactMessageList(Contact contact, Display display) {
+    public ContactMessageList(Contact contact) {
         super();
         this.contact=contact;
         sd.roster.activeContact=contact;
@@ -147,7 +147,7 @@ public class ContactMessageList extends MessageList {
 //#endif
         if (contact.msgs.size()>0)
             moveCursorTo(firstUnread());
-        show(parentView);
+        show(sd.roster);
     }
 
     public int firstUnread(){
@@ -942,7 +942,7 @@ public void showNotify() {
         contact.mark = on_end ? -1 : cursor;        
         sd.roster.activeContact=null;
         sd.roster.reEnumRoster(); //to reset unread messages icon for this conference in roster
-        if (display!=null) midlet.BombusMod.getInstance().setDisplayable(sd.roster);
+        super.destroyView();
     }
 
 

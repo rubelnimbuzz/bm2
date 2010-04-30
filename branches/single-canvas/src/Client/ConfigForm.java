@@ -27,7 +27,6 @@
 
 package Client;
 import java.util.Vector;
-import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
@@ -124,7 +123,7 @@ public class ConfigForm
 //#      private CheckBox notifyWhenMessageType;
 //#endif
 //#ifdef POPUPS
-    private CheckBox popUps;
+//#     private CheckBox popUps;
 //#endif
     
 
@@ -144,7 +143,7 @@ public class ConfigForm
     Config cf;
     
     /** Creates a new instance of ConfigForm */
-    public ConfigForm(Display display, Displayable pView) {
+    public ConfigForm(Displayable pView) {
         super(SR.MS_OPTIONS);
         
         cf=Config.getInstance();
@@ -199,7 +198,7 @@ public class ConfigForm
 //#         notifyWhenMessageType = new CheckBox(SR.MS_RUNNING_MESSAGE, cf.notifyWhenMessageType); itemsList.addElement(notifyWhenMessageType);
 //#endif
 //#ifdef POPUPS
-        popUps = new CheckBox(SR.MS_POPUPS, cf.popUps); itemsList.addElement(popUps);
+//#         popUps = new CheckBox(SR.MS_POPUPS, cf.popUps); itemsList.addElement(popUps);
 //#endif
         showBalloons = new CheckBox(SR.MS_SHOW_BALLONS, cf.showBalloons); itemsList.addElement(showBalloons);     
         eventDelivery = new CheckBox(SR.MS_DELIVERY, cf.eventDelivery); itemsList.addElement(eventDelivery);
@@ -349,7 +348,8 @@ public class ConfigForm
         }
 
         enableListWrapping(false);
-        show(parentView);
+        show(pView);
+        super.parentView = pView;
     }
     
     public void cmdOk() {
@@ -385,7 +385,7 @@ public class ConfigForm
 //#         cf.notifyWhenMessageType=notifyWhenMessageType.getValue();
 //#endif
 //#ifdef POPUPS
-        cf.popUps=popUps.getValue();
+//#         cf.popUps=popUps.getValue();
 //#endif
         cf.showBalloons=showBalloons.getValue();
         VirtualList.showBalloons=cf.showBalloons;

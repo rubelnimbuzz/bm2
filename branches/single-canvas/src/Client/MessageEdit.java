@@ -259,7 +259,7 @@ public final class MessageEdit
         }
         // message/composing sending
         if (c == cmdSend && !((parentView instanceof ContactMessageList) && ((ContactMessageList) parentView).equals(to)))
-            parentView = new ContactMessageList(to, display);
+            parentView = new ContactMessageList(to);
          midlet.BombusMod.getInstance().setDisplayable(parentView);
          parentView = null;
 //#ifdef RUNNING_MESSAGE

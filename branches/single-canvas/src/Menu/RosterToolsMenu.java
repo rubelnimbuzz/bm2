@@ -210,7 +210,7 @@ public class RosterToolsMenu extends Menu {
                 return;
             }
             case 4:
-                new ConfigForm(display, parentView);
+                new ConfigForm(parentView);
                 return;
             case 5: //search
                 new SearchForm(display, parentView);

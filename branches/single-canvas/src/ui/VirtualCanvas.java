@@ -33,7 +33,7 @@ public class VirtualCanvas extends Canvas {
             list = virtualList;
             list.showNotify();
             repaint();
-            midlet.BombusMod.getInstance().getDisplay().setCurrent(this);
+            //midlet.BombusMod.getInstance().getDisplay().setCurrent(this);
             
         } else {
             list = virtualList;
@@ -49,19 +49,16 @@ public class VirtualCanvas extends Canvas {
         list.paint(graphics);
     }
     protected void keyPressed(int keyCode) {
-        System.out.println("pressed");
         list.keyPressed(keyCode);        
     }
     protected final void keyRepeated(int keyCode){
         list.keyRepeated(keyCode);        
     }
     protected void keyReleased(int keyCode) {
-        System.out.println("released");
         list.keyReleased(keyCode);
     }
     
     protected void pointerPressed(int x, int y) {
-        System.out.println("pointer");
         list.pointerPressed(x, y);
     }
     protected void pointerDragged(int x, int y) {

@@ -158,7 +158,7 @@ public class AccountSelect extends DefForm {
         if (c==cmdCancel) {
             destroyView();
         }
-        if (c==cmdConfig) new ConfigForm(display, this);
+        if (c==cmdConfig) new ConfigForm(this);
         if (c==cmdLogin) switchAccount(true);
         if (c==cmdSelect) switchAccount(false);
         if (c==cmdEdit) new AccountForm(this, (Account)getFocusedObject()).show(this);

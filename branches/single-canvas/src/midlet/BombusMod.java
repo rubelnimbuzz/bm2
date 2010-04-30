@@ -208,9 +208,9 @@ public class BombusMod extends MIDlet implements Runnable{
     }
     public void setDisplayable(Displayable d) {
         if (!isLocked) {
-            if (null == d) {
+            if (d == null) {
                 sd.roster.errorLog("Displayable is null. Compensate.");
-                try {throw new Exception("Displayable is null."); } catch (Exception e) { e.printStackTrace(); }
+                System.out.println("Displayable is null.");
                 d = sd.roster;
             }
             if (d instanceof VirtualList) {

@@ -99,7 +99,7 @@ public class UserKeyExec {
 //#         available_commands[0].addElement(new UserKeyCommand(10, SR.MS_CUSTOM_KEYS));
 //#endif
 //#ifdef POPUPS
-        available_commands[1].addElement(new UserKeyCommand(11, SR.MS_CLEAR_POPUPS));
+//#         available_commands[1].addElement(new UserKeyCommand(11, SR.MS_CLEAR_POPUPS));
 //#endif
         available_commands[0].addElement(new UserKeyCommand(12, SR.MS_FLASHLIGHT));
         available_commands[0].addElement(new UserKeyCommand(13, SR.MS_ABOUT));
@@ -178,7 +178,7 @@ public class UserKeyExec {
 
         switch (command_id) {
             case 1: 
-                new ConfigForm(display, sd.roster);
+                new ConfigForm(sd.roster);
                 break;
             case 2: 
                 sd.roster.cmdCleanAllMessages();
@@ -227,7 +227,7 @@ public class UserKeyExec {
                 break;
             case 11:
 //#ifdef POPUPS
-                sd.roster.cmdClearPopups();
+//#                 sd.roster.cmdClearPopups();
 //#endif
                 break;
             case 12:

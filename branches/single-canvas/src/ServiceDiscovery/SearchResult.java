@@ -140,7 +140,7 @@ public class SearchResult
         try {
             Contact c=(Contact)getFocusedObject();
             if (c==null) return;
-            new ContactMessageList((Contact) getFocusedObject(), display);
+            new ContactMessageList((Contact) getFocusedObject());
         } catch (Exception e) {}
     }
 }
