@@ -48,9 +48,9 @@ class UserKeyEdit extends DefForm {
     private CheckBox active;
     private CheckBox two_keys_t;
     private DropChoiceBox[] commands_t = {
-        new DropChoiceBox(display, "Common"),
-        new DropChoiceBox(display, "Roster"),
-        new DropChoiceBox(display, "ContactMessageList")
+        new DropChoiceBox("Common"),
+        new DropChoiceBox("Roster"),
+        new DropChoiceBox("ContactMessageList")
     };
     private KeyInput key_t;
 

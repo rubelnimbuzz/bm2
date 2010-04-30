@@ -73,12 +73,10 @@ public class EditBox implements CommandListener {
 //#     private Command cmdCopyPlus = new Command("+ "+SR.MS_COPY, Command.SCREEN, 4);
 //#     private Command cmdPasteText=new Command(SR.MS_PASTE, Command.SCREEN, 5);
 //#endif
-    public EditBox(Display display, String caption, String text, TextInput ti, int boxType) {
-        this.display=display;
-        parentView=display.getCurrent();
+    public EditBox( String caption, String text, TextInput ti, int boxType) {
         this.ti=ti;
         this.caption=caption;
-
+        parentView = midlet.BombusMod.getInstance().getCurrentDisplayable();
         t=new TextBox(SR.MS_EDIT, text, 500, boxType);
 //#ifdef CLIPBOARD
 //#         if (Config.getInstance().useClipBoard) {
@@ -109,7 +107,7 @@ public class EditBox implements CommandListener {
         String text=t.getString();
         if (text.length()==0) text=null;
         if (c==cmdRecent) {
-            new TextListBox(display, this);
+            new TextListBox(this);
             return;
         }
 //#ifdef CLIPBOARD

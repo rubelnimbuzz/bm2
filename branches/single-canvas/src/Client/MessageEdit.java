@@ -223,7 +223,7 @@ public final class MessageEdit
         if (c==cmdInsMe) { insert("/me", 0); return; }
         if (c==cmdLastMessage) { setText(to.lastSendedMessage); return; }
 //#ifdef SMILES
-        if (c==cmdSmile) { new SmilePicker(display, t, caretPos, this); return; }
+        if (c==cmdSmile) { new SmilePicker(t, caretPos, this); return; }
 //#endif
 //#ifndef WMUC
         if (c==cmdInsNick) { new AppendNick(display, t, to, caretPos, this); return; }

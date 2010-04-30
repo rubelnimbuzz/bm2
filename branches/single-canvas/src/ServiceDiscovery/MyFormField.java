@@ -75,7 +75,7 @@ public class MyFormField{
                 numericBoolean=body.length()==1;                
             }
             else if (type.equals("list-single")) {
-                DropChoiceBox ch=new DropChoiceBox(midlet.BombusMod.getInstance().getDisplay(), label);
+                DropChoiceBox ch=new DropChoiceBox( label);
                 formItems.addElement(ch);
 
                 optionsList=null;
@@ -118,7 +118,7 @@ public class MyFormField{
                     body=body.substring(0,198);
                 }*/
                 int constrains=(type.equals("text-private"))? TextField.PASSWORD: TextField.ANY;
-                formItems.addElement(new TextInput(midlet.BombusMod.getInstance().getDisplay(), label, body, "", constrains));
+                formItems.addElement(new TextInput(label, body, "", constrains));
             }
         } else {
             // not x-data
@@ -131,7 +131,7 @@ public class MyFormField{
                 registered=true;
             }
             else
-                formItems.addElement(new TextInput(midlet.BombusMod.getInstance().getDisplay(), label, body, "", 0));
+                formItems.addElement(new TextInput(label, body, "", 0));
         }
         
         if (name!=null)

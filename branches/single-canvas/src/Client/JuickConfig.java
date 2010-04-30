@@ -53,7 +53,7 @@ public class JuickConfig extends DefForm {
 //#                 Contact c = (Contact) e.nextElement();
 //#                 juickContactsNames.addElement(c.getName());
 //#             }
-//#             juickContactsBox = new DropChoiceBox(display, "Main Juick-contact");
+//#             juickContactsBox = new DropChoiceBox("Main Juick-contact");
 //#             juickContactsBox.items = juickContactsNames;
 //#             //if (!account.juickJID.equals(""))
 //#             if (sd.roster.indexMainJuickContact > -1)

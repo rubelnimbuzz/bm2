@@ -105,7 +105,7 @@ public class ConferenceQuickPrivelegeModify
         itemsList.addElement(new MultiLine(SR.MS_USER, user.toString(), super.superWidth));
 
         
-        reason=new TextInput(display, SR.MS_REASON, "", "reason", TextField.ANY);
+        reason=new TextInput(SR.MS_REASON, "", "reason", TextField.ANY);
         itemsList.addElement(reason);
         
         addCommand(cmdNoReason);

@@ -25,8 +25,8 @@ import ui.controls.form.TextInput;
 //#     public TransferSetupForm(Display display, Displayable parentView) {
 //#         super (display, parentView, "Transfer settings");
 //#         
-//#         streamhost = new TextInput(display, "SOCKS5 proxy", TransferDispatcher.getInstance().ProxyJID, "ft_proxyjid", 0);
-//#         port = new TextInput(display, "SOCKS5 port", Integer.toString(TransferDispatcher.getInstance().ProxyPort), "ft_proxyport", TextField.NUMERIC);
+//#         streamhost = new TextInput("SOCKS5 proxy", TransferDispatcher.getInstance().ProxyJID, "ft_proxyjid", 0);
+//#         port = new TextInput("SOCKS5 port", Integer.toString(TransferDispatcher.getInstance().ProxyPort), "ft_proxyport", TextField.NUMERIC);
 //#         itemsList.addElement(streamhost);
 //#         itemsList.addElement(port);
 //# 

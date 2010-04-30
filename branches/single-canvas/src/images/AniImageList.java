@@ -27,11 +27,9 @@
 package images;
 
 import java.io.InputStream;
-import javax.microedition.lcdui.Canvas;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Graphics;
-import midlet.BombusMod;
 import ui.ImageList;
+import ui.VirtualCanvas;
 
 /**
  *
@@ -114,11 +112,7 @@ public class AniImageList extends ImageList implements Runnable {
                     }
                 }
                 if (update) {
-                    Displayable d = BombusMod.getInstance().getDisplay().getCurrent();
-                    if (d instanceof Canvas) {
-                        ((Canvas)d).repaint();
-                    }
-
+                    VirtualCanvas.nativeCanvas.repaint();
                 }
             }
             time = newTime;

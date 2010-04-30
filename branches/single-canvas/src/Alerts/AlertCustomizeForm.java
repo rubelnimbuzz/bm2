@@ -92,31 +92,31 @@ public class AlertCustomizeForm
             fileNames.addElement((String)file.nextElement());
 	}
 
-        MessageFile=new DropChoiceBox(display, SR.MS_MESSAGE_SOUND); MessageFile.items=fileNames; 
+        MessageFile=new DropChoiceBox(SR.MS_MESSAGE_SOUND); MessageFile.items=fileNames; 
         MessageFile.setSelectedIndex(ac.soundsMsgIndex); itemsList.addElement(MessageFile);
 
-        OnlineFile=new DropChoiceBox(display, SR.MS_ONLINE_SOUND); OnlineFile.items=fileNames; 
+        OnlineFile=new DropChoiceBox(SR.MS_ONLINE_SOUND); OnlineFile.items=fileNames; 
         OnlineFile.setSelectedIndex(ac.soundOnlineIndex); itemsList.addElement(OnlineFile);
 
-        OfflineFile=new DropChoiceBox(display, SR.MS_OFFLINE_SOUND); OfflineFile.items=fileNames; 
+        OfflineFile=new DropChoiceBox(SR.MS_OFFLINE_SOUND); OfflineFile.items=fileNames; 
         OfflineFile.setSelectedIndex(ac.soundOfflineIndex); itemsList.addElement(OfflineFile);
 
-        ForYouFile=new DropChoiceBox(display, SR.MS_MESSAGE_FOR_ME_SOUND); ForYouFile.items=fileNames; 
+        ForYouFile=new DropChoiceBox(SR.MS_MESSAGE_FOR_ME_SOUND); ForYouFile.items=fileNames; 
         ForYouFile.setSelectedIndex(ac.soundForYouIndex); itemsList.addElement(ForYouFile);
 
-        ComposingFile=new DropChoiceBox(display, SR.MS_COMPOSING_SOUND); ComposingFile.items=fileNames; 
+        ComposingFile=new DropChoiceBox(SR.MS_COMPOSING_SOUND); ComposingFile.items=fileNames; 
         ComposingFile.setSelectedIndex(ac.soundComposingIndex); itemsList.addElement(ComposingFile);
 
-        ConferenceFile=new DropChoiceBox(display, SR.MS_CONFERENCE_SOUND); ConferenceFile.items=fileNames; 
+        ConferenceFile=new DropChoiceBox(SR.MS_CONFERENCE_SOUND); ConferenceFile.items=fileNames; 
         ConferenceFile.setSelectedIndex(ac.soundConferenceIndex); itemsList.addElement(ConferenceFile);
 
-        StartUpFile=new DropChoiceBox(display, SR.MS_STARTUP_SOUND); StartUpFile.items=fileNames; 
+        StartUpFile=new DropChoiceBox(SR.MS_STARTUP_SOUND); StartUpFile.items=fileNames; 
         StartUpFile.setSelectedIndex(ac.soundStartUpIndex); itemsList.addElement(StartUpFile);
 
-        OutgoingFile=new DropChoiceBox(display, SR.MS_OUTGOING_SOUND); OutgoingFile.items=fileNames; 
+        OutgoingFile=new DropChoiceBox(SR.MS_OUTGOING_SOUND); OutgoingFile.items=fileNames; 
         OutgoingFile.setSelectedIndex(ac.soundOutgoingIndex); itemsList.addElement(OutgoingFile);
 
-        VIPFile=new DropChoiceBox(display, SR.MS_VIP_SOUND); VIPFile.items=fileNames; 
+        VIPFile=new DropChoiceBox(SR.MS_VIP_SOUND); VIPFile.items=fileNames; 
         VIPFile.setSelectedIndex(ac.soundVIPIndex); itemsList.addElement(VIPFile);
 
         itemsList.addElement(new SimpleString(SR.MS_SHOW_LAST_APPEARED_CONTACTS, true));

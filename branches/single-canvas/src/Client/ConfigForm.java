@@ -167,7 +167,7 @@ public class ConfigForm
 //#endif
         
         itemsList.addElement(new SpacerItem(10));
-        subscr=new DropChoiceBox(display, SR.MS_AUTH_NEW);
+        subscr=new DropChoiceBox(SR.MS_AUTH_NEW);
         subscr.append(SR.MS_SUBSCR_AUTO);
         subscr.append(SR.MS_SUBSCR_ASK);
         subscr.append(SR.MS_SUBSCR_DROP);
@@ -176,7 +176,7 @@ public class ConfigForm
         itemsList.addElement(subscr);
 
         itemsList.addElement(new SpacerItem(10));
-        nil=new DropChoiceBox(display, SR.MS_NOT_IN_LIST);
+        nil=new DropChoiceBox(SR.MS_NOT_IN_LIST);
         nil.append(SR.MS_NIL_DROP_MP);
         nil.append(SR.MS_NIL_DROP_P);
         nil.append(SR.MS_NIL_ALLOW_ALL);
@@ -288,14 +288,14 @@ public class ConfigForm
         itemsList.addElement(fieldGmt);
 
         itemsList.addElement(new SpacerItem(10));
-        textWrap=new DropChoiceBox(display, SR.MS_TEXTWRAP);
+        textWrap=new DropChoiceBox(SR.MS_TEXTWRAP);
         textWrap.append(SR.MS_TEXTWRAP_CHARACTER);
         textWrap.append(SR.MS_TEXTWRAP_WORD);
 	textWrap.setSelectedIndex(cf.textWrap);
 	itemsList.addElement(textWrap);
         
         itemsList.addElement(new SpacerItem(10));
-        panels=new DropChoiceBox(display, SR.MS_PANELS);
+        panels=new DropChoiceBox(SR.MS_PANELS);
         panels.append(SR.MS_NO_BAR+" : "+SR.MS_NO_BAR);
         panels.append(SR.MS_MAIN_BAR+" : "+SR.MS_NO_BAR);
         panels.append(SR.MS_MAIN_BAR+" : "+SR.MS_INFO_BAR);
@@ -310,7 +310,7 @@ public class ConfigForm
 
 //#ifdef AUTOSTATUS
 //#         itemsList.addElement(new SpacerItem(10));
-//#         autoAwayType=new DropChoiceBox(display, SR.MS_AWAY_TYPE);
+//#         autoAwayType=new DropChoiceBox(SR.MS_AWAY_TYPE);
 //#         autoAwayType.append(SR.MS_AWAY_OFF);
 //#         autoAwayType.append(SR.MS_AWAY_LOCK);
 //#         autoAwayType.append(SR.MS_MESSAGE_LOCK);
@@ -328,7 +328,7 @@ public class ConfigForm
 	langs=new StringLoader().stringLoader("/lang/res.txt",3);
         if (langs[0].size()>1) {
             itemsList.addElement(new SpacerItem(10));
-            langFiles=new DropChoiceBox(display, SR.MS_LANGUAGE);
+            langFiles=new DropChoiceBox(SR.MS_LANGUAGE);
             String tempLang=cf.lang;
             if (tempLang==null) { //not detected
                 String locale=System.getProperty("microedition.locale");  

@@ -72,13 +72,13 @@ public final class ContactEdit
         this.display=display;
         cf=Config.getInstance();
         
-        tJid=new TextInput(display, SR.MS_USER_JID, null, null, TextField.ANY); 
+        tJid=new TextInput(SR.MS_USER_JID, null, null, TextField.ANY); 
         
-        tNick=new TextInput(display, SR.MS_NAME, null, null, TextField.ANY);
+        tNick=new TextInput(SR.MS_NAME, null, null, TextField.ANY);
         
-        tGroup=new TextInput(display, SR.MS_NEWGROUP, (c==null)?"":c.group.name, null, TextField.ANY);
+        tGroup=new TextInput(SR.MS_NEWGROUP, (c==null)?"":c.group.name, null, TextField.ANY);
 
-        tTranspList=new DropChoiceBox(display, SR.MS_TRANSPORT);
+        tTranspList=new DropChoiceBox(SR.MS_TRANSPORT);
         // Transport droplist
         tTranspList.append(sd.account.getServer());
         for (Enumeration e=sd.roster.getHContacts().elements(); e.hasMoreElements(); ){
@@ -128,7 +128,7 @@ public final class ContactEdit
         
         Vector groups=sd.roster.groups.getRosterGroupNames();
         if (groups!=null) {
-            tGrpList=new DropChoiceBox(display, SR.MS_GROUP);
+            tGrpList=new DropChoiceBox(SR.MS_GROUP);
             ngroups=groups.size();
             for (int i=0;i<ngroups; i++) {
                 String gn=(String)groups.elementAt(i);

@@ -58,7 +58,7 @@ public class TextListBox
 
     private EditBox ti;
 
-    public TextListBox(Display display, EditBox ti) {
+    public TextListBox(EditBox ti) {
         super();
         this.ti=ti;
         this.recentList=ti.recentList;
@@ -79,7 +79,7 @@ public class TextListBox
         if (recentList.size()>0)
             ti.setValue((String) recentList.elementAt(cursor));
         
-        midlet.BombusMod.getInstance().setDisplayable(parentView);
+        midlet.BombusMod.getInstance().setDisplayable(ti.t);
     }
 
     public void commandAction(Command c, Displayable d){

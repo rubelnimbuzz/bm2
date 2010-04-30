@@ -83,13 +83,13 @@ public class AutoTaskForm
 //#         min = at.startMin;
 //#         wait = at.waitTime/60000;
 //#         
-//#         taskType=new DropChoiceBox(display, SR.MS_AUTOTASK_TYPE);
+//#         taskType=new DropChoiceBox(SR.MS_AUTOTASK_TYPE);
 //#         taskType.append(SR.MS_DISABLED);
 //#         taskType.append(SR.MS_BY_TIME_);
 //#         taskType.append(SR.MS_BY_TIMER_);
 //#         taskType.setSelectedIndex(typeIndex);
 //# 
-//#         actionType=new DropChoiceBox(display, SR.MS_AUTOTASK_ACTION_TYPE);
+//#         actionType=new DropChoiceBox(SR.MS_AUTOTASK_ACTION_TYPE);
 //#         actionType.append(SR.MS_AUTOTASK_QUIT_BOMBUSMOD);
 //#         actionType.append(SR.MS_AUTOTASK_QUIT_CONFERENCES);
 //#         actionType.append(SR.MS_AUTOTASK_LOGOFF);

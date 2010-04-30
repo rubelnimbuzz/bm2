@@ -70,10 +70,13 @@ public class TextInput
     
     /**
      * Creates a new instance of TextInput
+     * @param caption 
+     * @param boxType
+     * @param id
+     * @param text
      */
-    public TextInput(Display display, String caption, String text, String id, int boxType) {
+    public TextInput(String caption, String text, String id, int boxType) {
         super(null);
-        this.display=display;
         this.caption=(caption==null)?"":caption;
         this.id=id;
         this.boxType=boxType;
@@ -119,7 +122,7 @@ public class TextInput
     
     public String toString() { return (getCaptionLength()>getTextLength())?caption:getValue(); }
     
-    public void onSelect(){ new EditBox(display, caption, text, this, boxType); }
+    public void onSelect(){ new EditBox(caption, text, this, boxType); }
     
     public String getValue() { return (text==null)?"":text; }
 

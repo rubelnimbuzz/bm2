@@ -37,10 +37,8 @@ import ui.controls.Balloon;
 import Menu.MenuListener;
 import Menu.Command;
 
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Graphics;
-import javax.microedition.lcdui.TextBox;
 
 public class SmilePicker 
         extends VirtualList 
@@ -76,7 +74,7 @@ public class SmilePicker
     private MessageEdit me;
  
      /** Creates a new instance of SmilePicker */
-    public SmilePicker(Display display, Displayable pView, int caretPos, MessageEdit me) {
+    public SmilePicker(Displayable pView, int caretPos, MessageEdit me) {
          super();
          this.caretPos=caretPos;
 
@@ -102,7 +100,8 @@ public class SmilePicker
 
         xBorder=(realWidth-(xCnt*imgWidth))/2;
 
-        commandState();        
+        commandState();
+        show(pView);
     }
     
     public void commandState() {

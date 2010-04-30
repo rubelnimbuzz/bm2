@@ -96,7 +96,7 @@ public class ColorConfigForm
         try {
             files=new StringLoader().stringLoader("/skins/res.txt",2);
             if (files[0].size()>0) {
-                skinFiles=new DropChoiceBox(display, SR.MS_SELECT);
+                skinFiles=new DropChoiceBox(SR.MS_SELECT);
                 for (int i=0; i<files[0].size(); i++) {
                     skinFiles.append((String)files[1].elementAt(i));
                 }
@@ -127,11 +127,7 @@ public class ColorConfigForm
     public void cmdOk() {
         destroyView();
     }
-
-    public void destroyView(){
-        if (display!=null)  
-            midlet.BombusMod.getInstance().setDisplayable(parentView);
-    }
+   
     
 //#if FILE_IO
     public void initBrowser(int type) {

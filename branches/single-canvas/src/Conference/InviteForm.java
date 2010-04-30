@@ -61,7 +61,7 @@ public class InviteForm
         this.contact=contact;
         
         itemsList.addElement(new SimpleString(contact.getName(), true));
-        conferenceList=new DropChoiceBox(display, SR.MS_CONFERENCE);
+        conferenceList=new DropChoiceBox(SR.MS_CONFERENCE);
         for (Enumeration c=StaticData.getInstance().roster.getHContacts().elements(); c.hasMoreElements(); ) {
             try {
                 MucContact mc=(MucContact)c.nextElement();
@@ -73,7 +73,7 @@ public class InviteForm
         }
         itemsList.addElement(conferenceList);
         
-        reason=new TextInput(display, SR.MS_REASON, null, "", TextField.ANY); //200
+        reason=new TextInput(SR.MS_REASON, null, "", TextField.ANY); //200
         itemsList.addElement(reason);
         
         moveCursorTo(getNextSelectableRef(-1));

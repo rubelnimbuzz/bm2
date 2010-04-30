@@ -44,10 +44,10 @@ package PEP;
 //#      */
 //#     public LocationForm(Display display, Displayable parent) {
 //#         super(display, parent, "Publish location");
-//#         location = new TextInput(display, "Location name", null, null, TextField.ANY);
-//#         descr = new TextInput(display, "Location description", null, null, TextField.ANY);
-//#         lat = new TextInput(display, "Latitude", null, null, TextField.DECIMAL);
-//#         lon = new TextInput(display, "Longitude", null, null, TextField.DECIMAL);
+//#         location = new TextInput("Location name", null, null, TextField.ANY);
+//#         descr = new TextInput("Location description", null, null, TextField.ANY);
+//#         lat = new TextInput("Latitude", null, null, TextField.DECIMAL);
+//#         lon = new TextInput("Longitude", null, null, TextField.DECIMAL);
 //# 
 //#         detect = new LinkString("Retrieve location") {
 //#             public void doAction() {

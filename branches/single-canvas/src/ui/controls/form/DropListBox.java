@@ -34,7 +34,7 @@ public class DropListBox
 
     private DropChoiceBox cb;
 
-    public DropListBox(Display display, Vector listItems, DropChoiceBox cb) {
+    public DropListBox(Vector listItems, DropChoiceBox cb) {
         super();
         this.listItems=listItems;
         this.cb=cb;
@@ -45,6 +45,7 @@ public class DropListBox
         setCommandListener(this);
         
         moveCursorTo(cb.getSelectedIndex());
+        show(parentView);
     }
     
     public void commandState() {
@@ -64,12 +65,7 @@ public class DropListBox
 
     public String touchRightCommand() { return SR.MS_CANCEL; }
     public void touchRightPressed(){ destroyView(); }
-    
-    public void destroyView()	{
-	if (display!=null)
-            midlet.BombusMod.getInstance().setDisplayable(parentView);
-    }
-
+        
     public VirtualElement getItemRef(int index){ 
         return new ListItem((String) listItems.elementAt(index)); 
     }
