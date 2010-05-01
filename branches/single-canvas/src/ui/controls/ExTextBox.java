@@ -34,7 +34,7 @@ import javax.microedition.lcdui.TextBox;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
 //#ifdef CLIPBOARD
-//# import util.ClipBoard;
+import util.ClipBoard;
 //#endif
 //#ifdef ARCHIVE
 import Archive.ArchiveList;
@@ -57,7 +57,7 @@ public class ExTextBox
     private Config cf;
     
 //#ifdef CLIPBOARD
-//#     private ClipBoard clipboard;
+    private ClipBoard clipboard;
 //#endif
     
 //#ifdef ARCHIVE
@@ -67,7 +67,7 @@ public class ExTextBox
 //#     protected Command cmdTemplate=new Command(SR.MS_TEMPLATE, Command.SCREEN, 7); 
 //#endif  
 //#ifdef CLIPBOARD
-//#     protected Command cmdPasteText=new Command(SR.MS_PASTE, Command.SCREEN, 8);  
+    protected Command cmdPasteText=new Command(SR.MS_PASTE, Command.SCREEN, 8);  
 //#endif
     
     int maxSize=500;
@@ -95,13 +95,13 @@ public class ExTextBox
             addCommand(cmdPaste);
 //#endif
 //#ifdef CLIPBOARD
-//#         if (cf.useClipBoard) {
-//#             clipboard=ClipBoard.getInstance();
-//#             if (!clipboard.isEmpty()) {
-//#                 addCommand(cmdPasteText);
-//#                 if (Config.getInstance().phoneManufacturer == Config.SONYE) System.gc(); // prevent flickering on Sony Ericcsson C510
-//#             }
-//#         }
+        if (cf.useClipBoard) {
+            clipboard=ClipBoard.getInstance();
+            if (!clipboard.isEmpty()) {
+                addCommand(cmdPasteText);
+                if (Config.getInstance().phoneManufacturer == Config.SONYE) System.gc(); // prevent flickering on Sony Ericcsson C510
+            }
+        }
 //#endif
 //#if TEMPLATES
 //#ifdef PLUGINS
@@ -142,10 +142,10 @@ public class ExTextBox
         if (body.length()==0) body=null;
 
 //#ifdef ARCHIVE
-	if (c==cmdPaste) { new ArchiveList(display, this, caretPos, 1, this); return true; }
+	if (c==cmdPaste) { new ArchiveList(caretPos, 1, this); return true; }
 //#endif
 //#ifdef CLIPBOARD
-//#         if (c==cmdPasteText) { insert(clipboard.getClipBoard(), getCaretPos()); return true; }
+        if (c==cmdPasteText) { insert(clipboard.getClipBoard(), getCaretPos()); return true; }
 //#endif
 //#if TEMPLATES
 //#         if (c==cmdTemplate) { new ArchiveList(display, this, caretPos, 2, this); return true; }

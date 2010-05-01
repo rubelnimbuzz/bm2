@@ -32,7 +32,6 @@ import java.util.Vector;
 import Menu.MenuListener;
 import Menu.Command;
 import Menu.MyMenu;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import ui.MainBar;

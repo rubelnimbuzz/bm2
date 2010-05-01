@@ -35,7 +35,7 @@ import Conference.AppendNick;
 import javax.microedition.lcdui.*;
 import locale.SR;
 //#ifdef CLIPBOARD
-//# import util.ClipBoard;
+import util.ClipBoard;
 //#endif
 //#ifdef ARCHIVE
 import Archive.ArchiveList;
@@ -74,7 +74,7 @@ public final class MessageEdit
 //#     private boolean sendInDeTranslit=false;
 //#endif
 //#ifdef CLIPBOARD
-//#     private ClipBoard clipboard;
+    private ClipBoard clipboard;
 //#endif
 
 //#ifdef ARCHIVE
@@ -84,7 +84,7 @@ public final class MessageEdit
 //#     private Command cmdTemplate=new Command(SR.MS_TEMPLATE, Command.ITEM, 7);
 //#endif
 //#ifdef CLIPBOARD
-//#     private Command cmdPasteText=new Command(SR.MS_PASTE, Command.ITEM, 8);
+    private Command cmdPasteText=new Command(SR.MS_PASTE, Command.ITEM, 8);
 //#endif
     
     private Command cmdSend;//=new Command(SR.MS_SEND, Command.OK, 1);
@@ -109,7 +109,7 @@ public final class MessageEdit
 //#     Ticker ticker = new Ticker("");
 //#endif
     /** Creates a new instance of MessageEdit */
-    public MessageEdit(Display display, Displayable pView, Contact to, String body) {
+    public MessageEdit( Displayable pView, Contact to, String body) {
         t = new TextBox(to.toString(), "", 500, TextField.ANY);
         try {
             //expanding buffer as much as possible
@@ -141,12 +141,12 @@ public final class MessageEdit
             t.addCommand(cmdPaste);
 //#endif
 //#ifdef CLIPBOARD
-//#         if (cf.useClipBoard) {
-//#             clipboard=ClipBoard.getInstance();
-//#             if (!clipboard.isEmpty()) {
-//#                 t.addCommand(cmdPasteText);
-//#             }
-//#         }
+        if (cf.useClipBoard) {
+            clipboard=ClipBoard.getInstance();
+            if (!clipboard.isEmpty()) {
+                t.addCommand(cmdPasteText);
+            }
+        }
 //#endif
 //#if TEMPLATES
 //#ifdef PLUGINS
@@ -210,10 +210,10 @@ public final class MessageEdit
         if (body.length()==0) body=null;
 
 //#ifdef ARCHIVE
-	if (c==cmdPaste) { new ArchiveList(display, t, caretPos, 1, t); return; }
+	if (c==cmdPaste) { new ArchiveList(caretPos, 1, t); return; }
 //#endif
 //#ifdef CLIPBOARD
-//#         if (c==cmdPasteText) { insert(clipboard.getClipBoard(), getCaretPos()); return; }
+        if (c==cmdPasteText) { insert(clipboard.getClipBoard(), getCaretPos()); return; }
 //#endif
 //#if TEMPLATES
 //#         if (c==cmdTemplate) { new ArchiveList(display, t, caretPos, 2, t); return; }
@@ -226,7 +226,7 @@ public final class MessageEdit
         if (c==cmdSmile) { new SmilePicker(t, caretPos, this); return; }
 //#endif
 //#ifndef WMUC
-        if (c==cmdInsNick) { new AppendNick(display, t, to, caretPos, this); return; }
+        if (c==cmdInsNick) { new AppendNick(t, to, caretPos, this); return; }
 //#endif
         if (c==cmdCancel) {
             composing=false;

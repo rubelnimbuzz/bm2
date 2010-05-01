@@ -55,11 +55,9 @@ public final class AppendNick
     Vector nicknames;
     int caretPos; 
     
-    Command cmdOk=new Command(SR.MS_APPEND, Command.OK, 1);
-    
     private MessageEdit me;
     
-    public AppendNick(Display display, Displayable pView, Contact to, int caretPos, MessageEdit me) {
+    public AppendNick(Displayable pView, Contact to, int caretPos, MessageEdit me) {
         super(SR.MS_SELECT_NICKNAME);
         this.caretPos=caretPos;
         
@@ -72,7 +70,7 @@ public final class AppendNick
                 itemsList.addElement(c);
         }
         show(parentView);
-        this.parentView=pView;
+        parentView = pView;
     }    
         
     public void eventOk(){

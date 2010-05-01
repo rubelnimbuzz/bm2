@@ -65,7 +65,7 @@ public class ArchiveList
     private TextBox t;
     
     /** Creates a new instance of ArchiveList */
-    public ArchiveList(Display display, Displayable pView, int caretPos, int where, TextBox t) {
+    public ArchiveList(int caretPos, int where, TextBox t) {
  	super ();
         this.where=where;
         this.caretPos=caretPos;

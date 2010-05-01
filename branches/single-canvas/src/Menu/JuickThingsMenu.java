@@ -27,9 +27,9 @@ public class JuickThingsMenu extends Menu {
 
     public JuickThingsMenu(Vector things, Display display, Displayable pView, Contact contact) {
 //#ifdef JUICK
-//#         super(SR.MS_JUICK_THINGS, null); //MenuIcons.getInstance()
+        super(SR.MS_JUICK_THINGS, null); //MenuIcons.getInstance()
 //#else
-        super("", null);
+//#         super("", null);
 //#endif
         this.things = things;
         this.contact = contact;
@@ -52,7 +52,7 @@ public class JuickThingsMenu extends Menu {
 //#ifdef RUNNING_MESSAGE
 //#                 Client.Roster.me=new MessageEdit(display, parentView, contact, things.elementAt(index)+" ");
 //#else
-        new MessageEdit(display, parentView, contact, things.elementAt(index)+" "); // To chat
+        new MessageEdit(parentView, contact, things.elementAt(index)+" "); // To chat
 //        new MessageEdit(display, this, contact, things.elementAt(index)+" "); // Previons menu
 //#endif
         } catch (Exception e) {/*no messages*/}

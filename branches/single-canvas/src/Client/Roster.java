@@ -50,7 +50,7 @@ import Menu.RosterItemActions;
 import Menu.RosterToolsMenu;
 import Menu.SieNatMenu;
 //#ifdef CLIENTS_ICONS
-//# import images.ClientsIconsData;
+import images.ClientsIconsData;
 //#endif
 import images.RosterIcons;
 
@@ -108,7 +108,7 @@ import xmpp.extensions.IqTimeReply;
 //#endif
 
 //#ifdef PEP
-//# import xmpp.extensions.PepListener;
+import xmpp.extensions.PepListener;
 //#endif
 
 public class Roster
@@ -185,8 +185,8 @@ public class Roster
 //#endif
 
 //#ifdef JUICK
-//#     public Vector juickContacts = new Vector();
-//#     public int indexMainJuickContact = -1; // Т.е. считаем, что жуйкоконтактов нет вообще.
+    public Vector juickContacts = new Vector();
+    public int indexMainJuickContact = -1; // Т.е. считаем, что жуйкоконтактов нет вообще.
 //#endif
     public long lastMessageTime=Time.utcTimeMillis();
 
@@ -250,7 +250,7 @@ public class Roster
 //#ifdef PLUGINS
 //# 	if (sd.ClientsIcons)
 //#endif
-//#         ClientsIconsData.getInstance();
+        ClientsIconsData.getInstance();
 //#endif
     }
     
@@ -361,7 +361,7 @@ public class Roster
     // establishing connection process
     public void run(){
 //#ifdef POPUPS
-//#         //if (cf.firstRun) setWobbler(1, (Contact) null, SR.MS_ENTER_SETTINGS);
+        //if (cf.firstRun) setWobbler(1, (Contact) null, SR.MS_ENTER_SETTINGS);
 //#endif
         setQuerySign(true);
 	if (!doReconnect) {
@@ -403,9 +403,9 @@ public class Roster
 	    hContacts=new Vector();
 
 //#ifdef JUICK
-//#             juickContacts = null;
-//#             juickContacts = new Vector();
-//#             indexMainJuickContact = -1;
+            juickContacts = null;
+            juickContacts = new Vector();
+            indexMainJuickContact = -1;
 //#endif
 
             groups=null;
@@ -635,7 +635,7 @@ public class Roster
             c=new Contact(nick, jid, Presence.PRESENCE_OFFLINE, null);
             addContact(c);
 //#ifdef JUICK
-//#             addJuickContact(c);
+            addJuickContact(c);
 //#endif
         }
         
@@ -655,7 +655,7 @@ public class Roster
                     if (status<0) {
                         hContacts.removeElementAt(index);
 //#ifdef JUICK
-//#                         deleteJuickContact(c);
+                        deleteJuickContact(c);
 //#endif
                         continue;
                     }
@@ -853,9 +853,9 @@ public class Roster
     }
 
 //#ifdef POPUPS
-//#     public void showContactMessageList(String jid) {
-//#         new ContactMessageList(sd.roster.getContact(jid, false), display);
-//#     }
+    public void showContactMessageList(String jid) {
+        new ContactMessageList(sd.roster.getContact(jid, false));
+    }
 //#endif
 
     public void addContact(Contact c) {
@@ -873,90 +873,90 @@ public class Roster
     }
 
 //#ifdef JUICK
-//# /*        public Vector getJuickContacts(boolean str) {
-//#         Vector juickContacts = new Vector();
-//#         synchronized (hContacts) {
-//#             for (Enumeration e = hContacts.elements(); e.hasMoreElements();) {
-//#                 Contact c = (Contact) e.nextElement();
-//#                 if (isJuickContact(c))
-//#                     if (str)
-//#                         juickContacts.addElement(c.bareJid);
-//#                     else juickContacts.addElement(c);
-//#             }
-//#         }
-//#         return juickContacts;
-//#     }*/
-//# 
-//#     public Contact getMainJuickContact() {
-//#         if (indexMainJuickContact > -1)
-//#             return (Contact) juickContacts.elementAt(indexMainJuickContact);
-//#         else return null;
-//#     }
-//# 
-//# /*    public void updateMainJuickContact() {
-//#         System.out.println("1. juickJID: "+cf.juickJID);
-//#         mainJuickContact = null;
-//#         int index = -1;
-//#         if (!cf.juickJID.equals("")) {
-//#             index = hContacts.indexOf(new Contact("Juick", cf.juickJID, Presence.PRESENCE_OFFLINE, null));
-//#             System.out.println("index: "+index);
-//#             if (index < 0) { // Если не нашли, то считаем, что не указан.
-//#                cf.juickJID = "";
-//#             }
-//#         }
-//#         if (index > -1) {
-//#             mainJuickContact = (Contact) hContacts.elementAt(index);
-//#         } else {
-//#             Vector juickContacts = getJuickContacts(false);
-//#             if (juickContacts.size() > 0) {
-//#                 mainJuickContact = (Contact) juickContacts.elementAt(0);
-//#             }
-//#         }
-//#         System.out.println("2. juickJID: "+cf.juickJID);
-//#     }*/
-//# 
-//#     public boolean isJuickContact(Contact c) {
-//#         return (c.bareJid.equals("juick@juick.com")
-//#          || c.bareJid.startsWith("juick%juick.com@"));
-//#     }
-//# 
-//#     public void addJuickContact(Contact c) {
-//#         if (isJuickContact(c)) {
-//#             juickContacts.addElement(c);
-//#             // Далее урезаный аналог updateMainJuickContact(). Побыстрее него, работает *только* при добавлении контакта.
-//#             if (isMainJuickContact(c)) {
-//#                 indexMainJuickContact = juickContacts.size() - 1;
-//#             } else if (indexMainJuickContact < 0) {
-//#                 indexMainJuickContact = 0;
-//#             }
-//#         }
-//#     }
-//# 
-//#     public void deleteJuickContact(Contact c) {
-//#         if (juickContacts.removeElement(c)) {
-//#             updateMainJuickContact();
-//#         }
-//#     }
-//# 
-//#     public boolean isMainJuickContact(Contact c) {
-//#         return c.bareJid.equals((new JuickConfig(display, parentView)).getJuickJID());
-//#     }
-//# 
-//#     public void updateMainJuickContact() {
-//#         JuickConfig juickConfig = new JuickConfig(display, parentView);
-//#         int size = juickContacts.size();
-//#         if (size < 1) {
-//#             indexMainJuickContact = -1;
-//#         } else if ((size == 1) || (juickConfig.getJuickJID().equals(""))) {
-//#             indexMainJuickContact = 0;
-//#         } else {
-//#             indexMainJuickContact = juickContacts.indexOf(new Contact("Juick", juickConfig.getJuickJID(), Presence.PRESENCE_OFFLINE, null));
-//#             if (indexMainJuickContact < 0) {
-//#                 juickConfig.setJuickJID("", false);
-//#                 indexMainJuickContact = 0; // Можно сделать это присваивание через рекурсию, но вроде пока не надо.
-//#             }
-//#         }
-//#     }
+/*        public Vector getJuickContacts(boolean str) {
+        Vector juickContacts = new Vector();
+        synchronized (hContacts) {
+            for (Enumeration e = hContacts.elements(); e.hasMoreElements();) {
+                Contact c = (Contact) e.nextElement();
+                if (isJuickContact(c))
+                    if (str)
+                        juickContacts.addElement(c.bareJid);
+                    else juickContacts.addElement(c);
+            }
+        }
+        return juickContacts;
+    }*/
+
+    public Contact getMainJuickContact() {
+        if (indexMainJuickContact > -1)
+            return (Contact) juickContacts.elementAt(indexMainJuickContact);
+        else return null;
+    }
+
+/*    public void updateMainJuickContact() {
+        System.out.println("1. juickJID: "+cf.juickJID);
+        mainJuickContact = null;
+        int index = -1;
+        if (!cf.juickJID.equals("")) {
+            index = hContacts.indexOf(new Contact("Juick", cf.juickJID, Presence.PRESENCE_OFFLINE, null));
+            System.out.println("index: "+index);
+            if (index < 0) { // Если не нашли, то считаем, что не указан.
+               cf.juickJID = "";
+            }
+        }
+        if (index > -1) {
+            mainJuickContact = (Contact) hContacts.elementAt(index);
+        } else {
+            Vector juickContacts = getJuickContacts(false);
+            if (juickContacts.size() > 0) {
+                mainJuickContact = (Contact) juickContacts.elementAt(0);
+            }
+        }
+        System.out.println("2. juickJID: "+cf.juickJID);
+    }*/
+
+    public boolean isJuickContact(Contact c) {
+        return (c.bareJid.equals("juick@juick.com")
+         || c.bareJid.startsWith("juick%juick.com@"));
+    }
+
+    public void addJuickContact(Contact c) {
+        if (isJuickContact(c)) {
+            juickContacts.addElement(c);
+            // Далее урезаный аналог updateMainJuickContact(). Побыстрее него, работает *только* при добавлении контакта.
+            if (isMainJuickContact(c)) {
+                indexMainJuickContact = juickContacts.size() - 1;
+            } else if (indexMainJuickContact < 0) {
+                indexMainJuickContact = 0;
+            }
+        }
+    }
+
+    public void deleteJuickContact(Contact c) {
+        if (juickContacts.removeElement(c)) {
+            updateMainJuickContact();
+        }
+    }
+
+    public boolean isMainJuickContact(Contact c) {
+        return c.bareJid.equals((new JuickConfig(display, parentView)).getJuickJID());
+    }
+
+    public void updateMainJuickContact() {
+        JuickConfig juickConfig = new JuickConfig(display, parentView);
+        int size = juickContacts.size();
+        if (size < 1) {
+            indexMainJuickContact = -1;
+        } else if ((size == 1) || (juickConfig.getJuickJID().equals(""))) {
+            indexMainJuickContact = 0;
+        } else {
+            indexMainJuickContact = juickContacts.indexOf(new Contact("Juick", juickConfig.getJuickJID(), Presence.PRESENCE_OFFLINE, null));
+            if (indexMainJuickContact < 0) {
+                juickConfig.setJuickJID("", false);
+                indexMainJuickContact = 0; // Можно сделать это присваивание через рекурсию, но вроде пока не надо.
+            }
+        }
+    }
 //#endif
 
     public void sendPresence(int newStatus, String message) {
@@ -1297,11 +1297,11 @@ public class Roster
 //#endif
 
 //#ifdef PEP
-//#         if (cf.sndrcvmood)
+        if (cf.sndrcvmood)
 //#ifdef PLUGINS
 //#             if (sd.PEP)
 //#endif
-//#                 PepListener.getInstance().addBlockListener();
+                PepListener.getInstance().addBlockListener();
 //#endif
 //#if SASL_XGOOGLETOKEN
 //#         if (StaticData.getInstance().account.isGmail())
@@ -1674,15 +1674,15 @@ public class Roster
 //#ifdef PLUGINS
 //#                     if (sd.ClientsIcons)
 //#endif
-//#                         if (cf.showClientIcon) {
-//#                             if (pr.hasEntityCaps()) {
-//#                                 if (pr.getEntityNode()!=null)
-//#                                     getClientIcon(c, pr.getEntityNode());
-//#                                 if (pr.getEntityVer()!=null)
-//#                                     c.version=pr.getEntityVer();
-//#                             }
-//#                         }
-//# 
+                        if (cf.showClientIcon) {
+                            if (pr.hasEntityCaps()) {
+                                if (pr.getEntityNode()!=null)
+                                    getClientIcon(c, pr.getEntityNode());
+                                if (pr.getEntityVer()!=null)
+                                    c.version=pr.getEntityVer();
+                            }
+                        }
+
 //#endif
                         String lang=pr.getAttribute("xml:lang");
 
@@ -1752,16 +1752,16 @@ public class Roster
 //#ifdef PLUGINS
 //#                         if (sd.ClientsIcons)
 //#endif
-//#                             if (cf.showClientIcon) if (ti<Presence.PRESENCE_OFFLINE)
-//#                                 if (pr.hasEntityCaps()) {
-//#                                     if (pr.getEntityNode()!=null) {
-//#                                         ClientsIconsData.processData(c, pr.getEntityNode());
-//#                                         if (pr.getEntityVer()!=null)
-//#                                             c.version=pr.getEntityVer();
-//#                                     }
-//#                                 } else if (c.jid.hasResource()) {
-//#                                     ClientsIconsData.processData(c, c.getResource().substring(1));
-//#                                 }
+                            if (cf.showClientIcon) if (ti<Presence.PRESENCE_OFFLINE)
+                                if (pr.hasEntityCaps()) {
+                                    if (pr.getEntityNode()!=null) {
+                                        ClientsIconsData.processData(c, pr.getEntityNode());
+                                        if (pr.getEntityVer()!=null)
+                                            c.version=pr.getEntityVer();
+                                    }
+                                } else if (c.jid.hasResource()) {
+                                    ClientsIconsData.processData(c, c.getResource().substring(1));
+                                }
 //#endif
                             JabberDataBlock j2j=pr.findNamespace("x", "j2j:history");
                             if (j2j!=null) {
@@ -1840,9 +1840,9 @@ public class Roster
         return JabberBlockListener.BLOCK_REJECTED;
     }
 //#ifdef CLIENTS_ICONS
-//#     private void getClientIcon(Contact c, String data) {
-//#         ClientsIconsData.processData(c, data);
-//#     }
+    private void getClientIcon(Contact c, String data) {
+        ClientsIconsData.processData(c, data);
+    }
 //#endif
 
     boolean  processRoster(JabberDataBlock data){
@@ -1881,13 +1881,13 @@ public class Roster
     }
 
 //#ifdef POPUPS
-//#     boolean showWobbler(Contact c) {
-//#         if (!cf.popUps)
-//#             return false;
-//#         if (activeContact==null)
-//#             return true;
-//#         return(!c.equals(activeContact));
-//#         }
+    boolean showWobbler(Contact c) {
+        if (!cf.popUps)
+            return false;
+        if (activeContact==null)
+            return true;
+        return(!c.equals(activeContact));
+        }
 //#endif
     
 //#ifdef FILE_TRANSFER
@@ -1922,9 +1922,9 @@ public class Roster
             return;    // no signalling/focus on ignore
         
 //#ifdef POPUPS
-//#         if (cf.popUps)
-//#             if (message.messageType==Msg.MESSAGE_TYPE_AUTH && showWobbler(c))
-//#                 setWobbler(2, c, message.from+"\n"+message.body);
+        if (cf.popUps)
+            if (message.messageType==Msg.MESSAGE_TYPE_AUTH && showWobbler(c))
+                setWobbler(2, c, message.from+"\n"+message.body);
 //#endif
 
 	if (cf.popupFromMinimized)
@@ -1936,8 +1936,8 @@ public class Roster
         if (message.highlite) {
             playNotify(SOUND_FOR_ME);
 //#ifdef POPUPS
-//#             if (showWobbler(c))
-//#                 setWobbler(2, c, message.body);
+            if (showWobbler(c))
+                setWobbler(2, c, message.body);
 //#endif
             autorespond = true;
         } else if (message.messageType==Msg.MESSAGE_TYPE_IN || message.messageType==Msg.MESSAGE_TYPE_HEADLINE) {
@@ -1946,10 +1946,10 @@ public class Roster
                 if (!(c instanceof MucContact))
 //#endif
 //#ifdef POPUPS
-//#                     if (showWobbler(c)) {
-//#                         setWobbler(2, c, c.toString()+": "+message.body);
-//#                         autorespond = true;
-//#                     }
+                    if (showWobbler(c)) {
+                        setWobbler(2, c, c.toString()+": "+message.body);
+                        autorespond = true;
+                    }
 //#endif
                 if (c.group.type==Groups.TYPE_VIP) {
                     playNotify(SOUND_FOR_VIP);
@@ -2186,7 +2186,7 @@ public class Roster
         super.eventLongOk();
 //#ifndef WMUC
 //#ifdef POPUPS
-//#         showInfo();
+        showInfo();
 //#endif
 //#endif
     }
@@ -2207,7 +2207,7 @@ public class Roster
 //#ifdef RUNNING_MESSAGE
 //#             me = new MessageEdit(display, pview, c, c.msgSuspended);
 //#else
-            new MessageEdit(display, pview, c, c.msgSuspended);
+            new MessageEdit(pview, c, c.msgSuspended);
 //#endif
             c.msgSuspended=null;
         }
@@ -2250,11 +2250,11 @@ public class Roster
         
         switch (keyCode) {
 //#ifdef POPUPS
-//#             case KEY_POUND:            
-//#                 if (getItemCount()==0)
-//#                     return;
-//#                 showInfo();
-//#                 return;
+            case KEY_POUND:            
+                if (getItemCount()==0)
+                    return;
+                showInfo();
+                return;
 //#endif
             case KEY_NUM1:            
                 if (cf.collapsedGroups) { //collapse all groups
@@ -2450,133 +2450,133 @@ public class Roster
 //#endif
 
 //#ifdef POPUPS
-//#     public void showInfo() {
-//#         if (getFocusedObject()==null)
-//#             return;
-//# 
-//#         try {
-//#             PopUp.getInstance().next();
-//#             if (getFocusedObject() instanceof Group
+    public void showInfo() {
+        if (getFocusedObject()==null)
+            return;
+
+        try {
+            PopUp.getInstance().next();
+            if (getFocusedObject() instanceof Group
 //#ifndef WMUC
-//#                     || getFocusedObject() instanceof ConferenceGroup
+                    || getFocusedObject() instanceof ConferenceGroup
 //#endif
-//#                     )
-//#                 return;
-//#             setWobbler(1, (Contact) null, null);
-//#         } catch (Exception e) { }
-//#     }
-//# 
-//#     public void setWobbler(int type, Contact contact, String info) {
-//#         if (info==null) {
-//#             StringBuffer mess=new StringBuffer();
-//#             boolean isContact=(getFocusedObject() instanceof Contact);
-//#             Contact cntact=(Contact)getFocusedObject();
+                    )
+                return;
+            setWobbler(1, (Contact) null, null);
+        } catch (Exception e) { }
+    }
+
+    public void setWobbler(int type, Contact contact, String info) {
+        if (info==null) {
+            StringBuffer mess=new StringBuffer();
+            boolean isContact=(getFocusedObject() instanceof Contact);
+            Contact cntact=(Contact)getFocusedObject();
 //#ifndef WMUC
-//#             boolean isMucContact=(getFocusedObject() instanceof MucContact);
-//#             if (isMucContact) {
-//#                 MucContact mucContact=(MucContact)getFocusedObject();
-//# 
-//#                 if (mucContact.origin!=Contact.ORIGIN_GROUPCHAT){
-//#                     mess.append((mucContact.realJid==null)?"":"jid: "+mucContact.realJid+"\n");
-//# 
-//#                     if (mucContact.affiliationCode>MucContact.AFFILIATION_NONE)
-//#                         mess.append(MucContact.getAffiliationLocale(mucContact.affiliationCode));
-//# 
-//#                     if (!(mucContact.roleCode==MucContact.ROLE_PARTICIPANT && mucContact.affiliationCode==MucContact.AFFILIATION_MEMBER)) {
-//#                         if (mucContact.affiliationCode>MucContact.AFFILIATION_NONE)
-//#                             mess.append(SR.MS_AND);
-//#                         mess.append(MucContact.getRoleLocale(mucContact.roleCode));
-//#                     }
-//#                 }
-//#             } else {
+            boolean isMucContact=(getFocusedObject() instanceof MucContact);
+            if (isMucContact) {
+                MucContact mucContact=(MucContact)getFocusedObject();
+
+                if (mucContact.origin!=Contact.ORIGIN_GROUPCHAT){
+                    mess.append((mucContact.realJid==null)?"":"jid: "+mucContact.realJid+"\n");
+
+                    if (mucContact.affiliationCode>MucContact.AFFILIATION_NONE)
+                        mess.append(MucContact.getAffiliationLocale(mucContact.affiliationCode));
+
+                    if (!(mucContact.roleCode==MucContact.ROLE_PARTICIPANT && mucContact.affiliationCode==MucContact.AFFILIATION_MEMBER)) {
+                        if (mucContact.affiliationCode>MucContact.AFFILIATION_NONE)
+                            mess.append(SR.MS_AND);
+                        mess.append(MucContact.getRoleLocale(mucContact.roleCode));
+                    }
+                }
+            } else {
 //#endif
-//#                 mess.append("jid: ")
-//#                     .append(cntact.bareJid)
-//#                     .append(cntact.jid.getResource())
-//#                     .append("\n")
-//#                     .append(SR.MS_SUBSCRIPTION)
-//#                     .append(": ")
-//#                     .append(cntact.subscr);
+                mess.append("jid: ")
+                    .append(cntact.bareJid)
+                    .append(cntact.jid.getResource())
+                    .append("\n")
+                    .append(SR.MS_SUBSCRIPTION)
+                    .append(": ")
+                    .append(cntact.subscr);
 //#ifdef PEP
-//#                 if (cntact.hasMood()) {
-//#                     mess.append("\n")
-//#                         .append(SR.MS_USERMOOD)
-//#                         .append(": ")
-//#                         .append(cntact.getMoodString());
-//#                 }
+                if (cntact.hasMood()) {
+                    mess.append("\n")
+                        .append(SR.MS_USERMOOD)
+                        .append(": ")
+                        .append(cntact.getMoodString());
+                }
 //#ifdef PEP_ACTIVITY
-//#                 if (cntact.hasActivity()) {
-//#                     mess.append("\n").append(SR.MS_USERACTIVITY).append(": ").append(cntact.activity);
-//#                 }
+                if (cntact.hasActivity()) {
+                    mess.append("\n").append(SR.MS_USERACTIVITY).append(": ").append(cntact.activity);
+                }
 //#endif
 //#ifdef PEP_LOCATION
-//#                 if (cntact.hasLocation()) {
-//#                     mess.append("\n").append(SR.MS_USERLOCATION).append(": ").append(cntact.location);
-//#                 }
+                if (cntact.hasLocation()) {
+                    mess.append("\n").append(SR.MS_USERLOCATION).append(": ").append(cntact.location);
+                }
 //#endif
-//# 
+
 //#ifdef PEP_TUNE
-//#                 if (cntact.pepTune) {
-//#                     mess.append("\n").append(SR.MS_USERTUNE);
-//#                     if (cntact.pepTuneText!="") {
-//#                         mess.append(": ").append(cntact.pepTuneText);
-//#                     }
-//#                 }
+                if (cntact.pepTune) {
+                    mess.append("\n").append(SR.MS_USERTUNE);
+                    if (cntact.pepTuneText!="") {
+                        mess.append(": ").append(cntact.pepTuneText);
+                    }
+                }
 //#endif
 //#endif
 //#ifndef WMUC
-//#             }
+            }
 //#endif
-//#             if (cntact.origin!=Contact.ORIGIN_GROUPCHAT){
-//#                 mess.append((cntact.j2j!=null)?"\nJ2J: "+cntact.j2j:"");
+            if (cntact.origin!=Contact.ORIGIN_GROUPCHAT){
+                mess.append((cntact.j2j!=null)?"\nJ2J: "+cntact.j2j:"");
 //#ifdef CLIENTS_ICONS
 //#ifdef PLUGINS
 //#                 if (cf.showClientIcon)
 //#endif
-//#                     if (cntact.client>-1) {
-//#                         mess.append("\n")
-//#                             .append(SR.MS_USE)
-//#                             .append(": ")
-//#                             .append(cntact.clientName);
-//#                     }
+                    if (cntact.client>-1) {
+                        mess.append("\n")
+                            .append(SR.MS_USE)
+                            .append(": ")
+                            .append(cntact.clientName);
+                    }
 //#endif
-//#                 if (cntact.version!=null) {
-//#                     mess.append("\n")
-//#                         .append(SR.MS_VERSION)
-//#                         .append(": ")
-//#                         .append(cntact.version);
-//#                 }
-//#                 if (cntact.lang!=null) {
-//#                     mess.append("\n")
-//#                         .append(SR.MS_LANGUAGE)
-//#                         .append(": ")
-//#                         .append(cntact.lang);
-//#                 }
-//#             }
-//# 
-//#             if (cntact.statusString!=null) {
-//#                 if (cntact.origin!=Contact.ORIGIN_GROUPCHAT){
-//#                     mess.append("\n")
-//#                         .append(SR.MS_STATUS)
-//#                         .append(": ");
-//#                 }
-//#                 mess.append(cntact.statusString);
-//# 
-//#             if (cntact.priority!=0) {
-//#                     mess.append(" [")
-//#                         .append(cntact.priority)
-//#                         .append("]");
-//#                 }
-//#             }
-//# 
-//#             setWobble(1, null, mess.toString());
-//#             mess=null;
-//#         } else {
-//#             setWobble(type, contact.getJid(), info);
-//#         }
-//# 
-//#         redraw();
-//#     }
+                if (cntact.version!=null) {
+                    mess.append("\n")
+                        .append(SR.MS_VERSION)
+                        .append(": ")
+                        .append(cntact.version);
+                }
+                if (cntact.lang!=null) {
+                    mess.append("\n")
+                        .append(SR.MS_LANGUAGE)
+                        .append(": ")
+                        .append(cntact.lang);
+                }
+            }
+
+            if (cntact.statusString!=null) {
+                if (cntact.origin!=Contact.ORIGIN_GROUPCHAT){
+                    mess.append("\n")
+                        .append(SR.MS_STATUS)
+                        .append(": ");
+                }
+                mess.append(cntact.statusString);
+
+            if (cntact.priority!=0) {
+                    mess.append(" [")
+                        .append(cntact.priority)
+                        .append("]");
+                }
+            }
+
+            setWobble(1, null, mess.toString());
+            mess=null;
+        } else {
+            setWobble(type, contact.getJid(), info);
+        }
+
+        redraw();
+    }
 //#endif
     
     public void logoff(String mess){
@@ -2647,12 +2647,12 @@ public class Roster
     public void cmdStatus() { currentReconnect=0; new StatusSelect(display, this, null); }
     public void cmdAlert() { new AlertProfile(display, this); }
 //#ifdef ARCHIVE
-    public void cmdArchive() { new ArchiveList(display, this, -1, 1, null); }
+    public void cmdArchive() { new ArchiveList( -1, 1, null); }
 //#endif
     public void cmdInfo() { new Info.InfoWindow(display, this); }
     public void cmdTools() { new RosterToolsMenu(display, this); }
 //#ifdef POPUPS
-//#     public void cmdClearPopups() { PopUp.getInstance().clear(); }
+    public void cmdClearPopups() { PopUp.getInstance().clear(); }
 //#endif
 //#ifndef WMUC
    public void cmdConference() { if (isLoggedIn()) new Bookmarks(display, this, null); }

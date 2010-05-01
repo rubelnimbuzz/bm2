@@ -60,10 +60,10 @@ public class PepPublishResult implements JabberBlockListener {
         
         XmppError e=XmppError.findInStanza(data);
 //#ifdef PEP
-//#         new AlertBox(SR.MS_ERROR_, SR.MS_PEP_NOT_SUPPORTED+"("+e.toString()+")", display, StaticData.getInstance().roster) {
-//#             public void yes() { }
-//#             public void no() { }
-//#         };
+        new AlertBox(SR.MS_ERROR_, SR.MS_PEP_NOT_SUPPORTED+"("+e.toString()+")") {
+            public void yes() { }
+            public void no() { }
+        };
 //#endif
         return NO_MORE_BLOCKS;
     }
