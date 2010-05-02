@@ -30,9 +30,9 @@ package Conference;
 import Client.StaticData;
 //#ifdef SERVICE_DISCOVERY
 //#ifdef NEW_DISCO
-//# import ServiceDiscovery.MyDiscoForm;
+import ServiceDiscovery.MyDiscoForm;
 //#else
-import ServiceDiscovery.DiscoForm;
+//# import ServiceDiscovery.DiscoForm;
 //#endif
 //#endif
 import com.alsutton.jabber.JabberBlockListener;
@@ -68,9 +68,9 @@ public class QueryConfigForm implements JabberBlockListener{
 //#ifdef SERVICE_DISCOVERY
             if (data.getTypeAttribute().equals("result")) {
 //#ifdef NEW_DISCO
-//#                 new MyDiscoForm(display, data, StaticData.getInstance().roster.theStream, "muc_owner", "query");
+                new MyDiscoForm(data, StaticData.getInstance().roster.theStream, "muc_owner", "query");
 //#else 
-                new DiscoForm(display, data, StaticData.getInstance().roster.theStream, "muc_owner", "query");
+//#                 new DiscoForm(display, data, StaticData.getInstance().roster.theStream, "muc_owner", "query");
 //#endif
             }
 //#endif

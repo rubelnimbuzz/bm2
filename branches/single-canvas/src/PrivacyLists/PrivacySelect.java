@@ -70,7 +70,7 @@ public class PrivacySelect
     JabberStream stream=StaticData.getInstance().roster.theStream;
     
     /** Creates a new instance of PrivacySelect */
-    public PrivacySelect(Display display, Displayable pView) {
+    public PrivacySelect( Displayable pView) {
         super();
         this.parentView=pView;
 

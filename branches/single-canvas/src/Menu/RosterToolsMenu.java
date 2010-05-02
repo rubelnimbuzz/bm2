@@ -42,10 +42,10 @@ import Fonts.ConfigFonts;
 import ServiceDiscovery.*;
 //#endif
 //#if HISTORY
-//# import History.HistoryConfig;
+import History.HistoryConfig;
 //#endif
 //#ifdef PEP
-//# import PEP.PepForm;
+import PEP.PepForm;
 //#endif
 import Statistic.StatsWindow;
 import VCard.VCard;
@@ -89,11 +89,11 @@ public class RosterToolsMenu extends Menu {
                 addItem(SR.MS_PRIVACY_LISTS, 1, MenuIcons.ICON_PRIVACY);
 //#endif
 //#ifdef PEP
-//#         if (connected)
+        if (connected)
 //#ifdef PLUGINS
 //#             if (sd.PEP) {
 //#endif
-//#                 addItem(SR.MS_PEP, 2, MenuIcons.ICON_MOOD);
+                addItem(SR.MS_PEP, 2, MenuIcons.ICON_MOOD);
 //#ifdef PLUGINS
 //#             }
 //#endif
@@ -105,8 +105,8 @@ public class RosterToolsMenu extends Menu {
         if (connected)
             addItem(SR.MS_USERS_SEARCH, 5, MenuIcons.ICON_VCARD);
 //#if (HISTORY)
-//#         if (cf.saveHistory)
-//#             addItem(SR.MS_HISTORY_OPTIONS, 6, MenuIcons.ICON_HISTORY);
+        if (cf.saveHistory)
+            addItem(SR.MS_HISTORY_OPTIONS, 6, MenuIcons.ICON_HISTORY);
 //#endif
        addItem(SR.MS_FONTS_OPTIONS, 7, MenuIcons.ICON_FONTS);
 //#if (FILE_IO)
@@ -169,7 +169,7 @@ public class RosterToolsMenu extends Menu {
 //#ifdef PLUGINS
 //#         if (sd.Juick)
 //#endif
-//#             addItem("Tools for Juick.Com", 20, MenuIcons.ICON_JUICK);
+            addItem("Tools for Juick.Com", 20, MenuIcons.ICON_JUICK);
 //#endif
         addItem(SR.MS_BREAK_CONECTION, 21, MenuIcons.ICON_RECONNECT);
         show(parentView);
@@ -185,19 +185,19 @@ public class RosterToolsMenu extends Menu {
         switch (index) {
 //#ifdef SERVICE_DISCOVERY
             case 0: // Service Discovery
-                if (connected) new ServiceDiscovery(display, null, null, false);
+                if (connected) new ServiceDiscovery(null, null, false);
                 break;
 //#endif
 //#ifdef PRIVACY
             case 1: // Privacy Lists
-                if (connected) new PrivacySelect(display, parentView);
+                if (connected) new PrivacySelect(parentView);
                 break;
 //#endif
 //#ifdef PEP
-//#             case 2:
-//#                 if (connected)
-//#                     new PepForm(display, StaticData.getInstance().roster);
-//#                 return;
+            case 2:
+                if (connected)
+                    new PepForm(display, StaticData.getInstance().roster);
+                return;
 //#endif   
             case 3: {
                 if (! connected) break;
@@ -216,9 +216,9 @@ public class RosterToolsMenu extends Menu {
                 new SearchForm(display, parentView);
                 return;
 //#if (HISTORY)
-//#             case 6: //history
-//#                 new HistoryConfig(display, parentView);
-//#                 return;
+            case 6: //history
+                new HistoryConfig(display, parentView);
+                return;
 //#endif
             case 7:
                 new ConfigFonts(display, parentView);
@@ -278,9 +278,9 @@ public class RosterToolsMenu extends Menu {
 //#                 return;
 //#endif
 //#ifdef JUICK
-//#             case 20:
-//#                 new JuickConfig(display, parentView, me.toString());
-//#                 return;
+            case 20:
+                new JuickConfig(display, parentView, me.toString());
+                return;
 //#endif
             case 21:
                 sd.roster.errorLog(SR.MS_SIMULATED_BREAK);

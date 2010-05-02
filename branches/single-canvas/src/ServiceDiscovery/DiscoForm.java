@@ -26,6 +26,7 @@
  */
 
 package ServiceDiscovery;
+import Client.StaticData;
 import java.util.*;
 import javax.microedition.lcdui.*;
 import com.alsutton.jabber.*;
@@ -67,7 +68,7 @@ public class DiscoForm implements CommandListener{
     //private JabberBlockListener listener;
     
     /** Creates a new instance of RegForm */
-    public DiscoForm(Display display, JabberDataBlock regform, JabberStream stream, String resultId, String childName) {
+    public DiscoForm( JabberDataBlock regform, JabberStream stream, String resultId, String childName) {
         service=regform.getAttribute("from");
         this.childName=childName;
         JabberDataBlock query=regform.getChildBlock(childName);
@@ -119,8 +120,6 @@ public class DiscoForm implements CommandListener{
         } else form.addCommand(cmdOk);
         form.addCommand(cmdCancel);
         
-        this.display=display;
-        this.parentView=display.getCurrent();
         this.stream=stream;
         midlet.BombusMod.getInstance().setDisplayable(form);
     }
@@ -170,6 +169,6 @@ public class DiscoForm implements CommandListener{
     }
 
     public void destroyView(){
-        midlet.BombusMod.getInstance().setDisplayable(parentView);
+        midlet.BombusMod.getInstance().setDisplayable(StaticData.getInstance().roster);
     }
 }

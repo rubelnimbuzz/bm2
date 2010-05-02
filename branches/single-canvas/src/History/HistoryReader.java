@@ -54,7 +54,7 @@ public class HistoryReader extends MessageList {
      * @param display
      * @param c 
      */
-    public HistoryReader(Display display, Contact c) {
+    public HistoryReader(Contact c) {
         super();
         cmdNext = new Command(SR.MS_NEXT, Command.ITEM, 1);
         cmdPrev = new Command(SR.MS_PREVIOUS, Command.ITEM, 1);
@@ -75,6 +75,7 @@ public class HistoryReader extends MessageList {
 	addCommand(cmdBack);
         hl.getNext();
         moveCursorTo(1);
+        show(parentView);
     }
 
     public void keyPressed(int keyCode) {

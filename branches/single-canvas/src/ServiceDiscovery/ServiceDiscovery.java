@@ -96,7 +96,7 @@ public class ServiceDiscovery
 
     
     /** Creates a new instance of ServiceDiscovery */
-    public ServiceDiscovery(Display display, String service, String node, boolean search) {
+    public ServiceDiscovery(String service, String node, boolean search) {
         super();
 
         setMainBarItem(new MainBar(3, null, null, false));
@@ -152,6 +152,7 @@ public class ServiceDiscovery
             moveCursorHome();
             redraw();
         }
+        show(parentView);
     }
     
     private String discoId(String id) {
@@ -314,24 +315,24 @@ public class ServiceDiscovery
         } else if (id.startsWith ("discoreg")) {
             discoIcon=0;
 //#ifndef NEW_DISCO
-            new DiscoForm(display, data, stream, "discoResult", "query");
+//#             new DiscoForm(display, data, stream, "discoResult", "query");
 //#else
-//#             new MyDiscoForm(display, data, stream, "discoResult", "query");
+            new MyDiscoForm( data, stream, "discoResult", "query");
 //#endif
         } else if (id.startsWith("discocmd")) {
             discoIcon=0;
 //#ifndef NEW_DISCO
-            new DiscoForm(display, data, stream, "discocmd", "command");
+//#             new DiscoForm(display, data, stream, "discocmd", "command");
 //#else
-//#             new MyDiscoForm(display, data, stream, "discocmd", "command");
+            new MyDiscoForm( data, stream, "discocmd", "command");
 //#endif
 
         } else if (id.startsWith("discosrch")) {
             discoIcon=0;
 //#ifndef NEW_DISCO
-            new DiscoForm(display, data, stream, "discoRSearch", "query");
+//#             new DiscoForm(display, data, stream, "discoRSearch", "query");
 //#else
-//#             new MyDiscoForm(display, data, stream, "discoRSearch", "query");
+            new MyDiscoForm( data, stream, "discoRSearch", "query");
 //#endif          
         } else if (id.startsWith("discoR")) {
             String text=SR.MS_DONE;
@@ -432,6 +433,7 @@ public class ServiceDiscovery
     
     public void destroyView()	{
         exitDiscovery(false);
+        super.destroyView();
     }
     
     public void userKeyPressed(int keyCode) {

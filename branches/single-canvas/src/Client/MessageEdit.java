@@ -119,7 +119,7 @@ public final class MessageEdit
 
         insert(body, 0, false); // workaround for Nokia S40
         this.to=to;
-        this.display=display;
+        this.parentView = pView;
 
         cf=Config.getInstance();
 //#ifdef DETRANSLIT
@@ -197,8 +197,7 @@ public final class MessageEdit
         setInitialCaps(cf.capsState);
         if (Config.getInstance().phoneManufacturer == Config.SONYE) System.gc(); // prevent flickering on Sony Ericcsson C510
         t.setCommandListener(this);
-        midlet.BombusMod.getInstance().setDisplayable(t);
-        this.parentView = pView;
+        midlet.BombusMod.getInstance().setDisplayable(t);     
     }
 
     public void commandAction(Command c, Displayable d){
@@ -260,8 +259,7 @@ public final class MessageEdit
         // message/composing sending
         if (c == cmdSend && !((parentView instanceof ContactMessageList) && ((ContactMessageList) parentView).contact.equals(to)))
             parentView = new ContactMessageList(to);
-         midlet.BombusMod.getInstance().setDisplayable(parentView);
-         parentView = null;
+         midlet.BombusMod.getInstance().setDisplayable(parentView);         
 //#ifdef RUNNING_MESSAGE
         runState=3;
 //#else
@@ -287,8 +285,8 @@ public final class MessageEdit
             if (runState==3) {
                 runState=4;
                 send();
-                thread=null;
-                ((VirtualList) parentView).redraw();
+                thread=null;                
+                    ((ContactMessageList) parentView).redraw();
                 break;
             }
             if (runState==1) {

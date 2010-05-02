@@ -51,7 +51,9 @@ public class MyFormField{
     private Vector optionsList;
     private boolean numericBoolean;
     private boolean registered;
-    /** Creates a new instance of FormField */
+    /** Creates a new instance of FormField
+     * @param field
+     */
     public MyFormField(JabberDataBlock field) {
         name=field.getTagName();
         label=name;

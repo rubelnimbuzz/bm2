@@ -392,7 +392,7 @@ public void showNotify() {
 //#ifdef HISTORY
 //#ifdef HISTORY_READER
         if (c==cmdReadHistory) {
-            new HistoryReader(display, contact);
+            new HistoryReader(contact);
             return;
         }
 //#endif

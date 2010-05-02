@@ -165,7 +165,7 @@ public class SearchForm
             return;
 
         ListItem join=(ListItem)getFocusedObject();
-        new ServiceDiscovery(display, join.toString(), null, true);
+        new ServiceDiscovery(join.toString(), null, true);
 //#endif
     }
     

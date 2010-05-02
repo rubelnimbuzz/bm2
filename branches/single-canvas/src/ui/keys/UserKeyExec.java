@@ -49,7 +49,7 @@ import locale.SR;
 import midlet.BombusMod;
 import ui.VirtualList;
 //#ifdef JUICK
-//# import Client.Contact;
+import Client.Contact;
 //#endif
 import Client.ContactMessageList;
 import Client.Roster;
@@ -99,7 +99,7 @@ public class UserKeyExec {
 //#         available_commands[0].addElement(new UserKeyCommand(10, SR.MS_CUSTOM_KEYS));
 //#endif
 //#ifdef POPUPS
-//#         available_commands[1].addElement(new UserKeyCommand(11, SR.MS_CLEAR_POPUPS));
+        available_commands[1].addElement(new UserKeyCommand(11, SR.MS_CLEAR_POPUPS));
 //#endif
         available_commands[0].addElement(new UserKeyCommand(12, SR.MS_FLASHLIGHT));
         available_commands[0].addElement(new UserKeyCommand(13, SR.MS_ABOUT));
@@ -110,14 +110,14 @@ public class UserKeyExec {
 //#endif
         available_commands[0].addElement(new UserKeyCommand(17, SR.MS_FULLSCREEN));
 //#ifdef JUICK
-//#         available_commands[1].addElement(new UserKeyCommand(18, SR.MS_JUICK_FOCUS));
+        available_commands[1].addElement(new UserKeyCommand(18, SR.MS_JUICK_FOCUS));
 //#endif
         available_commands[1].addElement(new UserKeyCommand(19, SR.MS_HEAP_MONITOR));
 //#ifdef SMILES
         available_commands[2].addElement(new UserKeyCommand(20, SR.MS_SMILES_TOGGLE));
 //#endif
 //#ifdef JUICK
-//#         available_commands[2].addElement(new UserKeyCommand(21, SR.MS_COMMANDS + " Juick"));
+        available_commands[2].addElement(new UserKeyCommand(21, SR.MS_COMMANDS + " Juick"));
 //#endif
     }
 
@@ -214,12 +214,12 @@ public class UserKeyExec {
                 break;
             case 8: 
 //#ifdef SERVICE_DISCOVERY
-                if (connected) new ServiceDiscovery(display, null, null, false);
+                if (connected) new ServiceDiscovery( null, null, false);
 //#endif
                 break;
             case 9: 
 //#ifdef PRIVACY
-                if (connected) new PrivacySelect(display, sd.roster);
+                if (connected) new PrivacySelect(sd.roster);
 //#endif
                 break;
             case 10: //key pound
@@ -227,7 +227,7 @@ public class UserKeyExec {
                 break;
             case 11:
 //#ifdef POPUPS
-//#                 sd.roster.cmdClearPopups();
+                sd.roster.cmdClearPopups();
 //#endif
                 break;
             case 12:
@@ -268,13 +268,13 @@ public class UserKeyExec {
 //#ifdef PLUGINS
 //#                 if(sd.Juick)
 //#endif
-//#                 if (current instanceof Roster) {
-//#                     Contact jContact = sd.roster.getMainJuickContact();
-//#                     if (jContact != null)
-//#                         sd.roster.focusToContact(jContact, false);
-//#                 } else {
-//#                     return false;
-//#                 }
+                if (current instanceof Roster) {
+                    Contact jContact = sd.roster.getMainJuickContact();
+                    if (jContact != null)
+                        sd.roster.focusToContact(jContact, false);
+                } else {
+                    return false;
+                }
 //#endif
                 break;
             case 19:
@@ -304,12 +304,12 @@ public class UserKeyExec {
 //#ifdef PLUGINS
 //#                 if(sd.Juick)
 //#endif
-//#                 if (current instanceof ContactMessageList) {
-//#                     ContactMessageList current_cml = (ContactMessageList) current;
-//#                     current_cml.commandAction(current_cml.cmdJuickCommands, current);
-//#                 } else {
-//#                     return false;
-//#                 }
+                if (current instanceof ContactMessageList) {
+                    ContactMessageList current_cml = (ContactMessageList) current;
+                    current_cml.commandAction(current_cml.cmdJuickCommands, current);
+                } else {
+                    return false;
+                }
 //#endif
                 break;
             default:

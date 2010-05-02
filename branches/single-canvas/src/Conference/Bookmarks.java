@@ -183,7 +183,7 @@ public class Bookmarks
             return;
         }
 //#ifdef SERVICE_DISCOVERY
-        else if (c==cmdDisco) new ServiceDiscovery(display, roomJid, null, false);
+        else if (c==cmdDisco) new ServiceDiscovery( roomJid, null, false);
 //#endif
         else if (c==cmdConfigure) new QueryConfigForm(display, roomJid);
         else if (c==cmdRoomOwners) new Affiliations(display, this, roomJid, (short)1);  
@@ -248,7 +248,7 @@ public class Bookmarks
                 pageRight(); break;
 //#ifdef SERVICE_DISCOVERY
             case KEY_POUND:
-                new ServiceDiscovery(display, ((BookmarkItem)getFocusedObject()).getJid(), null, false);
+                new ServiceDiscovery(((BookmarkItem)getFocusedObject()).getJid(), null, false);
 //#endif
         }
     }
