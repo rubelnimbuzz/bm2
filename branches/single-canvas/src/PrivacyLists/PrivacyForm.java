@@ -50,8 +50,6 @@ public class PrivacyForm
 //#     public static String plugin = new String("PLUGIN_PRIVACY");
 //#endif
     
-    private Display display;
-    
     private PrivacyList targetList;
     private PrivacyItem item;
     
@@ -70,10 +68,8 @@ public class PrivacyForm
     String tValue="";
 
     /** Creates a new instance of PrivacyForm */
-    public PrivacyForm(Display display, Displayable pView, PrivacyItem item, PrivacyList plist) {
+    public PrivacyForm(Displayable pView, PrivacyItem item, PrivacyList plist) {
         super(SR.MS_PRIVACY_RULE);
-        this.display=display;
-        
         this.item=item;
         targetList=plist;
         
@@ -108,8 +104,9 @@ public class PrivacyForm
         iqStz=new CheckBox(PrivacyItem.stanzas[3], item.iqStz); itemsList.addElement(iqStz);
         
         moveCursorTo(getNextSelectableRef(-1));
-        show(parentView);
         this.parentView=pView;
+        show(parentView);
+        
     }
     
     protected void beginPaint(){

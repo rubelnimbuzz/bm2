@@ -83,7 +83,7 @@ public class PrivacySelect
         
         getLists();
         
-        //show(parentView);        
+        show(parentView);        
     }
     
     public void commandState() {
@@ -156,7 +156,7 @@ public class PrivacySelect
     // MIDPTextBox interface
     public void OkNotify(String listName) {
         if (listName.length()>0)
-            new PrivacyModifyList(display, this, new PrivacyList(listName), true);
+            new PrivacyModifyList(this, new PrivacyList(listName), true);
     }
     
     public int blockArrived(JabberDataBlock data){
@@ -201,7 +201,7 @@ public class PrivacySelect
     public void eventOk(){
         PrivacyList pl=(PrivacyList) getFocusedObject();
         if (pl!=null) {
-            if (pl.name!=null) new PrivacyModifyList(display, this, pl, false);
+            if (pl.name!=null) new PrivacyModifyList(this, pl, false);
         }
     }
     private void generateIgnoreList(){
