@@ -50,10 +50,10 @@ public class JuickThingsMenu extends Menu {
         int index=me.index;
         try {
 //#ifdef RUNNING_MESSAGE
-//#                 Client.Roster.me=new MessageEdit(display, parentView, contact, things.elementAt(index)+" ");
+                Client.Roster.me=new MessageEdit(parentView, contact, things.elementAt(index)+" ");
 //#else
-        new MessageEdit(parentView, contact, things.elementAt(index)+" "); // To chat
-//        new MessageEdit(display, this, contact, things.elementAt(index)+" "); // Previons menu
+//#         new MessageEdit(parentView, contact, things.elementAt(index)+" "); // To chat
+//# //        new MessageEdit(display, this, contact, things.elementAt(index)+" "); // Previons menu
 //#endif
         } catch (Exception e) {/*no messages*/}
     }

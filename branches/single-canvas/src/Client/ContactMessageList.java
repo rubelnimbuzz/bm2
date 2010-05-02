@@ -73,7 +73,7 @@ public class ContactMessageList extends MessageList {
     Command cmdActions=new Command(SR.MS_CONTACT,Command.SCREEN,9);
     Command cmdActive=new Command(SR.MS_ACTIVE_CONTACTS,Command.SCREEN,10);
 //#if TEMPLATES
-//#     Command cmdTemplate=new Command(SR.MS_SAVE_TEMPLATE,Command.SCREEN,11);
+    Command cmdTemplate=new Command(SR.MS_SAVE_TEMPLATE,Command.SCREEN,11);
 //#endif
 //#ifdef FILE_IO
     Command cmdSaveChat=new Command(SR.MS_SAVE_CHAT, Command.SCREEN, 12);
@@ -221,7 +221,7 @@ public class ContactMessageList extends MessageList {
 //#ifdef PLUGINS         
 //#          if (sd.Archive)
 //#endif
-//#             addCommand(cmdTemplate);
+            addCommand(cmdTemplate);
 //#endif
         }
 //#ifdef CLIPBOARD
@@ -356,11 +356,11 @@ public void showNotify() {
         }
 //#endif
 //#if TEMPLATES
-//#         if (c==cmdTemplate) {
-//#             try {
-//#                 MessageArchive.store(getMessage(cursor),2);
-//#             } catch (Exception e) {/*no messages*/}
-//#         }
+        if (c==cmdTemplate) {
+            try {
+                MessageArchive.store(getMessage(cursor),2);
+            } catch (Exception e) {/*no messages*/}
+        }
 //#endif
         if (c==cmdPurge) {
             if (messages.isEmpty()) return;
@@ -618,9 +618,9 @@ public void showNotify() {
         }
         try {
 //#ifdef RUNNING_MESSAGE
-//#                 sd.roster.me=new MessageEdit(display, this, getActualJuickContact(), resultAction);
+                Roster.me=new MessageEdit( this, getActualJuickContact(), resultAction);
 //#else
-            new MessageEdit(this, getActualJuickContact(), resultAction);
+//#             new MessageEdit(this, getActualJuickContact(), resultAction);
 //#endif
             } catch (Exception e) {/*no messages*/}
     }
@@ -687,9 +687,9 @@ public void showNotify() {
         if (!sd.roster.isLoggedIn()) return;
         
 //#ifdef RUNNING_MESSAGE
-//#         sd.roster.me=new MessageEdit(display, this, contact, contact.msgSuspended);
+        Roster.me=new MessageEdit( this, contact, contact.msgSuspended);
 //#else
-        new MessageEdit(this, contact, contact.msgSuspended);
+//#         new MessageEdit(this, contact, contact.msgSuspended);
 //#endif
         contact.msgSuspended=null;
     }
@@ -788,9 +788,9 @@ public void showNotify() {
                 keyGreen();
             } else {
 //#ifdef RUNNING_MESSAGE
-//#                 sd.roster.me=new MessageEdit(display, this, contact, msg.from+": ");
+                Roster.me=new MessageEdit( this, contact, msg.from+": ");
 //#else
-                new MessageEdit(this, contact, msg.from + ": ");
+//#                 new MessageEdit(this, contact, msg.from + ": ");
 //#endif
             }
         } catch (Exception e) {/*no messages*/}
@@ -808,9 +808,9 @@ public void showNotify() {
                 .append(" ")
                 .toString();
 //#ifdef RUNNING_MESSAGE
-//#             sd.roster.me=new MessageEdit(display, this, contact, msg);
+            Roster.me=new MessageEdit( this, contact, msg);
 //#else
-            new MessageEdit(this, contact, msg);
+//#             new MessageEdit(this, contact, msg);
 //#endif
             msg=null;
         } catch (Exception e) {/*no messages*/}

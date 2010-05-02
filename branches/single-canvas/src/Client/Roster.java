@@ -160,7 +160,7 @@ public class Roster
     public Vector bookmarks;
     
 //#ifdef RUNNING_MESSAGE
-//#     public static MessageEdit me=null;
+    public static MessageEdit me=null;
 //#endif
     
     private StatusList sl;
@@ -385,7 +385,7 @@ public class Roster
             theStream.initiateStream();
         } catch( Exception e ) {
 //#ifdef DEBUG
-//#             e.printStackTrace();
+            e.printStackTrace();
 //#endif
             //SplashScreen.getInstance().close();
             setProgress(SR.MS_FAILED, 100);
@@ -1578,14 +1578,14 @@ public class Roster
                         c.acceptComposing=true;
                         c.showComposing=false;
 //#ifdef RUNNING_MESSAGE
-//#                         setTicker(c, "");
+                        setTicker(c, "");
 //#endif
                     }
                     if (message.findNamespace("paused", "http://jabber.org/protocol/chatstates")!=null) {
                         c.acceptComposing=true;
                         c.showComposing=false;
 //#ifdef RUNNING_MESSAGE
-//#                         setTicker(c, "");
+                        setTicker(c, "");
 //#endif
                     }
                     if (message.findNamespace("composing", "http://jabber.org/protocol/chatstates")!=null) {
@@ -1593,7 +1593,7 @@ public class Roster
                         c.acceptComposing=true;
                         c.showComposing=true;
 //#ifdef RUNNING_MESSAGE
-//#                         setTicker(c, SR.MS_COMPOSING_NOTIFY);
+                        setTicker(c, SR.MS_COMPOSING_NOTIFY);
 //#endif
                     }
                 }
@@ -1723,8 +1723,8 @@ public class Roster
                         
                         if (cf.autoSubscribe==Config.SUBSCR_REJECT) {
 //#if DEBUG 
-//#                             System.out.print(from);
-//#                             System.out.println(": decline subscription");
+                            System.out.print(from);
+                            System.out.println(": decline subscription");
 //#endif
                             sendPresence(from, "unsubscribed", null, false);
                             return JabberBlockListener.BLOCK_PROCESSED;
@@ -1772,7 +1772,7 @@ public class Roster
                             
                             String lang=pr.getAttribute("xml:lang");
 //#if DEBUG
-//#                             //System.out.println("xml:lang="+lang); // Very much output!
+                            //System.out.println("xml:lang="+lang); // Very much output!
 //#endif
                             c.lang=lang; lang=null;
 
@@ -1808,10 +1808,10 @@ public class Roster
                     }
                     if (ti>=0) {
 //#ifdef RUNNING_MESSAGE
-//#                         if (ti==Presence.PRESENCE_OFFLINE)
-//#                             setTicker(c, SR.MS_OFFLINE);
-//#                         else if (ti==Presence.PRESENCE_ONLINE)
-//#                             setTicker(c, SR.MS_ONLINE);
+                        if (ti==Presence.PRESENCE_OFFLINE)
+                            setTicker(c, SR.MS_OFFLINE);
+                        else if (ti==Presence.PRESENCE_ONLINE)
+                            setTicker(c, SR.MS_ONLINE);
 //#endif
                         if ((ti==Presence.PRESENCE_ONLINE || ti==Presence.PRESENCE_CHAT || ti==Presence.PRESENCE_OFFLINE) && (c.getGroupType()!=Groups.TYPE_TRANSP) && (c.getGroupType()!=Groups.TYPE_IGNORE)) 
                             playNotify(ti);
@@ -1834,7 +1834,7 @@ public class Roster
             System.out.println("error bombusmod\\src\\Client\\Roster.java:12");
         } catch( Exception e ) {
 //#if DEBUG
-//#             e.printStackTrace();
+            e.printStackTrace();
 //#endif
         }
         return JabberBlockListener.BLOCK_REJECTED;
@@ -1905,8 +1905,8 @@ public class Roster
 
         boolean autorespond = false;
 //#ifdef RUNNING_MESSAGE
-//#         if (message.messageType==Msg.MESSAGE_TYPE_IN)
-//#             setTicker(c, message.body);
+        if (message.messageType==Msg.MESSAGE_TYPE_IN)
+            setTicker(c, message.body);
 //#endif
         if (Config.getInstance().widthSystemgc) {
                 if (cf.ghostMotor) {
@@ -1981,7 +1981,7 @@ public class Roster
             ExtendedStatus es=sl.getStatus(myStatus);
             if (es.getAutoRespond()) {
 //#if DEBUG
-//#                 System.out.println(SR.MS_AUTORESPOND+" "+c.getJid());
+                System.out.println(SR.MS_AUTORESPOND+" "+c.getJid());
 //#endif
 
                 Message autoMessage = new Message( 
@@ -2014,7 +2014,7 @@ public class Roster
     public void playNotify(int event) {
         if (!notifyReady(event)) return;
 //#if DEBUG        
-//#         System.out.println("event: "+event);
+        System.out.println("event: "+event);
 //#endif
         AlertCustomize ac=AlertCustomize.getInstance();
         
@@ -2133,7 +2133,7 @@ public class Roster
                 sendPresence(Presence.PRESENCE_OFFLINE, null);
             } catch (Exception e2) {
 //#if DEBUG
-//#                 e2.printStackTrace();
+                e2.printStackTrace();
 //#endif
             }
          }
@@ -2205,9 +2205,9 @@ public class Roster
         if (pview!=null) {
             Contact c=(Contact)getFocusedObject();
 //#ifdef RUNNING_MESSAGE
-//#             me = new MessageEdit(display, pview, c, c.msgSuspended);
+            me = new MessageEdit(pview, c, c.msgSuspended);
 //#else
-            new MessageEdit(pview, c, c.msgSuspended);
+//#             new MessageEdit(pview, c, c.msgSuspended);
 //#endif
             c.msgSuspended=null;
         }
@@ -2903,13 +2903,13 @@ public class Roster
 
     
 //#ifdef RUNNING_MESSAGE
-//#     void setTicker(Contact c, String message) {
-//#         if (cf.notifyWhenMessageType) {
-//#             if (me!=null)
-//#                 if (me.to==c)
-//#                     me.setMyTicker(message);
-//#         }
-//#     }
+    void setTicker(Contact c, String message) {
+        if (cf.notifyWhenMessageType) {
+            if (me!=null)
+                if (me.to==c)
+                    me.setMyTicker(message);
+        }
+    }
 //#endif
     
 
@@ -2990,7 +2990,7 @@ public class Roster
             }
             //} catch (Exception e) {
 //#ifdef DEBUG
-//#                 //e.printStackTrace();
+                //e.printStackTrace();
 //#endif
             //}
             //thread=null;
