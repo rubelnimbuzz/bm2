@@ -31,11 +31,10 @@ import io.file.FileIO;
 import io.file.browse.Browser;
 import io.file.browse.BrowserListener;
 //#endif
-import Client.StaticData;
 import java.util.Vector;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
+import ui.VirtualList;
 import ui.controls.form.DropChoiceBox;
 import ui.controls.form.DefForm;
 import ui.controls.form.LinkString;
@@ -55,7 +54,7 @@ public class ColorConfigForm
     
 
 //#ifdef COLOR_TUNE
-//#     private LinkString configureColors;
+    private LinkString configureColors;
 //#endif
     private LinkString invertColors;
 //#if FILE_IO
@@ -75,15 +74,15 @@ public class ColorConfigForm
     /** Creates a new instance of ColorConfigForm
      * @param pView
      */
-    public ColorConfigForm(Displayable pView) {
+    public ColorConfigForm(VirtualList pView) {
         super(SR.MS_COLOR_TUNE);        
 //#ifdef COLOR_TUNE
 //#ifdef PLUGINS
 //#             if (StaticData.getInstance().Colors) {
 //#endif
-//#         final Displayable returnTo = this;
-//#         configureColors=new LinkString(SR.MS_COLOR_TUNE) { public void doAction() { new ColorsList(display, returnTo); } };
-//#         itemsList.addElement(configureColors);
+        final VirtualList returnTo = this;
+        configureColors=new LinkString(SR.MS_COLOR_TUNE) { public void doAction() { new ColorsList( returnTo); } };
+        itemsList.addElement(configureColors);
 //#ifdef PLUGINS
 //#             }
 //#endif
@@ -132,9 +131,9 @@ public class ColorConfigForm
     public void initBrowser(int type) {
         loadType=type; 
         if (type==0) {
-            new Browser(null,display, this, this, true);
+            new Browser(null, this, this, true);
         } else if(type==1) {
-            new Browser(null, display, this, this, false);
+            new Browser(null,  this, this, false);
         }
     }
 //#endif

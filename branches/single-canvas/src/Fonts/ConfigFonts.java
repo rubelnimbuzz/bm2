@@ -27,15 +27,13 @@
 package Fonts;
 import Client.Config;
 import Client.StaticData;
-import javax.microedition.lcdui.*;
 import locale.SR;
+import ui.VirtualList;
 import ui.controls.form.DropChoiceBox;
 import ui.controls.form.DefForm;
 
 public class ConfigFonts 
         extends DefForm {
-    
-    private Display display;
     
     private DropChoiceBox font1;
     private DropChoiceBox font2;
@@ -46,11 +44,11 @@ public class ConfigFonts
     
     Config cf;
     
-    /** Creates a new instance of ConfigFonts */
-    public ConfigFonts(Display display, Displayable pView) {
+    /** Creates a new instance of ConfigFonts
+     * @param pView 
+     */
+    public ConfigFonts(VirtualList pView) {
         super(SR.MS_FONTS_OPTIONS);
-        this.display=display;
-        
         cf=Config.getInstance();
 
         font1=new DropChoiceBox(SR.MS_ROSTER_FONT);

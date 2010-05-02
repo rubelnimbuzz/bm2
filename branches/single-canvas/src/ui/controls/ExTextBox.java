@@ -40,6 +40,7 @@ import util.ClipBoard;
 import Archive.ArchiveList;
 //#endif
 import Client.StaticData;
+import ui.VirtualList;
 
 /**
  *
@@ -49,7 +50,7 @@ public class ExTextBox
     extends TextBox {
 
     private Display display;
-    private Displayable parentView;
+    protected Displayable parentView;
     
     public String body;
     private String subj;
@@ -134,7 +135,7 @@ public class ExTextBox
         return caretPos;
     }
     
-    public boolean executeCommand(Command c, Displayable displayable) {
+    public boolean executeCommand(Command c, VirtualList displayable) {
         body=getString();
         
         int caretPos=getCaretPos();

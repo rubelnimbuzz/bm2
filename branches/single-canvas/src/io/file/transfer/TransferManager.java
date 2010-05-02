@@ -29,11 +29,10 @@ package io.file.transfer;
 
 import Client.StaticData;
 import Menu.Command;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import ui.Time;
 //#ifdef POPUPS
+import ui.VirtualList;
 import ui.controls.PopUp;
 //#endif
 import ui.controls.form.DefForm;
@@ -57,8 +56,10 @@ public class TransferManager
 //#     Command cmdSettings=new Command("Transfer settings", Command.SCREEN, 12);
 //#endif
     
-    /** Creates a new instance of TransferManager */
-    public TransferManager(Display display, Displayable pView) {
+    /** Creates a new instance of TransferManager
+     * @param pView
+     */
+    public TransferManager( VirtualList pView) {
         super(SR.MS_TRANSFERS);        
         itemsList=TransferDispatcher.getInstance().getTaskList();
         // TODO: add classic menu
@@ -94,7 +95,7 @@ public class TransferManager
     public void eventOk() {
         TransferTask t=(TransferTask) getFocusedObject();
         if (t!=null)
-            if (t.isAcceptWaiting()) new TransferAcceptFile(display, this, t);
+            if (t.isAcceptWaiting()) new TransferAcceptFile(this, t);
     }
     
     protected void keyClear() {
@@ -107,7 +108,7 @@ public class TransferManager
         }
     }
 
-    public void commandAction(Command c, Displayable d) {
+    public void commandAction(Command c, VirtualList d) {
         super.commandAction(c, d);
         if (c==cmdClrF) {
             synchronized (TransferDispatcher.getInstance().getTaskList()) {
@@ -127,7 +128,7 @@ public class TransferManager
         if (c==cmdDel) keyClear();        
         if (c==cmdInfo) cmdInfo();
 //#ifdef BYTESTREAMS
-//#         if (c==cmdSettings) new TransferSetupForm(display, this);
+//#         if (c==cmdSettings) new TransferSetupForm( this);
 //#endif
         
     }

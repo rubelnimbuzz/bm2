@@ -29,8 +29,6 @@
 package Alerts;
 
 import Client.*;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import java.util.Vector;
 import ui.EventNotify;
@@ -43,6 +41,7 @@ import ui.controls.form.TrackItem;
 import util.StringLoader;
 import java.util.Enumeration;
 import Menu.Command;
+import ui.VirtualList;
 
 
 public class AlertCustomizeForm
@@ -78,8 +77,10 @@ public class AlertCustomizeForm
     Command cmdSave=new Command(SR.MS_SAVE, Command.OK, 1);
     Command cmdTest=new Command(SR.MS_TEST_SOUND, Command.SCREEN, 2);
 
-    /** Creates a new instance of ConfigForm */
-    public AlertCustomizeForm(Display display, Displayable pView) {
+    /** Creates a new instance of ConfigForm
+     * @param pView
+     */
+    public AlertCustomizeForm(VirtualList pView) {
         super(SR.MS_NOTICES_OPTIONS);
         
         ac=AlertCustomize.getInstance();
@@ -180,7 +181,7 @@ public class AlertCustomizeForm
         destroyView();
     }
     
-    public void commandAction(Command c, Displayable d) {
+    public void commandAction(Command c, VirtualList d) {
         super.commandAction(c, d);
         if (c==cmdTest)
             PlaySound();
@@ -204,9 +205,9 @@ public class AlertCustomizeForm
         String soundType=(String)files[0].elementAt(selectedSound);
         int soundVol=sndVol.getValue()*10;
 //#ifdef DEBUG
-//#         System.out.println(cursor+": "+sound+" "+soundFile+" "+soundType+" "+soundVol);
+        System.out.println(cursor+": "+sound+" "+soundFile+" "+soundType+" "+soundVol);
 //#endif
-        new EventNotify(display, soundType, soundFile, soundVol, 0).startNotify();
+        new EventNotify( soundType, soundFile, soundVol, 0).startNotify();
     }
 
     public void commandState(){

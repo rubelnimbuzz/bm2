@@ -33,11 +33,10 @@ import Client.StaticData;
 import Messages.MessageList;
 import java.util.Vector;
 import Menu.Command;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 //#ifdef CLIPBOARD   
-//# import util.ClipBoard;
+import ui.VirtualList;
+import util.ClipBoard;
 //#endif
 //#ifdef CONSOLE 
 //# import ui.MainBar;
@@ -61,11 +60,13 @@ public final class XMLList
     private Command cmdPurge=new Command(SR.MS_CLEAR_LIST, Command.SCREEN, 10);
     
 //#ifdef CLIPBOARD    
-//#     private ClipBoard clipboard=ClipBoard.getInstance();
+    private ClipBoard clipboard=ClipBoard.getInstance();
 //#endif
     
-    /** Creates a new instance of XMLList */
-    public XMLList(Display display, Displayable pView) {
+    /** Creates a new instance of XMLList
+     * @param pView
+     */
+    public XMLList(VirtualList pView) {
         super ();
         
         super.smiles=false;
@@ -91,10 +92,10 @@ public final class XMLList
 	addCommand(cmdBack);
         addCommand(cmdNew);
 //#ifdef CLIPBOARD
-//#             if (Config.getInstance().useClipBoard) {
-//#                 addCommand(cmdCopy);
-//#                 if (!clipboard.isEmpty()) addCommand(cmdCopyPlus);
-//#             }
+            if (Config.getInstance().useClipBoard) {
+                addCommand(cmdCopy);
+                if (!clipboard.isEmpty()) addCommand(cmdCopyPlus);
+            }
 //#endif
         addCommand(cmdEnableDisable);
         addCommand(cmdPurge);
@@ -130,10 +131,10 @@ public final class XMLList
         try {
             stanza =  m.toString();
         } catch (Exception e) {}
-        new StanzaEdit(display, this, stanza).setParentView(this);
+        new StanzaEdit(this, stanza);
     }
     
-    public void commandAction(Command c, Displayable d) {
+    public void commandAction(Command c, VirtualList d) {
         super.commandAction(c,d);
         
 	Msg m=getMessage(cursor);

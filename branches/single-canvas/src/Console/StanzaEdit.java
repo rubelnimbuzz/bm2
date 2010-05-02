@@ -36,6 +36,7 @@ import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
+import ui.VirtualList;
 import ui.controls.ExTextBox;
 
 /**
@@ -49,10 +50,7 @@ public class StanzaEdit
 //#     public static String plugin = new String("PLUGIN_CONSOLE");
 //#endif
 
-    private Display display;
-    private Displayable parentView;
-
-    private String body;
+    Displayable pView;
 
     private Command cmdCancel=new Command(SR.MS_CANCEL, Command.BACK,99);
     private Command cmdSend=new Command(SR.MS_SEND, Command.OK,1);
@@ -67,11 +65,9 @@ public class StanzaEdit
     private static final String TEMPLATE_PRESENCE="<presence to='???'>\n<show>???</show>\n<status>???</status>\n</presence>";
     private static final String TEMPLATE_MESSAGE="<message to='???' type='???'>\n<body>???</body>\n</message>";
 
-    public StanzaEdit(Display display, Displayable pView, String body) {
+    public StanzaEdit( VirtualList pView, String body) {
         super(body, SR.MS_XML_CONSOLE, TextField.ANY);
-        
-        this.display=display;
-        
+        parentView = pView;
         addCommand(cmdSend);
 
         addCommand(cmdPasteIQDisco);
@@ -83,16 +79,12 @@ public class StanzaEdit
         if (Config.getInstance().phoneManufacturer == Config.SONYE) System.gc(); // prevent flickering on Sony Ericcsson C510
         setCommandListener(this);
         
-        midlet.BombusMod.getInstance().setDisplayable(this);
-        parentView=pView;
-    }
+        midlet.BombusMod.getInstance().setDisplayable(this);        
+    }    
     
-    public void setParentView(Displayable parentView){
-        this.parentView=parentView;
-    }
     
     public void commandAction(Command c, Displayable d){
-        if (executeCommand(c, d)) return;
+        //if (executeCommand(c, d)) return;
         
         body=getString();
         if (body.length()==0) body=null;

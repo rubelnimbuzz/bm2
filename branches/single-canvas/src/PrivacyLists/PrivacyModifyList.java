@@ -67,7 +67,7 @@ public class PrivacyModifyList
     JabberStream stream=StaticData.getInstance().roster.theStream;
     
     /** Creates a new instance of PrivacySelect */
-    public PrivacyModifyList(Displayable pView, PrivacyList privacyList, boolean newList) {
+    public PrivacyModifyList(VirtualList pView, PrivacyList privacyList, boolean newList) {
         super();
         setMainBarItem(new MainBar(2, null, privacyList.name, false));
 
@@ -100,7 +100,7 @@ public class PrivacyModifyList
     
     public void showMenu() {
         commandState();
-        new MyMenu(display, parentView, this, SR.MS_STATUS, null, menuCommands);
+        new MyMenu( parentView, this, SR.MS_STATUS, null, menuCommands);
     }
     
     private void processIcon(boolean processing){
@@ -119,7 +119,7 @@ public class PrivacyModifyList
     protected int getItemCount() { return plist.rules.size(); }
     protected VirtualElement getItemRef(int index) { return (VirtualElement) plist.rules.elementAt(index); }
     
-    public void commandAction(Command c, Displayable d) {
+    public void commandAction(Command c, VirtualList d) {
         if (c==cmdCancel) {
             stream.cancelBlockListener(this);
             destroyView();

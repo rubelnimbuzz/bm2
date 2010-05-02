@@ -32,19 +32,14 @@ import java.io.DataOutputStream;
 import java.util.Vector;
 import locale.SR;
 import ui.MainBar;
-import ui.VirtualElement;
 import ui.VirtualList;
 
-import Menu.MenuListener;
 import Menu.Command;
-import Menu.MyMenu;
 import java.util.Enumeration;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
+import ui.controls.form.DefForm;
 import util.StringLoader;
 
-public class UserKeysList extends VirtualList implements
-        MenuListener
+public class UserKeysList extends DefForm
     {
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_USER_KEYS");
@@ -53,26 +48,26 @@ public class UserKeysList extends VirtualList implements
     Vector userKeysList;
 
 //#ifdef USER_KEYS
-//#     Command cmdOK = new Command(SR.MS_APPLY, Command.OK, 1);
-//#     Command cmdAdd = new Command(SR.MS_ADD_CUSTOM_KEY, Command.SCREEN, 3);
-//#     Command cmdEdit = new Command(SR.MS_EDIT, Command.ITEM, 3);
-//#     Command cmdDel = new Command(SR.MS_DELETE, Command.ITEM, 4);
-//#     Command cmdRestore = new Command(SR.MS_SETDEFAULT, Command.ITEM, 5);
-//#     Command cmdCancel = new Command(SR.MS_BACK, Command.BACK, 99);
+    Command cmdApply = new Command(SR.MS_APPLY, Command.OK, 1);
+    Command cmdAdd = new Command(SR.MS_ADD_CUSTOM_KEY, Command.SCREEN, 3);
+    Command cmdEdit = new Command(SR.MS_EDIT, Command.ITEM, 3);
+    Command cmdDel = new Command(SR.MS_DELETE, Command.ITEM, 4);
+    Command cmdRestore = new Command(SR.MS_SETDEFAULT, Command.ITEM, 5);
+    
 //#endif
 
     private Config cf=Config.getInstance();
     
     /** Creates a new instance of AccountPicker */
-    public UserKeysList(Display display) {
-        super();
+    public UserKeysList() {
+        super(null);
 //#ifdef USER_KEYS
-//#         setMainBarItem(new MainBar(SR.MS_CUSTOM_KEYS));
+        setMainBarItem(new MainBar(SR.MS_CUSTOM_KEYS));
 //#endif
         
         UserKeyExec uexec = UserKeyExec.getInstance();
         uexec.init_commands_from_rms();
-        userKeysList = copyVector(uexec.userKeysList);
+        itemsList = copyVector(uexec.userKeysList);
 
         commandState();
         setCommandListener(this);
@@ -112,63 +107,59 @@ public class UserKeysList extends VirtualList implements
         userKeysList = getDefaultKeysList();
     }
 
-    void commandState() {
+    public void commandState() {
 //#ifdef USER_KEYS
-//#       menuCommands.removeAllElements();
-//#         addCommand(cmdAdd);
-//#         if (userKeysList.isEmpty()) {
-//#             removeCommand(cmdEdit);
-//#             removeCommand(cmdDel);
-//#         } else {
-//#             addCommand(cmdEdit);
-//#             addCommand(cmdDel);
-//#         }
-//#         addCommand(cmdRestore);
-//#         addCommand(cmdOK);
-//#         addCommand(cmdCancel);
+      super.commandState();
+      removeCommand(cmdOk);
+        addCommand(cmdAdd);
+        if (userKeysList.isEmpty()) {
+            removeCommand(cmdEdit);
+            removeCommand(cmdDel);
+        } else {
+            addCommand(cmdEdit);
+            addCommand(cmdDel);
+        }
+        addCommand(cmdRestore);
+        
 //#endif
     }
+   
+    public void cmdOk() {
+            UserKeyExec.getInstance().userKeysList = userKeysList;
+            rmsUpdate();
+            destroyView();
+        }
 
-    public VirtualElement getItemRef(int index) {
-        return (VirtualElement) userKeysList.elementAt(index);
-    }
-    
-    protected int getItemCount() {
-        return userKeysList.size();
-    }
-    
-    public void commandAction(Command c, Displayable d) {
+    public void commandAction(Command c, VirtualList d) {
 //#ifdef USER_KEYS
-//#         if (c==cmdCancel) {
-//#             destroyView();
-//#         }
-//#         if (c==cmdOK) {
-//#             UserKeyExec.getInstance().userKeysList = userKeysList;
-//#             rmsUpdate();
-//#             destroyView();    
-//#         }
-//#         if (c==cmdRestore) {
-//#             restoreDefault();
-//#             moveCursorHome();
-//#             commandState();
-//#             redraw();
-//#         }
-//#         if (c==cmdEdit) 
-//#             new UserKeyEdit(display, this, (UserKey) getFocusedObject());
-//#         if (c==cmdAdd)
-//#             new UserKeyEdit(display, this, null);
-//#         if (c==cmdDel) {
-//#             userKeysList.removeElement(getFocusedObject());
-//#             moveCursorHome();
-//#             commandState();
-//#             redraw();
-//#         }
+        if (c==cmdApply) {
+            UserKeyExec.getInstance().userKeysList = userKeysList;
+            rmsUpdate();
+            destroyView();
+        }
+        if (c==cmdRestore) {
+            restoreDefault();
+            moveCursorHome();
+            commandState();
+            redraw();
+        }
+        if (c==cmdEdit) 
+            new UserKeyEdit( this, (UserKey) getFocusedObject());
+        if (c==cmdAdd)
+            new UserKeyEdit( this, null);
+        if (c==cmdDel) {
+            userKeysList.removeElement(getFocusedObject());
+            moveCursorHome();
+            commandState();
+            redraw();
+        }
 //#endif
+        super.commandAction(c, d);
     }
     
     public void eventOk() {
 //#ifdef USER_KEYS
-//#         new UserKeyEdit(display, this, (UserKey) getFocusedObject());
+        new UserKeyEdit( this, (UserKey) getFocusedObject());
 //#endif
     }
     
@@ -189,12 +180,6 @@ public class UserKeysList extends VirtualList implements
     
     void rmsUpdate() {
         rmsUpdate(userKeysList);
-    }
-    
-//#if (USER_KEYS)
-//#     public void showMenu() {
-//#         commandState();
-//#         new MyMenu(display, parentView, this, SR.MS_CUSTOM_KEYS, null, menuCommands);
-//#     }
-//#endif
+    }    
+
 }

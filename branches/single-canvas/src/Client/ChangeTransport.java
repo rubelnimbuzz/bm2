@@ -30,7 +30,6 @@ import java.util.Enumeration;
 import javax.microedition.lcdui.ChoiceGroup;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Form;
 import locale.SR;
@@ -40,7 +39,6 @@ public class ChangeTransport implements CommandListener {
 //#     public static String plugin = new String("PLUGIN_CHANGE_TRANSPORT");
 //#endif
 
-    private Display display;
     private Form f;
     private ChoiceGroup tTranspList;
     private String srcTransport;
@@ -50,9 +48,8 @@ public class ChangeTransport implements CommandListener {
     
     StaticData sd=StaticData.getInstance();
     
-    public ChangeTransport(Display display, String srcTransport) {
+    public ChangeTransport(String srcTransport) {
         this.srcTransport=srcTransport;
-        this.display=display;
         
         f=new Form(SR.MS_TRANSPORT);
         

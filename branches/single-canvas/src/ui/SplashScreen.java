@@ -78,22 +78,22 @@ public class SplashScreen extends Canvas implements Runnable, CommandListener {
     
     private Progress pb;
     
-    public static SplashScreen getInstance(Display display){
+    public static SplashScreen getInstance(){
         if (instance==null) 
-            instance=new SplashScreen(display);
+            instance=new SplashScreen();
         return instance;
     }
     
     /** Creates a new instance of SplashScreen */
-    private SplashScreen(Display display) {
+    private SplashScreen() {
         setFullScreenMode(Config.fullscreen);
-        this.display = display; // http://code.google.com/p/bm2/issues/detail?id=93
+        this.display = midlet.BombusMod.getInstance().getDisplay();
         midlet.BombusMod.getInstance().setDisplayable(this);
     }
     
-    public SplashScreen(Display display, ComplexString status, char exitKey) {
+    public SplashScreen(ComplexString status, char exitKey) {
         this.status=status;
-        this.display=midlet.BombusMod.getInstance().getDisplay();
+        this.display = midlet.BombusMod.getInstance().getDisplay();
         this.exitKey=exitKey;
         kHold=exitKey;
         
@@ -170,7 +170,7 @@ public class SplashScreen extends Canvas implements Runnable, CommandListener {
     // close splash
     private Command cmdExit=new Command("Hide Splash", Command.BACK, 99);
     
-    public void setExit(Display display, Displayable nextDisplayable){
+    public void setExit(Displayable nextDisplayable){
         parentView=nextDisplayable;
         setCommandListener(this);
         addCommand(cmdExit);

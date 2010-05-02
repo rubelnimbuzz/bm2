@@ -128,7 +128,7 @@ public abstract class MessageList extends VirtualList
         removeCommand(cmdBack);
     }
 
-    public void commandAction(Command c, Displayable d) {
+    public void commandAction(Command c, VirtualList d) {
         if (c==cmdBack) {
             StaticData.getInstance().roster.activeContact=null;
             destroyView();
@@ -136,7 +136,7 @@ public abstract class MessageList extends VirtualList
         if (c==cmdUrl) {
             try {
                 Vector urls=((MessageItem) getFocusedObject()).getUrlList();
-                new MessageUrl(display, this, urls); //throws NullPointerException if no urls
+                new MessageUrl( this, urls); //throws NullPointerException if no urls
             } catch (Exception e) {/* no urls found */}
         }
         if (c==cmdxmlSkin) {
@@ -181,7 +181,7 @@ public abstract class MessageList extends VirtualList
         try {
             capt=getMainBarItem().elementAt(0).toString();
         } catch (Exception ex){ }
-        new MyMenu(display, parentView, this, capt, null, menuCommands);
+        new MyMenu( parentView, this, capt, null, menuCommands);
    }
 
     public void commandState() { }

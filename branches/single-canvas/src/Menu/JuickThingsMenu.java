@@ -7,11 +7,10 @@ package Menu;
 
 import locale.SR;
 //import images.MenuIcons;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import Client.MessageEdit;
 import Client.Contact;
 import java.util.*;
+import ui.VirtualList;
 
 /**
  *
@@ -25,7 +24,7 @@ public class JuickThingsMenu extends Menu {
     private Contact contact;
     private Vector things;
 
-    public JuickThingsMenu(Vector things, Display display, Displayable pView, Contact contact) {
+    public JuickThingsMenu(Vector things, VirtualList pView, Contact contact) {
 //#ifdef JUICK
         super(SR.MS_JUICK_THINGS, null); //MenuIcons.getInstance()
 //#else
@@ -50,10 +49,10 @@ public class JuickThingsMenu extends Menu {
         int index=me.index;
         try {
 //#ifdef RUNNING_MESSAGE
-                Client.Roster.me=new MessageEdit(parentView, contact, things.elementAt(index)+" ");
+                Client.Roster.me=new MessageEdit((VirtualList)this.parentView, contact, things.elementAt(index)+" ");
 //#else
 //#         new MessageEdit(parentView, contact, things.elementAt(index)+" "); // To chat
-//# //        new MessageEdit(display, this, contact, things.elementAt(index)+" "); // Previons menu
+//# //        new MessageEdit( this, contact, things.elementAt(index)+" "); // Previons menu
 //#endif
         } catch (Exception e) {/*no messages*/}
     }

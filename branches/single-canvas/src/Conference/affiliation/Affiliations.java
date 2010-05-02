@@ -41,10 +41,9 @@ import ui.VirtualElement;
 import ui.controls.form.DefForm;
 import Menu.Command;
 //#ifdef CLIPBOARD
-//# import util.ClipBoard;
+import util.ClipBoard;
 //#endif
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
+import ui.VirtualList;
 
 /**
  *
@@ -65,16 +64,20 @@ public class Affiliations
     private Command cmdModify = new Command (SR.MS_MODIFY, Command.SCREEN, 1);
     private Command cmdNew    = new Command (SR.MS_NEW_JID, Command.SCREEN, 2);
 //#ifdef CLIPBOARD
-//#     private Command cmdCopy   = new Command(SR.MS_COPY, Command.SCREEN, 3);
-//#     private ClipBoard clipboard; 
+    private Command cmdCopy   = new Command(SR.MS_COPY, Command.SCREEN, 3);
+    private ClipBoard clipboard; 
 //#endif
     
     protected VirtualElement getItemRef(int index) { return (VirtualElement) items.elementAt(index); }
     protected int getItemCount() { return items.size(); }
     
     
-    /** Creates a new instance of AffiliationList */
-    public Affiliations(Display display, Displayable pView, String room, short affiliationIndex) {
+    /** Creates a new instance of AffiliationList
+     * @param pView
+     * @param room
+     * @param affiliationIndex
+     */
+    public Affiliations(VirtualList pView, String room, short affiliationIndex) {
         super (AffiliationItem.getAffiliationName(affiliationIndex));
         this.room=room;
         
@@ -104,17 +107,17 @@ public class Affiliations
         listRq(false, item, id);
     }
     
-    public void commandAction(Command c, Displayable d){
-        if (c==cmdNew) new AffiliationModify(display, this, room, null, "none", "");
+    public void commandAction(Command c, VirtualList d){
+        if (c==cmdNew) new AffiliationModify(this, room, null, "none", "");
         if (c==cmdModify) eventOk();
 //#ifdef CLIPBOARD
-//#         if (c==cmdCopy) {
-//#             try {
-//#                 AffiliationItem item=(AffiliationItem)getFocusedObject();
-//#                 if (item.jid!=null)
-//#                     clipboard.setClipBoard(item.jid);
-//#             } catch (Exception e) {/*no messages*/}
-//#         }
+        if (c==cmdCopy) {
+            try {
+                AffiliationItem item=(AffiliationItem)getFocusedObject();
+                if (item.jid!=null)
+                    clipboard.setClipBoard(item.jid);
+            } catch (Exception e) {/*no messages*/}
+        }
 //#endif     
         
     }
@@ -127,7 +130,7 @@ public class Affiliations
     public void eventOk(){
         try {
             AffiliationItem item=(AffiliationItem)getFocusedObject();
-            new AffiliationModify(display, this, room, item.jid, 
+            new AffiliationModify(this, room, item.jid, 
 					AffiliationItem.getAffiliationName( (short)item.affiliation), 
                                         (item.reason==null)? "":item.reason
                     );
@@ -156,7 +159,7 @@ public class Affiliations
                 items=tempItems;
                 tempItems=null;
                 
-                if (display!=null) redraw();
+                redraw();
                 
                 processIcon(false);
                 return JabberBlockListener.NO_MORE_BLOCKS;
@@ -180,10 +183,10 @@ public class Affiliations
         addCommand(cmdModify);
         addCommand(cmdNew);
 //#ifdef CLIPBOARD
-//#         if (Config.getInstance().useClipBoard) {
-//#             clipboard=ClipBoard.getInstance();
-//#             addCommand(cmdCopy);
-//#         }
+        if (Config.getInstance().useClipBoard) {
+            clipboard=ClipBoard.getInstance();
+            addCommand(cmdCopy);
+        }
 //#endif
     }
     public void touchLeftPressed() {

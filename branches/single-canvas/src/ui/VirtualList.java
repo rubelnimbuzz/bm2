@@ -314,7 +314,6 @@ public abstract class VirtualList
         return null;
     }    
 
-    protected Display display;
     protected Displayable parentView;
 
     protected ScrollBar scrollbar;
@@ -1037,7 +1036,7 @@ public abstract class VirtualList
             redraw();
         }
 //#endif
-        boolean executed = UserKeyExec.getInstance().commandExecute(display, previous_key_code, keyCode);
+        boolean executed = UserKeyExec.getInstance().commandExecute(previous_key_code, keyCode);
         previous_key_code = keyCode;
         if (executed)
             return;

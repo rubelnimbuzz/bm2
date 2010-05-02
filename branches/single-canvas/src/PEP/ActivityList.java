@@ -63,7 +63,7 @@ public class ActivityList extends DefForm implements MIDPTextBox.TextBoxNotify {
 //#ifdef PEP
 //#     public void eventOk() {
 //#         if (cursor==0) OkNotify(null); 
-//#             else new MIDPTextBox(display, this, SR.MS_USERACTIVITY, acttext, this, TextField.ANY);
+//#             else new MIDPTextBox( this, SR.MS_USERACTIVITY, acttext, this, TextField.ANY);
 //#     }
 //#endif
     
@@ -91,7 +91,7 @@ public class ActivityList extends DefForm implements MIDPTextBox.TextBoxNotify {
          
         try {
             //todo: refactor theStream call; send notification to JabberBlockListener if stream was terminated
-            StaticData.getInstance().roster.theStream.addBlockListener(new PepPublishResult(display, sid));
+            StaticData.getInstance().roster.theStream.addBlockListener(new PepPublishResult( sid));
             StaticData.getInstance().roster.theStream.send(setActivity);
         } catch (Exception e) {e.printStackTrace(); }
     }

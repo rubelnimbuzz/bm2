@@ -33,6 +33,7 @@ import com.alsutton.jabber.JabberStream;
 import com.alsutton.jabber.datablocks.Iq;
 import javax.microedition.lcdui.*;
 import locale.SR;
+import ui.VirtualList;
 import ui.controls.AlertBox;
 import ui.controls.form.DefForm;
 import ui.controls.form.DropChoiceBox;
@@ -53,11 +54,9 @@ public class AffiliationModify
     private int recentAffiliation;
     
     /** Creates a new instance of AffiliationModify */
-    public AffiliationModify(Display display, Displayable pView, String room, String jid, String affiliation, String reason) {
+    public AffiliationModify(VirtualList pView, String room, String jid, String affiliation, String reason) {
         super(SR.MS_AFFILIATION);
         
-        this.display=display;
-
         this.room=room;
 
         jidItem=new TextInput(SR.MS_JID, jid, null, TextField.ANY);

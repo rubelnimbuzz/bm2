@@ -26,12 +26,13 @@
  */
 package IE;
 
-import Client.StaticData;
+//#ifdef IMPORT_EXPORT
+//# import Client.StaticData;
+//#endif
 import io.file.browse.Browser;
 import io.file.browse.BrowserListener;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
+import ui.VirtualList;
 import ui.controls.form.DefForm;
 import ui.controls.form.LinkString;
 import ui.controls.form.SimpleString;
@@ -50,7 +51,7 @@ public class IEMenu
 
     private int choice = -1;
     
-    public IEMenu(Display display, Displayable pView) {
+    public IEMenu(VirtualList pView) {
         super(
 //#if IMPORT_EXPORT
 //#         SR.MS_IMPORT_EXPORT
@@ -115,7 +116,7 @@ public class IEMenu
         this.parentView=pView;
     }
     public void SelectFile(boolean getDir) {
-        new Browser(null, display, this, this, getDir);
+        new Browser(null,  this, this, getDir);
     }
     
     public void BrowserFilePathNotify(String pathSelected) {

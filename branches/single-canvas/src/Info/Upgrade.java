@@ -36,10 +36,9 @@ import javax.microedition.io.Connector;
 import javax.microedition.io.HttpConnection;
 import Menu.MenuListener;
 import Menu.Command;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import ui.MainBar;
+import ui.VirtualList;
 
 /**
  *
@@ -67,10 +66,12 @@ public class Upgrade
     private boolean wait=true;
     private boolean error=false;
     
-    /** Creates a new instance of Upgrade */
-    public Upgrade(Display display, Displayable pView, boolean build) {
+    /** Creates a new instance of Upgrade
+     * @param pView
+     * @param build
+     */
+    public Upgrade(VirtualList pView, boolean build) {
         super ();
-        this.display=display;
         this.build=build;
         
         news=new Vector();
@@ -83,11 +84,11 @@ public class Upgrade
             focusedItem(0);
         } catch (Exception e) {}
         
-	MainBar mainbar=new MainBar(SR.MS_CHECK_UPDATE);
-        setMainBarItem(mainbar);
-        mainbar.addElement(null);
-        mainbar.addRAlign();
-        mainbar.addElement(null);
+	MainBar mb=new MainBar(SR.MS_CHECK_UPDATE);
+        setMainBarItem(mb);
+        mb.addElement(null);
+        mb.addRAlign();
+        mb.addElement(null);
 
         show(parentView);
         this.parentView=pView;
@@ -124,7 +125,7 @@ public class Upgrade
         redraw();
     }
 
-    public void commandAction(Command c, Displayable d) {
+    public void commandAction(Command c, VirtualList d) {
         super.commandAction(c,d);
         /*try {
             if (BombusMod.getInstance().platformRequest((String) versions[2].elementAt(index))) System.exit(0);

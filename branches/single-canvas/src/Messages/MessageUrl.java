@@ -32,7 +32,6 @@ import javax.microedition.io.ConnectionNotFoundException;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.TextField;
 import midlet.BombusMod;
-import javax.microedition.lcdui.Displayable;
 import ui.MIDPTextBox;
 import ui.MIDPTextBox.TextBoxNotify;
 import ui.controls.form.DefForm;
@@ -40,8 +39,9 @@ import ui.controls.form.ListItem;
 import locale.SR;
 import Menu.Command;
 //#ifdef CLIPBOARD
-//# import util.ClipBoard;
-//# import Client.Msg;
+import util.ClipBoard;
+import Client.Msg;
+import ui.VirtualList;
 //#endif
 
 /**
@@ -51,20 +51,22 @@ import Menu.Command;
 public class MessageUrl extends DefForm implements TextBoxNotify {
 
 //#ifdef CLIPBOARD
-//#     private ClipBoard clipboard=ClipBoard.getInstance();
-//# 
-//#     protected Command cmdCopy = new Command(SR.MS_COPY, Command.SCREEN, 20);
-//#     protected Command cmdCopyPlus = new Command("+ "+SR.MS_COPY, Command.SCREEN, 30);
+    private ClipBoard clipboard=ClipBoard.getInstance();
+
+    protected Command cmdCopy = new Command(SR.MS_COPY, Command.SCREEN, 20);
+    protected Command cmdCopyPlus = new Command("+ "+SR.MS_COPY, Command.SCREEN, 30);
 //#endif
     private Vector urlList;
     Command cmdGoto=new Command("Goto", Command.OK, 2);
     Command cmdEdit=new Command("Edit", Command.SCREEN, 3);
 
-    /** Creates a new instance of MessageUrl */
-    public MessageUrl(Display display, Displayable pView, Vector urlList) {
+    /** Creates a new instance of MessageUrl
+     * @param pView
+     * @param urlList
+     */
+    public MessageUrl(VirtualList pView, Vector urlList) {
 	super("URLs");
-        this.display = display;        
-	this.urlList=urlList;
+        this.urlList=urlList;
 
         commandStateCommon();
 
@@ -77,7 +79,7 @@ public class MessageUrl extends DefForm implements TextBoxNotify {
         this.parentView = pView;
     }
     
-    public void commandAction(Command c, Displayable d) {
+    public void commandAction(Command c, VirtualList d) {
         super.commandAction(c, d);
         if (c==cmdGoto)
             eventOk();
@@ -85,18 +87,18 @@ public class MessageUrl extends DefForm implements TextBoxNotify {
             EditURL();
         }
 //#ifdef CLIPBOARD
-//#         if (c == cmdCopy)
-//#         {
-//#             try {
-//#                 clipboard.add(new Msg(Msg.MESSAGE_TYPE_IN, "url", null, (String) urlList.elementAt(cursor)));
-//#             } catch (Exception e) {/*no messages*/}
-//#         }
-//# 
-//#         if (c==cmdCopyPlus) {
-//#             try {
-//#                 clipboard.append(new Msg(Msg.MESSAGE_TYPE_IN, "url", null, (String) urlList.elementAt(cursor)));
-//#             } catch (Exception e) {/*no messages*/}
-//#         }
+        if (c == cmdCopy)
+        {
+            try {
+                clipboard.add(new Msg(Msg.MESSAGE_TYPE_IN, "url", null, (String) urlList.elementAt(cursor)));
+            } catch (Exception e) {/*no messages*/}
+        }
+
+        if (c==cmdCopyPlus) {
+            try {
+                clipboard.append(new Msg(Msg.MESSAGE_TYPE_IN, "url", null, (String) urlList.elementAt(cursor)));
+            } catch (Exception e) {/*no messages*/}
+        }
 //#endif
     }
     
@@ -117,7 +119,7 @@ public class MessageUrl extends DefForm implements TextBoxNotify {
 
 	}
     private void EditURL() {
-        new MIDPTextBox(display, this, "Edit URL", (String)urlList.elementAt(cursor), this, TextField.ANY);
+        new MIDPTextBox(this, "Edit URL", (String)urlList.elementAt(cursor), this, TextField.ANY);
     }
 
     public void OkNotify(String text_return) {
@@ -136,10 +138,10 @@ public class MessageUrl extends DefForm implements TextBoxNotify {
      
      public void commandStateCommon() {
 //#ifdef CLIPBOARD
-//#          if (Client.Config.getInstance().useClipBoard) {
-//#              addCommand(cmdCopy);
-//#              addCommand(cmdCopyPlus);
-//#          }
+         if (Client.Config.getInstance().useClipBoard) {
+             addCommand(cmdCopy);
+             addCommand(cmdCopyPlus);
+         }
 //#endif
      }
      

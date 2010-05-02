@@ -31,6 +31,7 @@ import Client.Config;
 import Client.Msg;
 import javax.microedition.lcdui.*;
 import locale.SR;
+import ui.VirtualList;
 import ui.controls.ExTextBox;
 
 /**
@@ -44,8 +45,6 @@ public class archiveEdit
 //#     public static String plugin = new String("PLUGIN_ARCHIVE");
 //#endif
     
-    private Display display;
-
     private Command cmdCancel=new Command(SR.MS_CANCEL, Command.BACK, 99);
     private Command cmdOk=new Command(SR.MS_OK, Command.OK /*Command.SCREEN*/, 1);
 
@@ -58,13 +57,9 @@ public class archiveEdit
     private int pos;
 
     private ArchiveList al;
-
-    private String body;
     
-    public archiveEdit(Display display, Displayable pView, int pos, int where, ArchiveList al) {
+    public archiveEdit(VirtualList pView, int pos, int where, ArchiveList al) {
         super(null, (pos>-1)?SR.MS_EDIT:SR.MS_NEW, TextField.ANY);
-        
-        this.display=display;
         
         archive=new MessageArchive(where);
 
@@ -89,7 +84,7 @@ public class archiveEdit
         super.removeCommand(cmdPaste);
 //#endif
 //#if TEMPLATES
-//#         super.removeCommand(cmdTemplate);
+        super.removeCommand(cmdTemplate);
 //#endif
         if (Config.getInstance().phoneManufacturer == Config.SONYE) System.gc(); // prevent flickering on Sony Ericcsson C510
         setCommandListener(this);
@@ -98,7 +93,7 @@ public class archiveEdit
     }
     
     public void commandAction(Command c, Displayable d){
-        if (executeCommand(c, d)) return;
+        //if (executeCommand(c, d)) return;
         
         body=getString();
 		
@@ -122,6 +117,6 @@ public class archiveEdit
             al.reFresh();
         }
         
-        midlet.BombusMod.getInstance().setDisplayable(/*parentView*/al);
+        al.show(al.pView);
     }
 }

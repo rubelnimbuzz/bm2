@@ -20,11 +20,10 @@ import images.camera.*;
 //#endif
 import java.util.*;
 import Menu.Command;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
+import ui.VirtualList;
 
 import util.StringUtils;
 
@@ -74,8 +73,11 @@ public class VCardEdit
     
     private LinkString publish;
 
-    /** Creates a new instance of vCardForm */
-    public VCardEdit(Displayable pView, VCard vcard) {
+    /** Creates a new instance of vCardForm
+     * @param pView
+     * @param vcard
+     */
+    public VCardEdit(VirtualList pView, VCard vcard) {
         super(SR.MS_VCARD+" "+StaticData.getInstance().account.getBareJid());
         this.vcard=vcard;
 
@@ -112,7 +114,7 @@ public class VCardEdit
         destroyView();
     }
 
-    public void commandAction(Command c, Displayable d) {        
+    public void commandAction(Command c, VirtualList d) {        
         if (c==cmdRefresh) {
             VCard.request(vcard.getJid(), vcard.getId().substring(5));
             destroyView();
@@ -121,16 +123,16 @@ public class VCardEdit
 //#if FILE_IO
         if (c==cmdLoadPhoto) {
             st=1;
-            new Browser(null, display, this, this, false);
+            new Browser(null, this, this, false);
         }
         if (c==cmdSavePhoto) {
             st=2;
-            new Browser(null, display, this, this, true);
+            new Browser(null, this, this, true);
         }
 //#endif
 //#ifndef NOMMEDIA
         if (c==cmdCamera)
-            new CameraImage(display, this);
+            new CameraImage( this);
 //#endif
         if (c==cmdDelPhoto) {
             vcard.dropPhoto();

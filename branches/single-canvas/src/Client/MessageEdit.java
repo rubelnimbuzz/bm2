@@ -109,7 +109,7 @@ public final class MessageEdit
     Ticker ticker = new Ticker("");
 //#endif
     /** Creates a new instance of MessageEdit */
-    public MessageEdit( Displayable pView, Contact to, String body) {
+    public MessageEdit( VirtualList pView, Contact to, String body) {
         t = new TextBox(to.toString(), "", 500, TextField.ANY);
         try {
             //expanding buffer as much as possible

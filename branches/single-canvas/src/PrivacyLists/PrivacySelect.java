@@ -27,13 +27,10 @@
 
 package PrivacyLists;
 
-import Client.Config;
 import Client.StaticData;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import images.RosterIcons;
-import Menu.MenuListener;
 import Menu.Command;
 import Menu.MyMenu;
 import locale.SR;
@@ -41,15 +38,15 @@ import ui.*;
 import ui.controls.AlertBox;
 import java.util.*;
 import com.alsutton.jabber.*;
+import ui.controls.form.DefForm;
 
 /**
  *
  * @author EvgS
  */
 public class PrivacySelect 
-        extends VirtualList 
-        implements
-        MenuListener,
+        extends DefForm
+        implements        
         JabberBlockListener,
         MIDPTextBox.TextBoxNotify
 {
@@ -59,7 +56,6 @@ public class PrivacySelect
     
     private Vector list=new Vector();
     
-    private Command cmdCancel=new Command (SR.MS_BACK, Command.BACK, 99);
     private Command cmdActivate=new Command (SR.MS_ACTIVATE, Command.SCREEN, 10);
     private Command cmdDefault=new Command (SR.MS_SETDEFAULT, Command.SCREEN, 11);
     private Command cmdNewList=new Command (SR.MS_NEW_LIST, Command.SCREEN, 12);
@@ -70,15 +66,14 @@ public class PrivacySelect
     JabberStream stream=StaticData.getInstance().roster.theStream;
     
     /** Creates a new instance of PrivacySelect */
-    public PrivacySelect( Displayable pView) {
-        super();
+    public PrivacySelect(VirtualList pView) {
+        super(null);
         this.parentView=pView;
 
         setMainBarItem(new MainBar(2, null, SR.MS_PRIVACY_LISTS, false));
 
-        list.addElement(new PrivacyList(null));//none
+        itemsList.addElement(new PrivacyList(null));//none
         
-        commandState();
         setCommandListener(this);
         
         getLists();
@@ -87,10 +82,9 @@ public class PrivacySelect
     }
     
     public void commandState() {
-        menuCommands.removeAllElements();
+        super.commandState();
         addCommand(cmdActivate);
         addCommand(cmdDefault);
-        addCommand(cmdCancel);
         addCommand(cmdNewList);
         addCommand(cmdDelete);
         addCommand(cmdIL);
@@ -108,12 +102,9 @@ public class PrivacySelect
         stream.addBlockListener(this);
         processIcon(true);
         PrivacyList.privacyListRq(false, null, "getplists");
-    }
+    }    
     
-    protected int getItemCount() { return list.size(); }
-    protected VirtualElement getItemRef(int index) { return (VirtualElement) list.elementAt(index); }
-    
-    public void commandAction(Command c, Displayable d) {
+    public void commandAction(Command c, VirtualList d) {
         if (c==cmdCancel) {
             destroyView();
             stream.cancelBlockListener(this);
@@ -145,14 +136,10 @@ public class PrivacySelect
             }
         }
         if (c==cmdNewList)
-            new MIDPTextBox(display, this, SR.MS_NEW, "", this, TextField.ANY);
-    }
-    
-    public void showMenu() {
-        commandState();
-        new MyMenu(display, parentView, this, SR.MS_STATUS, null, menuCommands);
-    }
-    
+            new MIDPTextBox( this, SR.MS_NEW, "", this, TextField.ANY);
+        super.commandAction(c, d);
+    }    
+        
     // MIDPTextBox interface
     public void OkNotify(String listName) {
         if (listName.length()>0)
@@ -165,8 +152,7 @@ public class PrivacySelect
                 if (data.getAttribute("id").equals("getplists")) {
                 data=data.findNamespace("query", "jabber:iq:privacy");
                 if (data!=null) {
-                    list=null;
-                    list=new Vector();
+                    itemsList.removeAllElements();
                     String activeList="";
                     String defaultList="";
                     try {
@@ -180,14 +166,14 @@ public class PrivacySelect
                                 PrivacyList pl=new PrivacyList(name);
                                 pl.isActive=(name.equals(activeList));
                                 pl.isDefault=(name.equals(defaultList));
-                                list.addElement(pl);
+                                itemsList.addElement(pl);
                             }
                         }
                     } catch (Exception e) {}
                     PrivacyList nullList=new PrivacyList(null);
                     nullList.isActive=activeList.length()==0;
                     nullList.isDefault=defaultList.length()==0;
-                    list.addElement(nullList);//none
+                    itemsList.addElement(nullList);//none
                 }
                 
                 processIcon(false);
@@ -213,7 +199,7 @@ public class PrivacySelect
     }
     
     public void keyGreen() {
-        new MIDPTextBox(display, this, SR.MS_NEW, "", this, TextField.ANY);
+        new MIDPTextBox( this, SR.MS_NEW, "", this, TextField.ANY);
     }
         
     protected void keyClear(){
@@ -228,4 +214,6 @@ public class PrivacySelect
             public void no() {}
         };
     }
+    public void touchLeftPressed() { showMenu(); }
+    public String touchLeftCommand() {return SR.MS_MENU; }
 }

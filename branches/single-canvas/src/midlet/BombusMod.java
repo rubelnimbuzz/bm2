@@ -37,7 +37,7 @@ import Account.Account;
 import Account.AccountSelect;
 import Colors.ColorTheme;
 //#ifdef CLIENTS_ICONS
-//# import images.ClientsIconsData;
+import images.ClientsIconsData;
 //#endif
 import javax.microedition.midlet.*;
 import javax.microedition.lcdui.*;
@@ -69,7 +69,7 @@ public class BombusMod extends MIDlet implements Runnable{
     public BombusMod() {
         instance=this; 
         display = Display.getDisplay(this);
-        s = SplashScreen.getInstance(display);
+        s = SplashScreen.getInstance();
         s.setProgress("Loading", 3); // this message will not be localized
     }
     
@@ -116,7 +116,7 @@ public class BombusMod extends MIDlet implements Runnable{
 //#         s.setProgress(17);
 //#endif
 
-        sd.roster=new Roster(display);
+        sd.roster=new Roster();
         s.setProgress(20);
         
         boolean selAccount=( (cf.accountIndex<0) || s.keypressed!=0);

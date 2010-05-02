@@ -31,10 +31,9 @@ import io.file.FileIO;
 import io.file.browse.Browser;
 import io.file.browse.BrowserListener;
 
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
+import ui.VirtualList;
 import ui.controls.form.LinkString;
 import ui.controls.form.SimpleString;
 import ui.controls.form.DefForm;
@@ -58,11 +57,12 @@ public class TransferAcceptFile
     
     LinkString selectFile;
 
-    /** Creates a new instance of TransferAcceptFile */
-    public TransferAcceptFile(Display display, Displayable pView, TransferTask transferTask) {
+    /** Creates a new instance of TransferAcceptFile
+     * @param pView 
+     * @param transferTask
+     */
+    public TransferAcceptFile(VirtualList pView, TransferTask transferTask) {
         super(SR.MS_ACCEPT_FILE);
-        
-        this.display=display;
         
         t=transferTask;
         
@@ -102,7 +102,7 @@ public class TransferAcceptFile
     }
 
     
-    public void initBrowser() { new Browser(path.getValue(), display, this, this, true); }
+    public void initBrowser() { new Browser(path.getValue(),  this, this, true); }
 
     public void BrowserFilePathNotify(String pathSelected) { path.setValue(pathSelected); }
     

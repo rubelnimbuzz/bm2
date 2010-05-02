@@ -32,10 +32,9 @@ import Client.Msg;
 import Menu.Command;
 import Messages.MessageList;
 import java.util.Vector;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import ui.MainBar;
+import ui.VirtualList;
 
 /**
  *
@@ -51,7 +50,6 @@ public class HistoryReader extends MessageList {
     Command cmdNext, cmdPrev;
 
     /** Creates a new instance of HistoryReader
-     * @param display
      * @param c 
      */
     public HistoryReader(Contact c) {
@@ -91,7 +89,7 @@ public class HistoryReader extends MessageList {
         super.keyPressed(keyCode);
     }
 
-    public void commandAction(Command c, Displayable d) {
+    public void commandAction(Command c, VirtualList d) {
         if(c==cmdNext) {
             removeAllMessages();
             hl.getNext();

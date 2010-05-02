@@ -32,8 +32,6 @@ import Client.StaticData;
 import java.util.Enumeration;
 import java.util.Vector;
 import javax.microedition.io.ConnectionNotFoundException;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import midlet.BombusMod;
 import ui.controls.form.DefForm;
@@ -42,6 +40,7 @@ import ui.controls.form.MultiLine;
 import ui.controls.form.SpacerItem;
 import Menu.Command;
 import Menu.MyMenu;
+import ui.VirtualList;
 import util.ClipBoard;
 
 /**
@@ -60,18 +59,17 @@ public class InfoWindow
     StaticData sd=StaticData.getInstance();
 
 //#ifdef CLIPBOARD
-//#     ClipBoard clipboard  = ClipBoard.getInstance();
-//#     Command cmdCopy      = new Command(SR.MS_COPY, Command.SCREEN, 1);
-//#     Command cmdCopyPlus  = new Command("+ "+SR.MS_COPY, Command.SCREEN, 2);
+    ClipBoard clipboard  = ClipBoard.getInstance();
+    Command cmdCopy      = new Command(SR.MS_COPY, Command.SCREEN, 1);
+    Command cmdCopyPlus  = new Command("+ "+SR.MS_COPY, Command.SCREEN, 2);
 //#endif
 
     /**
      * Creates a new instance of InfoWindow
      */
-    public InfoWindow(Display display, Displayable pView) {
+    public InfoWindow(VirtualList pView) {
         super(SR.MS_ABOUT);
-        this.display = display;
-
+        
         name = new MultiLine(Version.getName(), Version.getVersionNumber() + "\n" + Config.getOs() + "\nMobile Jabber client", super.superWidth);
         name.selectable = true;
         itemsList.addElement(name);
@@ -123,11 +121,11 @@ public class InfoWindow
     public void commandStateTest() {
         menuCommands.removeAllElements();
 //#ifdef CLIPBOARD
-//#             if (Config.getInstance().useClipBoard) {
-//#                 addCommand(cmdCopy);
-//#                 if (!clipboard.isEmpty())
-//#                     addCommand(cmdCopyPlus);
-//#             }
+            if (Config.getInstance().useClipBoard) {
+                addCommand(cmdCopy);
+                if (!clipboard.isEmpty())
+                    addCommand(cmdCopyPlus);
+            }
 //#endif
         addCommand(cmdCancel);
     }
@@ -140,30 +138,30 @@ public class InfoWindow
 
     public void showMenu() {
         commandStateTest();
-        new MyMenu(display, parentView, this, "", null, menuCommands);
+        new MyMenu( parentView, this, "", null, menuCommands);
     }
 
-    public void commandAction(Command command, Displayable displayable) {
+    public void commandAction(Command command, VirtualList displayable) {
 //#ifdef CLIPBOARD
-//#         if (command == cmdCopy) {
-//#             try {
-//#                 String str = ((MultiLine) getFocusedObject()).toString();
-//#                 if (str == null)
-//#                     str = "";
-//#                 clipboard.setClipBoard(str);
-//#             } catch (Exception e) {/*no messages*/}
-//#         }
-//# 
-//#         if (command == cmdCopyPlus) {
-//#             try {
-//#                 String str = ((MultiLine) getFocusedObject()).toString();
-//#                 if (str == null)
-//#                     str = "";
-//#                 str  = clipboard.getClipBoard() + "\n\n" + str;
-//# 
-//#                 clipboard.setClipBoard(str);
-//#             } catch (Exception e) {/*no messages*/}
-//#         }
+        if (command == cmdCopy) {
+            try {
+                String str = ((MultiLine) getFocusedObject()).toString();
+                if (str == null)
+                    str = "";
+                clipboard.setClipBoard(str);
+            } catch (Exception e) {/*no messages*/}
+        }
+
+        if (command == cmdCopyPlus) {
+            try {
+                String str = ((MultiLine) getFocusedObject()).toString();
+                if (str == null)
+                    str = "";
+                str  = clipboard.getClipBoard() + "\n\n" + str;
+
+                clipboard.setClipBoard(str);
+            } catch (Exception e) {/*no messages*/}
+        }
 //#endif
         super.commandAction(command, displayable);
     }
@@ -213,10 +211,10 @@ public class InfoWindow
 //#ifdef PLUGINS
 //#         if (sd.ClientsIcons)
 //#endif
-//#             abilitiesList.addElement("CLIENTS_ICONS");
+            abilitiesList.addElement("CLIENTS_ICONS");
 //#endif
 //#ifdef CLIPBOARD
-//#         abilitiesList.addElement("CLIPBOARD");
+        abilitiesList.addElement("CLIPBOARD");
 //#endif
 //#ifdef CONSOLE
 //#ifdef PLUGINS
@@ -228,7 +226,7 @@ public class InfoWindow
 //#ifdef PLUGINS
 //#         if (sd.Colors)
 //#endif
-//#             abilitiesList.addElement("COLOR_TUNE");
+            abilitiesList.addElement("COLOR_TUNE");
 //#endif
 //#ifdef DETRANSLIT
 //#         abilitiesList.addElement("DETRANSLIT");
@@ -252,13 +250,13 @@ public class InfoWindow
 //#ifdef PLUGINS
 //#         if (sd.History)
 //#endif
-//#             abilitiesList.addElement("HISTORY");
+            abilitiesList.addElement("HISTORY");
 //#endif
 //#ifdef HISTORY_READER
 //#ifdef PLUGINS
 //#         if (sd.History)
 //#endif
-//#             abilitiesList.addElement("HISTORY_READER");
+            abilitiesList.addElement("HISTORY_READER");
 //#endif
 //#ifdef HTTPCONNECT
 //#         abilitiesList.addElement("HTTPCONNECT");
@@ -276,7 +274,7 @@ public class InfoWindow
 //#ifdef PLUGINS
 //#         if (sd.Juick)
 //#endif
-//#         abilitiesList.addElement("JUICK");
+        abilitiesList.addElement("JUICK");
 //#endif
 //#ifdef LAST_MESSAGES
 //#ifdef PLUGINS
@@ -285,8 +283,12 @@ public class InfoWindow
 //#             abilitiesList.addElement("LAST_MESSAGES");
 //#endif
 //#ifdef LOGROTATE
-//#         abilitiesList.addElement("LOGROTATE");
+        abilitiesList.addElement("LOGROTATE");
 //#endif
+//#ifdef NEW_DISCO
+//#         abilitiesList.addElement("NEW_DISCO");
+//#endif
+
 //#ifdef NEW_SKIN
 //#         abilitiesList.addElement("NEW_SKIN");
 //#endif
@@ -300,25 +302,25 @@ public class InfoWindow
 //#ifdef PLUGINS
 //#         if (sd.PEP)
 //#endif
-//#             abilitiesList.addElement("PEP");
+            abilitiesList.addElement("PEP");
 //#endif
 //#ifdef PEP_ACTIVITY
 //#ifdef PLUGINS
 //#         if (sd.PEP)
 //#endif
-//#             abilitiesList.addElement("PEP_ACTIVITY");
+            abilitiesList.addElement("PEP_ACTIVITY");
 //#endif
 //#ifdef PEP_LOCATION
 //#ifdef PLUGINS
 //#         if (sd.PEP)
 //#endif
-//#             abilitiesList.addElement("PEP_LOCATION");
+            abilitiesList.addElement("PEP_LOCATION");
 //#endif
 //#ifdef PEP_TUNE
 //#ifdef PLUGINS
 //#         if (sd.PEP)
 //#endif
-//#             abilitiesList.addElement("PEP_TUNE");
+            abilitiesList.addElement("PEP_TUNE");
 //#endif
 //#ifdef PLUGINS
 //#         abilitiesList.addElement("PLUGINS");
@@ -330,7 +332,7 @@ public class InfoWindow
 //#         abilitiesList.addElement("REQUEST_VOICE");
 //#endif
 //#ifdef RUNNING_MESSAGE
-//#         abilitiesList.addElement("RUNNING_MESSAGE");
+        abilitiesList.addElement("RUNNING_MESSAGE");
 //#endif
 //#ifdef PRIVACY
 //#ifdef PLUGINS
@@ -360,10 +362,10 @@ public class InfoWindow
 //#ifdef PLUGINS
 //#         if (sd.Archive)
 //#endif
-//#         abilitiesList.addElement("TEMPLATES");
+        abilitiesList.addElement("TEMPLATES");
 //#endif
 //#ifdef USER_KEYS
-//#         abilitiesList.addElement("USER_KEYS");
+        abilitiesList.addElement("USER_KEYS");
 //#endif
 //#ifdef USE_ROTATOR
         abilitiesList.addElement("USE_ROTATOR");

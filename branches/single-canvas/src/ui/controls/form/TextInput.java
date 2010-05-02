@@ -27,13 +27,11 @@
 
 package ui.controls.form;
 
-import Client.Config;
 import Colors.ColorTheme;
 import Fonts.FontCache;
 import io.NvStorage;
 import java.io.DataInputStream;
 import java.io.EOFException;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import ui.IconTextElement;
@@ -50,8 +48,6 @@ public class TextInput
     
     private boolean selectable=true;
 
-    private Display display;
-    
     public String id;
 
     private int boxType;

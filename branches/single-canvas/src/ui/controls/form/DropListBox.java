@@ -72,7 +72,7 @@ public class DropListBox
     
     public int getItemCount() { return listItems.size(); }
 
-    public void commandAction(Command command, Displayable displayable) {
+    public void commandAction(Command command, VirtualList displayable) {
         
     }
 

@@ -43,7 +43,6 @@ import util.Strconv;
  */
 public class ShowFile implements CommandListener{
     
-    private Display display;
     private Displayable parentView;
     
     private Command back = new Command(SR.MS_BACK, Command.BACK, 2);
@@ -57,9 +56,7 @@ public class ShowFile implements CommandListener{
     
     private Config cf;
     
-    public ShowFile(Display display, String fileName, int type) {
-        this.display=display;
-        parentView=display.getCurrent();
+    public ShowFile(String fileName, int type) {
         cf=Config.getInstance();
         
         load(fileName);

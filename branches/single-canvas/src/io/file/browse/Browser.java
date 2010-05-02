@@ -27,7 +27,6 @@
 
 package io.file.browse;
 
-import Client.Config;
 import Client.StaticData;
 import Menu.MenuListener;
 import Menu.Command;
@@ -39,8 +38,6 @@ import io.file.FileIO;
 import java.util.Enumeration;
 import java.util.Vector;
 
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import ui.IconTextElement;
 import ui.VirtualElement;
@@ -72,7 +69,7 @@ public class Browser
     private boolean getDirectory;
     
     /** Creates a new instance of Browser */
-    public Browser(String path, Display display, Displayable pView, BrowserListener browserListener, boolean getDirectory) {
+    public Browser(String path, VirtualList pView, BrowserListener browserListener, boolean getDirectory) {
         super();
         
         this.browserListener=browserListener;
@@ -126,7 +123,7 @@ public class Browser
         redraw();
     }
 
-    public void commandAction(Command command, Displayable displayable) {
+    public void commandAction(Command command, VirtualList displayable) {
         if (command==cmdCancel) cmdCancel();
 
         if (command==cmdRoot) {
@@ -229,7 +226,7 @@ public class Browser
     public void showFile() {
         FileItem fi=(FileItem)getFocusedObject();
         if (fi.getType()<4 && fi.getType()>0)
-            new ShowFile(display, path+fi.name, fi.getType());
+            new ShowFile( path+fi.name, fi.getType());
     }
     
     public void eventOk() {
@@ -304,7 +301,7 @@ public class Browser
         }
     }
     public void showMenu() {
-        new MyMenu(display, parentView, this, SR.MS_DISCO, null, menuCommands);
+        new MyMenu( parentView, this, SR.MS_DISCO, null, menuCommands);
     }
     
     public void touchRightPressed() { cmdCancel(); }

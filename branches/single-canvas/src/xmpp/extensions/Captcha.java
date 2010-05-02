@@ -42,7 +42,7 @@ public class Captcha implements JabberBlockListener, XDataForm.NotifyListener{
             from=data.getAttribute("from");
             id=data.getAttribute("id");
 
-            new XDataForm(display, xdata, this).fetchMediaElements(data.getChildBlocks());
+            new XDataForm( xdata, this).fetchMediaElements(data.getChildBlocks());
 
             return BLOCK_PROCESSED;
         }

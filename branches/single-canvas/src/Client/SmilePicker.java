@@ -73,7 +73,11 @@ public class SmilePicker
 
     private MessageEdit me;
  
-     /** Creates a new instance of SmilePicker */
+    /** Creates a new instance of SmilePicker
+     * @param pView
+     * @param caretPos
+     * @param me 
+     */
     public SmilePicker(Displayable pView, int caretPos, MessageEdit me) {
          super();
          this.caretPos=caretPos;
@@ -184,7 +188,7 @@ public class SmilePicker
             xCursor=xLastCnt-1;
     }
     
-    public void commandAction(Command c, Displayable d){
+    public void commandAction(Command c, VirtualList d){
         if (c==cmdCancel) {
             destroyView();
             return;

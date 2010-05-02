@@ -33,6 +33,7 @@ import VCard.VCard;
 import javax.microedition.lcdui.*;
 import java.util.*;
 import locale.SR;
+import ui.VirtualList;
 import ui.controls.form.LinkString;
 import ui.controls.form.SimpleString;
 import ui.controls.form.CheckBox;
@@ -46,8 +47,6 @@ import ui.controls.form.TextInput;
  */
 public final class ContactEdit
         extends DefForm {
-    private Display display;
-
     private LinkString vCardReq;
     private TextInput tJid;
     private TextInput tNick;
@@ -67,9 +66,8 @@ public final class ContactEdit
 
     StaticData sd=StaticData.getInstance();
     
-    public ContactEdit(Display display, Displayable pView, Contact c) {
+    public ContactEdit(VirtualList pView, Contact c) {
         super(SR.MS_ADD_CONTACT);
-        this.display=display;
         cf=Config.getInstance();
         
         tJid=new TextInput(SR.MS_USER_JID, null, null, TextField.ANY); 
@@ -220,9 +218,6 @@ public final class ContactEdit
         if (index==tGrpList.size()-1) return "";
         return (String) tGrpList.items.elementAt(index);
     }
- 
-    public void destroyView(){
-        if (display!=null)   midlet.BombusMod.getInstance().setDisplayable(parentView/*roster*/);
-    }
+    
 
 }

@@ -32,8 +32,6 @@ import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.util.Enumeration;
 import java.util.Vector;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
 import ui.MIDPTextBox;
@@ -46,6 +44,7 @@ import util.StringLoader;
 import ServiceDiscovery.*;
 //#endif
 import Menu.Command;
+import ui.VirtualList;
 import ui.controls.form.DefForm;
 
 /**
@@ -64,10 +63,10 @@ public class SearchForm
     
     /**
      * Creates a new instance of SearchForm
+     * @param pView 
      */
-    public SearchForm(Display display, Displayable pView) {
+    public SearchForm(VirtualList pView) {
         super(SR.MS_SEARCH);
-        this.display=display;
         loadRecentList();
 
         if (getItemCount()<1) loadDefaults();
@@ -92,10 +91,10 @@ public class SearchForm
         showMenu();
     }
     
-    public void commandAction(Command c, Displayable d) {
+    public void commandAction(Command c, VirtualList d) {
         super.commandAction(c, d);     
      if (c==cmdAddServer) {
-            new MIDPTextBox(display, this, SR.MS_SERVER, null, this, TextField.ANY);
+            new MIDPTextBox( this, SR.MS_SERVER, null, this, TextField.ANY);
 	} else if (c==cmdDel) {
             delServer();
         }

@@ -34,10 +34,9 @@ import com.alsutton.jabber.datablocks.Message;
 import com.alsutton.jabber.datablocks.Presence;
 import java.util.Enumeration;
 import java.util.Vector;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
+import ui.VirtualList;
 import ui.controls.form.SimpleString;
 import ui.controls.form.DefForm;
 import ui.controls.form.DropChoiceBox;
@@ -46,18 +45,18 @@ import ui.controls.form.TextInput;
 public class InviteForm
         extends DefForm {
     
-    private Display display;
-
     Vector conferences=new Vector();
     
     TextInput reason;
     DropChoiceBox conferenceList;
     Contact contact;
     
-    /** Creates a new instance of InviteForm */
-    public InviteForm(Display display, Displayable pView, Contact contact) {
+    /** Creates a new instance of InviteForm
+     * @param pView 
+     * @param contact
+     */
+    public InviteForm(VirtualList pView, Contact contact) {
         super(SR.MS_INVITE);
-        this.display=display;
         this.contact=contact;
         
         itemsList.addElement(new SimpleString(contact.getName(), true));

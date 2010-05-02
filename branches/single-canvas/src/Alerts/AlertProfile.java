@@ -29,8 +29,6 @@ package Alerts;
 
 import Client.*;
 import images.RosterIcons;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import ui.*;
 import Menu.Command;
@@ -60,7 +58,7 @@ public class AlertProfile extends DefForm
     private Command cmdDef=new Command(SR.MS_SETDEFAULT,Command.SCREEN,3);
     private Command cmdSel=new Command(SR.MS_SELECT,Command.SCREEN,2);
     /** Creates a new instance of SelectStatus */
-    public AlertProfile(Display d, Displayable pView) {
+    public AlertProfile(VirtualList pView) {
         super(SR.MS_ALERT_PROFILE);
         
         cf=Config.getInstance();
@@ -112,7 +110,7 @@ public class AlertProfile extends DefForm
         }
     }
     
-    public void commandAction(Command c, Displayable d){
+    public void commandAction(Command c, VirtualList d){
         if (c==cmdSel) eventOk();
         if (c==cmdDef) { 
             cf.def_profile=defp=cursor;

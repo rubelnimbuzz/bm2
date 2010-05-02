@@ -28,7 +28,6 @@
 package VCard;
 import Client.Config;
 import Client.Contact;
-import Client.StaticData;
 import javax.microedition.io.ConnectionNotFoundException;
 import midlet.BombusMod;
 import ui.controls.AlertBox;
@@ -39,14 +38,12 @@ import io.file.browse.BrowserListener;
 import util.StringUtils;
 //#endif
 //#ifdef CLIPBOARD
-//# import util.ClipBoard;
+import util.ClipBoard;
 //#endif
-import javax.microedition.lcdui.Displayable;
 import Menu.Command;
-import Menu.MyMenu;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Image;
 import locale.SR;
+import ui.VirtualList;
 import ui.controls.form.DefForm;
 import ui.controls.form.ImageItem;
 import ui.controls.form.MultiLine;
@@ -81,9 +78,9 @@ public class VCardView
     private String url="";
 
 //#ifdef CLIPBOARD
-//#     ClipBoard clipboard  = ClipBoard.getInstance(); 
-//#     Command cmdCopy      = new Command(SR.MS_COPY, Command.SCREEN, 1);
-//#     Command cmdCopyPlus  = new Command("+ "+SR.MS_COPY, Command.SCREEN, 2);
+    ClipBoard clipboard  = ClipBoard.getInstance(); 
+    Command cmdCopy      = new Command(SR.MS_COPY, Command.SCREEN, 1);
+    Command cmdCopyPlus  = new Command("+ "+SR.MS_COPY, Command.SCREEN, 2);
 //#endif
     Command cmdRefresh   = new Command(SR.MS_REFRESH, Command.SCREEN, 3);
 //#if FILE_IO
@@ -95,7 +92,7 @@ public class VCardView
      * @param pView
      * @param contact
      */
-    public VCardView(Displayable pView, Contact contact) {
+    public VCardView(VirtualList pView, Contact contact) {
         super(contact.getNickJid());
         this.vcard=contact.vcard;
         this.c=contact;
@@ -161,7 +158,7 @@ public class VCardView
             itemsList.addElement(noPhoto);
         }
      }
-    public void commandAction(Command c, Displayable d) {
+    public void commandAction(Command c, VirtualList d) {
         if (c==cmdDelPhoto) {
             vcard.dropPhoto(); 
             setPhoto();
@@ -173,26 +170,26 @@ public class VCardView
         }
 //#if FILE_IO
         if (c==cmdSavePhoto) {
-            new Browser(null, display, this, this, true);
+            new Browser(null,  this, this, true);
         }
 //#endif
 //#ifdef CLIPBOARD
-//#         if (c == cmdCopy) {
-//#             try {
-//#                 clipboard.setClipBoard((((MultiLine)getFocusedObject()).getValue()==null)?"":((MultiLine)getFocusedObject()).getValue()+"\n");
-//#             } catch (Exception e) {/*no messages*/}
-//#         }
-//#         
-//#         if (c==cmdCopyPlus) {
-//#             try {
-//#                 StringBuffer clipstr=new StringBuffer(clipboard.getClipBoard())
-//#                 .append("\n\n")
-//#                 .append((((MultiLine)getFocusedObject()).getValue()==null)?"":((MultiLine)getFocusedObject()).getValue()+"\n");
-//#                 
-//#                 clipboard.setClipBoard(clipstr.toString());
-//#                 clipstr=null;
-//#             } catch (Exception e) {/*no messages*/}
-//#         }
+        if (c == cmdCopy) {
+            try {
+                clipboard.setClipBoard((((MultiLine)getFocusedObject()).getValue()==null)?"":((MultiLine)getFocusedObject()).getValue()+"\n");
+            } catch (Exception e) {/*no messages*/}
+        }
+        
+        if (c==cmdCopyPlus) {
+            try {
+                StringBuffer clipstr=new StringBuffer(clipboard.getClipBoard())
+                .append("\n\n")
+                .append((((MultiLine)getFocusedObject()).getValue()==null)?"":((MultiLine)getFocusedObject()).getValue()+"\n");
+                
+                clipboard.setClipBoard(clipstr.toString());
+                clipstr=null;
+            } catch (Exception e) {/*no messages*/}
+        }
 //#endif
         super.commandAction(c, d);
     }
@@ -219,11 +216,11 @@ public class VCardView
                 addCommand(cmdDelPhoto);
             }
 //#ifdef CLIPBOARD
-//#             if (Config.getInstance().useClipBoard) {
-//#                 addCommand(cmdCopy);
-//#                 if (!clipboard.isEmpty())
-//#                     addCommand(cmdCopyPlus);
-//#             }
+            if (Config.getInstance().useClipBoard) {
+                addCommand(cmdCopy);
+                if (!clipboard.isEmpty())
+                    addCommand(cmdCopyPlus);
+            }
 //#endif
         }
 

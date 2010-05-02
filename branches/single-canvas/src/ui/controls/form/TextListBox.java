@@ -82,7 +82,7 @@ public class TextListBox
         midlet.BombusMod.getInstance().setDisplayable(ti.t);
     }
 
-    public void commandAction(Command c, Displayable d){
+    public void commandAction(Command c, VirtualList d){
         if (c==cmdClear) {
             ti.recentList.removeAllElements();
             ti.saveRecentList();
@@ -106,6 +106,6 @@ public class TextListBox
         try {
             capt=getMainBarItem().elementAt(0).toString();
         } catch (Exception ex){ }
-        new MyMenu(display, parentView, this, capt, null, menuCommands);
+        new MyMenu( parentView, this, capt, null, menuCommands);
    }
 }

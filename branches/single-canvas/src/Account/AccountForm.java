@@ -28,8 +28,6 @@
 package Account;
 
 import Client.*;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
 import ui.SplashScreen;
@@ -93,7 +91,10 @@ public class AccountForm
 
     private boolean doConnect;
     
-    /** Creates a new instance of AccountForm */
+    /** Creates a new instance of AccountForm
+     * @param accountSelect
+     * @param account
+     */
     public AccountForm(AccountSelect accountSelect, Account account) {
         super(null);
 	this.accountSelect = accountSelect;
@@ -102,8 +103,8 @@ public class AccountForm
 	if (newaccount) account=new Account();
 	this.account=account;
 	
-	String mainbar = (newaccount)?SR.MS_NEW_ACCOUNT:(account.toString());
-        getMainBarItem().setElementAt(mainbar, 0);
+	
+        getMainBarItem().setElementAt((newaccount)?SR.MS_NEW_ACCOUNT:(account.toString()), 0);
 
         userbox = new TextInput(SR.MS_USERNAME, account.getUserName(), null, TextField.ANY); //, 64, TextField.ANY
         itemsList.addElement(userbox);
@@ -111,7 +112,7 @@ public class AccountForm
         servbox = new TextInput(SR.MS_SERVER, account.getServer(), null, TextField.ANY);//, 64, TextField.ANY
         itemsList.addElement(servbox);
 
-	passbox = new PasswordInput(display, SR.MS_PASSWORD, account.getPassword());//, 64, TextField.PASSWORD
+	passbox = new PasswordInput( SR.MS_PASSWORD, account.getPassword());//, 64, TextField.PASSWORD
         itemsList.addElement(passbox);
         
         nickbox = new TextInput(SR.MS_NICKNAME, account.getNick(), null, TextField.ANY);//64, TextField.ANY
@@ -140,7 +141,7 @@ public class AccountForm
             itemsList.addElement(registerbox);
         
 	ipbox = new TextInput(SR.MS_HOST_IP, account.getHostAddr(), null, TextField.ANY);//, 64, TextField.ANY
-        portbox = new NumberInput(display, SR.MS_PORT, Integer.toString(account.getPort()), 0, 65535);//, 0, 65535
+        portbox = new NumberInput( SR.MS_PORT, Integer.toString(account.getPort()), 0, 65535);//, 0, 65535
         
                 
         dnsResolver = new CheckBox(SR.MS_USE_DNS_SRV_RESOLVER, account.getDnsResolver()); 
@@ -171,14 +172,14 @@ public class AccountForm
         keepAliveType.append("<iq/>");
         keepAliveType.append("ping");
         keepAliveType.setSelectedIndex(account.getKeepAliveType());
-        keepAlive = new NumberInput(display, SR.MS_KEEPALIVE_PERIOD, Integer.toString(account.getKeepAlivePeriod()), 10, 2048);//10, 2096
+        keepAlive = new NumberInput( SR.MS_KEEPALIVE_PERIOD, Integer.toString(account.getKeepAlivePeriod()), 10, 2048);//10, 2096
         itemsList.addElement(keepAliveType);
         
         resourcebox = new TextInput(SR.MS_RESOURCE, account.getResource(), null, TextField.ANY);//64, TextField.ANY
         
 //#if HTTPCONNECT
 //# 	proxyHost = new TextInput(/*SR.MS_PROXY_HOST*/"Proxy name/IP", account.getProxyHostAddr(), null, TextField.URL);//32, TextField.URL
-//# 	proxyPort = new NumberInput(display, /*SR.MS_PROXY_PORT*/"Proxy port", Integer.toString(account.getProxyPort()), 0, 65535);//, 0, 65535
+//# 	proxyPort = new NumberInput( /*SR.MS_PROXY_PORT*/"Proxy port", Integer.toString(account.getProxyPort()), 0, 65535);//, 0, 65535
 //#         proxyUser = new TextInput(/*SR.MS_PROXY_HOST*/"Proxy user", account.getProxyUser(), null, TextField.URL);//32, TextField.URL
 //#         proxyPass = new TextInput(/*SR.MS_PROXY_HOST*/"Proxy pass", account.getProxyPass(), null, TextField.URL);//32, TextField.URL
 //#elif HTTPPOLL        
@@ -260,7 +261,7 @@ public class AccountForm
         doConnect=true;
         
         if (registerNew) {
-            new AccountRegister(account, display, parentView); 
+            new AccountRegister(account,  (VirtualList)parentView);
         } else {
             destroyView();
         }
@@ -274,13 +275,13 @@ public class AccountForm
                 public void no() { startLogin(false); }
             };
         } else
-            midlet.BombusMod.getInstance().setDisplayable(accountSelect);
+            accountSelect.show();
     }
     
     private void startLogin(boolean login){
         Config.getInstance().accountIndex=accountSelect.accountList.size()-1;
         Account.loadAccount(login, Config.getInstance().accountIndex);
-        SplashScreen.getInstance(display).close();
+        SplashScreen.getInstance().close();
     }
     
     protected void keyRepeated(int keyCode) {

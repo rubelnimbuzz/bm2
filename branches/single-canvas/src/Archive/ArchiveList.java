@@ -35,6 +35,7 @@ import java.util.Vector;
 import Menu.Command;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
+import ui.VirtualList;
 import ui.controls.AlertBox;
 
 /**
@@ -62,8 +63,13 @@ public class ArchiveList
     private int where=1;
 
     private TextBox t;
+    public Displayable pView; // для выхода из textbox
     
-    /** Creates a new instance of ArchiveList */
+    /** Creates a new instance of ArchiveList
+     * @param caretPos
+     * @param where
+     * @param t
+     */
     public ArchiveList(int caretPos, int where, TextBox t) {
  	super ();
         this.where=where;
@@ -72,18 +78,18 @@ public class ArchiveList
         
         archive=new MessageArchive(where);
         
-	MainBar mainbar=new MainBar((where==1)?SR.MS_ARCHIVE:SR.MS_TEMPLATE);
-	mainbar.addElement(null);
-	mainbar.addRAlign();
-	mainbar.addElement(null);
-	mainbar.addElement(SR.MS_FREE /*"free "*/);
-        setMainBarItem(mainbar);
+	MainBar mb=new MainBar((where==1)?SR.MS_ARCHIVE:SR.MS_TEMPLATE);
+	mb.addElement(null);
+	mb.addRAlign();
+	mb.addElement(null);
+	mb.addElement(SR.MS_FREE /*"free "*/);
+        setMainBarItem(mb);
         
         commandState();
         addCommands();
         setCommandListener(this);
-        
-        show(parentView);
+        this.pView = midlet.BombusMod.getInstance().getCurrentDisplayable();
+        show(pView);
     }
 
     public void commandState() {
@@ -118,11 +124,11 @@ public class ArchiveList
 	return archive.msg(index);
     }
 
-    public void commandAction(Command c, Displayable d) {
+    public void commandAction(Command c, VirtualList d) {
         super.commandAction(c,d);
         
 	Msg m=getMessage(cursor);
-        if (c==cmdNew) { new archiveEdit(display, this, -1, where, this); }
+        if (c==cmdNew) { new archiveEdit( this, -1, where, this); }
 	if (m==null) return;
         
 	if (c==cmdDelete) { keyClear(); }
@@ -132,7 +138,7 @@ public class ArchiveList
 	if (c==cmdJid) { pasteData(2); }
         if (c==cmdEdit) {
             try {
-                new archiveEdit(display, this, cursor, where, this);
+                new archiveEdit( this, cursor, where, this);
             } catch (Exception e) {/*no messages*/}
         }
     }
@@ -198,8 +204,8 @@ public class ArchiveList
     }
 
     public void destroyView(){
+        archive.close();
         super.destroyView();
-	archive.close();
     }
 
     private int getFreeSpace() {

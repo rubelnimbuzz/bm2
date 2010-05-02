@@ -62,7 +62,6 @@ import Menu.MyMenu;
 import io.file.transfer.TransferDispatcher;
 //#endif
 
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 
 import locale.SR;
@@ -207,22 +206,21 @@ public class Roster
     
     SplashScreen splash;
     
-    public Roster(Display display) {
+    public Roster() {
         super();
-        this.display=display;
 
-        splash = SplashScreen.getInstance(display);
+        splash = SplashScreen.getInstance();
          
         sl=StatusList.getInstance();
 
         setLight(cf.lightState);
         
-        MainBar mainbar=new MainBar(4, null, null, false);
-        setMainBarItem(mainbar);
-        mainbar.addRAlign();
-        mainbar.addElement(null);
-        mainbar.addElement(null);
-        mainbar.addElement(null); //ft
+        MainBar mb=new MainBar(4, null, null, false);
+        setMainBarItem(mb);
+        mb.addRAlign();
+        mb.addElement(null);
+        mb.addElement(null);
+        mb.addElement(null); //ft
 
         hContacts=null;
         hContacts=new Vector();
@@ -238,7 +236,7 @@ public class Roster
         commandState();
         setCommandListener(this);
 
-        splash.setExit(display, this);
+        splash.setExit(this);
 //#ifdef AUTOSTATUS
 //#         if (cf.autoAwayType==Config.AWAY_IDLE || cf.autoAwayType==Config.AWAY_MESSAGE)
 //#             autostatus=new AutoStatusTask();
@@ -939,11 +937,11 @@ public class Roster
     }
 
     public boolean isMainJuickContact(Contact c) {
-        return c.bareJid.equals((new JuickConfig(display, parentView)).getJuickJID());
+        return c.bareJid.equals((new JuickConfig((VirtualList)parentView)).getJuickJID());
     }
 
     public void updateMainJuickContact() {
-        JuickConfig juickConfig = new JuickConfig(display, parentView);
+        JuickConfig juickConfig = new JuickConfig((VirtualList)parentView);
         int size = juickContacts.size();
         if (size < 1) {
             indexMainJuickContact = -1;
@@ -1392,7 +1390,7 @@ public class Roster
                         Contact c=getContact(jid, false); // drop unwanted vcards
                         if (c!=null) {
                             c.vcard=vcard;
-                            if (display.getCurrent() instanceof VirtualList) {
+                            if (midlet.BombusMod.getInstance().getCurrentDisplayable() instanceof VirtualList) {
                                 if (c.getGroupType()==Groups.TYPE_SELF) {
                                     new VCardEdit(this, vcard);
                                 } else {
@@ -2091,10 +2089,10 @@ public class Roster
         
         switch (profile) {
                                                          //display   fileType   soundName   volume      vibrate
-            case AlertProfile.ALL:   notify=new EventNotify(display,    type,   message,    volume,     vibraLen); break;
-            case AlertProfile.NONE:  notify=new EventNotify(display,    null,   null,       volume,     0); break;
-            case AlertProfile.VIBRA: notify=new EventNotify(display,    null,   null,       volume,     vibraLen); break;
-            case AlertProfile.SOUND: notify=new EventNotify(display,    type,   message,    volume,     0); break;
+            case AlertProfile.ALL:   notify=new EventNotify(    type,   message,    volume,     vibraLen); break;
+            case AlertProfile.NONE:  notify=new EventNotify(    null,   null,       volume,     0); break;
+            case AlertProfile.VIBRA: notify=new EventNotify(    null,   null,       volume,     vibraLen); break;
+            case AlertProfile.SOUND: notify=new EventNotify(    type,   message,    volume,     0); break;
         }
         if (notify!=null) notify.startNotify();
         blockNotify(event, 2000);
@@ -2205,7 +2203,7 @@ public class Roster
         if (pview!=null) {
             Contact c=(Contact)getFocusedObject();
 //#ifdef RUNNING_MESSAGE
-            me = new MessageEdit(pview, c, c.msgSuspended);
+            me = new MessageEdit((VirtualList)pview, c, c.msgSuspended);
 //#else
 //#             new MessageEdit(pview, c, c.msgSuspended);
 //#endif
@@ -2237,7 +2235,7 @@ public class Roster
                     if (mucGrp.selfContact.roleCode==MucContact.ROLE_MODERATOR) {
                         String myNick=mucGrp.selfContact.getName();
                         MucContact mc=(MucContact) c;
-                        new ConferenceQuickPrivelegeModify(display, this, mc, ConferenceQuickPrivelegeModify.KICK,myNick);
+                        new ConferenceQuickPrivelegeModify( this, mc, ConferenceQuickPrivelegeModify.KICK,myNick);
                     }
                 }
 //#endif 
@@ -2345,7 +2343,7 @@ public class Roster
                 if (cf.ghostMotor) {
                     // backlight management
                     blState=(blState==1)? Integer.MAX_VALUE : 1;
-                    display.flashBacklight(blState);
+                    midlet.BombusMod.getInstance().getDisplay().flashBacklight(blState);
                 }
                 break;
         }
@@ -2372,7 +2370,7 @@ public class Roster
 //#                                 }
 //#                             }
                 //#endif
-            new SplashScreen(display, getMainBarItem(), cf.keyLock);            
+            new SplashScreen( getMainBarItem(), cf.keyLock);            
             return;
         } else if (keyCode==cf.keyVibra || keyCode==MOTOE680_FMRADIO /* TODO: redefine keyVibra*/) {
             // swap profiles
@@ -2389,9 +2387,9 @@ public class Roster
             return;
         }
 //#ifndef WMUC
-        else if ((keyCode==KEY_NUM1)&& isLoggedIn()) new Bookmarks(display, this, null);
+        else if ((keyCode==KEY_NUM1)&& isLoggedIn()) new Bookmarks( this, null);
 //#endif
-       	else if (keyCode==KEY_NUM3) new ActiveContacts(display, this, null);
+       	else if (keyCode==KEY_NUM3) new ActiveContacts( this, null);
        	else if (keyCode==KEY_NUM4) new ConfigForm(this);
         else if (keyCode==KEY_NUM6) {
             Config.fullscreen=!Config.fullscreen;
@@ -2400,14 +2398,14 @@ public class Roster
             StaticData.getInstance().roster.setFullScreenMode(Config.fullscreen);
         }
         else if (keyCode==KEY_NUM7)
-            new RosterToolsMenu(display, this);
+            new RosterToolsMenu( this);
         else if (keyCode==KEY_NUM9) {
             
             
             if (cf.allowMinimize)
                 BombusMod.getInstance().hideApp(true);
             else if (phoneManufacturer==Config.SIEMENS2)
-              new SieNatMenu(display, this); /*
+              new SieNatMenu( this); /*
                  try {
                      //SIEMENS: MYMENU call. Possible Main Menu for capable phones
                       BombusMod.getInstance().platformRequest("native:ELSE_STR_MYMENU");
@@ -2590,7 +2588,7 @@ public class Roster
 //#ifdef PLUGINS
 //#         if (sd.Stats)
 //#endif
-//#             Stats.getInstance().saveToStorage(false);
+            Stats.getInstance().saveToStorage(false);
 //#endif
     }
 
@@ -2607,7 +2605,7 @@ public class Roster
 
         BombusMod.getInstance().notifyDestroyed();
     }
-    public void commandAction(Command c, Displayable d){
+    public void commandAction(Command c, VirtualList d){
 //#ifdef AUTOSTATUS
 //#         userActivity();
 //#endif
@@ -2642,20 +2640,20 @@ public class Roster
     }
 
     public void cmdMinimize() { BombusMod.getInstance().hideApp(true);  }
-    public void cmdActiveContacts() { new ActiveContacts(display, this, null); }
+    public void cmdActiveContacts() { new ActiveContacts( this, null); }
     public void cmdAccount(){ new AccountSelect( false); }
-    public void cmdStatus() { currentReconnect=0; new StatusSelect(display, this, null); }
-    public void cmdAlert() { new AlertProfile(display, this); }
+    public void cmdStatus() { currentReconnect=0; new StatusSelect( (VirtualList)this, null); }
+    public void cmdAlert() { new AlertProfile( this); }
 //#ifdef ARCHIVE
     public void cmdArchive() { new ArchiveList( -1, 1, null); }
 //#endif
-    public void cmdInfo() { new Info.InfoWindow(display, this); }
-    public void cmdTools() { new RosterToolsMenu(display, this); }
+    public void cmdInfo() { new Info.InfoWindow( this); }
+    public void cmdTools() { new RosterToolsMenu( this); }
 //#ifdef POPUPS
     public void cmdClearPopups() { PopUp.getInstance().clear(); }
 //#endif
 //#ifndef WMUC
-   public void cmdConference() { if (isLoggedIn()) new Bookmarks(display, this, null); }
+   public void cmdConference() { if (isLoggedIn()) new Bookmarks( this, null); }
 //#endif
    public void cmdActions() {
        if (isLoggedIn()) {
@@ -2678,7 +2676,7 @@ public class Roster
             if (o instanceof MucContact)
                 cn=(Contact)o;
 //#endif
-            new ContactEdit(display, this, cn);
+            new ContactEdit( this, cn);
        }
    }
 
@@ -2687,7 +2685,7 @@ public class Roster
 	ConferenceGroup confGroup=(ConferenceGroup)group;
         String confJid=confGroup.selfContact.getJid();
         String name=confGroup.desc;
-	new ConferenceForm(display, this, name, confJid, confGroup.password, false);
+	new ConferenceForm( this, name, confJid, confGroup.password, false);
     }
     
     public void leaveRoom(Group group){
@@ -2891,7 +2889,7 @@ public class Roster
     
     public void showMenu() {
         commandState();
-        new MyMenu(display, parentView, this, SR.MS_MAIN_MENU, MenuIcons.getInstance(), menuCommands);
+        new MyMenu( parentView, this, SR.MS_MAIN_MENU, MenuIcons.getInstance(), menuCommands);
     }
 
     public String touchRightCommand(){ return (cf.oldSE)?SR.MS_MENU:SR.MS_ACTION; }
@@ -2899,7 +2897,7 @@ public class Roster
 
     public void touchRightPressed(){ if (cf.oldSE) showMenu(); else cmdActions(); }
     public void touchLeftPressed(){ if (cf.oldSE) cmdActions(); else showMenu(); }
-    public void captionPressed() {new ActiveContacts(display, this, null);}
+    public void captionPressed() {new ActiveContacts( this, null);}
 
     
 //#ifdef RUNNING_MESSAGE

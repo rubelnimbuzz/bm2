@@ -7,12 +7,8 @@ package PEP;
 
 import Client.Config;
 import Client.StaticData;
-import com.alsutton.jabber.JabberDataBlock;
-import com.alsutton.jabber.datablocks.Iq;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
-import javax.microedition.lcdui.TextField;
 import locale.SR;
+import ui.VirtualList;
 import ui.controls.form.CheckBox;
 import ui.controls.form.DefForm;
 import ui.controls.form.DropChoiceBox;
@@ -47,7 +43,7 @@ public class PepForm extends DefForm {
     TextInput ti;
     LinkString updmood, updact;
     
-    public PepForm(Display display, Displayable pView) {
+    public PepForm(VirtualList pView) {
         super(
 //#ifdef PEP
                 SR.MS_PEP
@@ -55,7 +51,6 @@ public class PepForm extends DefForm {
 //#                 ""
 //#endif
                 );
-        this.display = display;
         
 //#ifdef PEP
 //#ifdef PLUGINS

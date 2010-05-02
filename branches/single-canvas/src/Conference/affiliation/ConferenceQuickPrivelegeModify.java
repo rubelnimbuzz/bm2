@@ -31,14 +31,13 @@ import Client.StaticData;
 import Conference.*;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.Iq;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
 import ui.controls.form.DefForm;
 import ui.controls.form.MultiLine;
 import ui.controls.form.TextInput;
 import Menu.Command;
+import ui.VirtualList;
 
 /**
  *
@@ -58,8 +57,6 @@ public class ConferenceQuickPrivelegeModify
     public final static int ADMIN=8;
     public final static int OWNER=9;
 
-    private Display display;
-
     private TextInput reason;
     private MucContact victim;
     
@@ -71,10 +68,8 @@ public class ConferenceQuickPrivelegeModify
     /**
      * Creates a new instance of ConferenceQuickPrivelegeModify
      */
-    public ConferenceQuickPrivelegeModify(Display display, Displayable pView, MucContact victim, int action, String myNick) {
+    public ConferenceQuickPrivelegeModify(VirtualList pView, MucContact victim, int action, String myNick) {
         super(null);
-        
-        this.display=display;
         
         this.victim=victim;
         this.action=action;
@@ -110,8 +105,7 @@ public class ConferenceQuickPrivelegeModify
         
         addCommand(cmdNoReason);
         user=null;
-        show(parentView);
-        this.parentView=pView;
+        show(StaticData.getInstance().roster);
     }
 
     public void cmdOk() {
@@ -119,10 +113,7 @@ public class ConferenceQuickPrivelegeModify
         destroyView();
     }
     
-    public void destroyView(){
-        midlet.BombusMod.getInstance().setDisplayable(StaticData.getInstance().roster);
-    }
-    public void commandAction(Command c, Displayable d) {
+    public void commandAction(Command c, VirtualList d) {
         if (c==cmdNoReason) { 
             reason.setValue("");
             cmdOk();

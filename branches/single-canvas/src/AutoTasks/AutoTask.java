@@ -27,7 +27,6 @@
 package AutoTasks;
 
 import Client.StaticData;
-import com.alsutton.jabber.datablocks.Presence;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
@@ -36,7 +35,6 @@ import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import locale.SR;
-import midlet.BombusMod;
 import Fonts.FontCache;
 import ui.Time;
 

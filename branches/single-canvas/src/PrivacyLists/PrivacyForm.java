@@ -32,8 +32,9 @@ import Client.Contact;
 import Client.Group;
 import Client.StaticData;
 import java.util.Vector;
-import javax.microedition.lcdui.*;
+import javax.microedition.lcdui.TextField;
 import locale.SR;
+import ui.VirtualList;
 import ui.controls.form.SimpleString;
 import ui.controls.form.CheckBox;
 import ui.controls.form.DefForm;
@@ -67,8 +68,12 @@ public class PrivacyForm
     int typeIndex;
     String tValue="";
 
-    /** Creates a new instance of PrivacyForm */
-    public PrivacyForm(Displayable pView, PrivacyItem item, PrivacyList plist) {
+    /** Creates a new instance of PrivacyForm
+     * @param pView
+     * @param item
+     * @param plist
+     */
+    public PrivacyForm(VirtualList pView, PrivacyItem item, PrivacyList plist) {
         super(SR.MS_PRIVACY_RULE);
         this.item=item;
         targetList=plist;

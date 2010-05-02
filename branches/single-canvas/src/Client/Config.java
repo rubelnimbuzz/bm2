@@ -40,7 +40,7 @@ import java.util.*;
 import midlet.BombusMod;
 import Fonts.FontCache;
 //#ifdef CLIENTS_ICONS
-//# import images.ClientsIcons;
+import images.ClientsIcons;
 //#endif
 import util.StringLoader;
 import ui.Time;
@@ -113,12 +113,12 @@ public class Config {
 //#endif
     
 //#ifdef HISTORY
-//#      public String msgPath="";
-//#      public boolean msgLog=false;
-//#      public boolean msgLogPresence=false;
-//#      public boolean msgLogConf=false;
-//#      public boolean msgLogConfPresence=false;
-//#      public boolean lastMessages=false;
+     public String msgPath="";
+     public boolean msgLog=false;
+     public boolean msgLogPresence=false;
+     public boolean msgLogConf=false;
+     public boolean msgLogConfPresence=false;
+     public boolean lastMessages=false;
 //#endif
     public boolean cp1251=true;     
 //#ifndef WMUC
@@ -185,23 +185,23 @@ public static boolean fullscreen = true;
 //#endif
     public boolean rosterStatus=true;
 //#ifdef PEP
-//#     public boolean sndrcvmood = false;
+    public boolean sndrcvmood = false;
 //#ifdef PEP_TUNE
-//#     public boolean rcvtune = false;
+    public boolean rcvtune = false;
 //#endif
 //#ifdef PEP_ACTIVITY
-//#     public boolean rcvactivity = false;
+    public boolean rcvactivity = false;
 //#endif
 //#ifdef PEP_LOCATION
-//#     public boolean rcvloc = false;
+    public boolean rcvloc = false;
 //#endif
-//# 
+
 //#endif
     public boolean queryExit = false;
     public int notInListDropLevel=NotInListFilter.ALLOW_ALL; //enable all
     public boolean showBalloons = true;
 //#ifdef LOGROTATE
-//#     public int msglistLimit=500;
+    public int msglistLimit=500;
 //#endif
     public boolean useTabs=true;
     public boolean notifyBlink=false;
@@ -209,10 +209,10 @@ public static boolean fullscreen = true;
     public boolean notifyPicture=false;
     public boolean useBoldFont=false;
 //#ifdef RUNNING_MESSAGE
-//#     public boolean notifyWhenMessageType = false;
+    public boolean notifyWhenMessageType = false;
 //#endif
 //#ifdef CLIPBOARD
-//#     public boolean useClipBoard = true;
+    public boolean useClipBoard = true;
 //#endif
     public boolean firstRun = true;
     
@@ -222,7 +222,7 @@ public static boolean fullscreen = true;
     
     public boolean IQNotify=false;
 //#ifdef CLIENTS_ICONS
-//#     public boolean showClientIcon=true;
+    public boolean showClientIcon=true;
 //#endif
 
     public int reconnectCount=10;
@@ -273,7 +273,7 @@ public static boolean fullscreen = true;
 //#ifdef PLUGINS
 //#                 if (sd.ClientsIcons) {
 //#endif
-//#                 if (showClientIcon) ClientsIcons.getInstance();
+                if (showClientIcon) ClientsIcons.getInstance();
 //#ifdef PLUGINS
 //#                 }
 //#endif
@@ -339,7 +339,7 @@ public static boolean fullscreen = true;
     
     protected final void loadFromStorage() {
 //#ifdef DEBUG
-//#         System.out.println("LoadFromStorage config");
+        System.out.println("LoadFromStorage config");
 //#endif
         DataInputStream inputStream=NvStorage.ReadFileRecord("config", 0);
 	try {
@@ -373,17 +373,17 @@ public static boolean fullscreen = true;
 	    textWrap=inputStream.readInt();
             loginstatus=inputStream.readInt();
 //#ifdef HISTORY
-//#             msgPath=inputStream.readUTF();
-//#             msgLog=inputStream.readBoolean();
-//#             msgLogPresence=inputStream.readBoolean();
-//#             msgLogConfPresence=inputStream.readBoolean();
-//#             msgLogConf=inputStream.readBoolean();
+            msgPath=inputStream.readUTF();
+            msgLog=inputStream.readBoolean();
+            msgLogPresence=inputStream.readBoolean();
+            msgLogConfPresence=inputStream.readBoolean();
+            msgLogConf=inputStream.readBoolean();
 //#else
-            inputStream.readUTF();
-            inputStream.readBoolean();
-            inputStream.readBoolean();
-            inputStream.readBoolean();
-            inputStream.readBoolean();
+//#             inputStream.readUTF();
+//#             inputStream.readBoolean();
+//#             inputStream.readBoolean();
+//#             inputStream.readBoolean();
+//#             inputStream.readBoolean();
 //#endif
             cp1251=inputStream.readBoolean();
 //#ifdef AUTOSTATUS
@@ -401,9 +401,9 @@ public static boolean fullscreen = true;
             lightState=inputStream.readBoolean();
             notifySound=inputStream.readBoolean();
 //#ifdef HISTORY
-//#             lastMessages=inputStream.readBoolean();
+            lastMessages=inputStream.readBoolean();
 //#else
-            inputStream.readBoolean();
+//#             inputStream.readBoolean();
 //#endif
 //#ifdef AUTOSTATUS
 //#             useMyStatusMessages=inputStream.readBoolean();
@@ -440,35 +440,35 @@ public static boolean fullscreen = true;
 
             inputStream.readBoolean(); // Здесь был UserKeys
 //#ifdef LOGROTATE
-//#             msglistLimit=inputStream.readInt();
+            msglistLimit=inputStream.readInt();
 //#else
-            inputStream.readInt();
+//#             inputStream.readInt();
 //#endif
             useTabs=inputStream.readBoolean();
             autoSubscribe=inputStream.readInt();
             useBoldFont=inputStream.readBoolean();
 //#ifdef RUNNING_MESSAGE
-//#             notifyWhenMessageType = inputStream.readBoolean();
+            notifyWhenMessageType = inputStream.readBoolean();
 //#else
-            inputStream.readBoolean();
+//#             inputStream.readBoolean();
 //#endif
             IQNotify=inputStream.readBoolean(); //IRC_LIKE
 //#ifdef PEP
-//#             sndrcvmood = inputStream.readBoolean();
+            sndrcvmood = inputStream.readBoolean();
 //#else
-            inputStream.readBoolean();
+//#             inputStream.readBoolean();
 //#endif
             inputStream.readUTF(); //scheme
 
 //#ifdef CLIPBOARD
-//#             useClipBoard = inputStream.readBoolean();
+            useClipBoard = inputStream.readBoolean();
 //#else
-            inputStream.readBoolean();
+//#             inputStream.readBoolean();
 //#endif
 //#ifdef PEP_TUNE
-//#             rcvtune = inputStream.readBoolean();
+            rcvtune = inputStream.readBoolean();
 //#else
-            inputStream.readBoolean();
+//#             inputStream.readBoolean();
 //#endif
             barFont=inputStream.readInt();
             baloonFont=inputStream.readInt();
@@ -483,9 +483,9 @@ public static boolean fullscreen = true;
             inputStream.readBoolean();
 //#endif
 //#ifdef CLIENTS_ICONS
-//#             showClientIcon=inputStream.readBoolean();
+            showClientIcon=inputStream.readBoolean();
 //#else
-            inputStream.readBoolean();
+//#             inputStream.readBoolean();
 //#endif
             
             reconnectCount=inputStream.readInt();
@@ -497,9 +497,9 @@ public static boolean fullscreen = true;
             
             adhoc=inputStream.readBoolean();
 //#ifdef PEP_ACTIVITY
-//#             rcvactivity = inputStream.readBoolean();
+            rcvactivity = inputStream.readBoolean();
 //#else
-            inputStream.readBoolean();
+//#             inputStream.readBoolean();
 //#endif
             oldSE=inputStream.readBoolean();
             
@@ -514,9 +514,9 @@ public static boolean fullscreen = true;
             advTouch = inputStream.readBoolean();
             autoClean = inputStream.readBoolean();
 //#ifdef PEP_LOCATION
-//#             rcvloc = inputStream.readBoolean();
+            rcvloc = inputStream.readBoolean();
 //#else
-            inputStream.readBoolean();
+//#             inputStream.readBoolean();
 //#endif
 	    inputStream.close();
             inputStream=null;
@@ -616,17 +616,17 @@ public static boolean fullscreen = true;
 	    outputStream.writeInt(textWrap);
             outputStream.writeInt(loginstatus);
 //#ifdef HISTORY
-//#             outputStream.writeUTF(msgPath);
-//#             outputStream.writeBoolean(msgLog);
-//#             outputStream.writeBoolean(msgLogPresence);
-//#             outputStream.writeBoolean(msgLogConfPresence);
-//#             outputStream.writeBoolean(msgLogConf);
+            outputStream.writeUTF(msgPath);
+            outputStream.writeBoolean(msgLog);
+            outputStream.writeBoolean(msgLogPresence);
+            outputStream.writeBoolean(msgLogConfPresence);
+            outputStream.writeBoolean(msgLogConf);
 //#else
-            outputStream.writeUTF("");
-            outputStream.writeBoolean(false);
-            outputStream.writeBoolean(false);
-            outputStream.writeBoolean(false);
-            outputStream.writeBoolean(false);
+//#             outputStream.writeUTF("");
+//#             outputStream.writeBoolean(false);
+//#             outputStream.writeBoolean(false);
+//#             outputStream.writeBoolean(false);
+//#             outputStream.writeBoolean(false);
 //#endif
             outputStream.writeBoolean(cp1251);
 //#ifdef AUTOSTATUS
@@ -644,9 +644,9 @@ public static boolean fullscreen = true;
             outputStream.writeBoolean(lightState);
             outputStream.writeBoolean(notifySound);
 //#ifdef HISTORY
-//#             outputStream.writeBoolean(lastMessages);
+            outputStream.writeBoolean(lastMessages);
 //#else
-            outputStream.writeBoolean(false);
+//#             outputStream.writeBoolean(false);
 //#endif
 //#ifdef AUTOSTATUS
 //#             outputStream.writeBoolean(useMyStatusMessages);
@@ -684,34 +684,34 @@ public static boolean fullscreen = true;
             outputStream.writeBoolean(false); // Здесь был UserKeys
 
 //#ifdef LOGROTATE
-//#             outputStream.writeInt(msglistLimit);
+            outputStream.writeInt(msglistLimit);
 //#else
-            outputStream.writeInt(512);
+//#             outputStream.writeInt(512);
 //#endif
             outputStream.writeBoolean(useTabs);
             outputStream.writeInt(autoSubscribe);
             outputStream.writeBoolean(useBoldFont);
 //#ifdef RUNNING_MESSAGE
-//#             outputStream.writeBoolean(notifyWhenMessageType);
+            outputStream.writeBoolean(notifyWhenMessageType);
 //#else
-            outputStream.writeBoolean(false);
+//#             outputStream.writeBoolean(false);
 //#endif
             outputStream.writeBoolean(IQNotify); //IRC_LIKE
 //#ifdef PEP
-//#             outputStream.writeBoolean(sndrcvmood);
+            outputStream.writeBoolean(sndrcvmood);
 //#else
-            outputStream.writeBoolean(false);
+//#             outputStream.writeBoolean(false);
 //#endif
             outputStream.writeUTF("");//scheme
 //#ifdef CLIPBOARD
-//#             outputStream.writeBoolean(useClipBoard);
+            outputStream.writeBoolean(useClipBoard);
 //#else
-            outputStream.writeBoolean(false);
+//#             outputStream.writeBoolean(false);
 //#endif
 //#ifdef PEP_TUNE
-//#             outputStream.writeBoolean(rcvtune);
+            outputStream.writeBoolean(rcvtune);
 //#else
-            outputStream.writeBoolean(false);
+//#             outputStream.writeBoolean(false);
 //#endif
             outputStream.writeInt(barFont);
             outputStream.writeInt(baloonFont);
@@ -726,9 +726,9 @@ public static boolean fullscreen = true;
             outputStream.writeBoolean(false);
 //#endif
 //#ifdef CLIENTS_ICONS
-//#             outputStream.writeBoolean(showClientIcon);
+            outputStream.writeBoolean(showClientIcon);
 //#else
-            outputStream.writeBoolean(false);
+//#             outputStream.writeBoolean(false);
 //#endif
             
             outputStream.writeInt(reconnectCount);
@@ -741,9 +741,9 @@ public static boolean fullscreen = true;
             outputStream.writeBoolean(adhoc);
             
 //#ifdef PEP_ACTIVITY
-//#             outputStream.writeBoolean(rcvactivity);
+            outputStream.writeBoolean(rcvactivity);
 //#else
-            outputStream.writeBoolean(false);
+//#             outputStream.writeBoolean(false);
 //#endif
             outputStream.writeBoolean(oldSE);
             
@@ -758,9 +758,9 @@ public static boolean fullscreen = true;
             outputStream.writeBoolean(advTouch);
             outputStream.writeBoolean(autoClean);
 //#ifdef PEP_LOCATION
-//#             outputStream.writeBoolean(rcvloc);
+            outputStream.writeBoolean(rcvloc);
 //#else
-            outputStream.writeBoolean(false);
+//#             outputStream.writeBoolean(false);
 //#endif
 
 	} catch (Exception e) { }

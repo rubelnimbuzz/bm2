@@ -28,8 +28,6 @@
 package Conference;
 import Client.*;
 import com.alsutton.jabber.JabberDataBlock;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
 import com.alsutton.jabber.datablocks.Presence;
@@ -40,6 +38,7 @@ import ui.controls.form.NumberInput;
 import ui.controls.form.PasswordInput;
 import ui.controls.form.TextInput;
 import Menu.Command;
+import ui.VirtualList;
 
 /**
  *
@@ -47,8 +46,6 @@ import Menu.Command;
  */
 public class ConferenceForm
     extends DefForm {
-    
-    private Display display;
     
     private Config cf=Config.getInstance();
     Command cmdJoin=new Command(SR.MS_JOIN, Command.SCREEN, 1);
@@ -69,10 +66,8 @@ public class ConferenceForm
     
     private static StaticData sd=StaticData.getInstance();
 
-    private int cursor;
-    
     /** Creates a new instance of GroupChatForm */
-    public ConferenceForm(Display display, Displayable pView, String name, String confJid, String password, boolean autojoin) {
+    public ConferenceForm(VirtualList pView, String name, String confJid, String password, boolean autojoin) {
         super(SR.MS_JOIN_CONFERENCE);
         int roomEnd=confJid.indexOf('@');
         String room="";
@@ -86,7 +81,7 @@ public class ConferenceForm
         } else {
             server=confJid.substring(roomEnd+1);
         }
-        createForm(display, pView, name, room, server, nick, password, autojoin);
+        createForm( pView, name, room, server, nick, password, autojoin);
         room=null;
         server=null;
         nick=null;
@@ -94,7 +89,7 @@ public class ConferenceForm
     }
     
     /** Creates a new instance of GroupChatForm */
-    public ConferenceForm(Display display, Displayable pView, BookmarkItem join, int cursor) {
+    public ConferenceForm(VirtualList pView, BookmarkItem join, int cursor) {
         super(SR.MS_JOIN_CONFERENCE);
         if (join==null) return;
         if (join.isUrl) return;
@@ -105,12 +100,12 @@ public class ConferenceForm
         int roomEnd=join.getJid().indexOf('@');
         String room="";
         if (roomEnd>0) room=join.getJid().substring(0, roomEnd);
-        createForm(display, pView, join.desc, room, join.getJid().substring(roomEnd+1), join.nick, join.password, join.autojoin);
+        createForm( pView, join.desc, room, join.getJid().substring(roomEnd+1), join.nick, join.password, join.autojoin);
         room=null;
     }
     
     /** Creates a new instance of GroupChatForm */
-    public ConferenceForm(Display display, Displayable pView) {
+    public ConferenceForm(VirtualList pView) {
         super(SR.MS_JOIN_CONFERENCE);
         String room=cf.defGcRoom;
         String server=null;
@@ -122,20 +117,18 @@ public class ConferenceForm
         }
         // default server
         if (server==null) server="conference."+sd.account.getServer();
-        createForm(display, pView, null, room, server, null, null, false); 
+        createForm( pView, null, room, server, null, null, false); 
         room=null;
         server=null;
     }
 	
     /** Creates a new instance of GroupChatForm */
-    public ConferenceForm(Display display, Displayable pView, String name, String room, String server, String nick, String password, boolean autojoin) {
+    public ConferenceForm(VirtualList pView, String name, String room, String server, String nick, String password, boolean autojoin) {
         super(SR.MS_JOIN_CONFERENCE);
-        createForm(display, pView, name, room, server, nick, password, autojoin);
+        createForm( pView, name, room, server, nick, password, autojoin);
     }
     
-     private void createForm(final Display display, Displayable pView, String name, String room, String server, String nick, final String password, boolean autojoin) {
-        this.display=display;
-
+     private void createForm(VirtualList pView, String name, String room, String server, String nick, final String password, boolean autojoin) {
         roomField=new TextInput(SR.MS_ROOM, room, null, TextField.ANY);//, 64, TextField.ANY);
         itemsList.addElement(roomField);
 
@@ -146,13 +139,13 @@ public class ConferenceForm
         nickField=new TextInput(SR.MS_NICKNAME, nick, "roomnick", TextField.ANY);//, 32, TextField.ANY, "roomnick", display);
         itemsList.addElement(nickField);
 
-        msgLimitField=new NumberInput(display, SR.MS_MSG_LIMIT, Integer.toString(cf.confMessageCount), 0, 100);
+        msgLimitField=new NumberInput( SR.MS_MSG_LIMIT, Integer.toString(cf.confMessageCount), 0, 100);
         itemsList.addElement(msgLimitField);
 
         nameField=new TextInput(SR.MS_DESCRIPTION, name, null, TextField.ANY);//, 128, TextField.ANY);
         itemsList.addElement(nameField);
 
-        passField=new PasswordInput(display, SR.MS_PASSWORD, password);//, 32, TextField.ANY | TextField.SENSITIVE );
+        passField=new PasswordInput( SR.MS_PASSWORD, password);//, 32, TextField.ANY | TextField.SENSITIVE );
         itemsList.addElement(passField);
 
         autoJoin=new CheckBox(SR.MS_AUTOLOGIN, autojoin);
@@ -161,7 +154,7 @@ public class ConferenceForm
         linkJoin=new LinkString(SR.MS_JOIN) {
             public void doAction() {
                 join(nameField.getValue(), roomField.getValue().trim()+"@"+hostField.getValue().trim()+"/"+nickField.getValue(), passField.getValue(), Integer.parseInt(msgLimitField.getValue()));
-                midlet.BombusMod.getInstance().setDisplayable(sd.roster);
+                sd.roster.show();
             }
         };
         itemsList.addElement(linkJoin);
@@ -174,7 +167,7 @@ public class ConferenceForm
         this.parentView=pView;
     }
 
-    public void commandAction(Command c, Displayable d){
+    public void commandAction(Command c, VirtualList d){
         super.commandAction(c, d);
         
         String nick=nickField.getValue();
@@ -202,7 +195,7 @@ public class ConferenceForm
             new BookmarkQuery(BookmarkQuery.SAVE);
             midlet.BombusMod.getInstance().setDisplayable(parentView);
         } else if (c==cmdAdd) {
-            new Bookmarks(display, sd.roster, new BookmarkItem(name, gchat.toString(), nick, pass, autojoin));
+            new Bookmarks( sd.roster, new BookmarkItem(name, gchat.toString(), nick, pass, autojoin));
         } else if (c==cmdJoin) {
             try {
                 cf.defGcRoom=room+"@"+host;

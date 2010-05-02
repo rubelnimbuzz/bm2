@@ -54,6 +54,7 @@ import Archive.MessageArchive;
 //#ifdef JUICK
 import Menu.JuickThingsMenu;
 import Menu.MyMenu;
+import ui.VirtualList;
 //#endif
 
 public class ContactMessageList extends MessageList {
@@ -344,7 +345,7 @@ public void showNotify() {
         markRead(index);
     }
     
-    public void commandAction(Command c, Displayable d){
+    public void commandAction(Command c, VirtualList d){
         super.commandAction(c,d);
 		
         /** login-insensitive commands */
@@ -420,7 +421,7 @@ public void showNotify() {
 //#endif
                 new RosterItemActions(this, contact, -1);
         }
-	if (c==cmdActive) new ActiveContacts(display, this, contact);
+	if (c==cmdActive) new ActiveContacts(this, contact);
         
         if (c==cmdSubscribe) sd.roster.doSubscribe(contact);
 		
@@ -469,7 +470,7 @@ public void showNotify() {
             viewJuickThings(body, d);
         } else if (c == cmdJuickCommands) {
             updateJuickCommands();
-            new MyMenu(display, parentView, (Menu.MenuListener) this, SR.MS_COMMANDS, null, currentJuickCommands);
+            new MyMenu( parentView, (Menu.MenuListener) this, SR.MS_COMMANDS, null, currentJuickCommands);
         }
 //#endif
     }
@@ -491,7 +492,7 @@ public void showNotify() {
 //#endif
     }
 
-    public void viewJuickThings(String str, Displayable pView) {
+    public void viewJuickThings(String str, VirtualList pView) {
         if (getActualJuickContact() == null) {
             juickContactNotFound();
             return;
@@ -539,7 +540,7 @@ public void showNotify() {
         }
 
         if (!things.isEmpty()) {
-            new JuickThingsMenu(things, display, pView, getActualJuickContact());
+            new JuickThingsMenu(things,  pView, getActualJuickContact());
         }
     }
 
@@ -767,7 +768,7 @@ public void showNotify() {
                     super.pageRight();
                 break;
             case KEY_NUM3:
-                new ActiveContacts(display, this, contact);
+                new ActiveContacts( this, contact);
                 break;
             case KEY_NUM9:
                 Quote();

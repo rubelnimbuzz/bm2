@@ -35,8 +35,8 @@ package AutoTasks;
 //#endif
 import ui.controls.form.DefForm;
 import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
+import ui.VirtualList;
 
 /**
  *
@@ -68,8 +68,10 @@ public class AutoTaskForm
 //#     private int typeIndex;
 //#endif
     
-    /** Creates a new instance of AutoTaskForm */
-    public AutoTaskForm(Display display, Displayable pView) {
+    /** Creates a new instance of AutoTaskForm
+     * @param pView
+     */
+    public AutoTaskForm( VirtualList pView) {
 //#if !AUTOTASK
         super("");
 //#else
@@ -98,9 +100,9 @@ public class AutoTaskForm
 //#         
 //#         autoTaskTimeDesc=new SimpleString(SR.MS_AUTOTASK_TIME, true);
 //# 
-//#         autoTaskHour=new NumberInput(display, SR.MS_AUTOTASK_HOUR, Integer.toString(hour), 0, 23);
-//#         autoTaskMin=new NumberInput(display, SR.MS_AUTOTASK_MIN, Integer.toString(min), 0, 59);
-//#         autoTaskDelay=new NumberInput(display, SR.MS_AUTOTASK_DELAY, Integer.toString(wait), 1, 600);
+//#         autoTaskHour=new NumberInput( SR.MS_AUTOTASK_HOUR, Integer.toString(hour), 0, 23);
+//#         autoTaskMin=new NumberInput( SR.MS_AUTOTASK_MIN, Integer.toString(min), 0, 59);
+//#         autoTaskDelay=new NumberInput( SR.MS_AUTOTASK_DELAY, Integer.toString(wait), 1, 600);
 //#         
 //#         itemsList.addElement(taskType);
 //#         itemsList.addElement(actionType);

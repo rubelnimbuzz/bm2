@@ -29,15 +29,13 @@ package Client;
 
 import java.util.Enumeration;
 import java.util.Vector;
-import Menu.Command;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import ui.MainBar;
 import ui.VirtualElement;
+import ui.VirtualList;
 import ui.controls.form.DefForm;
 //#ifdef POPUPS
-//# import ui.controls.PopUp;
+import ui.controls.PopUp;
 //#endif
 
 /**
@@ -52,8 +50,11 @@ public class ActiveContacts
     
     StaticData sd = StaticData.getInstance();
 
-    /** Creates a new instance of ActiveContacts */
-    public ActiveContacts(Display display, Displayable pView, Contact current) {
+    /** Creates a new instance of ActiveContacts
+     * @param pView
+     * @param current
+     */
+    public ActiveContacts(VirtualList pView, Contact current) {
 	super(SR.MS_ACTIVE_CONTACTS);
 	parentView=pView;
         enableListWrapping(true);
@@ -68,9 +69,9 @@ public class ActiveContacts
 
 	if (getItemCount()==0) return;
 	
-        MainBar mainbar=new MainBar(2, String.valueOf(getItemCount()), " ", false);
-        mainbar.addElement(SR.MS_ACTIVE_CONTACTS);
-        setMainBarItem(mainbar);
+        MainBar mb=new MainBar(2, String.valueOf(getItemCount()), " ", false);
+        mb.addElement(SR.MS_ACTIVE_CONTACTS);
+        setMainBarItem(mb);
 	try {
             int focus=activeContacts.indexOf(current);
             moveCursorTo(focus);
@@ -96,7 +97,7 @@ public class ActiveContacts
     public void keyPressed(int keyCode) {
         kHold=0;
 //#ifdef POPUPS
-//#         PopUp.getInstance().next();
+        PopUp.getInstance().next();
 //#endif
 	if (keyCode==KEY_NUM3) {
             destroyView();

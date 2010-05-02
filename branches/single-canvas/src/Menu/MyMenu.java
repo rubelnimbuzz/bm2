@@ -29,9 +29,9 @@ package Menu;
 
 import java.util.Enumeration;
 import java.util.Vector;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import ui.ImageList;
+import ui.VirtualList;
 
 /**
  *
@@ -43,8 +43,14 @@ public class MyMenu extends Menu {
     private Vector commands;
 
     
-    /** Creates a new instance of MyMenu */
-    public MyMenu(Display display, Displayable parentView, MenuListener menuListener, String caption, ImageList il, Vector menuCommands) {
+    /** Creates a new instance of MyMenu
+     * @param parentView
+     * @param menuListener 
+     * @param menuCommands
+     * @param caption
+     * @param il
+     */
+    public MyMenu(Displayable parentView, MenuListener menuListener, String caption, ImageList il, Vector menuCommands) {
         super(caption, il);
         this.ml=menuListener;
         this.commands=menuCommands;
@@ -65,7 +71,7 @@ public class MyMenu extends Menu {
         
 	if (me==null)  return;
 
-        ml.commandAction(getCommand(me.index), parentView);
+        ml.commandAction(getCommand(me.index), (VirtualList)parentView);
     }
     
     public Command getCommand(int index) {

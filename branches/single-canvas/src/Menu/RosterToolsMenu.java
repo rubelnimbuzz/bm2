@@ -51,13 +51,13 @@ import Statistic.StatsWindow;
 import VCard.VCard;
 import VCard.VCardEdit;
 import images.MenuIcons;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import Colors.ColorConfigForm;
 //import ui.reconnectWindow;
 //#ifdef USER_KEYS
-//# import ui.keys.UserKeysList;
+import javax.microedition.lcdui.Displayable;
+import ui.VirtualList;
+import ui.keys.UserKeysList;
 //#endif
 //#ifdef CHECK_VERSION
 //# import Info.Upgrade;
@@ -72,7 +72,7 @@ public class RosterToolsMenu extends Menu {
 
     MenuIcons menuIcons=MenuIcons.getInstance();
 
-    public RosterToolsMenu(Display display, Displayable pView) {
+    public RosterToolsMenu(Displayable pView) {
         super(SR.MS_TOOLS, MenuIcons.getInstance());
 
         cf=Config.getInstance();
@@ -133,7 +133,7 @@ public class RosterToolsMenu extends Menu {
 //#ifdef PLUGINS
 //#         if (sd.Stats)
 //#endif
-//#             addItem(SR.MS_STATS, 13, MenuIcons.ICON_STAT);
+            addItem(SR.MS_STATS, 13, MenuIcons.ICON_STAT);
 //#endif
 //#ifdef CHECK_VERSION
 //#ifdef PLUGINS
@@ -150,7 +150,7 @@ public class RosterToolsMenu extends Menu {
 //#ifdef PLUGINS
 //#         if (sd.UserKeys)
 //#endif
-//#             addItem(SR.MS_CUSTOM_KEYS, 16, MenuIcons.ICON_KEYS);
+            addItem(SR.MS_CUSTOM_KEYS, 16, MenuIcons.ICON_KEYS);
 //#endif
 //#if SASL_XGOOGLETOKEN
 //#         if (sd.account.isGmail() && connected)
@@ -172,12 +172,11 @@ public class RosterToolsMenu extends Menu {
             addItem("Tools for Juick.Com", 20, MenuIcons.ICON_JUICK);
 //#endif
         addItem(SR.MS_BREAK_CONECTION, 21, MenuIcons.ICON_RECONNECT);
-        show(parentView);
-        this.parentView=pView;
+        show(sd.roster);
     }
     
     public void eventOk(){
-        destroyView();
+        //destroyView();
         boolean connected= ( sd.roster.isLoggedIn() );
         MenuItem me=(MenuItem) getFocusedObject();
         if (me==null)  return;
@@ -190,20 +189,20 @@ public class RosterToolsMenu extends Menu {
 //#endif
 //#ifdef PRIVACY
             case 1: // Privacy Lists
-                if (connected) new PrivacySelect(parentView);
+                if (connected) new PrivacySelect((VirtualList)parentView);
                 break;
 //#endif
 //#ifdef PEP
             case 2:
                 if (connected)
-                    new PepForm(display, StaticData.getInstance().roster);
+                    new PepForm( StaticData.getInstance().roster);
                 return;
 //#endif   
             case 3: {
                 if (! connected) break;
                 Contact c=sd.roster.selfContact();
                 if (c.vcard!=null) {
-                    new VCardEdit(parentView, c.vcard);
+                    new VCardEdit((VirtualList)parentView, c.vcard);
                     return;
                 }
                 VCard.request(c.bareJid, c.getJid());
@@ -213,24 +212,24 @@ public class RosterToolsMenu extends Menu {
                 new ConfigForm(parentView);
                 return;
             case 5: //search
-                new SearchForm(display, parentView);
+                new SearchForm( (VirtualList)parentView);
                 return;
 //#if (HISTORY)
             case 6: //history
-                new HistoryConfig(display, parentView);
+                new HistoryConfig( (VirtualList)parentView);
                 return;
 //#endif
             case 7:
-                new ConfigFonts(display, parentView);
+                new ConfigFonts( (VirtualList)parentView);
                 return;
 //#if (FILE_IO)
             case 8:
-                new io.file.browse.Browser(null, display, sd.roster, null, false);
+                new io.file.browse.Browser(null,  sd.roster, null, false);
                 return;
 //#endif
 //#if (FILE_TRANSFER)
             case 9:                
-                new io.file.transfer.TransferManager(display, sd.roster);
+                new io.file.transfer.TransferManager( sd.roster);
                 return;
 //#endif
             case 10:
@@ -238,29 +237,29 @@ public class RosterToolsMenu extends Menu {
                 return;
 //#if IMPORT_EXPORT
 //#             case 11:
-//#                 new IE.IEMenu(display, sd.roster);
+//#                 new IE.IEMenu( sd.roster);
 //#                 return;
 //#endif
             case 12:
-                new AlertCustomizeForm(display, parentView);
+                new AlertCustomizeForm( (VirtualList)parentView);
                 return;
 //#ifdef STATS
-//#             case 13: //traffic stats
-//#                 new StatsWindow(display, parentView);
-//#                 return;
+            case 13: //traffic stats
+                new StatsWindow( (VirtualList)parentView);
+                return;
 //#endif
 //#ifdef CHECK_VERSION
 //#             case 14:
-//#                 new Upgrade(display, parentView, false);
+//#                 new Upgrade( (VirtualList)parentView, false);
 //#                 return;
 //#             case 15:
-//#                 new Upgrade(display, parentView, true);
+//#                 new Upgrade( (VirtualList)parentView, true);
 //#                 return;
 //#endif
 //#ifdef USER_KEYS
-//#             case 16:
-//#                 new UserKeysList(display);
-//#                 return;
+            case 16:
+                new UserKeysList();
+                return;
 //#endif
 //#if SASL_XGOOGLETOKEN
 //#             case 17: //mail check
@@ -269,17 +268,17 @@ public class RosterToolsMenu extends Menu {
 //#endif
 //#if AUTOTASK
 //#             case 18:
-//#                 new AutoTaskForm(display, parentView);
+//#                 new AutoTaskForm( (VirtualList)parentView);
 //#                 return;
 //#endif
 //#ifdef CONSOLE
 //#             case 19:
-//#                 new XMLList(display, parentView);
+//#                 new XMLList( (VirtualList)parentView);
 //#                 return;
 //#endif
 //#ifdef JUICK
             case 20:
-                new JuickConfig(display, parentView, me.toString());
+                new JuickConfig((VirtualList)parentView, me.toString());
                 return;
 //#endif
             case 21:

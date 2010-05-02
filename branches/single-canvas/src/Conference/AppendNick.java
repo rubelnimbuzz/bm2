@@ -28,20 +28,15 @@
 package Conference;
 
 import Client.Contact;
+import Client.Roster;
 import Client.StaticData;
 import Client.MessageEdit;
 import locale.SR;
-import ui.MainBar;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import com.alsutton.jabber.datablocks.Presence;
 import java.util.Enumeration;
 import java.util.Vector;
-import ui.VirtualElement;
-import ui.VirtualList;
 
-import Menu.MenuListener;
-import Menu.Command;
 import ui.controls.form.DefForm;
 
 /**
@@ -81,9 +76,9 @@ public final class AppendNick
              
             if (caretPos==0) b.append(':');
 //#ifdef RUNNING_MESSAGE
-//#             StaticData.getInstance().roster.me.insert(b.toString(), caretPos);
+            Roster.me.insert(b.toString(), caretPos);
 //#else
-            me.insert(b.toString(), caretPos);
+//#             me.insert(b.toString(), caretPos);
 //#endif
             b=null;
          } catch (Exception e) {}

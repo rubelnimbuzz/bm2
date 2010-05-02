@@ -27,8 +27,6 @@
 
 package Client;
 import java.util.*;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
 import ui.*;
@@ -40,7 +38,6 @@ import ui.controls.form.SimpleString;
 import ui.controls.form.SpacerItem;
 import ui.controls.form.TextInput;
 import Menu.Command;
-import Menu.MyMenu;
 
 /**
  *
@@ -60,7 +57,7 @@ public class StatusSelect
     private Config cf;
     private StaticData sd = StaticData.getInstance();
     
-    public StatusSelect(Display d, Displayable pView, Contact to) {
+    public StatusSelect(VirtualList pView, Contact to) {
         super(SR.MS_STATUS);
         
         cf=Config.getInstance();
@@ -93,10 +90,10 @@ public class StatusSelect
 
     private ExtendedStatus getSel(){ return (ExtendedStatus)getFocusedObject();}
     
-    public void commandAction(Command c, Displayable d){
+    public void commandAction(Command c, VirtualList d){
         if (c==cmdOk) eventOk(); 
         if (c==cmdEdit) {
-            new StatusForm( display, this, getSel() );
+            new StatusForm(  this, getSel() );
         }
         
         if (c==cmdDef) {
@@ -153,15 +150,14 @@ public class StatusSelect
 
         private CheckBox autoRespond;
         
-        public StatusForm(Display display, Displayable pView, ExtendedStatus status){
+        public StatusForm(VirtualList pView, ExtendedStatus status){
             super(SR.MS_STATUS+": "+status.getScreenName());
-            this.display=display;
             this.status=status;
             
             tfMessage = new TextInput(SR.MS_MESSAGE, status.getMessage(), "ex_status_list", TextField.ANY); //, 100, TextField.ANY "ex_status_list"
             itemsList.addElement(tfMessage);
 
-            tfPriority = new NumberInput(display, SR.MS_PRIORITY, Integer.toString(status.getPriority()), -128, 128); //, 100, TextField.ANY "ex_status_list"
+            tfPriority = new NumberInput( SR.MS_PRIORITY, Integer.toString(status.getPriority()), -128, 128); //, 100, TextField.ANY "ex_status_list"
             itemsList.addElement(tfPriority);
 
             if (status.getImageIndex()<5) {

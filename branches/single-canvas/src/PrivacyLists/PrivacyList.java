@@ -48,7 +48,9 @@ public class PrivacyList extends IconTextElement {
     
     Vector rules=new Vector(); 
     
-    /** Creates a new instance of PrivacyList */
+    /** Creates a new instance of PrivacyList
+     * @param name
+     */
     public PrivacyList(String name) {
         super(RosterIcons.getInstance());
         this.name=name;

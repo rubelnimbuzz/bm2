@@ -67,7 +67,12 @@ public class DiscoForm implements CommandListener{
     
     //private JabberBlockListener listener;
     
-    /** Creates a new instance of RegForm */
+    /** Creates a new instance of RegForm
+     * @param regform 
+     * @param resultId
+     * @param stream
+     * @param childName
+     */
     public DiscoForm( JabberDataBlock regform, JabberStream stream, String resultId, String childName) {
         service=regform.getAttribute("from");
         this.childName=childName;
@@ -169,6 +174,6 @@ public class DiscoForm implements CommandListener{
     }
 
     public void destroyView(){
-        midlet.BombusMod.getInstance().setDisplayable(StaticData.getInstance().roster);
+        StaticData.getInstance().roster.show();
     }
 }

@@ -79,7 +79,7 @@ public class AccountSelect extends DefForm {
         loadAccounts();
         show(StaticData.getInstance().roster);
     }
-    public void show(Displayable pView) {
+    public void show(VirtualList pView) {
         super.show(pView);
         if (!accountList.isEmpty()) {
             moveCursorTo(activeAccount);
@@ -147,7 +147,7 @@ public class AccountSelect extends DefForm {
     public VirtualElement getItemRef(int Index) { return (VirtualElement)accountList.elementAt(Index); }
     protected int getItemCount() { return accountList.size();  }
 
-    public void commandAction(Command c, Displayable d){
+    public void commandAction(Command c, VirtualList d){
         if (c==cmdQuit) {
             destroyView();
             BombusMod.getInstance().notifyDestroyed();

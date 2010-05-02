@@ -6,7 +6,6 @@
 package Colors;
 
 import ui.controls.form.ColorSelector;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Graphics;
 import ui.controls.form.DefForm;
@@ -18,7 +17,7 @@ import ui.controls.form.DefForm;
 //#ifdef COLOR_TUNE
 public class ColorSelectForm extends DefForm {
     private ColorSelector selector;
-    public ColorSelectForm(Display display, Displayable parent, ColorsList list, int color) {
+    public ColorSelectForm( Displayable parent, ColorsList list, int color) {
         super(list.NAMES[color]);
         parentView = parent;
         selector = new ColorSelector(list, color);

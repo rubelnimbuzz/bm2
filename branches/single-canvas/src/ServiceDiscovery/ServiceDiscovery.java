@@ -34,8 +34,6 @@ import java.util.*;
 import Menu.MenuListener;
 import Menu.Command;
 import Menu.MyMenu;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import Colors.ColorTheme;
 import ui.*;
@@ -315,24 +313,24 @@ public class ServiceDiscovery
         } else if (id.startsWith ("discoreg")) {
             discoIcon=0;
 //#ifndef NEW_DISCO
-//#             new DiscoForm(display, data, stream, "discoResult", "query");
+            new DiscoForm( data, stream, "discoResult", "query");
 //#else
-            new MyDiscoForm( data, stream, "discoResult", "query");
+//#             new MyDiscoForm( data, stream, "discoResult", "query");
 //#endif
         } else if (id.startsWith("discocmd")) {
             discoIcon=0;
 //#ifndef NEW_DISCO
-//#             new DiscoForm(display, data, stream, "discocmd", "command");
+            new DiscoForm( data, stream, "discocmd", "command");
 //#else
-            new MyDiscoForm( data, stream, "discocmd", "command");
+//#             new MyDiscoForm( data, stream, "discocmd", "command");
 //#endif
 
         } else if (id.startsWith("discosrch")) {
             discoIcon=0;
 //#ifndef NEW_DISCO
-//#             new DiscoForm(display, data, stream, "discoRSearch", "query");
+            new DiscoForm( data, stream, "discoRSearch", "query");
 //#else
-            new MyDiscoForm( data, stream, "discoRSearch", "query");
+//#             new MyDiscoForm( data, stream, "discoRSearch", "query");
 //#endif          
         } else if (id.startsWith("discoR")) {
             String text=SR.MS_DONE;
@@ -341,7 +339,7 @@ public class ServiceDiscovery
                 text=XmppError.findInStanza(data).toString();
             }
             if (text.equals(SR.MS_DONE) && id.endsWith("Search") ) {
-                new SearchResult(display, data);
+                new SearchResult( data);
             } else {
                 new AlertBox(mainbar, text) {
                     public void yes() { }
@@ -401,20 +399,19 @@ public class ServiceDiscovery
             requestQuery(NS_INFO,"disco");
     }
     
-    public void commandAction(Command c, Displayable d){
+    public void commandAction(Command c, VirtualList d){
 	if (c==cmdOk) eventOk();
         if (c==cmdBack) exitDiscovery(false);            
         if (c==cmdRfsh) { if (service!=null) requestQuery(NS_INFO, "disco"); }
-        if (c==cmdSrv) { new ServerBox(display, this, service, this); }
-        if (c==cmdFeatures) { new DiscoFeatures(display, service, features); }
+        if (c==cmdSrv) { new ServerBox( this, service, this); }
+        if (c==cmdFeatures) { new DiscoFeatures( service, features); }
         if (c==cmdCancel) exitDiscovery(true);
     }
     
     private void exitDiscovery(boolean cancel){
         if (cancel || stackItems.isEmpty()) {
             stream.cancelBlockListener(this);
-            if (display!=null && parentView!=null /*prevents potential app hiding*/ )   
-                midlet.BombusMod.getInstance().setDisplayable(parentView);
+            midlet.BombusMod.getInstance().setDisplayable(parentView);
         } else {
             State st=(State)stackItems.lastElement();
             stackItems.removeElement(st);
@@ -470,7 +467,7 @@ public class ServiceDiscovery
                         room=service.substring(0,rp);
                         server=service.substring(rp+1);
                     }
-                    new ConferenceForm(display, parentView, room, service, null, false);
+                    new ConferenceForm( (VirtualList)parentView, room, service, null, false);
                     break;
                 }
 //#endif
@@ -506,7 +503,7 @@ public class ServiceDiscovery
     }
 
     public void showMenu() {
-        new MyMenu(display, parentView, this, SR.MS_DISCO, null, menuCommands);
+        new MyMenu( parentView, this, SR.MS_DISCO, null, menuCommands);
     }
 
 }

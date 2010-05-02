@@ -82,7 +82,7 @@ public class DefForm
 
     public void touchRightPressed(){ cmdCancel(); }
     
-    public void commandAction(Command command, Displayable displayable) {
+    public void commandAction(Command command, VirtualList displayable) {
 	if (command==cmdCancel) {
 	    cmdCancel();
 	}
@@ -115,7 +115,7 @@ public class DefForm
                 return;
             }
         }
-        MyMenu menu = new MyMenu(display, parentView, this, "", null, menuCommands);
+        MyMenu menu = new MyMenu( parentView, this, "", null, menuCommands);
         menu.show(parentView);
     }
     
