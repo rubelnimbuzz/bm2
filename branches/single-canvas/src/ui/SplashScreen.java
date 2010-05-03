@@ -100,6 +100,7 @@ public class SplashScreen extends Canvas implements Runnable, CommandListener {
         parentView=midlet.BombusMod.getInstance().getCurrentDisplayable();
 
         status.setElementAt(new Integer(RosterIcons.ICON_KEYBLOCK_INDEX),6);
+        show();
     }
     public void show() {
         repaint();
