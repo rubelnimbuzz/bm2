@@ -40,9 +40,6 @@ import util.ClipBoard;
 //#ifdef ARCHIVE
 import Archive.ArchiveList;
 //#endif
-//#ifdef RUNNING_MESSAGE
-import ui.VirtualList;
-//#endif
 /**
  *
  * @author Eugene Stahov
@@ -50,12 +47,11 @@ import ui.VirtualList;
 public final class MessageEdit
         implements CommandListener
 //#ifdef RUNNING_MESSAGE
-        , Runnable {
-    Thread thread;
+//#         , Runnable {
+//#     Thread thread;
 //#else
-//#     {
+    {
 //#endif
-    private Display display;
     private Displayable parentView;
     
     private String subj;
@@ -106,10 +102,10 @@ public final class MessageEdit
     private final TextBox t;
     int maxSize = 500;
 //#ifdef RUNNING_MESSAGE
-    Ticker ticker = new Ticker("");
+//#     Ticker ticker = new Ticker("");
 //#endif
     /** Creates a new instance of MessageEdit */
-    public MessageEdit( VirtualList pView, Contact to, String body) {
+    public MessageEdit( Displayable pView, Contact to, String body) {
         t = new TextBox(to.toString(), "", 500, TextField.ANY);
         try {
             //expanding buffer as much as possible
@@ -190,9 +186,9 @@ public final class MessageEdit
 //#             t.setTicker(null);
 //#         }
 //#endif
-        if (thread==null) (thread=new Thread(this)).start() ; // composing
+//#         if (thread==null) (thread=new Thread(this)).start() ; // composing
 //#else
-//#         send() ; // composing
+        send() ; // composing
 //#endif
         setInitialCaps(cf.capsState);
         if (Config.getInstance().phoneManufacturer == Config.SONYE) System.gc(); // prevent flickering on Sony Ericcsson C510
@@ -259,37 +255,38 @@ public final class MessageEdit
         // message/composing sending
         if (c == cmdSend && !((parentView instanceof ContactMessageList) && ((ContactMessageList) parentView).contact.equals(to)))
             parentView = new ContactMessageList(to);
-         midlet.BombusMod.getInstance().setDisplayable(parentView);         
+         midlet.BombusMod.getInstance().setDisplayable(parentView);
+         ((ContactMessageList)parentView).forceScrolling();
 //#ifdef RUNNING_MESSAGE
-        runState=3;
+//#         runState=3;
 //#else
-//#         send();
+        send();
 //#endif
     }
 //#ifdef RUNNING_MESSAGE
-    /*
-     0 - do nothing
-     1 - scroll
-     2 - send
-     3 - send and close
-     4 - end cycle
-     *
-     */
-    int runState=2;
-
-    int strPos=0;
-    public void run(){
-        while (runState<4) {
-            //System.out.println(runState+" "+notifyMessage);
-            if (runState==2) { runState=0; send(); }
-            if (runState==3) {
-                runState=4;
-                send();
-                thread=null;                
-                    ((ContactMessageList) parentView).redraw();
-                break;
-            }
-            if (runState==1) {
+//#     /*
+//#      0 - do nothing
+//#      1 - scroll
+//#      2 - send
+//#      3 - send and close
+//#      4 - end cycle
+//#      *
+//#      */
+//#     int runState=2;
+//# 
+//#     int strPos=0;
+//#     public void run(){
+//#         while (runState<4) {
+//#             //System.out.println(runState+" "+notifyMessage);
+//#             if (runState==2) { runState=0; send(); }
+//#             if (runState==3) {
+//#                 runState=4;
+//#                 send();
+//#                 thread=null;                
+//#                     ((ContactMessageList) parentView).redraw();
+//#                 break;
+//#             }
+//#             if (runState==1) {
 //#ifdef MIDP_TICKER
 //#                 if (cf.notifyWhenMessageType) {
 //#                 if (notifyMessage != null)
@@ -297,42 +294,42 @@ public final class MessageEdit
 //#                     runState = 4;
 //#                 }
 //#else
-                if (cf.notifyWhenMessageType) {
-                 t.setTitle(notifyMessage.substring(strPos++));
-                if ((notifyMessage.length()-strPos)<0) strPos=0;
-            }
+//#                 if (cf.notifyWhenMessageType) {
+//#                  t.setTitle(notifyMessage.substring(strPos++));
+//#                 if ((notifyMessage.length()-strPos)<0) strPos=0;
+//#             }
 //#endif
-            }
-            try { Thread.sleep(250); } catch (Exception e) { break; }
-        }
-    }
-
-    private String notifyMessage;
-    public void setMyTicker(String msg) {
-        if (msg!=null && !msg.equals("")) {
-            StringBuffer out=new StringBuffer(msg);
-            int i=0;
-            while (i<out.length()) {
-                if (out.charAt(i)<0x03) out.deleteCharAt(i);
-                else i++;
-            }
-            msg=out.toString();
-            runState=1;
-        } else {
+//#             }
+//#             try { Thread.sleep(250); } catch (Exception e) { break; }
+//#         }
+//#     }
+//# 
+//#     private String notifyMessage;
+//#     public void setMyTicker(String msg) {
+//#         if (msg!=null && !msg.equals("")) {
+//#             StringBuffer out=new StringBuffer(msg);
+//#             int i=0;
+//#             while (i<out.length()) {
+//#                 if (out.charAt(i)<0x03) out.deleteCharAt(i);
+//#                 else i++;
+//#             }
+//#             msg=out.toString();
+//#             runState=1;
+//#         } else {
 //#ifdef MIDP_TICKER
 //#             if (cf.notifyWhenMessageType) {
 //#                 ticker.setString("");
 //#             }
 //#else
-            if (cf.notifyWhenMessageType) {
-                t.setTitle(to.toString());
-            }
+//#             if (cf.notifyWhenMessageType) {
+//#                 t.setTitle(to.toString());
+//#             }
 //#endif
-            runState=0;
-        }
-        notifyMessage=msg;
-        strPos=0;
-    }
+//#             runState=0;
+//#         }
+//#         notifyMessage=msg;
+//#         strPos=0;
+//#     }
 //#endif
 
     private void send() {
@@ -379,6 +376,10 @@ public final class MessageEdit
              }
          } catch (Exception e) { }
      }
+
+    public void destroyView() {
+
+    }
 
 /* Пролистывание команд по страницам, для SE C510
     private void addCommand(Command cmd) {

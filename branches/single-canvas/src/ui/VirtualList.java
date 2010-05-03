@@ -783,6 +783,7 @@ public abstract class VirtualList
         int count=getItemCount();
         if (cursor>=0) cursor=(count==0)?0:count-1;
         setRotator();
+        redraw();
     }
 
     public void moveCursorTo(int index){

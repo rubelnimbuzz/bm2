@@ -209,7 +209,7 @@ public class BombusMod extends MIDlet implements Runnable{
     public void setDisplayable(Displayable d) {
         if (!isLocked) {
             if (d == null) {
-                sd.roster.errorLog("Displayable is null. Compensate.");
+                sd.roster.errorLog(getCurrentDisplayable().getClass().toString() + ": Displayable is null. Compensate.");
                 System.out.println("Displayable is null.");
                 d = sd.roster;
             }
@@ -220,5 +220,6 @@ public class BombusMod extends MIDlet implements Runnable{
             getDisplay().setCurrent(d);
         }
     }
+
 
 }

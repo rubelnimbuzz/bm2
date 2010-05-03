@@ -24,6 +24,7 @@ public class VirtualCanvas extends Canvas {
     public VirtualCanvas() {
         setFullScreenMode(Config.fullscreen);
     }
+
     public void show(VirtualList virtualList) {
         if (this == midlet.BombusMod.getInstance().getDisplay().getCurrent()
                 && isShown()) {
@@ -33,13 +34,13 @@ public class VirtualCanvas extends Canvas {
             list = virtualList;
             list.showNotify();
             repaint();
-            //midlet.BombusMod.getInstance().getDisplay().setCurrent(this);
-            
+            midlet.BombusMod.getInstance().getDisplay().setCurrent(this);
+
         } else {
             list = virtualList;
             midlet.BombusMod.getInstance().getDisplay().setCurrent(this);
         }
-        
+
     }
     public VirtualList getList() {
         return list;

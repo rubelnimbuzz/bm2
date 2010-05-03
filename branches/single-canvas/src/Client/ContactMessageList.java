@@ -128,8 +128,8 @@ public class ContactMessageList extends MessageList {
 
         cf=Config.getInstance();
         
-        MainBar mainbar=new MainBar(contact);
-        setMainBarItem(mainbar);
+        MainBar mb=new MainBar(contact);
+        setMainBarItem(mb);
 
         cursor=0;//activate
         on_end = false;
@@ -291,7 +291,7 @@ public void showNotify() {
     if (contact != null)
         sd.roster.activeContact=contact;
 //#ifdef LOGROTATE
-        getRedraw(true);
+//#         getRedraw(true);
 //#endif
         super.showNotify();
     }
@@ -317,18 +317,18 @@ public void showNotify() {
 
         sd.roster.countNewMsgs();
 //#ifdef LOGROTATE
-        getRedraw(contact.redraw);
+//#         getRedraw(contact.redraw);
 //#endif
     }
 //#ifdef LOGROTATE
-    private void getRedraw(boolean redraw) {
-        if (!redraw) return;
-
-        contact.redraw=false;
-        messages=null;
-        messages=new Vector();
-        redraw();
-    }
+//#     private void getRedraw(boolean redraw) {
+//#         if (!redraw) return;
+//# 
+//#         contact.redraw=false;
+//#         messages=null;
+//#         messages=new Vector();
+//#         redraw();
+//#     }
 //#endif
     public int getItemCount(){ return (contact == null)? 0 :contact.msgs.size(); }
 
@@ -619,9 +619,9 @@ public void showNotify() {
         }
         try {
 //#ifdef RUNNING_MESSAGE
-                Roster.me=new MessageEdit( this, getActualJuickContact(), resultAction);
+//#                 Roster.me=new MessageEdit( this, getActualJuickContact(), resultAction);
 //#else
-//#             new MessageEdit(this, getActualJuickContact(), resultAction);
+            new MessageEdit(this, getActualJuickContact(), resultAction);
 //#endif
             } catch (Exception e) {/*no messages*/}
     }
@@ -688,9 +688,9 @@ public void showNotify() {
         if (!sd.roster.isLoggedIn()) return;
         
 //#ifdef RUNNING_MESSAGE
-        Roster.me=new MessageEdit( this, contact, contact.msgSuspended);
+//#         Roster.me=new MessageEdit( this, contact, contact.msgSuspended);
 //#else
-//#         new MessageEdit(this, contact, contact.msgSuspended);
+        new MessageEdit(this, contact, contact.msgSuspended);
 //#endif
         contact.msgSuspended=null;
     }
@@ -789,9 +789,9 @@ public void showNotify() {
                 keyGreen();
             } else {
 //#ifdef RUNNING_MESSAGE
-                Roster.me=new MessageEdit( this, contact, msg.from+": ");
+//#                 Roster.me=new MessageEdit( this, contact, msg.from+": ");
 //#else
-//#                 new MessageEdit(this, contact, msg.from + ": ");
+                new MessageEdit(this, contact, msg.from + ": ");
 //#endif
             }
         } catch (Exception e) {/*no messages*/}
@@ -809,9 +809,9 @@ public void showNotify() {
                 .append(" ")
                 .toString();
 //#ifdef RUNNING_MESSAGE
-            Roster.me=new MessageEdit( this, contact, msg);
+//#             Roster.me=new MessageEdit( this, contact, msg);
 //#else
-//#             new MessageEdit(this, contact, msg);
+            new MessageEdit(this, contact, msg);
 //#endif
             msg=null;
         } catch (Exception e) {/*no messages*/}
