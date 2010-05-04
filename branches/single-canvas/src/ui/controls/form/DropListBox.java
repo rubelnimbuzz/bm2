@@ -42,7 +42,7 @@ public class DropListBox
         setMainBarItem(new MainBar(SR.MS_SELECT));
         
         commandState();
-        setCommandListener(this);
+        setMenuListener(this);
         
         moveCursorTo(cb.getSelectedIndex());
         show(parentView);

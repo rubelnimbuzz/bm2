@@ -75,7 +75,7 @@ public final class XMLList
         
         commandState();
         addMenuCommands();
-        setCommandListener(this);
+        setMenuListener(this);
 
         moveCursorHome();
 

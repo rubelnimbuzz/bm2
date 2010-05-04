@@ -67,7 +67,7 @@ public class UserKeysList extends DefForm
                 
         itemsList = copyVector(uexec.userKeysList);
 
-        setCommandListener(this);
+        setMenuListener(this);
         
         show(parentView);
     }

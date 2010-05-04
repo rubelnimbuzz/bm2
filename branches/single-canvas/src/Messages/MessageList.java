@@ -81,7 +81,7 @@ public abstract class MessageList extends VirtualList
 	
         cursor=0;//activate
 
-        setCommandListener(this);        
+        setMenuListener(this);
     }    
     
     

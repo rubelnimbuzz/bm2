@@ -18,11 +18,11 @@ import ui.controls.form.DefForm;
 public class ColorSelectForm extends DefForm {
     private ColorSelector selector;
     public ColorSelectForm( Displayable parent, ColorsList list, int color) {
-        super(list.NAMES[color]);
+        super(ColorsList.NAMES[color]);
         parentView = parent;
         selector = new ColorSelector(list, color);
         itemsList.addElement(selector);
-        setCommandListener(this);
+        setMenuListener(this);
         show(parentView);
     }
     public void cmdOk() {

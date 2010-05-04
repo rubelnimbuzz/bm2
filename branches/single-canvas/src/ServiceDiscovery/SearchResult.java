@@ -54,7 +54,7 @@ public class SearchResult
         
         setMainBarItem(new MainBar(2, null, service, false));
         
-        setCommandListener(this);
+        setMenuListener(this);
         
         JabberDataBlock query=result.getChildBlock("query");
         if (query==null) return;

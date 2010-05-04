@@ -138,7 +138,7 @@ public class AlertCustomizeForm
         itemsList.addElement(new SpacerItem(10));
         IQNotify=new CheckBox(SR.MS_SHOW_IQ_REQUESTS, cf.IQNotify); itemsList.addElement(IQNotify);
 
-        setCommandListener(this);        
+        setMenuListener(this);
         
         show(parentView);
     }

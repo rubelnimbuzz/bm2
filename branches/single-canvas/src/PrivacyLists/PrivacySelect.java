@@ -74,7 +74,7 @@ public class PrivacySelect
 
         itemsList.addElement(new PrivacyList(null));//none
         
-        setCommandListener(this);
+        setMenuListener(this);
         
         getLists();
         

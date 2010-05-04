@@ -11,18 +11,29 @@ package ui;
 
 import Client.Config;
 import javax.microedition.lcdui.Canvas;
+import javax.microedition.lcdui.Command;
+import javax.microedition.lcdui.CommandListener;
+import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Graphics;
+import locale.SR;
 
 /**
  *
  * @author Vladimir Krukov
  */
-public class VirtualCanvas extends Canvas {
+public class VirtualCanvas extends Canvas implements CommandListener{
     private VirtualList list;
+
+    public Command commandOk;
+    public Command commandCancel;
+
     
     /** Creates a new instance of NativeCanvas */
     public VirtualCanvas() {
         setFullScreenMode(Config.fullscreen);
+        setOk(SR.MS_MENU);
+        setCancel(SR.MS_ACTION);
+        setCommandListener(this);
     }
 
     public void show(VirtualList virtualList) {
@@ -83,5 +94,29 @@ public class VirtualCanvas extends Canvas {
             list.sizeChanged(w, h);
     }
     public static final VirtualCanvas nativeCanvas = new VirtualCanvas();
+
+    public void commandAction(Command c, Displayable d) {
+        if (c == commandOk) list.touchLeftPressed();
+        if (c == commandCancel) list.touchRightPressed();
+    }
+
+    public void setOk(String title) {
+        if (!Config.fullscreen) {
+        if (commandOk != null) removeCommand(commandOk);
+        commandOk = null;
+        commandOk = new Command(title, Command.OK, 1);
+        addCommand(commandOk);
+        }
+        setCommandListener(this);
+    }
+    public void setCancel(String title) {
+        if (!Config.fullscreen) {
+        if (commandCancel != null) removeCommand(commandCancel);
+        commandCancel = null;
+        commandCancel = new Command(title, Command.BACK, 99);
+        addCommand(commandCancel);
+        }
+        setCommandListener(this);
+    }
 
 }

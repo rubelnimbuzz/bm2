@@ -87,7 +87,7 @@ public class ArchiveList
         
         commandState();
         addMenuCommands();
-        setCommandListener(this);
+        setMenuListener(this);
         this.pView = midlet.BombusMod.getInstance().getCurrentDisplayable();
         show(pView);
     }

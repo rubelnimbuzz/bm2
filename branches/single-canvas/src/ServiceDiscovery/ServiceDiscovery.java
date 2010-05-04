@@ -107,7 +107,7 @@ public class ServiceDiscovery
         //sd.roster.discoveryListener=this;
         
         menuCommands.removeAllElements();
-        setCommandListener(this);
+        setMenuListener(this);
         addMenuCommand(cmdRfsh);
         addMenuCommand(cmdSrv);
         addMenuCommand(cmdFeatures);

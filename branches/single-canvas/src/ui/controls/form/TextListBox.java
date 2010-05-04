@@ -72,7 +72,7 @@ public class TextListBox
         addMenuCommand(cmdOk);
         addMenuCommand(cmdClear);
         addMenuCommand(cmdCancel);
-        setCommandListener(this);
+        setMenuListener(this);
     }
     
     public void eventOk() {

@@ -96,7 +96,7 @@ public class Browser
         addMenuCommand(cmdRoot);
         addMenuCommand(cmdExit);
         addMenuCommand(cmdCancel);
-        setCommandListener(this);
+        setMenuListener(this);
        
         // trim filename
         int l=path.lastIndexOf('/');

@@ -41,7 +41,7 @@ import ui.controls.form.DefForm;
 public class ColorsList extends DefForm
     {
 //#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_COLORS");
+    public static String plugin = new String("PLUGIN_COLORS");
 //#endif
     
 
@@ -65,7 +65,7 @@ public class ColorsList extends DefForm
             //#endif
             cnt++;
         }
-        setCommandListener(this);
+        setMenuListener(this);
         show(parentView);
         this.parentView=pView;
     }

@@ -160,7 +160,7 @@ public class ConferenceForm
         itemsList.addElement(linkJoin);
        
         
-	setCommandListener(this);
+	setMenuListener(this);
 
         moveCursorTo(getNextSelectableRef(-1));
         show(parentView);

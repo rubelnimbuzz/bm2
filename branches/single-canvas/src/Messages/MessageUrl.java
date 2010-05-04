@@ -74,7 +74,7 @@ public class MessageUrl extends DefForm implements TextBoxNotify {
 	    itemsList.addElement(new ListItem((String)urlList.elementAt(i)));
 	}
 
-        setCommandListener(this);
+        setMenuListener(this);
 	show(parentView);
         this.parentView = pView;
     }

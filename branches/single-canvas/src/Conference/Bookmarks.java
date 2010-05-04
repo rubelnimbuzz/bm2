@@ -94,7 +94,7 @@ public class Bookmarks
         
         commandState();
 
-        setCommandListener(this);
+        setMenuListener(this);
 		enableListWrapping(true);
 		show(parentView);
         this.parentView=pView;

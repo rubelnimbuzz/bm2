@@ -69,7 +69,7 @@ public class StatusSelect
 
         commandState();
         
-        setCommandListener(this);
+        setMenuListener(this);
         
         defp=cf.loginstatus;
         moveCursorTo(defp);

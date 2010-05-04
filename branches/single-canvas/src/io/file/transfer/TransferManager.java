@@ -63,7 +63,7 @@ public class TransferManager
         super(SR.MS_TRANSFERS);        
         itemsList=TransferDispatcher.getInstance().getTaskList();
         // TODO: add classic menu
-        setCommandListener(this);
+        setMenuListener(this);
         show(parentView);
         parentView = pView;
     }    

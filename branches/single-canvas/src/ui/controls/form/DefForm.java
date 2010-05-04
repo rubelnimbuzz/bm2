@@ -65,7 +65,7 @@ public class DefForm
         
         commandState();
         
-	setCommandListener(this);
+	setMenuListener(this);
         
         enableListWrapping(false);        
         

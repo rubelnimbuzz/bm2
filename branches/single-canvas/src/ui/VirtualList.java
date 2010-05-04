@@ -56,6 +56,8 @@ import Menu.MenuListener;
  */
 public abstract class VirtualList         
     extends Canvas {
+
+    
     /**
      * событие "Курсор выделил элемент"
      * в классе VirtualList вызываемая функция не выполняет действий, необходимо
@@ -321,6 +323,8 @@ public abstract class VirtualList
     /** Creates a new instance of VirtualList */
     public VirtualList() {
         setFullScreenMode(Config.fullscreen);
+        VirtualCanvas.nativeCanvas.setOk(touchLeftCommand());
+        VirtualCanvas.nativeCanvas.setCancel(touchRightCommand());
         width=getWidth();
         height=getHeight();
 //#ifdef POPUPS
@@ -348,7 +352,7 @@ public abstract class VirtualList
         setInfoBarItem(secondBar);
 
         stringHeight=FontCache.getFont(false, FontCache.roster).getHeight();
-
+        
 //#ifdef BACK_IMAGE
         try {
             if (img==null)
@@ -1462,8 +1466,8 @@ public abstract class VirtualList
             getInfoBarItem().setElementAt(SR.MS_CANCEL, 3);
             return;
         }
-        getInfoBarItem().setElementAt((!showTimeTraffic)?touchLeftCommand():Time.getTimeWeekDay(), 1);
-        getInfoBarItem().setElementAt((!showTimeTraffic)?touchRightCommand():getTraffic(), 3);
+        getInfoBarItem().setElementAt((!showTimeTraffic && fullscreen)?touchLeftCommand():Time.getTimeWeekDay(), 1);
+        getInfoBarItem().setElementAt((!showTimeTraffic && fullscreen)?touchRightCommand():getTraffic(), 3);
     }
 
     public void showHeapInfo() {
@@ -1500,11 +1504,8 @@ public abstract class VirtualList
         menuCommands.removeElement(command);
     }
 
-    public void touchLeftPressed(){
-        showMenu();
-    }
-
-    public void setCommandListener(MenuListener menuListener) { }
+    
+    public void setMenuListener(MenuListener menuListener) { }
 
     public MenuCommand getCommand(int index) {
         if (index>menuCommands.size()-1) return null;
@@ -1513,16 +1514,23 @@ public abstract class VirtualList
 
     public void showMenu() {}
 
+    public void touchLeftPressed(){
+        cmdOk();
+    }
 
     public void touchRightPressed(){
-        if (canBack) destroyView();
+        cmdCancel();
     }
     public void captionPressed() {};
     
-    public String touchLeftCommand(){ return SR.MS_MENU; }
+    public String touchLeftCommand(){
+        return SR.MS_MENU;
+    }
     public String touchRightCommand(){ return canBack? SR.MS_BACK : ""; }
     
     public void cmdCancel() { if (canBack) destroyView(); }
+    public void cmdOk() { showMenu(); }
+    
 }
 
 //#if (USE_ROTATOR)    

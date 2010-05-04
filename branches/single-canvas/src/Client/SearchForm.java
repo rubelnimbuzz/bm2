@@ -72,7 +72,7 @@ public class SearchForm
         if (getItemCount()<1) loadDefaults();
 
         updateMainBar();
-        setCommandListener(this);
+        setMenuListener(this);
         show(parentView);
     }
     

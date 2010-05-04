@@ -134,7 +134,7 @@ public class ContactMessageList extends MessageList {
         cursor=0;//activate
         on_end = false;
         commandState();
-        setCommandListener(this);
+        setMenuListener(this);
         
         contact.setIncoming(0);
 //#ifdef FILE_TRANSFER
@@ -975,7 +975,7 @@ public void showNotify() {
         return false;
     }
 
-    public String touchLeftCommand(){ return (cf.oldSE)?((contact.msgSuspended!=null)?SR.MS_RESUME:SR.MS_NEW):SR.MS_MENU; }
-    public String touchRightCommand(){ return (cf.oldSE)?SR.MS_MENU:SR.MS_BACK; }
+    public String touchLeftCommand(){ return (Config.getInstance().oldSE)?((contact.msgSuspended!=null)?SR.MS_RESUME:SR.MS_NEW):SR.MS_MENU; }
+    public String touchRightCommand(){ return (Config.getInstance().oldSE)?SR.MS_MENU:SR.MS_BACK; }
 
 }

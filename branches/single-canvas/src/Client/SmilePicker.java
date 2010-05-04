@@ -113,7 +113,7 @@ public class SmilePicker
         addMenuCommand(cmdOk);
         addMenuCommand(cmdCancel);
         
-        setCommandListener(this);
+        setMenuListener(this);
     }
     
     int lineIndex;

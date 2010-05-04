@@ -64,7 +64,7 @@ public class AlertProfile extends DefForm
         cf=Config.getInstance();
                 
 
-        setCommandListener(this);
+        setMenuListener(this);
         
         int p=cf.profile;
         defp=cf.def_profile;

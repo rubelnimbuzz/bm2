@@ -96,7 +96,7 @@ public class Affiliations
         items=null;
         items=new Vector();
         
-        setCommandListener(this);
+        setMenuListener(this);
         show(parentView);        
         getList();
     }

@@ -67,7 +67,7 @@ public class HistoryReader extends MessageList {
         removeAllMessages();
         addMenuCommands();
         removeMenuCommand(cmdxmlSkin);
-        setCommandListener(this);
+        setMenuListener(this);
         addMenuCommand(cmdPrev);
         addMenuCommand(cmdNext);
 	addMenuCommand(cmdBack);

@@ -112,7 +112,7 @@ public class MyDiscoForm extends DefForm{
             }
         }        
        
-       setCommandListener(this);
+       setMenuListener(this);
         
         if (childName.equals("command")) {
             if (query.getAttribute("status").equals("completed")) {

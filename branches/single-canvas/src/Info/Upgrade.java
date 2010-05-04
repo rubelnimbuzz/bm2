@@ -76,7 +76,7 @@ public class Upgrade
         
         news=new Vector();
         
-        setCommandListener(this);
+        setMenuListener(this);
 	addMenuCommand(cmdBack);
         addMenuCommand(cmdUrl);
         

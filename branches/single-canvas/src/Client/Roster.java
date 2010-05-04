@@ -39,7 +39,6 @@ import Conference.MucContact;
 import Conference.affiliation.ConferenceQuickPrivelegeModify;
 import Conference.ConferenceForm;
 //#endif
-import Fonts.FontCache;
 import Statistic.Stats;
 import images.MenuIcons;
 
@@ -234,8 +233,7 @@ public class Roster
 	updateMainBar();
 
         commandState();
-        setCommandListener(this);
-
+        setMenuListener(this);
         splash.setExit(this);
 //#ifdef AUTOSTATUS
         if (cf.autoAwayType==Config.AWAY_IDLE || cf.autoAwayType==Config.AWAY_MESSAGE)
@@ -2892,11 +2890,11 @@ public class Roster
         new MyMenu( parentView, this, SR.MS_MAIN_MENU, MenuIcons.getInstance(), menuCommands);
     }
 
-    public String touchRightCommand(){ return (cf.oldSE)?SR.MS_MENU:SR.MS_ACTION; }
-    public String touchLeftCommand(){ return (cf.oldSE)?SR.MS_ACTION:SR.MS_MENU; }
+    public String touchRightCommand(){ return (Config.getInstance().oldSE)?SR.MS_MENU:SR.MS_ACTION; }
+    public String touchLeftCommand(){ return (Config.getInstance().oldSE)?SR.MS_ACTION:SR.MS_MENU; }
 
-    public void touchRightPressed(){ if (cf.oldSE) showMenu(); else cmdActions(); }
-    public void touchLeftPressed(){ if (cf.oldSE) cmdActions(); else showMenu(); }
+    public void touchRightPressed(){ if (Config.getInstance().oldSE) showMenu(); else cmdActions(); }
+    public void touchLeftPressed(){ if (Config.getInstance().oldSE) cmdActions(); else showMenu(); }
     public void captionPressed() {new ActiveContacts( this, null);}
 
     
