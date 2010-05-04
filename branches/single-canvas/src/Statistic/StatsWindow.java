@@ -30,7 +30,7 @@ package Statistic;
 import Client.Config;
 import Client.Roster;
 import Client.StaticData;
-import Menu.Command;
+import Menu.MenuCommand;
 import locale.SR;
 import ui.VirtualList;
 import ui.controls.form.DefForm;
@@ -46,16 +46,16 @@ public class StatsWindow
         extends DefForm {
 
 //#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_STATS");
+    public static String plugin = new String("PLUGIN_STATS");
 //#endif
     
     Stats st=Stats.getInstance();
     
-    public Command cmdClear = new Command(SR.MS_CLEAR, Command.SCREEN, 2);
+    public MenuCommand cmdClear = new MenuCommand(SR.MS_CLEAR, MenuCommand.SCREEN, 2);
 //#ifdef CLIPBOARD
     ClipBoard clipboard  = ClipBoard.getInstance();
-    Command cmdCopy      = new Command(SR.MS_COPY, Command.SCREEN, 1);
-    Command cmdCopyPlus  = new Command("+ "+SR.MS_COPY, Command.SCREEN, 2);
+    MenuCommand cmdCopy      = new MenuCommand(SR.MS_COPY, MenuCommand.SCREEN, 1);
+    MenuCommand cmdCopyPlus  = new MenuCommand("+ "+SR.MS_COPY, MenuCommand.SCREEN, 2);
 //#endif
     
     MultiLine item=null;    
@@ -95,9 +95,9 @@ public class StatsWindow
         super.commandState();
 //#ifdef CLIPBOARD
             if (Config.getInstance().useClipBoard) {
-                addCommand(cmdCopy);
+                addMenuCommand(cmdCopy);
                 if (!clipboard.isEmpty())
-                    addCommand(cmdCopyPlus);
+                    addMenuCommand(cmdCopyPlus);
             }
 //#endif        
     }
@@ -106,7 +106,7 @@ public class StatsWindow
     public void touchLeftPressed(){ cmdOk(); }
     public void cmdOk() { showMenu(); }
     
-    public void commandAction(Command command, VirtualList displayable) {
+    public void menuAction(MenuCommand command, VirtualList displayable) {
 //#ifdef CLIPBOARD
         if (command == cmdCopy) {
             try {
@@ -131,6 +131,6 @@ public class StatsWindow
         if (command==cmdClear) {
             st.saveToStorage(true);
             cmdCancel();
-        } else super.commandAction(command, displayable);
+        } else super.menuAction(command, displayable);
     }
 }

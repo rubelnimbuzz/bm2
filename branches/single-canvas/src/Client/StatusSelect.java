@@ -37,7 +37,7 @@ import ui.controls.form.NumberInput;
 import ui.controls.form.SimpleString;
 import ui.controls.form.SpacerItem;
 import ui.controls.form.TextInput;
-import Menu.Command;
+import Menu.MenuCommand;
 
 /**
  *
@@ -47,8 +47,8 @@ public class StatusSelect
         extends DefForm
         implements Runnable{
     
-    private Command cmdEdit=new Command(SR.MS_EDIT,Command.SCREEN,2);
-    private Command cmdDef=new Command(SR.MS_SETDEFAULT,Command.OK,3);
+    private MenuCommand cmdEdit=new MenuCommand(SR.MS_EDIT, MenuCommand.SCREEN,2);
+    private MenuCommand cmdDef=new MenuCommand(SR.MS_SETDEFAULT, MenuCommand.OK,3);
     
     private Vector statusList;
     private int defp;
@@ -78,10 +78,10 @@ public class StatusSelect
     
     public void commandState() {
         menuCommands.removeAllElements();
-        addCommand(cmdOk);
-        addCommand(cmdEdit);
-        addCommand(cmdDef);
-        addCommand(cmdCancel);
+        addMenuCommand(cmdOk);
+        addMenuCommand(cmdEdit);
+        addMenuCommand(cmdDef);
+        addMenuCommand(cmdCancel);
     }
     
     public VirtualElement getItemRef(int Index){
@@ -90,7 +90,7 @@ public class StatusSelect
 
     private ExtendedStatus getSel(){ return (ExtendedStatus)getFocusedObject();}
     
-    public void commandAction(Command c, VirtualList d){
+    public void menuAction(MenuCommand c, VirtualList d){
         if (c==cmdOk) eventOk(); 
         if (c==cmdEdit) {
             new StatusForm(  this, getSel() );
@@ -113,9 +113,9 @@ public class StatusSelect
     public void run(){
         int status=getSel().getImageIndex();
 //#ifdef AUTOSTATUS
-//#         sd.roster.autoAway=false;
-//#         sd.roster.autoXa=false;
-//#         sd.roster.messageActivity();
+        Roster.autoAway=false;
+        Roster.autoXa=false;
+        sd.roster.messageActivity();
 //#endif
         try {
             if (sd.roster.isLoggedIn()) {

@@ -29,7 +29,7 @@ package History;
 
 import Client.Contact;
 import Client.Msg;
-import Menu.Command;
+import Menu.MenuCommand;
 import Messages.MessageList;
 import java.util.Vector;
 import locale.SR;
@@ -43,19 +43,19 @@ import ui.VirtualList;
 public class HistoryReader extends MessageList {
 
 //#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_HISTORY");
+    public static String plugin = new String("PLUGIN_HISTORY");
 //#endif
     
     private HistoryLoader hl;
-    Command cmdNext, cmdPrev;
+    MenuCommand cmdNext, cmdPrev;
 
     /** Creates a new instance of HistoryReader
      * @param c 
      */
     public HistoryReader(Contact c) {
         super();
-        cmdNext = new Command(SR.MS_NEXT, Command.ITEM, 1);
-        cmdPrev = new Command(SR.MS_PREVIOUS, Command.ITEM, 1);
+        cmdNext = new MenuCommand(SR.MS_NEXT, MenuCommand.ITEM, 1);
+        cmdPrev = new MenuCommand(SR.MS_PREVIOUS, MenuCommand.ITEM, 1);
         hl = new HistoryLoader(c.bareJid);
 	MainBar mb=new MainBar(c.getName() + ": " + SR.MS_HISTORY);
 	mb.addElement(null);
@@ -65,12 +65,12 @@ public class HistoryReader extends MessageList {
         setMainBarItem(mb);
 
         removeAllMessages();
-        addCommands(); 
-        removeCommand(cmdxmlSkin);
+        addMenuCommands();
+        removeMenuCommand(cmdxmlSkin);
         setCommandListener(this);
-        addCommand(cmdPrev);
-        addCommand(cmdNext);
-	addCommand(cmdBack);
+        addMenuCommand(cmdPrev);
+        addMenuCommand(cmdNext);
+	addMenuCommand(cmdBack);
         hl.getNext();
         moveCursorTo(1);
         show(parentView);
@@ -89,7 +89,7 @@ public class HistoryReader extends MessageList {
         super.keyPressed(keyCode);
     }
 
-    public void commandAction(Command c, VirtualList d) {
+    public void menuAction(MenuCommand c, VirtualList d) {
         if(c==cmdNext) {
             removeAllMessages();
             hl.getNext();
@@ -99,7 +99,7 @@ public class HistoryReader extends MessageList {
             hl.getPrev();
             return;
         }
-        super.commandAction(c, d);
+        super.menuAction(c, d);
     }
 
     private void removeAllMessages() {

@@ -34,7 +34,7 @@ import locale.SR;
 import ui.MainBar;
 import ui.VirtualList;
 
-import Menu.Command;
+import Menu.MenuCommand;
 import java.util.Enumeration;
 import ui.controls.form.DefForm;
 import util.StringLoader;
@@ -48,11 +48,11 @@ public class UserKeysList extends DefForm
     Vector userKeysList;
 
 //#ifdef USER_KEYS
-    Command cmdApply = new Command(SR.MS_APPLY, Command.OK, 1);
-    Command cmdAdd = new Command(SR.MS_ADD_CUSTOM_KEY, Command.SCREEN, 3);
-    Command cmdEdit = new Command(SR.MS_EDIT, Command.ITEM, 3);
-    Command cmdDel = new Command(SR.MS_DELETE, Command.ITEM, 4);
-    Command cmdRestore = new Command(SR.MS_SETDEFAULT, Command.ITEM, 5);
+    MenuCommand cmdApply = new MenuCommand(SR.MS_APPLY, MenuCommand.OK, 1);
+    MenuCommand cmdAdd = new MenuCommand(SR.MS_ADD_CUSTOM_KEY, MenuCommand.SCREEN, 3);
+    MenuCommand cmdEdit = new MenuCommand(SR.MS_EDIT, MenuCommand.ITEM, 3);
+    MenuCommand cmdDel = new MenuCommand(SR.MS_DELETE, MenuCommand.ITEM, 4);
+    MenuCommand cmdRestore = new MenuCommand(SR.MS_SETDEFAULT, MenuCommand.ITEM, 5);
     
 //#endif
 
@@ -107,15 +107,15 @@ public class UserKeysList extends DefForm
     public void commandState() {
 //#ifdef USER_KEYS
       menuCommands.removeAllElements();
-        addCommand(cmdAdd);
+        addMenuCommand(cmdAdd);
         if (itemsList.isEmpty()) {
-            removeCommand(cmdEdit);
-            removeCommand(cmdDel);
+            removeMenuCommand(cmdEdit);
+            removeMenuCommand(cmdDel);
         } else {
-            addCommand(cmdEdit);
-            addCommand(cmdDel);
+            addMenuCommand(cmdEdit);
+            addMenuCommand(cmdDel);
         }
-        addCommand(cmdRestore);
+        addMenuCommand(cmdRestore);
         
 //#endif
     }
@@ -126,7 +126,7 @@ public class UserKeysList extends DefForm
             destroyView();
         }
 
-    public void commandAction(Command c, VirtualList d) {
+    public void menuAction(MenuCommand c, VirtualList d) {
 //#ifdef USER_KEYS
         if (c==cmdApply) {
             UserKeyExec.getInstance().userKeysList = userKeysList;
@@ -150,7 +150,7 @@ public class UserKeysList extends DefForm
             redraw();
         }
 //#endif
-        super.commandAction(c, d);
+        super.menuAction(c, d);
     }
     
     public void eventOk() {

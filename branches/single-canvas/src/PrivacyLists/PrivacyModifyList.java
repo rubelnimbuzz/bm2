@@ -27,13 +27,10 @@
 
 package PrivacyLists;
 
-import Client.Config;
 import Client.StaticData;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import images.RosterIcons;
 import Menu.MenuListener;
-import Menu.Command;
+import Menu.MenuCommand;
 import Menu.MyMenu;
 import locale.SR;
 import ui.*;
@@ -51,18 +48,18 @@ public class PrivacyModifyList
         JabberBlockListener
 {
 //#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_PRIVACY");
+    public static String plugin = new String("PLUGIN_PRIVACY");
 //#endif
     
     private PrivacyList plist;
     
-    private Command cmdCancel=new Command (SR.MS_CANCEL, Command.BACK, 99);
-    private Command cmdAdd=new Command (SR.MS_ADD_RULE, Command.SCREEN, 10);
-    private Command cmdDel=new Command (SR.MS_DELETE_RULE, Command.SCREEN, 11);
-    private Command cmdEdit=new Command (SR.MS_EDIT_RULE, Command.SCREEN, 12);
-    private Command cmdUp=new Command (SR.MS_MOVE_UP, Command.SCREEN, 13);
-    private Command cmdDwn=new Command (SR.MS_MOVE_DOWN, Command.SCREEN, 14);
-    private Command cmdSave=new Command (SR.MS_SAVE_LIST, Command.SCREEN, 16);
+    private MenuCommand cmdCancel=new MenuCommand (SR.MS_CANCEL, MenuCommand.BACK, 99);
+    private MenuCommand cmdAdd=new MenuCommand (SR.MS_ADD_RULE, MenuCommand.SCREEN, 10);
+    private MenuCommand cmdDel=new MenuCommand (SR.MS_DELETE_RULE, MenuCommand.SCREEN, 11);
+    private MenuCommand cmdEdit=new MenuCommand (SR.MS_EDIT_RULE, MenuCommand.SCREEN, 12);
+    private MenuCommand cmdUp=new MenuCommand (SR.MS_MOVE_UP, MenuCommand.SCREEN, 13);
+    private MenuCommand cmdDwn=new MenuCommand (SR.MS_MOVE_DOWN, MenuCommand.SCREEN, 14);
+    private MenuCommand cmdSave=new MenuCommand (SR.MS_SAVE_LIST, MenuCommand.SCREEN, 16);
     
     JabberStream stream=StaticData.getInstance().roster.theStream;
     
@@ -89,13 +86,13 @@ public class PrivacyModifyList
 
     public void commandState() {
         menuCommands.removeAllElements();
-        addCommand(cmdCancel);
-        addCommand(cmdEdit);
-        addCommand(cmdAdd);
-        addCommand(cmdDel);
-        addCommand(cmdUp);
-        addCommand(cmdDwn);
-        addCommand(cmdSave);
+        addMenuCommand(cmdCancel);
+        addMenuCommand(cmdEdit);
+        addMenuCommand(cmdAdd);
+        addMenuCommand(cmdDel);
+        addMenuCommand(cmdUp);
+        addMenuCommand(cmdDwn);
+        addMenuCommand(cmdSave);
     }
     
     public void showMenu() {
@@ -119,7 +116,7 @@ public class PrivacyModifyList
     protected int getItemCount() { return plist.rules.size(); }
     protected VirtualElement getItemRef(int index) { return (VirtualElement) plist.rules.elementAt(index); }
     
-    public void commandAction(Command c, VirtualList d) {
+    public void menuAction(MenuCommand c, VirtualList d) {
         if (c==cmdCancel) {
             stream.cancelBlockListener(this);
             destroyView();

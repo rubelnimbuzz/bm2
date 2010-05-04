@@ -30,7 +30,7 @@ package Client;
 import Conference.AppendNick;
 //#endif
 //#ifdef DETRANSLIT
-//# import util.DeTranslit;
+import util.DeTranslit;
 //#endif
 import javax.microedition.lcdui.*;
 import locale.SR;
@@ -47,10 +47,10 @@ import Archive.ArchiveList;
 public final class MessageEdit
         implements CommandListener
 //#ifdef RUNNING_MESSAGE
-//#         , Runnable {
-//#     Thread thread;
+        , Runnable {
+    Thread thread;
 //#else
-    {
+//#     {
 //#endif
     private Displayable parentView;
     
@@ -66,8 +66,8 @@ public final class MessageEdit
     public String body;
 
 //#ifdef DETRANSLIT
-//#     private boolean sendInTranslit=false;
-//#     private boolean sendInDeTranslit=false;
+    private boolean sendInTranslit=false;
+    private boolean sendInDeTranslit=false;
 //#endif
 //#ifdef CLIPBOARD
     private ClipBoard clipboard;
@@ -92,8 +92,8 @@ public final class MessageEdit
     private Command cmdInsNick=new Command(SR.MS_NICKNAMES,Command.ITEM,3);
     private Command cmdInsMe=new Command(SR.MS_SLASHME, Command.ITEM, 4); ; // /me
 //#ifdef DETRANSLIT
-//#     private Command cmdSendInTranslit=new Command(SR.MS_TRANSLIT, Command.ITEM, 5);
-//#     private Command cmdSendInDeTranslit=new Command(SR.MS_DETRANSLIT, Command.ITEM, 5);
+    private Command cmdSendInTranslit=new Command(SR.MS_TRANSLIT, Command.ITEM, 5);
+    private Command cmdSendInDeTranslit=new Command(SR.MS_DETRANSLIT, Command.ITEM, 5);
 //#endif
     private Command cmdLastMessage=new Command(SR.MS_PREVIOUS, Command.ITEM, 9);
     private Command cmdSubj=new Command(SR.MS_SET_SUBJECT, Command.ITEM, 10);
@@ -102,7 +102,7 @@ public final class MessageEdit
     private final TextBox t;
     int maxSize = 500;
 //#ifdef RUNNING_MESSAGE
-//#     Ticker ticker = new Ticker("");
+    Ticker ticker = new Ticker("");
 //#endif
     /** Creates a new instance of MessageEdit */
     public MessageEdit( Displayable pView, Contact to, String body) {
@@ -119,7 +119,7 @@ public final class MessageEdit
 
         cf=Config.getInstance();
 //#ifdef DETRANSLIT
-//#         DeTranslit.getInstance();
+        DeTranslit.getInstance();
 //#endif
 
         if (!cf.swapSendAndSuspend) {
@@ -132,7 +132,7 @@ public final class MessageEdit
 
 //#ifdef ARCHIVE
 //#ifdef PLUGINS
-//#         if (StaticData.getInstance().Archive)
+        if (StaticData.getInstance().Archive)
 //#endif
             t.addCommand(cmdPaste);
 //#endif
@@ -146,7 +146,7 @@ public final class MessageEdit
 //#endif
 //#if TEMPLATES
 //#ifdef PLUGINS
-//#         if (StaticData.getInstance().Archive)
+        if (StaticData.getInstance().Archive)
 //#endif
             t.addCommand(cmdTemplate);
 //#endif
@@ -167,8 +167,8 @@ public final class MessageEdit
         if (to.origin>=Contact.ORIGIN_GROUPCHAT)
             t.addCommand(cmdInsNick);
 //#ifdef DETRANSLIT
-//#         t.addCommand(cmdSendInTranslit);
-//#         t.addCommand(cmdSendInDeTranslit);
+        t.addCommand(cmdSendInTranslit);
+        t.addCommand(cmdSendInDeTranslit);
 //#endif
         t.addCommand(cmdSuspend);
         t.addCommand(cmdCancel);
@@ -186,9 +186,9 @@ public final class MessageEdit
 //#             t.setTicker(null);
 //#         }
 //#endif
-//#         if (thread==null) (thread=new Thread(this)).start() ; // composing
+        if (thread==null) (thread=new Thread(this)).start() ; // composing
 //#else
-        send() ; // composing
+//#         send() ; // composing
 //#endif
         setInitialCaps(cf.capsState);
         if (Config.getInstance().phoneManufacturer == Config.SONYE) System.gc(); // prevent flickering on Sony Ericcsson C510
@@ -239,13 +239,13 @@ public final class MessageEdit
             composing = false;
         }
 //#ifdef DETRANSLIT
-//#         if (c==cmdSendInTranslit) {
-//#             sendInTranslit=true;
-//#         }
-//# 
-//#         if (c==cmdSendInDeTranslit) {
-//#             sendInDeTranslit=true;
-//#         }
+        if (c==cmdSendInTranslit) {
+            sendInTranslit=true;
+        }
+
+        if (c==cmdSendInDeTranslit) {
+            sendInDeTranslit=true;
+        }
 //#endif
         if (c==cmdSubj) {
             if (body==null) return;
@@ -258,35 +258,35 @@ public final class MessageEdit
          midlet.BombusMod.getInstance().setDisplayable(parentView);
          ((ContactMessageList)parentView).forceScrolling();
 //#ifdef RUNNING_MESSAGE
-//#         runState=3;
+        runState=3;
 //#else
-        send();
+//#         send();
 //#endif
     }
 //#ifdef RUNNING_MESSAGE
-//#     /*
-//#      0 - do nothing
-//#      1 - scroll
-//#      2 - send
-//#      3 - send and close
-//#      4 - end cycle
-//#      *
-//#      */
-//#     int runState=2;
-//# 
-//#     int strPos=0;
-//#     public void run(){
-//#         while (runState<4) {
-//#             //System.out.println(runState+" "+notifyMessage);
-//#             if (runState==2) { runState=0; send(); }
-//#             if (runState==3) {
-//#                 runState=4;
-//#                 send();
-//#                 thread=null;                
-//#                     ((ContactMessageList) parentView).redraw();
-//#                 break;
-//#             }
-//#             if (runState==1) {
+    /*
+     0 - do nothing
+     1 - scroll
+     2 - send
+     3 - send and close
+     4 - end cycle
+     *
+     */
+    int runState=2;
+
+    int strPos=0;
+    public void run(){
+        while (runState<4) {
+            //System.out.println(runState+" "+notifyMessage);
+            if (runState==2) { runState=0; send(); }
+            if (runState==3) {
+                runState=4;
+                send();
+                thread=null;                
+                    ((ContactMessageList) parentView).redraw();
+                break;
+            }
+            if (runState==1) {
 //#ifdef MIDP_TICKER
 //#                 if (cf.notifyWhenMessageType) {
 //#                 if (notifyMessage != null)
@@ -294,42 +294,42 @@ public final class MessageEdit
 //#                     runState = 4;
 //#                 }
 //#else
-//#                 if (cf.notifyWhenMessageType) {
-//#                  t.setTitle(notifyMessage.substring(strPos++));
-//#                 if ((notifyMessage.length()-strPos)<0) strPos=0;
-//#             }
+                if (cf.notifyWhenMessageType) {
+                 t.setTitle(notifyMessage.substring(strPos++));
+                if ((notifyMessage.length()-strPos)<0) strPos=0;
+            }
 //#endif
-//#             }
-//#             try { Thread.sleep(250); } catch (Exception e) { break; }
-//#         }
-//#     }
-//# 
-//#     private String notifyMessage;
-//#     public void setMyTicker(String msg) {
-//#         if (msg!=null && !msg.equals("")) {
-//#             StringBuffer out=new StringBuffer(msg);
-//#             int i=0;
-//#             while (i<out.length()) {
-//#                 if (out.charAt(i)<0x03) out.deleteCharAt(i);
-//#                 else i++;
-//#             }
-//#             msg=out.toString();
-//#             runState=1;
-//#         } else {
+            }
+            try { Thread.sleep(250); } catch (Exception e) { break; }
+        }
+    }
+
+    private String notifyMessage;
+    public void setMyTicker(String msg) {
+        if (msg!=null && !msg.equals("")) {
+            StringBuffer out=new StringBuffer(msg);
+            int i=0;
+            while (i<out.length()) {
+                if (out.charAt(i)<0x03) out.deleteCharAt(i);
+                else i++;
+            }
+            msg=out.toString();
+            runState=1;
+        } else {
 //#ifdef MIDP_TICKER
 //#             if (cf.notifyWhenMessageType) {
 //#                 ticker.setString("");
 //#             }
 //#else
-//#             if (cf.notifyWhenMessageType) {
-//#                 t.setTitle(to.toString());
-//#             }
+            if (cf.notifyWhenMessageType) {
+                t.setTitle(to.toString());
+            }
 //#endif
-//#             runState=0;
-//#         }
-//#         notifyMessage=msg;
-//#         strPos=0;
-//#     }
+            runState=0;
+        }
+        notifyMessage=msg;
+        strPos=0;
+    }
 //#endif
 
     private void send() {
@@ -342,18 +342,18 @@ public final class MessageEdit
 
          if (body!=null || subj!=null ) {
 //#ifdef DETRANSLIT
-//#              if (sendInTranslit == true) {
-//#                  if (body != null)
-//#                      body = DeTranslit.translit(body);
-//#                  if (subj != null)
-//#                      subj = DeTranslit.translit(subj);
-//#              }
-//#              if (sendInDeTranslit == true || cf.autoDeTranslit) {
-//#                  if (body != null)
-//#                      body = DeTranslit.deTranslit(body);
-//#                  if (subj != null)
-//#                      subj = DeTranslit.deTranslit(subj);
-//#              }
+             if (sendInTranslit == true) {
+                 if (body != null)
+                     body = DeTranslit.translit(body);
+                 if (subj != null)
+                     subj = DeTranslit.translit(subj);
+             }
+             if (sendInDeTranslit == true || cf.autoDeTranslit) {
+                 if (body != null)
+                     body = DeTranslit.deTranslit(body);
+                 if (subj != null)
+                     subj = DeTranslit.deTranslit(subj);
+             }
 //#endif
              String from = sd.account.toString();
              Msg msg = new Msg(Msg.MESSAGE_TYPE_OUT, from, subj, body);

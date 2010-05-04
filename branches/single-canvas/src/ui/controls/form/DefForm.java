@@ -30,7 +30,7 @@ package ui.controls.form;
 //import Client.Config;
 import java.util.Vector;
 import Menu.MenuListener;
-import Menu.Command;
+import Menu.MenuCommand;
 import Menu.MyMenu;
 import locale.SR;
 import ui.MainBar;
@@ -49,8 +49,8 @@ public class DefForm
     
     public Vector itemsList=new Vector();
 
-    public Command cmdOk = new Command(SR.MS_OK, Command.OK, 1);
-    public Command cmdCancel = new Command(SR.MS_BACK, Command.BACK, 99);
+    public MenuCommand cmdOk = new MenuCommand(SR.MS_OK, MenuCommand.OK, 1);
+    public MenuCommand cmdCancel = new MenuCommand(SR.MS_BACK, MenuCommand.BACK, 99);
 
     public int superWidth;
     /**
@@ -81,7 +81,7 @@ public class DefForm
 
     public void touchRightPressed(){ cmdCancel(); }
     
-    public void commandAction(Command command, VirtualList displayable) {
+    public void menuAction(MenuCommand command, VirtualList displayable) {
 	if (command==cmdCancel) {
 	    cmdCancel();
 	}
@@ -102,8 +102,8 @@ public class DefForm
     
     public void commandState() {
         menuCommands.removeAllElements();
-	addCommand(cmdOk);
-	addCommand(cmdCancel);
+	addMenuCommand(cmdOk);
+	addMenuCommand(cmdCancel);
     }
     
     public void showMenu() {

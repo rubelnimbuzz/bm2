@@ -32,7 +32,7 @@ import Client.Msg;
 import Client.StaticData;
 import Messages.MessageList;
 import java.util.Vector;
-import Menu.Command;
+import Menu.MenuCommand;
 import locale.SR;
 //#ifdef CLIPBOARD   
 import ui.VirtualList;
@@ -49,15 +49,15 @@ import ui.MainBar;
 public final class XMLList
     extends MessageList {
 //#ifdef PLUGINS
-//#     public static String plugin = "PLUGIN_CONSOLE";
+    public static String plugin = "PLUGIN_CONSOLE";
 //#endif
     
     StanzasList stanzas;
     private StaticData sd=StaticData.getInstance();
     
-    private Command cmdNew=new Command(SR.MS_NEW, Command.SCREEN, 5);
-    private Command cmdEnableDisable=new Command(SR.MS_ENABLE_DISABLE, Command.SCREEN, 6);
-    private Command cmdPurge=new Command(SR.MS_CLEAR_LIST, Command.SCREEN, 10);
+    private MenuCommand cmdNew=new MenuCommand(SR.MS_NEW, MenuCommand.SCREEN, 5);
+    private MenuCommand cmdEnableDisable=new MenuCommand(SR.MS_ENABLE_DISABLE, MenuCommand.SCREEN, 6);
+    private MenuCommand cmdPurge=new MenuCommand(SR.MS_CLEAR_LIST, MenuCommand.SCREEN, 10);
     
 //#ifdef CLIPBOARD    
     private ClipBoard clipboard=ClipBoard.getInstance();
@@ -74,7 +74,7 @@ public final class XMLList
         stanzas=StanzasList.getInstance();
         
         commandState();
-        addCommands();
+        addMenuCommands();
         setCommandListener(this);
 
         moveCursorHome();
@@ -88,16 +88,16 @@ public final class XMLList
     
     public void commandState() {
         menuCommands.removeAllElements();
-	addCommand(cmdBack);
-        addCommand(cmdNew);
+	addMenuCommand(cmdBack);
+        addMenuCommand(cmdNew);
 //#ifdef CLIPBOARD
             if (Config.getInstance().useClipBoard) {
-                addCommand(cmdCopy);
-                if (!clipboard.isEmpty()) addCommand(cmdCopyPlus);
+                addMenuCommand(cmdCopy);
+                if (!clipboard.isEmpty()) addMenuCommand(cmdCopyPlus);
             }
 //#endif
-        addCommand(cmdEnableDisable);
-        addCommand(cmdPurge);
+        addMenuCommand(cmdEnableDisable);
+        addMenuCommand(cmdPurge);
     }
     
     protected void beginPaint() {
@@ -133,8 +133,8 @@ public final class XMLList
         new StanzaEdit(this, stanza);
     }
     
-    public void commandAction(Command c, VirtualList d) {
-        super.commandAction(c,d);
+    public void menuAction(MenuCommand c, VirtualList d) {
+        super.menuAction(c,d);
         
 	Msg m=getMessage(cursor);
         if (c==cmdNew) {

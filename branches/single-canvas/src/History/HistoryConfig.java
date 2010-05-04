@@ -30,7 +30,7 @@ package History;
 import Client.Config;
 import io.file.browse.Browser;
 import io.file.browse.BrowserListener;
-import Menu.Command;
+import Menu.MenuCommand;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
 import ui.VirtualList;
@@ -46,10 +46,10 @@ public class HistoryConfig
         extends DefForm
         implements BrowserListener {
 //#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_HISTORY");
+    public static String plugin = new String("PLUGIN_HISTORY");
 //#endif
 
-    Command cmdPath=new Command(SR.MS_SELECT_HISTORY_FOLDER, Command.SCREEN, 2);
+    MenuCommand cmdPath=new MenuCommand(SR.MS_SELECT_HISTORY_FOLDER, MenuCommand.SCREEN, 2);
 
     private TextInput historyFolder;
     
@@ -60,7 +60,7 @@ public class HistoryConfig
     private CheckBox saveConfPres;
     private CheckBox win1251;
 //#ifdef DETRANSLIT
-//#     private CheckBox translit;
+    private CheckBox translit;
 //#endif
     
     Config cf;
@@ -84,12 +84,12 @@ public class HistoryConfig
         saveConfPres = new CheckBox(SR.MS_SAVE_PRESENCES_CONF, cf.msgLogConfPresence); itemsList.addElement(saveConfPres);
         win1251 = new CheckBox(SR.MS_1251_CORRECTION, cf.cp1251); itemsList.addElement(win1251);
 //#ifdef DETRANSLIT
-//#         translit = new CheckBox(SR.MS_1251_TRANSLITERATE_FILENAMES, cf.transliterateFilenames); itemsList.addElement(translit);
+        translit = new CheckBox(SR.MS_1251_TRANSLITERATE_FILENAMES, cf.transliterateFilenames); itemsList.addElement(translit);
 //#endif
 
 	historyFolder = new TextInput(SR.MS_HISTORY_FOLDER, cf.msgPath, null, TextField.ANY); itemsList.addElement(historyFolder);
 //#endif
-        addCommand(cmdPath);
+        addMenuCommand(cmdPath);
         commandState();
         
         moveCursorTo(0);
@@ -102,12 +102,12 @@ public class HistoryConfig
         historyFolder.setValue(pathSelected);
     }
 
-    public void commandAction(Command command, VirtualList displayable) {
+    public void menuAction(MenuCommand command, VirtualList displayable) {
         if (command==cmdPath) {
             new Browser(null,  this, this, true);
             return;
         }
-        super.commandAction(command, displayable);
+        super.menuAction(command, displayable);
         destroyView();
     }
 
@@ -124,7 +124,7 @@ public class HistoryConfig
         cf.msgLogConfPresence=saveConfPres.getValue();
         cf.cp1251=win1251.getValue();
 //#ifdef DETRANSLIT
-//#         cf.transliterateFilenames=translit.getValue();
+        cf.transliterateFilenames=translit.getValue();
 //#endif
         cf.msgPath=historyFolder.getValue();
 //#endif
@@ -132,9 +132,9 @@ public class HistoryConfig
     }
     public void commandState() {
         super.commandState();
-        removeCommand(cmdCancel);
-        addCommand(cmdPath);
-        addCommand(cmdCancel);        
+        removeMenuCommand(cmdCancel);
+        addMenuCommand(cmdPath);
+        addMenuCommand(cmdCancel);
     }
     
     public void touchLeftPressed(){ showMenu(); }

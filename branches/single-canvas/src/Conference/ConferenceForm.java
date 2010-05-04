@@ -37,7 +37,7 @@ import ui.controls.form.LinkString;
 import ui.controls.form.NumberInput;
 import ui.controls.form.PasswordInput;
 import ui.controls.form.TextInput;
-import Menu.Command;
+import Menu.MenuCommand;
 import ui.VirtualList;
 
 /**
@@ -48,9 +48,9 @@ public class ConferenceForm
     extends DefForm {
     
     private Config cf=Config.getInstance();
-    Command cmdJoin=new Command(SR.MS_JOIN, Command.SCREEN, 1);
-    Command cmdAdd=new Command(SR.MS_ADD_BOOKMARK, Command.SCREEN, 5);
-    Command cmdEdit=new Command(SR.MS_SAVE, Command.SCREEN, 6);
+    MenuCommand cmdJoin=new MenuCommand(SR.MS_JOIN, MenuCommand.SCREEN, 1);
+    MenuCommand cmdAdd=new MenuCommand(SR.MS_ADD_BOOKMARK, MenuCommand.SCREEN, 5);
+    MenuCommand cmdEdit=new MenuCommand(SR.MS_SAVE, MenuCommand.SCREEN, 6);
     private TextInput roomField;
     private TextInput hostField;
     private TextInput nickField;
@@ -167,8 +167,8 @@ public class ConferenceForm
         this.parentView=pView;
     }
 
-    public void commandAction(Command c, VirtualList d){
-        super.commandAction(c, d);
+    public void menuAction(MenuCommand c, VirtualList d){
+        super.menuAction(c, d);
         
         String nick=nickField.getValue();
         String name=nameField.getValue();
@@ -215,10 +215,10 @@ public class ConferenceForm
     
     public void commandState(){
         menuCommands.removeAllElements();
-        addCommand(cmdJoin);
-        addCommand(cmdAdd);
-        addCommand(cmdEdit);
-        addCommand(cmdCancel);
+        addMenuCommand(cmdJoin);
+        addMenuCommand(cmdAdd);
+        addMenuCommand(cmdEdit);
+        addMenuCommand(cmdCancel);
     }
 
     public String touchLeftCommand(){ return SR.MS_MENU; }

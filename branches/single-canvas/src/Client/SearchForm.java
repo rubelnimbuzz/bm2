@@ -43,7 +43,7 @@ import util.StringLoader;
 //#ifdef SERVICE_DISCOVERY
 import ServiceDiscovery.*;
 //#endif
-import Menu.Command;
+import Menu.MenuCommand;
 import ui.VirtualList;
 import ui.controls.form.DefForm;
 
@@ -56,8 +56,8 @@ public class SearchForm
         implements MIDPTextBox.TextBoxNotify
     { 
     
-    private Command cmdAddServer = new Command(SR.MS_ADD, Command.SCREEN, 2);
-    private Command cmdDel=new Command (SR.MS_DELETE, Command.SCREEN, 3);
+    private MenuCommand cmdAddServer = new MenuCommand(SR.MS_ADD, MenuCommand.SCREEN, 2);
+    private MenuCommand cmdDel=new MenuCommand (SR.MS_DELETE, MenuCommand.SCREEN, 3);
     
     Vector servers = new Vector();
     
@@ -82,8 +82,8 @@ public class SearchForm
 
     public void commandState() {
         menuCommands.removeAllElements();
-        addCommand(cmdAddServer);
-        addCommand(cmdDel);
+        addMenuCommand(cmdAddServer);
+        addMenuCommand(cmdDel);
     }
 
     public String touchLeftCommand(){ return SR.MS_MENU; }
@@ -91,8 +91,8 @@ public class SearchForm
         showMenu();
     }
     
-    public void commandAction(Command c, VirtualList d) {
-        super.commandAction(c, d);     
+    public void menuAction(MenuCommand c, VirtualList d) {
+        super.menuAction(c, d);     
      if (c==cmdAddServer) {
             new MIDPTextBox( this, SR.MS_SERVER, null, this, TextField.ANY);
 	} else if (c==cmdDel) {

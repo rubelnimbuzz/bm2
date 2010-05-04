@@ -31,10 +31,10 @@ import Client.Config;
 import Client.StaticData;
 import Fonts.FontCache;
 //#ifdef AUTOSTATUS
-//# import Client.ExtendedStatus;
-//# import Client.Roster;
-//# import Client.StaticData;
-//# import Client.StatusList;
+import Client.ExtendedStatus;
+import Client.Roster;
+import Client.StaticData;
+import Client.StatusList;
 //#endif
 import images.RosterIcons;
 import java.util.Timer;
@@ -240,15 +240,15 @@ public class SplashScreen extends Canvas implements Runnable, CommandListener {
         img=null;
         tc.stop();
 //#ifdef AUTOSTATUS
-//#         StaticData sd=StaticData.getInstance();
-//#         if (sd.roster.autoAway && cf.autoAwayType==Config.AWAY_LOCK) {
-//#             int newStatus=Roster.oldStatus;
-//#             ExtendedStatus es=StatusList.getInstance().getStatus(newStatus);
-//#             String ms=es.getMessage();
-//#             sd.roster.autoAway=false;
-//#             sd.roster.autoXa=false;
-//#             sd.roster.sendPresence(newStatus, ms);
-//#         }
+        StaticData sd=StaticData.getInstance();
+        if (sd.roster.autoAway && cf.autoAwayType==Config.AWAY_LOCK) {
+            int newStatus=Roster.oldStatus;
+            ExtendedStatus es=StatusList.getInstance().getStatus(newStatus);
+            String ms=es.getMessage();
+            sd.roster.autoAway=false;
+            sd.roster.autoXa=false;
+            sd.roster.sendPresence(newStatus, ms);
+        }
 //#endif
 //        if (cf.widthSystemgc) { _vt
             System.gc();

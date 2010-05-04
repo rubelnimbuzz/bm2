@@ -372,7 +372,7 @@ public class TransferTask
 //#                     0x00, // RSV
 //#                     0x03, // ATYP = domain
 //#                 };
-//#                 SHA1 Command = new SHA1();
+//#                 SHA1 MenuCommand = new SHA1();
 //#                 Command.init();
 //#                 Command.updateASCII(sid + StaticData.getInstance().account.getJid() + jid);
 //#                 Command.finish();

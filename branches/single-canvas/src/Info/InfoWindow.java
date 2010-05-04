@@ -38,7 +38,7 @@ import ui.controls.form.DefForm;
 import ui.controls.form.LinkString;
 import ui.controls.form.MultiLine;
 import ui.controls.form.SpacerItem;
-import Menu.Command;
+import Menu.MenuCommand;
 import Menu.MyMenu;
 import ui.VirtualList;
 import util.ClipBoard;
@@ -60,8 +60,8 @@ public class InfoWindow
 
 //#ifdef CLIPBOARD
     ClipBoard clipboard  = ClipBoard.getInstance();
-    Command cmdCopy      = new Command(SR.MS_COPY, Command.SCREEN, 1);
-    Command cmdCopyPlus  = new Command("+ "+SR.MS_COPY, Command.SCREEN, 2);
+    MenuCommand cmdCopy      = new MenuCommand(SR.MS_COPY, MenuCommand.SCREEN, 1);
+    MenuCommand cmdCopyPlus  = new MenuCommand("+ "+SR.MS_COPY, MenuCommand.SCREEN, 2);
 //#endif
 
     /**
@@ -122,12 +122,12 @@ public class InfoWindow
         menuCommands.removeAllElements();
 //#ifdef CLIPBOARD
             if (Config.getInstance().useClipBoard) {
-                addCommand(cmdCopy);
+                addMenuCommand(cmdCopy);
                 if (!clipboard.isEmpty())
-                    addCommand(cmdCopyPlus);
+                    addMenuCommand(cmdCopyPlus);
             }
 //#endif
-        addCommand(cmdCancel);
+        addMenuCommand(cmdCancel);
     }
 
     public String touchLeftCommand(){ return SR.MS_MENU; }
@@ -141,7 +141,7 @@ public class InfoWindow
         new MyMenu( parentView, this, "", null, menuCommands);
     }
 
-    public void commandAction(Command command, VirtualList displayable) {
+    public void menuAction(MenuCommand command, VirtualList displayable) {
 //#ifdef CLIPBOARD
         if (command == cmdCopy) {
             try {
@@ -163,53 +163,53 @@ public class InfoWindow
             } catch (Exception e) {/*no messages*/}
         }
 //#endif
-        super.commandAction(command, displayable);
+        super.menuAction(command, displayable);
     }
 
     private String getAbilities() {
         Vector abilitiesList=new Vector();
 //#ifdef ADHOC
 //#ifdef PLUGINS
-//#         if (sd.Adhoc)
+        if (sd.Adhoc)
 //#endif
-//#             abilitiesList.addElement("ADHOC");
+            abilitiesList.addElement("ADHOC");
 //#endif
 //#ifdef ANTISPAM
 //#             abilitiesList.addElement("ANTISPAM");
 //#endif
 //#ifdef ARCHIVE
 //#ifdef PLUGINS
-//#         if (sd.Archive)
+        if (sd.Archive)
 //#endif
             abilitiesList.addElement("ARCHIVE");
 //#endif
 //#ifdef AUTOSTATUS
-//#         abilitiesList.addElement("AUTOSTATUS");
+        abilitiesList.addElement("AUTOSTATUS");
 //#endif
 //#ifdef AUTOTASK
-//#         abilitiesList.addElement("AUTOTASK");
+        abilitiesList.addElement("AUTOTASK");
 //#endif
 //#ifdef BACK_IMAGE
-//#         abilitiesList.addElement("BACK_IMAGE");
+        abilitiesList.addElement("BACK_IMAGE");
 //#endif
 //#ifdef CAPTCHA
-//#         abilitiesList.addElement("CAPTCHA");
+        abilitiesList.addElement("CAPTCHA");
 //#endif
 //#ifdef CHANGE_TRANSPORT
 //#ifdef PLUGINS
-//#         if (sd.ChangeTransport)
+        if (sd.ChangeTransport)
 //#endif
-//#             abilitiesList.addElement("CHANGE_TRANSPORT");
+            abilitiesList.addElement("CHANGE_TRANSPORT");
 //#endif
 //#ifdef CHECK_VERSION
 //#ifdef PLUGINS
-//#         if (sd.Upgrade)
+        if (sd.Upgrade)
 //#endif
-//#             abilitiesList.addElement("CHECK_VERSION");
+            abilitiesList.addElement("CHECK_VERSION");
 //#endif
 //#ifdef CLIENTS_ICONS
 //#ifdef PLUGINS
-//#         if (sd.ClientsIcons)
+        if (sd.ClientsIcons)
 //#endif
             abilitiesList.addElement("CLIENTS_ICONS");
 //#endif
@@ -218,18 +218,18 @@ public class InfoWindow
 //#endif
 //#ifdef CONSOLE
 //#ifdef PLUGINS
-//#         if (sd.Console)
+        if (sd.Console)
 //#endif
-//#             abilitiesList.addElement("CONSOLE");
+            abilitiesList.addElement("CONSOLE");
 //#endif
 //#ifdef COLOR_TUNE
 //#ifdef PLUGINS
-//#         if (sd.Colors)
+        if (sd.Colors)
 //#endif
             abilitiesList.addElement("COLOR_TUNE");
 //#endif
 //#ifdef DETRANSLIT
-//#         abilitiesList.addElement("DETRANSLIT");
+        abilitiesList.addElement("DETRANSLIT");
 //#endif
 //#ifdef ELF
 //#         abilitiesList.addElement("ELF");
@@ -239,22 +239,22 @@ public class InfoWindow
 //#endif
 //#ifdef FILE_TRANSFER
 //#ifdef PLUGINS
-//#         if (sd.FileTransfer)
+        if (sd.FileTransfer)
 //#endif
             abilitiesList.addElement("FILE_TRANSFER");
 //#endif
 //#ifdef GRADIENT
-//#         abilitiesList.addElement("GRADIENT");
+        abilitiesList.addElement("GRADIENT");
 //#endif
 //#ifdef HISTORY
 //#ifdef PLUGINS
-//#         if (sd.History)
+        if (sd.History)
 //#endif
             abilitiesList.addElement("HISTORY");
 //#endif
 //#ifdef HISTORY_READER
 //#ifdef PLUGINS
-//#         if (sd.History)
+        if (sd.History)
 //#endif
             abilitiesList.addElement("HISTORY_READER");
 //#endif
@@ -266,13 +266,13 @@ public class InfoWindow
 //#endif
 //#ifdef IMPORT_EXPORT
 //#ifdef PLUGINS
-//#         if (sd.IE)
+        if (sd.IE)
 //#endif
-//#             abilitiesList.addElement("IMPORT_EXPORT");
+            abilitiesList.addElement("IMPORT_EXPORT");
 //#endif
 //#ifdef JUICK
 //#ifdef PLUGINS
-//#         if (sd.Juick)
+        if (sd.Juick)
 //#endif
         abilitiesList.addElement("JUICK");
 //#endif
@@ -286,7 +286,7 @@ public class InfoWindow
         abilitiesList.addElement("LOGROTATE");
 //#endif
 //#ifdef NEW_DISCO
-//#         abilitiesList.addElement("NEW_DISCO");
+        abilitiesList.addElement("NEW_DISCO");
 //#endif
 
 //#ifdef NEW_SKIN
@@ -300,30 +300,30 @@ public class InfoWindow
 //#endif
 //#ifdef PEP
 //#ifdef PLUGINS
-//#         if (sd.PEP)
+        if (sd.PEP)
 //#endif
             abilitiesList.addElement("PEP");
 //#endif
 //#ifdef PEP_ACTIVITY
 //#ifdef PLUGINS
-//#         if (sd.PEP)
+        if (sd.PEP)
 //#endif
             abilitiesList.addElement("PEP_ACTIVITY");
 //#endif
 //#ifdef PEP_LOCATION
 //#ifdef PLUGINS
-//#         if (sd.PEP)
+        if (sd.PEP)
 //#endif
             abilitiesList.addElement("PEP_LOCATION");
 //#endif
 //#ifdef PEP_TUNE
 //#ifdef PLUGINS
-//#         if (sd.PEP)
+        if (sd.PEP)
 //#endif
             abilitiesList.addElement("PEP_TUNE");
 //#endif
 //#ifdef PLUGINS
-//#         abilitiesList.addElement("PLUGINS");
+        abilitiesList.addElement("PLUGINS");
 //#endif
 //#ifdef POPUPS
         abilitiesList.addElement("POPUPS");
@@ -336,15 +336,15 @@ public class InfoWindow
 //#endif
 //#ifdef PRIVACY
 //#ifdef PLUGINS
-//#         if (sd.Privacy)
+        if (sd.Privacy)
 //#endif
             abilitiesList.addElement("PRIVACY");
 //#endif
 //#ifdef SASL_XGOOGLETOKEN
-//#         abilitiesList.addElement("SASL_XGOOGLETOKEN");
+        abilitiesList.addElement("SASL_XGOOGLETOKEN");
 //#endif
 //#ifdef SE_LIGHT
-//#         abilitiesList.addElement("SE_LIGHT");
+        abilitiesList.addElement("SE_LIGHT");
 //#endif
 //#ifdef SERVICE_DISCOVERY
         abilitiesList.addElement("SERVICE_DISCOVERY");
@@ -354,13 +354,13 @@ public class InfoWindow
 //#endif
 //#ifdef STATS
 //#ifdef PLUGINS
-//#         if (sd.Stats)
+        if (sd.Stats)
 //#endif
-//#             abilitiesList.addElement("STATS");
+            abilitiesList.addElement("STATS");
 //#endif
 //#ifdef TEMPLATES
 //#ifdef PLUGINS
-//#         if (sd.Archive)
+        if (sd.Archive)
 //#endif
         abilitiesList.addElement("TEMPLATES");
 //#endif

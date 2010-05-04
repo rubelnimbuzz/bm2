@@ -44,7 +44,7 @@ import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import ui.MainBar;
 import java.util.*;
-import Menu.Command;
+import Menu.MenuCommand;
 //#ifdef CLIPBOARD
 import util.ClipBoard;
 //#endif
@@ -60,48 +60,48 @@ import ui.VirtualList;
 public class ContactMessageList extends MessageList {
     Contact contact;
 
-    Command cmdSubscribe=new Command(SR.MS_SUBSCRIBE, Command.SCREEN, 1);
-    Command cmdUnsubscribed=new Command(SR.MS_DECLINE, Command.SCREEN, 2);
-    Command cmdMessage=new Command(SR.MS_NEW_MESSAGE,Command.SCREEN,3);
-    Command cmdResume=new Command(SR.MS_RESUME,Command.SCREEN,1);
-    Command cmdReply=new Command(SR.MS_REPLY,Command.SCREEN,4);
-    Command cmdQuote=new Command(SR.MS_QUOTE,Command.SCREEN,5);
+    MenuCommand cmdSubscribe=new MenuCommand(SR.MS_SUBSCRIBE, MenuCommand.SCREEN, 1);
+    MenuCommand cmdUnsubscribed=new MenuCommand(SR.MS_DECLINE, MenuCommand.SCREEN, 2);
+    MenuCommand cmdMessage=new MenuCommand(SR.MS_NEW_MESSAGE,MenuCommand.SCREEN,3);
+    MenuCommand cmdResume=new MenuCommand(SR.MS_RESUME,MenuCommand.SCREEN,1);
+    MenuCommand cmdReply=new MenuCommand(SR.MS_REPLY,MenuCommand.SCREEN,4);
+    MenuCommand cmdQuote=new MenuCommand(SR.MS_QUOTE,MenuCommand.SCREEN,5);
 //#ifdef ARCHIVE
-    Command cmdArch=new Command(SR.MS_ADD_ARCHIVE,Command.SCREEN,6);
+    MenuCommand cmdArch=new MenuCommand(SR.MS_ADD_ARCHIVE,MenuCommand.SCREEN,6);
 //#endif
-    Command cmdPurge=new Command(SR.MS_CLEAR_LIST, Command.SCREEN, 7);
-    Command cmdSelect=new Command(SR.MS_SELECT, Command.SCREEN, 8);
-    Command cmdActions=new Command(SR.MS_CONTACT,Command.SCREEN,9);
-    Command cmdActive=new Command(SR.MS_ACTIVE_CONTACTS,Command.SCREEN,10);
+    MenuCommand cmdPurge=new MenuCommand(SR.MS_CLEAR_LIST, MenuCommand.SCREEN, 7);
+    MenuCommand cmdSelect=new MenuCommand(SR.MS_SELECT, MenuCommand.SCREEN, 8);
+    MenuCommand cmdActions=new MenuCommand(SR.MS_CONTACT,MenuCommand.SCREEN,9);
+    MenuCommand cmdActive=new MenuCommand(SR.MS_ACTIVE_CONTACTS,MenuCommand.SCREEN,10);
 //#if TEMPLATES
-    Command cmdTemplate=new Command(SR.MS_SAVE_TEMPLATE,Command.SCREEN,11);
+    MenuCommand cmdTemplate=new MenuCommand(SR.MS_SAVE_TEMPLATE,MenuCommand.SCREEN,11);
 //#endif
 //#ifdef FILE_IO
-    Command cmdSaveChat=new Command(SR.MS_SAVE_CHAT, Command.SCREEN, 12);
+    MenuCommand cmdSaveChat=new MenuCommand(SR.MS_SAVE_CHAT, MenuCommand.SCREEN, 12);
 //#endif
 //#ifdef HISTORY
 //#ifdef HISTORY_READER
-         Command cmdReadHistory=new Command(SR.MS_HISTORY, Command.SCREEN, 13);
+         MenuCommand cmdReadHistory=new MenuCommand(SR.MS_HISTORY, MenuCommand.SCREEN, 13);
 //#endif
 //        if (cf.lastMessages && !contact.isHistoryLoaded()) loadRecentList();
 //#endif
 //#ifdef CLIPBOARD    
-    Command cmdSendBuffer=new Command(SR.MS_SEND_BUFFER, Command.SCREEN, 14);
+    MenuCommand cmdSendBuffer=new MenuCommand(SR.MS_SEND_BUFFER, MenuCommand.SCREEN, 14);
 //#endif
 
     StaticData sd = StaticData.getInstance();
 
 //#ifdef JUICK
-    Command cmdJuickMessageReply=new Command(SR.MS_JUICK_MESSAGE_REPLY, Command.SCREEN, 1);
-    Command cmdJuickSendPrivateReply;
-    Command cmdJuickThings=new Command(SR.MS_JUICK_THINGS, Command.SCREEN, 3);
-    Command cmdJuickMessageDelete=new Command(SR.MS_JUICK_MESSAGE_DELETE, Command.SCREEN, 4);
-    Command cmdJuickPostSubscribe=new Command(SR.MS_JUICK_POST_SUBSCRIBE, Command.SCREEN, 5);
-    Command cmdJuickPostUnsubscribe=new Command(SR.MS_JUICK_POST_UNSUBSCRIBE, Command.SCREEN, 6);
-    Command cmdJuickPostRecommend=new Command(SR.MS_JUICK_POST_RECOMMEND, Command.SCREEN, 7);
-    Command cmdJuickPostShow=new Command(SR.MS_JUICK_POST_SHOW, Command.SCREEN, 8);
+    MenuCommand cmdJuickMessageReply=new MenuCommand(SR.MS_JUICK_MESSAGE_REPLY, MenuCommand.SCREEN, 1);
+    MenuCommand cmdJuickSendPrivateReply;
+    MenuCommand cmdJuickThings=new MenuCommand(SR.MS_JUICK_THINGS, MenuCommand.SCREEN, 3);
+    MenuCommand cmdJuickMessageDelete=new MenuCommand(SR.MS_JUICK_MESSAGE_DELETE, MenuCommand.SCREEN, 4);
+    MenuCommand cmdJuickPostSubscribe=new MenuCommand(SR.MS_JUICK_POST_SUBSCRIBE, MenuCommand.SCREEN, 5);
+    MenuCommand cmdJuickPostUnsubscribe=new MenuCommand(SR.MS_JUICK_POST_UNSUBSCRIBE, MenuCommand.SCREEN, 6);
+    MenuCommand cmdJuickPostRecommend=new MenuCommand(SR.MS_JUICK_POST_RECOMMEND, MenuCommand.SCREEN, 7);
+    MenuCommand cmdJuickPostShow=new MenuCommand(SR.MS_JUICK_POST_SHOW, MenuCommand.SCREEN, 8);
 
-    public Command cmdJuickCommands=new Command(SR.MS_COMMANDS+" Juick", Command.SCREEN, 15);
+    public MenuCommand cmdJuickCommands=new MenuCommand(SR.MS_COMMANDS+" Juick", MenuCommand.SCREEN, 15);
     Vector currentJuickCommands = new Vector();
 
     public ContactMessageList() {
@@ -168,66 +168,66 @@ public class ContactMessageList extends MessageList {
 
     public void commandState(){
         menuCommands.removeAllElements();
-        if (startSelection) addCommand(cmdSelect);
+        if (startSelection) addMenuCommand(cmdSelect);
         
-        if (contact.msgSuspended!=null) addCommand(cmdResume);
+        if (contact.msgSuspended!=null) addMenuCommand(cmdResume);
         
         if (cmdSubscribe==null) return;
         
         try {
             Msg msg=(Msg) contact.msgs.elementAt(cursor);
             if (msg.messageType==Msg.MESSAGE_TYPE_AUTH) {
-                addCommand(cmdSubscribe);
-                addCommand(cmdUnsubscribed);
+                addMenuCommand(cmdSubscribe);
+                addMenuCommand(cmdUnsubscribed);
             }
         } catch (Exception e) {}
         
-        addCommand(cmdMessage);
+        addMenuCommand(cmdMessage);
         
         if (contact.msgs.size()>0) {
 //#ifndef WMUC
             if (contact instanceof MucContact && contact.origin==Contact.ORIGIN_GROUPCHAT) {
-                addCommand(cmdReply);
+                addMenuCommand(cmdReply);
             }
 //#endif
-            addCommand(cmdQuote);
-            addCommand(cmdPurge);
+            addMenuCommand(cmdQuote);
+            addMenuCommand(cmdPurge);
             
-            if (!startSelection) addCommand(cmdSelect);
+            if (!startSelection) addMenuCommand(cmdSelect);
         
 //#ifdef CLIPBOARD
             if (cf.useClipBoard) {
-                addCommand(cmdCopy);
-                if (!clipboard.isEmpty()) addCommand(cmdCopyPlus);
+                addMenuCommand(cmdCopy);
+                if (!clipboard.isEmpty()) addMenuCommand(cmdCopyPlus);
             }
 //#endif
             if (isHasScheme())
-                addCommand(cmdxmlSkin);
+                addMenuCommand(cmdxmlSkin);
             if (isHasUrl())
-                addCommand(cmdUrl);
+                addMenuCommand(cmdUrl);
         }
         
         if (contact.origin!=Contact.ORIGIN_GROUPCHAT)
-            addCommand(cmdActions);
+            addMenuCommand(cmdActions);
     
-	addCommand(cmdActive);
+	addMenuCommand(cmdActive);
         if (contact.msgs.size()>0) {
 //#ifdef ARCHIVE
 //#ifdef PLUGINS
-//#          if (sd.Archive)
+         if (sd.Archive)
 //#endif
-            addCommand(cmdArch);
+            addMenuCommand(cmdArch);
 //#endif
 //#if TEMPLATES
 //#ifdef PLUGINS         
-//#          if (sd.Archive)
+         if (sd.Archive)
 //#endif
-            addCommand(cmdTemplate);
+            addMenuCommand(cmdTemplate);
 //#endif
         }
 //#ifdef CLIPBOARD
         if (cf.useClipBoard && !clipboard.isEmpty()) {
-            addCommand(cmdSendBuffer);
+            addMenuCommand(cmdSendBuffer);
         }
 //#endif
 //#ifdef HISTORY
@@ -235,25 +235,25 @@ public class ContactMessageList extends MessageList {
             if (cf.msgPath!=null)
                 if (!cf.msgPath.equals(""))
                     if (contact.msgs.size()>0)
-                        addCommand(cmdSaveChat);
+                        addMenuCommand(cmdSaveChat);
 //#ifdef HISTORY_READER
         if (cf.saveHistory && cf.lastMessages)
-            addCommand(cmdReadHistory);
+            addMenuCommand(cmdReadHistory);
 //#endif
 //#endif
         
 //#ifdef JUICK
 //#ifdef PLUGINS
-//#         if(sd.Juick) {
+        if(sd.Juick) {
 //#endif
         // http://code.google.com/p/bm2/issues/detail?id=94
-        addCommand(cmdJuickCommands);
+        addMenuCommand(cmdJuickCommands);
 //#ifdef PLUGINS
-//#         }
+        }
 //#endif
 //#endif
 
-        addCommand(cmdBack);
+        addMenuCommand(cmdBack);
     }
     
 //#ifdef JUICK
@@ -278,7 +278,7 @@ public class ContactMessageList extends MessageList {
                         currentJuickCommands.addElement(cmdJuickPostUnsubscribe);
                         break;
                     case '@':
-                        cmdJuickSendPrivateReply = new Command(SR.MS_JUICK_SEND_PRIVATE_REPLY +" "+ target, Command.SCREEN, 3);
+                        cmdJuickSendPrivateReply = new MenuCommand(SR.MS_JUICK_SEND_PRIVATE_REPLY +" "+ target, MenuCommand.SCREEN, 3);
                         currentJuickCommands.addElement(cmdJuickSendPrivateReply);
                         break;
                 }
@@ -291,7 +291,7 @@ public void showNotify() {
     if (contact != null)
         sd.roster.activeContact=contact;
 //#ifdef LOGROTATE
-//#         getRedraw(true);
+        getRedraw(true);
 //#endif
         super.showNotify();
     }
@@ -317,18 +317,18 @@ public void showNotify() {
 
         sd.roster.countNewMsgs();
 //#ifdef LOGROTATE
-//#         getRedraw(contact.redraw);
+        getRedraw(contact.redraw);
 //#endif
     }
 //#ifdef LOGROTATE
-//#     private void getRedraw(boolean redraw) {
-//#         if (!redraw) return;
-//# 
-//#         contact.redraw=false;
-//#         messages=null;
-//#         messages=new Vector();
-//#         redraw();
-//#     }
+    private void getRedraw(boolean redraw) {
+        if (!redraw) return;
+
+        contact.redraw=false;
+        messages=null;
+        messages=new Vector();
+        redraw();
+    }
 //#endif
     public int getItemCount(){ return (contact == null)? 0 :contact.msgs.size(); }
 
@@ -345,8 +345,8 @@ public void showNotify() {
         markRead(index);
     }
     
-    public void commandAction(Command c, VirtualList d){
-        super.commandAction(c,d);
+    public void menuAction(MenuCommand c, VirtualList d){
+        super.menuAction(c,d);
 		
         /** login-insensitive commands */
 //#ifdef ARCHIVE
@@ -619,9 +619,9 @@ public void showNotify() {
         }
         try {
 //#ifdef RUNNING_MESSAGE
-//#                 Roster.me=new MessageEdit( this, getActualJuickContact(), resultAction);
+                Roster.me=new MessageEdit( this, getActualJuickContact(), resultAction);
 //#else
-            new MessageEdit(this, getActualJuickContact(), resultAction);
+//#             new MessageEdit(this, getActualJuickContact(), resultAction);
 //#endif
             } catch (Exception e) {/*no messages*/}
     }
@@ -674,7 +674,7 @@ public void showNotify() {
 //#endif
 //#ifdef JUICK
 //#ifdef PLUGINS
-//#         if (sd.Juick)
+        if (sd.Juick)
 //#endif
         if (isJuickContact(contact) || isJuBoContact(contact)) {
             if (juickPoundFork())
@@ -688,9 +688,9 @@ public void showNotify() {
         if (!sd.roster.isLoggedIn()) return;
         
 //#ifdef RUNNING_MESSAGE
-//#         Roster.me=new MessageEdit( this, contact, contact.msgSuspended);
+        Roster.me=new MessageEdit( this, contact, contact.msgSuspended);
 //#else
-        new MessageEdit(this, contact, contact.msgSuspended);
+//#         new MessageEdit(this, contact, contact.msgSuspended);
 //#endif
         contact.msgSuspended=null;
     }
@@ -740,7 +740,7 @@ public void showNotify() {
 //#endif
 //#ifdef JUICK
 //#ifdef PLUGINS
-//#         if (sd.Juick)
+        if (sd.Juick)
 //#endif
             if (isJuickContact(contact) || isJuBoContact(contact)) {
                 if (juickPoundFork())
@@ -789,9 +789,9 @@ public void showNotify() {
                 keyGreen();
             } else {
 //#ifdef RUNNING_MESSAGE
-//#                 Roster.me=new MessageEdit( this, contact, msg.from+": ");
+                Roster.me=new MessageEdit( this, contact, msg.from+": ");
 //#else
-                new MessageEdit(this, contact, msg.from + ": ");
+//#                 new MessageEdit(this, contact, msg.from + ": ");
 //#endif
             }
         } catch (Exception e) {/*no messages*/}
@@ -809,9 +809,9 @@ public void showNotify() {
                 .append(" ")
                 .toString();
 //#ifdef RUNNING_MESSAGE
-//#             Roster.me=new MessageEdit( this, contact, msg);
+            Roster.me=new MessageEdit( this, contact, msg);
 //#else
-            new MessageEdit(this, contact, msg);
+//#             new MessageEdit(this, contact, msg);
 //#endif
             msg=null;
         } catch (Exception e) {/*no messages*/}

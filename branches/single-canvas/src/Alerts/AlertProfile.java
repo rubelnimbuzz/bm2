@@ -31,7 +31,7 @@ import Client.*;
 import images.RosterIcons;
 import locale.SR;
 import ui.*;
-import Menu.Command;
+import Menu.MenuCommand;
 import ui.controls.form.DefForm;
 
 /**
@@ -55,8 +55,8 @@ public class AlertProfile extends DefForm
     
     /** Creates a new instance of Profile */
     
-    private Command cmdDef=new Command(SR.MS_SETDEFAULT,Command.SCREEN,3);
-    private Command cmdSel=new Command(SR.MS_SELECT,Command.SCREEN,2);
+    private MenuCommand cmdDef=new MenuCommand(SR.MS_SETDEFAULT,MenuCommand.SCREEN,3);
+    private MenuCommand cmdSel=new MenuCommand(SR.MS_SELECT,MenuCommand.SCREEN,2);
     /** Creates a new instance of SelectStatus */
     public AlertProfile(VirtualList pView) {
         super(SR.MS_ALERT_PROFILE);
@@ -75,8 +75,8 @@ public class AlertProfile extends DefForm
 
     public void commandState() {
         menuCommands.removeAllElements();
-        addCommand(cmdSel);
-        addCommand(cmdDef);
+        addMenuCommand(cmdSel);
+        addMenuCommand(cmdDef);
     }
     public String touchLeftCommand(){ return SR.MS_MENU; }
     public void touchLeftPressed(){
@@ -110,7 +110,7 @@ public class AlertProfile extends DefForm
         }
     }
     
-    public void commandAction(Command c, VirtualList d){
+    public void menuAction(MenuCommand c, VirtualList d){
         if (c==cmdSel) eventOk();
         if (c==cmdDef) { 
             cf.def_profile=defp=cursor;

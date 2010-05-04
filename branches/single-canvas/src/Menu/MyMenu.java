@@ -58,7 +58,7 @@ public class MyMenu extends Menu {
         this.parentView=parentView;
         
         for (int i=0; i<commands.size(); i++) {
-            Command c=(Command)commands.elementAt(i);
+            MenuCommand c=(MenuCommand)commands.elementAt(i);
             addItem(c.getName(), i, c.getImg());
         }
 
@@ -71,12 +71,12 @@ public class MyMenu extends Menu {
         
 	if (me==null)  return;
 
-        ml.commandAction(getCommand(me.index), (VirtualList)parentView);
+        ml.menuAction(getCommand(me.index), (VirtualList)parentView);
     }
     
-    public Command getCommand(int index) {
+    public MenuCommand getCommand(int index) {
         for (Enumeration command=commands.elements(); command.hasMoreElements();) {
-            Command cmd =(Command)command.nextElement();
+            MenuCommand cmd =(MenuCommand)command.nextElement();
             if (cmd.getName().equals(getFocusedObject().toString()))
                 return cmd;
         }

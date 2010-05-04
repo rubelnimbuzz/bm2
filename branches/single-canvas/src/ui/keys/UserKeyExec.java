@@ -304,7 +304,7 @@ public class UserKeyExec {
 //#endif
                 if (current instanceof ContactMessageList) {
                     ContactMessageList current_cml = (ContactMessageList) current;
-                    current_cml.commandAction(current_cml.cmdJuickCommands, (VirtualList)current);
+                    current_cml.menuAction(current_cml.cmdJuickCommands, (VirtualList)current);
                 } else {
                     return false;
                 }

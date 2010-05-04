@@ -30,7 +30,7 @@ package PrivacyLists;
 import Client.StaticData;
 import javax.microedition.lcdui.TextField;
 import images.RosterIcons;
-import Menu.Command;
+import Menu.MenuCommand;
 import locale.SR;
 import ui.*;
 import ui.controls.AlertBox;
@@ -54,12 +54,12 @@ public class PrivacySelect
     
     private Vector list=new Vector();
     
-    private Command cmdActivate=new Command (SR.MS_ACTIVATE, Command.SCREEN, 10);
-    private Command cmdDefault=new Command (SR.MS_SETDEFAULT, Command.SCREEN, 11);
-    private Command cmdNewList=new Command (SR.MS_NEW_LIST, Command.SCREEN, 12);
-    private Command cmdDelete=new Command (SR.MS_DELETE_LIST, Command.SCREEN, 13);
-    //private Command cmdEdit=new Command (SR.MS_EDIT_LIST, Command.SCREEN, 14);
-    private Command cmdIL=new Command (SR.MS_MK_ILIST, Command.SCREEN, 16);
+    private MenuCommand cmdActivate=new MenuCommand (SR.MS_ACTIVATE, MenuCommand.SCREEN, 10);
+    private MenuCommand cmdDefault=new MenuCommand (SR.MS_SETDEFAULT, MenuCommand.SCREEN, 11);
+    private MenuCommand cmdNewList=new MenuCommand (SR.MS_NEW_LIST, MenuCommand.SCREEN, 12);
+    private MenuCommand cmdDelete=new MenuCommand (SR.MS_DELETE_LIST, MenuCommand.SCREEN, 13);
+    //private MenuCommand cmdEdit=new MenuCommand (SR.MS_EDIT_LIST, Command.SCREEN, 14);
+    private MenuCommand cmdIL=new MenuCommand (SR.MS_MK_ILIST, MenuCommand.SCREEN, 16);
     
     JabberStream stream=StaticData.getInstance().roster.theStream;
     
@@ -83,11 +83,11 @@ public class PrivacySelect
     
     public void commandState() {
         menuCommands.removeAllElements();
-        addCommand(cmdActivate);
-        addCommand(cmdDefault);
-        addCommand(cmdNewList);
-        addCommand(cmdDelete);
-        addCommand(cmdIL);
+        addMenuCommand(cmdActivate);
+        addMenuCommand(cmdDefault);
+        addMenuCommand(cmdNewList);
+        addMenuCommand(cmdDelete);
+        addMenuCommand(cmdIL);
     }
 
     private void processIcon(boolean processing){
@@ -104,7 +104,7 @@ public class PrivacySelect
         PrivacyList.privacyListRq(false, null, "getplists");
     }    
     
-    public void commandAction(Command c, VirtualList d) {
+    public void menuAction(MenuCommand c, VirtualList d) {
         if (c==cmdCancel) {
             destroyView();
             stream.cancelBlockListener(this);
@@ -137,7 +137,7 @@ public class PrivacySelect
         }
         if (c==cmdNewList)
             new MIDPTextBox( this, SR.MS_NEW, "", this, TextField.ANY);
-        super.commandAction(c, d);
+        super.menuAction(c, d);
     }    
         
     // MIDPTextBox interface

@@ -47,7 +47,7 @@ public class StanzaEdit
         extends ExTextBox
         implements CommandListener {
 //#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_CONSOLE");
+    public static String plugin = new String("PLUGIN_CONSOLE");
 //#endif
 
     Displayable pView;

@@ -29,7 +29,7 @@ package io.file.browse;
 
 import Client.StaticData;
 import Menu.MenuListener;
-import Menu.Command;
+import Menu.MenuCommand;
 import Menu.MyMenu;
 
 import ui.MainBar;
@@ -55,13 +55,13 @@ public class Browser
  
     private Vector dir;
 
-    Command cmdOk=new Command(SR.MS_BROWSE, Command.OK, 1);
-    Command cmdSelect=new Command(SR.MS_SELECT, Command.SCREEN, 2);
-    Command cmdView=new Command(SR.MS_VIEW, Command.SCREEN, 3);
-    Command cmdRoot=new Command(SR.MS_ROOT, Command.SCREEN, 4);
-    Command cmdDelete=new Command(SR.MS_DELETE, Command.SCREEN, 5);
-    Command cmdCancel=new Command(SR.MS_BACK, Command.BACK, 98);
-    Command cmdExit=new Command(SR.MS_CANCEL, Command.EXIT, 99);
+    MenuCommand cmdOk=new MenuCommand(SR.MS_BROWSE, MenuCommand.OK, 1);
+    MenuCommand cmdSelect=new MenuCommand(SR.MS_SELECT, MenuCommand.SCREEN, 2);
+    MenuCommand cmdView=new MenuCommand(SR.MS_VIEW, MenuCommand.SCREEN, 3);
+    MenuCommand cmdRoot=new MenuCommand(SR.MS_ROOT, MenuCommand.SCREEN, 4);
+    MenuCommand cmdDelete=new MenuCommand(SR.MS_DELETE, MenuCommand.SCREEN, 5);
+    MenuCommand cmdCancel=new MenuCommand(SR.MS_BACK, MenuCommand.BACK, 98);
+    MenuCommand cmdExit=new MenuCommand(SR.MS_CANCEL, MenuCommand.EXIT, 99);
 
     private String path;
     private BrowserListener browserListener;
@@ -85,17 +85,17 @@ public class Browser
         
         menuCommands.removeAllElements();
         
-        addCommand(cmdOk);
+        addMenuCommand(cmdOk);
         
         if (getDirectory) {
-            addCommand(cmdSelect);
+            addMenuCommand(cmdSelect);
         } else {
-            addCommand(cmdView);
+            addMenuCommand(cmdView);
         }
-	addCommand(cmdDelete);
-        addCommand(cmdRoot);
-        addCommand(cmdExit);
-        addCommand(cmdCancel);
+	addMenuCommand(cmdDelete);
+        addMenuCommand(cmdRoot);
+        addMenuCommand(cmdExit);
+        addMenuCommand(cmdCancel);
         setCommandListener(this);
        
         // trim filename
@@ -123,7 +123,7 @@ public class Browser
         redraw();
     }
 
-    public void commandAction(Command command, VirtualList displayable) {
+    public void menuAction(MenuCommand command, VirtualList displayable) {
         if (command==cmdCancel) cmdCancel();
 
         if (command==cmdRoot) {

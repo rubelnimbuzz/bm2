@@ -33,7 +33,7 @@ import Client.StaticData;
 import Colors.ColorTheme;
 import java.util.Vector;
 import Menu.MenuListener;
-import Menu.Command;
+import Menu.MenuCommand;
 import Menu.MyMenu;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
@@ -55,13 +55,13 @@ public abstract class MessageList extends VirtualList
 //#ifdef CLIPBOARD
     private ClipBoard clipboard=ClipBoard.getInstance();
     
-    protected Command cmdCopy = new Command(SR.MS_COPY, Command.SCREEN, 20);
-    protected Command cmdCopyPlus = new Command("+ "+SR.MS_COPY, Command.SCREEN, 30);
+    protected MenuCommand cmdCopy = new MenuCommand(SR.MS_COPY, MenuCommand.SCREEN, 20);
+    protected MenuCommand cmdCopyPlus = new MenuCommand("+ "+SR.MS_COPY, MenuCommand.SCREEN, 30);
 //#endif
-    protected Command cmdxmlSkin = new Command(SR.MS_USE_COLOR_SCHEME, Command.SCREEN, 40);
+    protected MenuCommand cmdxmlSkin = new MenuCommand(SR.MS_USE_COLOR_SCHEME, MenuCommand.SCREEN, 40);
 
-    protected Command cmdUrl = new Command(SR.MS_GOTO_URL, Command.SCREEN, 80);
-    protected Command cmdBack = new Command(SR.MS_BACK, Command.BACK, 99);
+    protected MenuCommand cmdUrl = new MenuCommand(SR.MS_GOTO_URL, MenuCommand.SCREEN, 80);
+    protected MenuCommand cmdBack = new MenuCommand(SR.MS_BACK, MenuCommand.BACK, 99);
     
     /** Creates a new instance of MessageList */
   
@@ -105,30 +105,30 @@ public abstract class MessageList extends VirtualList
     
     protected boolean smiles;
 
-    public void addCommands() {
+    public void addMenuCommands() {
 //#ifdef CLIPBOARD
         if (cf.useClipBoard) {
-            addCommand(cmdCopy);
-            addCommand(cmdCopyPlus);
+            addMenuCommand(cmdCopy);
+            addMenuCommand(cmdCopyPlus);
         }
 //#endif
-        addCommand(cmdxmlSkin);
-        addCommand(cmdUrl);
-        addCommand(cmdBack);
+        addMenuCommand(cmdxmlSkin);
+        addMenuCommand(cmdUrl);
+        addMenuCommand(cmdBack);
     }
     public void removeCommands () {
 //#ifdef CLIPBOARD
         if (cf.useClipBoard) {
-            removeCommand(cmdCopy);
-            removeCommand(cmdCopyPlus);
+            removeMenuCommand(cmdCopy);
+            removeMenuCommand(cmdCopyPlus);
         }
 //#endif
-        removeCommand(cmdxmlSkin);
-        removeCommand(cmdUrl);
-        removeCommand(cmdBack);
+        removeMenuCommand(cmdxmlSkin);
+        removeMenuCommand(cmdUrl);
+        removeMenuCommand(cmdBack);
     }
 
-    public void commandAction(Command c, VirtualList d) {
+    public void menuAction(MenuCommand c, VirtualList d) {
         if (c==cmdBack) {
             StaticData.getInstance().roster.activeContact=null;
             destroyView();

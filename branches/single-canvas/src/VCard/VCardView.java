@@ -40,7 +40,7 @@ import util.StringUtils;
 //#ifdef CLIPBOARD
 import util.ClipBoard;
 //#endif
-import Menu.Command;
+import Menu.MenuCommand;
 import javax.microedition.lcdui.Image;
 import locale.SR;
 import ui.VirtualList;
@@ -79,14 +79,14 @@ public class VCardView
 
 //#ifdef CLIPBOARD
     ClipBoard clipboard  = ClipBoard.getInstance(); 
-    Command cmdCopy      = new Command(SR.MS_COPY, Command.SCREEN, 1);
-    Command cmdCopyPlus  = new Command("+ "+SR.MS_COPY, Command.SCREEN, 2);
+    MenuCommand cmdCopy      = new MenuCommand(SR.MS_COPY, MenuCommand.SCREEN, 1);
+    MenuCommand cmdCopyPlus  = new MenuCommand("+ "+SR.MS_COPY, MenuCommand.SCREEN, 2);
 //#endif
-    Command cmdRefresh   = new Command(SR.MS_REFRESH, Command.SCREEN, 3);
+    MenuCommand cmdRefresh   = new MenuCommand(SR.MS_REFRESH, MenuCommand.SCREEN, 3);
 //#if FILE_IO
-    Command cmdSavePhoto = new Command(SR.MS_SAVE_PHOTO, Command.SCREEN,4);
+    MenuCommand cmdSavePhoto = new MenuCommand(SR.MS_SAVE_PHOTO, MenuCommand.SCREEN,4);
 //#endif
-    Command cmdDelPhoto  = new Command(SR.MS_CLEAR_PHOTO, Command.SCREEN,5);
+    MenuCommand cmdDelPhoto  = new MenuCommand(SR.MS_CLEAR_PHOTO, MenuCommand.SCREEN,5);
 
     /** Creates a new instance of VCardView
      * @param pView
@@ -158,7 +158,7 @@ public class VCardView
             itemsList.addElement(noPhoto);
         }
      }
-    public void commandAction(Command c, VirtualList d) {
+    public void menuAction(MenuCommand c, VirtualList d) {
         if (c==cmdDelPhoto) {
             vcard.dropPhoto(); 
             setPhoto();
@@ -191,7 +191,7 @@ public class VCardView
             } catch (Exception e) {/*no messages*/}
         }
 //#endif
-        super.commandAction(c, d);
+        super.menuAction(c, d);
     }
 
 //#if FILE_IO
@@ -211,21 +211,21 @@ public class VCardView
         if (vcard!=null) {
             if (vcard.hasPhoto) {
 //#if FILE_IO
-                addCommand(cmdSavePhoto);
+                addMenuCommand(cmdSavePhoto);
 //#endif
-                addCommand(cmdDelPhoto);
+                addMenuCommand(cmdDelPhoto);
             }
 //#ifdef CLIPBOARD
             if (Config.getInstance().useClipBoard) {
-                addCommand(cmdCopy);
+                addMenuCommand(cmdCopy);
                 if (!clipboard.isEmpty())
-                    addCommand(cmdCopyPlus);
+                    addMenuCommand(cmdCopyPlus);
             }
 //#endif
         }
 
-        addCommand(cmdRefresh);
-        addCommand(cmdCancel);
+        addMenuCommand(cmdRefresh);
+        addMenuCommand(cmdCancel);
     }
     
 

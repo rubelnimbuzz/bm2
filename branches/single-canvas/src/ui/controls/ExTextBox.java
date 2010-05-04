@@ -62,13 +62,13 @@ public class ExTextBox
 //#endif
     
 //#ifdef ARCHIVE
-    protected Command cmdPaste=new Command(SR.MS_ARCHIVE, Command.SCREEN, 6);    
+    protected Command cmdPaste=new Command(SR.MS_ARCHIVE, Command.SCREEN, 6);
 //#endif
 //#if TEMPLATES
-    protected Command cmdTemplate=new Command(SR.MS_TEMPLATE, Command.SCREEN, 7); 
+    protected Command cmdTemplate=new Command(SR.MS_TEMPLATE, Command.SCREEN, 7);
 //#endif  
 //#ifdef CLIPBOARD
-    protected Command cmdPasteText=new Command(SR.MS_PASTE, Command.SCREEN, 8);  
+    protected Command cmdPasteText=new Command(SR.MS_PASTE, Command.SCREEN, 8);
 //#endif
     
     int maxSize=500;
@@ -91,7 +91,7 @@ public class ExTextBox
 
 //#ifdef ARCHIVE
 //#ifdef PLUGINS
-//#         if (StaticData.getInstance().Archive)
+        if (StaticData.getInstance().Archive)
 //#endif
             addCommand(cmdPaste);
 //#endif
@@ -106,7 +106,7 @@ public class ExTextBox
 //#endif
 //#if TEMPLATES
 //#ifdef PLUGINS
-//#         if (StaticData.getInstance().Archive)
+        if (StaticData.getInstance().Archive)
 //#endif
             addCommand(cmdTemplate);
 //#endif

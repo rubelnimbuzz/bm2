@@ -36,7 +36,7 @@ import locale.SR;
 import ui.controls.form.DefForm;
 import ui.controls.form.MultiLine;
 import ui.controls.form.TextInput;
-import Menu.Command;
+import Menu.MenuCommand;
 import ui.VirtualList;
 
 /**
@@ -60,7 +60,7 @@ public class ConferenceQuickPrivelegeModify
     private TextInput reason;
     private MucContact victim;
     
-    private Command cmdNoReason=new Command(SR.MS_NO_REASON, Command.SCREEN, 2);
+    private MenuCommand cmdNoReason=new MenuCommand(SR.MS_NO_REASON, MenuCommand.SCREEN, 2);
     private int action;
 
     private String myNick;
@@ -103,7 +103,7 @@ public class ConferenceQuickPrivelegeModify
         reason=new TextInput(SR.MS_REASON, "", "reason", TextField.ANY);
         itemsList.addElement(reason);
         
-        addCommand(cmdNoReason);
+        addMenuCommand(cmdNoReason);
         user=null;
         show(StaticData.getInstance().roster);
     }
@@ -113,13 +113,13 @@ public class ConferenceQuickPrivelegeModify
         destroyView();
     }
     
-    public void commandAction(Command c, VirtualList d) {
+    public void menuAction(MenuCommand c, VirtualList d) {
         if (c==cmdNoReason) { 
             reason.setValue("");
             cmdOk();
             return;
         }
-        super.commandAction(c, d);
+        super.menuAction(c, d);
     }
     private void setMucMod(){
         JabberDataBlock iq=new Iq(victim.jid.getBareJid(), Iq.TYPE_SET, "itemmuc");

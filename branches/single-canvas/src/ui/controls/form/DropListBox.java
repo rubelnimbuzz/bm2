@@ -11,7 +11,7 @@ package ui.controls.form;
 
 import java.util.Vector;
 import Menu.MenuListener;
-import Menu.Command;
+import Menu.MenuCommand;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
@@ -28,8 +28,8 @@ public class DropListBox
         implements
         MenuListener
     {
-    private Command cmdCancel=new Command(SR.MS_CANCEL, Command.BACK,99);
-    private Command cmdOk=new Command(SR.MS_OK, Command.OK,1);
+    private MenuCommand cmdCancel=new MenuCommand(SR.MS_CANCEL, MenuCommand.BACK,99);
+    private MenuCommand cmdOk=new MenuCommand(SR.MS_OK, MenuCommand.OK,1);
     private Vector listItems;
 
     private DropChoiceBox cb;
@@ -50,8 +50,8 @@ public class DropListBox
     
     public void commandState() {
         menuCommands.removeAllElements();
-        addCommand(cmdOk);
-        addCommand(cmdCancel);
+        addMenuCommand(cmdOk);
+        addMenuCommand(cmdCancel);
     }
     
     public void eventOk() {
@@ -72,7 +72,7 @@ public class DropListBox
     
     public int getItemCount() { return listItems.size(); }
 
-    public void commandAction(Command command, VirtualList displayable) {
+    public void menuAction(MenuCommand command, VirtualList displayable) {
         
     }
 

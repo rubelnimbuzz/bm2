@@ -28,7 +28,7 @@
 package io.file.transfer;
 
 import Client.StaticData;
-import Menu.Command;
+import Menu.MenuCommand;
 import locale.SR;
 import ui.Time;
 //#ifdef POPUPS
@@ -45,15 +45,15 @@ public class TransferManager
     extends DefForm
     {
 //#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_FILE_TRANSFER");
+    public static String plugin = new String("PLUGIN_FILE_TRANSFER");
 //#endif    
     
     
-    Command cmdDel=new Command(SR.MS_DECLINE, Command.SCREEN, 10);
-    Command cmdClrF=new Command(SR.MS_HIDE_FINISHED, Command.SCREEN, 11);
-    Command cmdInfo=new Command(SR.MS_INFO, Command.SCREEN, 12);
+    MenuCommand cmdDel=new MenuCommand(SR.MS_DECLINE, MenuCommand.SCREEN, 10);
+    MenuCommand cmdClrF=new MenuCommand(SR.MS_HIDE_FINISHED, MenuCommand.SCREEN, 11);
+    MenuCommand cmdInfo=new MenuCommand(SR.MS_INFO, MenuCommand.SCREEN, 12);
 //#ifdef BYTESTREAMS
-//#     Command cmdSettings=new Command("Transfer settings", Command.SCREEN, 12);
+//#     MenuCommand cmdSettings=new MenuCommand("Transfer settings", Command.SCREEN, 12);
 //#endif
     
     /** Creates a new instance of TransferManager
@@ -71,15 +71,15 @@ public class TransferManager
     public void commandState(){
         super.commandState();
 //#ifdef BYTESTREAMS
-//#          removeCommand(cmdOk);
-//#          addCommand(cmdSettings);
+//#          removeMenuCommand(cmdOk);
+//#          addMenuCommand(cmdSettings);
 //#endif        
         if (TransferDispatcher.getInstance().getTasksCount()>0) {
-            removeCommand(cmdOk);
+            removeMenuCommand(cmdOk);
         }
-        addCommand(cmdDel);
-        addCommand(cmdClrF);
-        addCommand(cmdInfo);          
+        addMenuCommand(cmdDel);
+        addMenuCommand(cmdClrF);
+        addMenuCommand(cmdInfo);
     }   
     public String touchLeftCommand(){ return (TransferDispatcher.getInstance().getTasksCount()>0) ? SR.MS_MENU : SR.MS_OK; }
     public void touchLeftPressed(){ 
@@ -108,8 +108,8 @@ public class TransferManager
         }
     }
 
-    public void commandAction(Command c, VirtualList d) {
-        super.commandAction(c, d);
+    public void menuAction(MenuCommand c, VirtualList d) {
+        super.menuAction(c, d);
         if (c==cmdClrF) {
             synchronized (TransferDispatcher.getInstance().getTaskList()) {
                 int i=0;

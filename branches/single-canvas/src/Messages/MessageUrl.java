@@ -37,7 +37,7 @@ import ui.MIDPTextBox.TextBoxNotify;
 import ui.controls.form.DefForm;
 import ui.controls.form.ListItem;
 import locale.SR;
-import Menu.Command;
+import Menu.MenuCommand;
 //#ifdef CLIPBOARD
 import util.ClipBoard;
 import Client.Msg;
@@ -53,12 +53,12 @@ public class MessageUrl extends DefForm implements TextBoxNotify {
 //#ifdef CLIPBOARD
     private ClipBoard clipboard=ClipBoard.getInstance();
 
-    protected Command cmdCopy = new Command(SR.MS_COPY, Command.SCREEN, 20);
-    protected Command cmdCopyPlus = new Command("+ "+SR.MS_COPY, Command.SCREEN, 30);
+    protected MenuCommand cmdCopy = new MenuCommand(SR.MS_COPY, MenuCommand.SCREEN, 20);
+    protected MenuCommand cmdCopyPlus = new MenuCommand("+ "+SR.MS_COPY, MenuCommand.SCREEN, 30);
 //#endif
     private Vector urlList;
-    Command cmdGoto=new Command("Goto", Command.OK, 2);
-    Command cmdEdit=new Command("Edit", Command.SCREEN, 3);
+    MenuCommand cmdGoto=new MenuCommand("Goto", MenuCommand.OK, 2);
+    MenuCommand cmdEdit=new MenuCommand("Edit", MenuCommand.SCREEN, 3);
 
     /** Creates a new instance of MessageUrl
      * @param pView
@@ -79,8 +79,8 @@ public class MessageUrl extends DefForm implements TextBoxNotify {
         this.parentView = pView;
     }
     
-    public void commandAction(Command c, VirtualList d) {
-        super.commandAction(c, d);
+    public void menuAction(MenuCommand c, VirtualList d) {
+        super.menuAction(c, d);
         if (c==cmdGoto)
             eventOk();
         else if (c==cmdEdit) {
@@ -129,18 +129,18 @@ public class MessageUrl extends DefForm implements TextBoxNotify {
     
      public void commandState() {
          menuCommands.removeAllElements();
-         addCommand(cmdOk);
-         addCommand(cmdGoto);
-         addCommand(cmdEdit);
-         addCommand(cmdCancel);
+         addMenuCommand(cmdOk);
+         addMenuCommand(cmdGoto);
+         addMenuCommand(cmdEdit);
+         addMenuCommand(cmdCancel);
          commandStateCommon();
      }
      
      public void commandStateCommon() {
 //#ifdef CLIPBOARD
          if (Client.Config.getInstance().useClipBoard) {
-             addCommand(cmdCopy);
-             addCommand(cmdCopyPlus);
+             addMenuCommand(cmdCopy);
+             addMenuCommand(cmdCopyPlus);
          }
 //#endif
      }

@@ -34,10 +34,10 @@ import ui.VirtualList;
  * @author ad
  */
 public interface MenuListener {
-    public void commandAction(Command command, VirtualList displayable);
+    public void menuAction(MenuCommand command, VirtualList displayable);
     //public void addCommand(Command command);
     //public void removeCommand(Command command);
     //public void setCommandListener(MenuListener menuListener);
     //public void showMenu();
-    //public Command getCommand(int index);
+    //public MenuCommand getCommand(int index);
 }

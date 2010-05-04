@@ -1,5 +1,5 @@
 /*
- * Command.java
+ * MenuCommand.java
  *
  * Created on 9.07.2008, 18:25
  *
@@ -33,7 +33,7 @@ import ui.IconTextElement;
  *
  * @author ad
  */
-public class Command extends IconTextElement {
+public class MenuCommand extends IconTextElement {
     String name="";
     int pos;
     int map;
@@ -46,7 +46,7 @@ public class Command extends IconTextElement {
     public static int CANCEL    = 5;
     public static int ITEM      = 6;
 
-    public Command(String name, int map, int pos) {
+    public MenuCommand(String name, int map, int pos) {
         super(null);
         this.name=name;
         this.map=map;

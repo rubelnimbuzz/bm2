@@ -32,7 +32,7 @@ import Conference.ConferenceForm;
 import images.RosterIcons;
 import java.util.*;
 import Menu.MenuListener;
-import Menu.Command;
+import Menu.MenuCommand;
 import Menu.MyMenu;
 import locale.SR;
 import Colors.ColorTheme;
@@ -68,13 +68,13 @@ public class ServiceDiscovery
    /* private final static String strCmds="Execute";
     private final int AD_HOC_INDEX=17;*/
     
-    private Command cmdOk=new Command(SR.MS_BROWSE, Command.SCREEN, 1);
-    private Command cmdRfsh=new Command(SR.MS_REFRESH, Command.SCREEN, 2);
-    private Command cmdFeatures=new Command(SR.MS_FEATURES, Command.SCREEN, 3);
-    private Command cmdSrv=new Command(SR.MS_SERVER, Command.SCREEN, 10);
-    //private Command cmdAdd=new Command(SR.MS_ADD_TO_ROSTER, Command.SCREEN, 11); //FS#464 => this string is commented in SR.java'
-    private Command cmdBack=new Command(SR.MS_BACK, Command.BACK, 98);
-    private Command cmdCancel=new Command(SR.MS_CANCEL, Command.EXIT, 99);
+    private MenuCommand cmdOk=new MenuCommand(SR.MS_BROWSE, MenuCommand.SCREEN, 1);
+    private MenuCommand cmdRfsh=new MenuCommand(SR.MS_REFRESH, MenuCommand.SCREEN, 2);
+    private MenuCommand cmdFeatures=new MenuCommand(SR.MS_FEATURES, MenuCommand.SCREEN, 3);
+    private MenuCommand cmdSrv=new MenuCommand(SR.MS_SERVER, MenuCommand.SCREEN, 10);
+    //private MenuCommand cmdAdd=new MenuCommand(SR.MS_ADD_TO_ROSTER, Command.SCREEN, 11); //FS#464 => this string is commented in SR.java'
+    private MenuCommand cmdBack=new MenuCommand(SR.MS_BACK, MenuCommand.BACK, 98);
+    private MenuCommand cmdCancel=new MenuCommand(SR.MS_CANCEL, MenuCommand.EXIT, 99);
 
     private StaticData sd=StaticData.getInstance();
     
@@ -108,11 +108,11 @@ public class ServiceDiscovery
         
         menuCommands.removeAllElements();
         setCommandListener(this);
-        addCommand(cmdRfsh);
-        addCommand(cmdSrv);
-        addCommand(cmdFeatures);
+        addMenuCommand(cmdRfsh);
+        addMenuCommand(cmdSrv);
+        addMenuCommand(cmdFeatures);
         //addCommand(cmdAdd);
-        addCommand(cmdCancel);
+        addMenuCommand(cmdCancel);
 
         items=new Vector();
         features=new Vector();
@@ -172,7 +172,7 @@ public class ServiceDiscovery
 	try { size=items.size(); } catch (Exception e) {}
 	String count=null;
         
-	removeCommand(cmdOk);
+	removeMenuCommand(cmdOk);
         
 	if (size>0) {
 	    menuCommands.insertElementAt(cmdOk, 0); 
@@ -313,24 +313,24 @@ public class ServiceDiscovery
         } else if (id.startsWith ("discoreg")) {
             discoIcon=0;
 //#ifndef NEW_DISCO
-            new DiscoForm( data, stream, "discoResult", "query");
+//#             new DiscoForm( data, stream, "discoResult", "query");
 //#else
-//#             new MyDiscoForm( data, stream, "discoResult", "query");
+            new MyDiscoForm( data, stream, "discoResult", "query");
 //#endif
         } else if (id.startsWith("discocmd")) {
             discoIcon=0;
 //#ifndef NEW_DISCO
-            new DiscoForm( data, stream, "discocmd", "command");
+//#             new DiscoForm( data, stream, "discocmd", "command");
 //#else
-//#             new MyDiscoForm( data, stream, "discocmd", "command");
+            new MyDiscoForm( data, stream, "discocmd", "command");
 //#endif
 
         } else if (id.startsWith("discosrch")) {
             discoIcon=0;
 //#ifndef NEW_DISCO
-            new DiscoForm( data, stream, "discoRSearch", "query");
+//#             new DiscoForm( data, stream, "discoRSearch", "query");
 //#else
-//#             new MyDiscoForm( data, stream, "discoRSearch", "query");
+            new MyDiscoForm( data, stream, "discoRSearch", "query");
 //#endif          
         } else if (id.startsWith("discoR")) {
             String text=SR.MS_DONE;
@@ -392,14 +392,14 @@ public class ServiceDiscovery
             
             items=new Vector();
             features=new Vector();
-            removeCommand(cmdBack);
-            addCommand(cmdBack);
+            removeMenuCommand(cmdBack);
+            addMenuCommand(cmdBack);
             this.service=service;
             this.node=node;
             requestQuery(NS_INFO,"disco");
     }
     
-    public void commandAction(Command c, VirtualList d){
+    public void menuAction(MenuCommand c, VirtualList d){
 	if (c==cmdOk) eventOk();
         if (c==cmdBack) exitDiscovery(false);            
         if (c==cmdRfsh) { if (service!=null) requestQuery(NS_INFO, "disco"); }

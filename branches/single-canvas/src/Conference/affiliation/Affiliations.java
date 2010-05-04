@@ -39,7 +39,7 @@ import locale.SR;
 import ui.MainBar;
 import ui.VirtualElement;
 import ui.controls.form.DefForm;
-import Menu.Command;
+import Menu.MenuCommand;
 //#ifdef CLIPBOARD
 import util.ClipBoard;
 //#endif
@@ -61,10 +61,10 @@ public class Affiliations
 
     private JabberStream stream=StaticData.getInstance().roster.theStream;
     
-    private Command cmdModify = new Command (SR.MS_MODIFY, Command.SCREEN, 1);
-    private Command cmdNew    = new Command (SR.MS_NEW_JID, Command.SCREEN, 2);
+    private MenuCommand cmdModify = new MenuCommand (SR.MS_MODIFY, MenuCommand.SCREEN, 1);
+    private MenuCommand cmdNew    = new MenuCommand (SR.MS_NEW_JID, MenuCommand.SCREEN, 2);
 //#ifdef CLIPBOARD
-    private Command cmdCopy   = new Command(SR.MS_COPY, Command.SCREEN, 3);
+    private MenuCommand cmdCopy   = new MenuCommand(SR.MS_COPY, MenuCommand.SCREEN, 3);
     private ClipBoard clipboard; 
 //#endif
     
@@ -107,7 +107,7 @@ public class Affiliations
         listRq(false, item, id);
     }
     
-    public void commandAction(Command c, VirtualList d){
+    public void menuAction(MenuCommand c, VirtualList d){
         if (c==cmdNew) new AffiliationModify(this, room, null, "none", "");
         if (c==cmdModify) eventOk();
 //#ifdef CLIPBOARD
@@ -180,12 +180,12 @@ public class Affiliations
     }
     public void commandState(){
         menuCommands.removeAllElements();
-        addCommand(cmdModify);
-        addCommand(cmdNew);
+        addMenuCommand(cmdModify);
+        addMenuCommand(cmdNew);
 //#ifdef CLIPBOARD
         if (Config.getInstance().useClipBoard) {
             clipboard=ClipBoard.getInstance();
-            addCommand(cmdCopy);
+            addMenuCommand(cmdCopy);
         }
 //#endif
     }

@@ -37,7 +37,7 @@ import java.util.Vector;
 import locale.SR;
 
 import Menu.MenuListener;
-import Menu.Command;
+import Menu.MenuCommand;
 import Menu.MyMenu;
 
 /**
@@ -50,9 +50,9 @@ public class TextListBox
         MenuListener
     {
 
-    private Command cmdCancel=new Command(SR.MS_CANCEL, Command.BACK,99);
-    private Command cmdOk=new Command(SR.MS_OK, Command.OK,1);
-    private Command cmdClear=new Command(SR.MS_CLEAR, Command.SCREEN, 2);
+    private MenuCommand cmdCancel=new MenuCommand(SR.MS_CANCEL, MenuCommand.BACK,99);
+    private MenuCommand cmdOk=new MenuCommand(SR.MS_OK, MenuCommand.OK,1);
+    private MenuCommand cmdClear=new MenuCommand(SR.MS_CLEAR, MenuCommand.SCREEN, 2);
 
     private Vector recentList;
 
@@ -69,9 +69,9 @@ public class TextListBox
     
     public void commandState() {
         menuCommands.removeAllElements();
-        addCommand(cmdOk);
-        addCommand(cmdClear);
-        addCommand(cmdCancel);
+        addMenuCommand(cmdOk);
+        addMenuCommand(cmdClear);
+        addMenuCommand(cmdCancel);
         setCommandListener(this);
     }
     
@@ -82,7 +82,7 @@ public class TextListBox
         midlet.BombusMod.getInstance().setDisplayable(ti.t);
     }
 
-    public void commandAction(Command c, VirtualList d){
+    public void menuAction(MenuCommand c, VirtualList d){
         if (c==cmdClear) {
             ti.recentList.removeAllElements();
             ti.saveRecentList();

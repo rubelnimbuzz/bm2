@@ -55,7 +55,7 @@ import images.ClientsIconsData;
 import images.RosterIcons;
 
 import Menu.MenuListener;
-import Menu.Command;
+import Menu.MenuCommand;
 import Menu.MyMenu;
 
 //#if FILE_TRANSFER
@@ -118,23 +118,23 @@ public class Roster
         LoginListener
 {
 
-    private Command cmdActions;//=new Command(SR.MS_ITEM_ACTIONS, Command.SCREEN, 1);
-    private Command cmdStatus=new Command(SR.MS_STATUS_MENU, Command.SCREEN, 4);
-    private Command cmdActiveContacts=new Command(SR.MS_ACTIVE_CONTACTS, Command.SCREEN, 3);
-    private Command cmdAlert=new Command(SR.MS_ALERT_PROFILE_CMD, Command.SCREEN, 8);
+    private MenuCommand cmdActions;//=new MenuCommand(SR.MS_ITEM_ACTIONS, MenuCommand.SCREEN, 1);
+    private MenuCommand cmdStatus=new MenuCommand(SR.MS_STATUS_MENU, MenuCommand.SCREEN, 4);
+    private MenuCommand cmdActiveContacts=new MenuCommand(SR.MS_ACTIVE_CONTACTS, MenuCommand.SCREEN, 3);
+    private MenuCommand cmdAlert=new MenuCommand(SR.MS_ALERT_PROFILE_CMD, MenuCommand.SCREEN, 8);
 //#ifndef WMUC
-    private Command cmdConference=new Command(SR.MS_CONFERENCE, Command.SCREEN, 10);
+    private MenuCommand cmdConference=new MenuCommand(SR.MS_CONFERENCE, MenuCommand.SCREEN, 10);
 //#endif
 //#ifdef ARCHIVE
-    private Command cmdArchive=new Command(SR.MS_ARCHIVE, Command.SCREEN, 10);
+    private MenuCommand cmdArchive=new MenuCommand(SR.MS_ARCHIVE, MenuCommand.SCREEN, 10);
 //#endif
-    private Command cmdAdd=new Command(SR.MS_ADD_CONTACT, Command.SCREEN, 12);
-    private Command cmdTools=new Command(SR.MS_TOOLS, Command.SCREEN, 14);    
-    private Command cmdAccount=new Command(SR.MS_ACCOUNT_, Command.SCREEN, 15);
-    private Command cmdCleanAllMessages=new Command(SR.MS_CLEAN_ALL_MESSAGES, Command.SCREEN, 50);
-    private Command cmdInfo=new Command(SR.MS_ABOUT, Command.SCREEN, 80);
-    private Command cmdMinimize=new Command(SR.MS_APP_MINIMIZE, Command.SCREEN, 90);
-    private Command cmdQuit=new Command(SR.MS_APP_QUIT, Command.SCREEN, 99);
+    private MenuCommand cmdAdd=new MenuCommand(SR.MS_ADD_CONTACT, MenuCommand.SCREEN, 12);
+    private MenuCommand cmdTools=new MenuCommand(SR.MS_TOOLS, MenuCommand.SCREEN, 14);
+    private MenuCommand cmdAccount=new MenuCommand(SR.MS_ACCOUNT_, MenuCommand.SCREEN, 15);
+    private MenuCommand cmdCleanAllMessages=new MenuCommand(SR.MS_CLEAN_ALL_MESSAGES, MenuCommand.SCREEN, 50);
+    private MenuCommand cmdInfo=new MenuCommand(SR.MS_ABOUT, MenuCommand.SCREEN, 80);
+    private MenuCommand cmdMinimize=new MenuCommand(SR.MS_APP_MINIMIZE, MenuCommand.SCREEN, 90);
+    private MenuCommand cmdQuit=new MenuCommand(SR.MS_APP_QUIT, MenuCommand.SCREEN, 99);
 
     private Config cf=Config.getInstance();
     private StaticData sd=StaticData.getInstance();
@@ -272,40 +272,40 @@ public class Roster
     
     public void commandState(){
         menuCommands.removeAllElements();
-        int activeType=Command.SCREEN;
-        if (phoneManufacturer==Config.NOKIA) activeType=Command.BACK;
-        if (phoneManufacturer==Config.INTENT) activeType=Command.BACK;
-        if (phoneManufacturer==Config.J2ME) activeType=Command.BACK;
+        int activeType=MenuCommand.SCREEN;
+        if (phoneManufacturer==Config.NOKIA) activeType=MenuCommand.BACK;
+        if (phoneManufacturer==Config.INTENT) activeType=MenuCommand.BACK;
+        if (phoneManufacturer==Config.J2ME) activeType=MenuCommand.BACK;
 
-        cmdActions=new Command(SR.MS_ITEM_ACTIONS, activeType, 2);
+        cmdActions=new MenuCommand(SR.MS_ITEM_ACTIONS, activeType, 2);
         
 
-        addCommand(cmdStatus);
-        addCommand(cmdActiveContacts);
+        addMenuCommand(cmdStatus);
+        addMenuCommand(cmdActiveContacts);
 //#ifndef WMUC
 
          if (isLoggedIn())
-            addCommand(cmdConference);
+            addMenuCommand(cmdConference);
 //#endif
-        addCommand(cmdAlert);
+        addMenuCommand(cmdAlert);
 //#ifdef ARCHIVE
 //#ifdef PLUGINS
          if (sd.Archive)
 //#endif
-            addCommand(cmdArchive);
+            addMenuCommand(cmdArchive);
 //#endif
         if (isLoggedIn())
-            addCommand(cmdAdd);
-        addCommand(cmdAccount);
-        addCommand(cmdTools);
-        addCommand(cmdInfo);
+            addMenuCommand(cmdAdd);
+        addMenuCommand(cmdAccount);
+        addMenuCommand(cmdTools);
+        addMenuCommand(cmdInfo);
 
         if (cf.allowMinimize) 
-            addCommand(cmdMinimize);
+            addMenuCommand(cmdMinimize);
 
-        addCommand(cmdCleanAllMessages);
+        addMenuCommand(cmdCleanAllMessages);
         if (phoneManufacturer!=Config.NOKIA_9XXX)
-            addCommand(cmdQuit);
+            addMenuCommand(cmdQuit);
         
         cmdActions.setImg(MenuIcons.ICON_ITEM_ACTIONS);
         cmdStatus.setImg(MenuIcons.ICON_STATUS);
@@ -2586,9 +2586,9 @@ public class Roster
         }
 //#ifdef STATS
 //#ifdef PLUGINS
-//#         if (sd.Stats)
+        if (sd.Stats)
 //#endif
-//#             Stats.getInstance().saveToStorage(false);
+            Stats.getInstance().saveToStorage(false);
 //#endif
     }
 
@@ -2605,7 +2605,7 @@ public class Roster
 
         BombusMod.getInstance().notifyDestroyed();
     }
-    public void commandAction(Command c, VirtualList d){
+    public void menuAction(MenuCommand c, VirtualList d){
 //#ifdef AUTOSTATUS
         userActivity();
 //#endif

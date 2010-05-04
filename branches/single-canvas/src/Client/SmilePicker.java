@@ -35,7 +35,7 @@ import java.util.Vector;
 import ui.controls.Balloon;
 
 import Menu.MenuListener;
-import Menu.Command;
+import Menu.MenuCommand;
 
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Graphics;
@@ -66,8 +66,8 @@ public class SmilePicker
     private int realWidth=0;
     private int xBorder = 0;
     
-    Command cmdCancel=new Command(SR.MS_CANCEL,Command.BACK,99);
-    Command cmdOk=new Command(SR.MS_SELECT,Command.OK,1);
+    MenuCommand cmdCancel=new MenuCommand(SR.MS_CANCEL,MenuCommand.BACK,99);
+    MenuCommand cmdOk=new MenuCommand(SR.MS_SELECT,MenuCommand.OK,1);
      
     private Vector smileTable;
 
@@ -110,8 +110,8 @@ public class SmilePicker
     
     public void commandState() {
         menuCommands.removeAllElements();
-        addCommand(cmdOk);
-        addCommand(cmdCancel);
+        addMenuCommand(cmdOk);
+        addMenuCommand(cmdCancel);
         
         setCommandListener(this);
     }
@@ -188,7 +188,7 @@ public class SmilePicker
             xCursor=xLastCnt-1;
     }
     
-    public void commandAction(Command c, VirtualList d){
+    public void menuAction(MenuCommand c, VirtualList d){
         if (c==cmdCancel) {
             destroyView();
             return;

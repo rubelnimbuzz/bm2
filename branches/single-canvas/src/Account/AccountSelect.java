@@ -33,11 +33,11 @@ import midlet.BombusMod;
 import ui.*;
 import java.io.*;
 import java.util.*;
-import Menu.Command;
+import Menu.MenuCommand;
 import io.NvStorage;
 import ui.controls.AlertBox;
 //#ifdef IMPORT_EXPORT
-//# import IE.*;
+import IE.*;
 //#endif
 import ui.controls.form.DefForm;
 
@@ -51,13 +51,13 @@ public class AccountSelect extends DefForm {
     int activeAccount;
     boolean enableQuit;
     
-    Command cmdLogin=new Command(SR.MS_SELLOGIN, Command.OK,1);
-    Command cmdSelect=new Command(SR.MS_NOLOGIN, Command.SCREEN,2);
-    Command cmdAdd=new Command(SR.MS_NEW_ACCOUNT, Command.SCREEN,3);
-    Command cmdEdit=new Command(SR.MS_EDIT,Command.ITEM,3);
-    Command cmdDel=new Command(SR.MS_DELETE,Command.ITEM,4);
-    Command cmdConfig=new Command(SR.MS_OPTIONS,Command.ITEM,5);
-    Command cmdQuit=new Command(SR.MS_APP_QUIT,Command.SCREEN,10);
+    MenuCommand cmdLogin=new MenuCommand(SR.MS_SELLOGIN, MenuCommand.OK,1);
+    MenuCommand cmdSelect=new MenuCommand(SR.MS_NOLOGIN, MenuCommand.SCREEN,2);
+    MenuCommand cmdAdd=new MenuCommand(SR.MS_NEW_ACCOUNT, MenuCommand.SCREEN,3);
+    MenuCommand cmdEdit=new MenuCommand(SR.MS_EDIT,MenuCommand.ITEM,3);
+    MenuCommand cmdDel=new MenuCommand(SR.MS_DELETE,MenuCommand.ITEM,4);
+    MenuCommand cmdConfig=new MenuCommand(SR.MS_OPTIONS,MenuCommand.ITEM,5);
+    MenuCommand cmdQuit=new MenuCommand(SR.MS_APP_QUIT,MenuCommand.SCREEN,10);
     
     private Config cf;
     
@@ -86,19 +86,19 @@ public class AccountSelect extends DefForm {
         } else {
 //#ifdef IMPORT_EXPORT
 //#ifdef PLUGINS
-//#             if (StaticData.getInstance().IE) {
+            if (StaticData.getInstance().IE) {
 //#endif     
-//#             new IE.Accounts("/def_accounts.txt", 0,  true);
+            new IE.Accounts("/def_accounts.txt", 0,  true);
 //#ifdef PLUGINS                              
-//#             }
+            }
 //#endif
-//#             loadAccounts();
-//#         if (accountList.isEmpty()) {
+            loadAccounts();
+        if (accountList.isEmpty()) {
 //#endif
             new AccountForm(this, null).show(pView);
             return;
 //#ifdef IMPORT_EXPORT
-//#         }
+        }
 //#endif
         }  
 
@@ -121,16 +121,16 @@ public class AccountSelect extends DefForm {
     public final void commandState(){
         menuCommands.removeAllElements();
         if ((accountList != null) && !accountList.isEmpty()) {
-            addCommand(cmdLogin);
-            addCommand(cmdSelect);
+            addMenuCommand(cmdLogin);
+            addMenuCommand(cmdSelect);
             
-            addCommand(cmdEdit);
-            addCommand(cmdDel);
+            addMenuCommand(cmdEdit);
+            addMenuCommand(cmdDel);
         }
-        addCommand(cmdAdd);
-        addCommand(cmdConfig);
+        addMenuCommand(cmdAdd);
+        addMenuCommand(cmdConfig);
         if (enableQuit) 
-            addCommand(cmdQuit);
+            addMenuCommand(cmdQuit);
     }
 
 
@@ -147,7 +147,7 @@ public class AccountSelect extends DefForm {
     public VirtualElement getItemRef(int Index) { return (VirtualElement)accountList.elementAt(Index); }
     protected int getItemCount() { return accountList.size();  }
 
-    public void commandAction(Command c, VirtualList d){
+    public void menuAction(MenuCommand c, VirtualList d){
         if (c==cmdQuit) {
             destroyView();
             BombusMod.getInstance().notifyDestroyed();

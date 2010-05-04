@@ -35,7 +35,7 @@ import java.util.Vector;
 import javax.microedition.io.Connector;
 import javax.microedition.io.HttpConnection;
 import Menu.MenuListener;
-import Menu.Command;
+import Menu.MenuCommand;
 import locale.SR;
 import ui.MainBar;
 import ui.VirtualList;
@@ -50,10 +50,10 @@ public class Upgrade
         MenuListener
     {
 //#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_VERSION_UPGRADE");
+    public static String plugin = new String("PLUGIN_VERSION_UPGRADE");
 //#endif
    
-    //private Command cmdBack=new Command(SR.MS_BACK, Command.BACK, 99);
+    //private MenuCommand cmdBack=new MenuCommand(SR.MS_BACK, Command.BACK, 99);
     private final static String VERSION_URL="http://bombusmod.net.ru/checkupdate/check.php";
 
     Vector news;
@@ -77,8 +77,8 @@ public class Upgrade
         news=new Vector();
         
         setCommandListener(this);
-	addCommand(cmdBack);
-        addCommand(cmdUrl);
+	addMenuCommand(cmdBack);
+        addMenuCommand(cmdUrl);
         
         try {
             focusedItem(0);
@@ -125,8 +125,8 @@ public class Upgrade
         redraw();
     }
 
-    public void commandAction(Command c, VirtualList d) {
-        super.commandAction(c,d);
+    public void menuAction(MenuCommand c, VirtualList d) {
+        super.menuAction(c,d);
         /*try {
             if (BombusMod.getInstance().platformRequest((String) versions[2].elementAt(index))) System.exit(0);
         } catch (Exception e) { e.printStackTrace(); }*/

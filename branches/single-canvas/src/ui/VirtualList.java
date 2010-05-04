@@ -45,7 +45,7 @@ import ui.keys.UserKeyExec;
 import java.util.Vector;
 
 import ui.controls.CommandsPointer;
-import Menu.Command;
+import Menu.MenuCommand;
 import Menu.MenuListener;
 
 /**
@@ -90,8 +90,8 @@ public abstract class VirtualList
     private int mHeight;
     
 //#ifdef GRADIENT
-//#     Gradient grIB;
-//#     Gradient grMB;
+    Gradient grIB;
+    Gradient grMB;
 //#endif
 
     public static int panelsState = 2;
@@ -220,7 +220,7 @@ public abstract class VirtualList
     private int list_bottom;
     
 //#ifdef BACK_IMAGE
-//#     public Image img;
+    public Image img;
 //#endif
     
     CommandsPointer ar=new CommandsPointer();
@@ -350,10 +350,10 @@ public abstract class VirtualList
         stringHeight=FontCache.getFont(false, FontCache.roster).getHeight();
 
 //#ifdef BACK_IMAGE
-//#         try {
-//#             if (img==null)
-//#                 img=Image.createImage("/images/bg.png");
-//#         } catch (Exception e) { }
+        try {
+            if (img==null)
+                img=Image.createImage("/images/bg.png");
+        } catch (Exception e) { }
 //#endif
 //#if USE_ROTATOR
         TimerTaskRotate.startRotate(0, this);
@@ -427,8 +427,8 @@ public abstract class VirtualList
         width=w;
         height=h;
 //#ifdef GRADIENT
-//#         iHeight=0;
-//#         mHeight=0;
+        iHeight=0;
+        mHeight=0;
 //#endif
         if (!isDoubleBuffered())  offscreen=Image.createImage(width, height);
     }
@@ -469,9 +469,9 @@ public abstract class VirtualList
         g.fillRect(0, 0, width, height);
         
 //#ifdef BACK_IMAGE
-//#         if (img!=null) {
-//#             g.drawImage(img, width/2, height/2, Graphics.VCENTER|Graphics.HCENTER);
-//#         }
+        if (img!=null) {
+            g.drawImage(img, width/2, height/2, Graphics.VCENTER|Graphics.HCENTER);
+        }
 //#endif
         
         if (mainbar!=null)
@@ -551,7 +551,7 @@ public abstract class VirtualList
                     baloon=g.getTranslateY();
                 } else {
 //#ifdef BACK_IMAGE
-//#                     if (img==null)
+                    if (img==null)
 //#endif
                         g.fillRect(0,0, itemMaxWidth, lh); //clear field
                 }
@@ -570,7 +570,7 @@ public abstract class VirtualList
 
         if (clrH>0
 //#ifdef BACK_IMAGE
-//#                 && img==null
+                && img==null
 //#endif
                 ) {
             setAbsOrg(g, 0,displayedBottom);
@@ -718,19 +718,19 @@ public abstract class VirtualList
 
         g.setClip(0,0, width, h);
 //#ifdef GRADIENT
-//#         if (getMainBarBGnd()!=getMainBarBGndBottom()) {
-//#             if (iHeight!=h) {
-//#                 grIB=new Gradient(0, 0, width, h, getMainBarBGnd(), getMainBarBGndBottom(), false);
-//#                 iHeight=h;
-//#             }
-//#             grIB.paint(g);
-//#         } else {
-//#             g.setColor(getMainBarBGnd());
-//#             g.fillRect(0, 0, width, h);
-//#         }
-//#else
+        if (getMainBarBGnd()!=getMainBarBGndBottom()) {
+            if (iHeight!=h) {
+                grIB=new Gradient(0, 0, width, h, getMainBarBGnd(), getMainBarBGndBottom(), false);
+                iHeight=h;
+            }
+            grIB.paint(g);
+        } else {
             g.setColor(getMainBarBGnd());
             g.fillRect(0, 0, width, h);
+        }
+//#else
+//#             g.setColor(getMainBarBGnd());
+//#             g.fillRect(0, 0, width, h);
 //#endif
 
         g.setColor(getMainBarRGB());
@@ -742,19 +742,19 @@ public abstract class VirtualList
         int h=mainbar.getVHeight()+1;
         g.setClip(0,0, width, h);
 //#ifdef GRADIENT
-//#         if (getMainBarBGnd()!=getMainBarBGndBottom()) {
-//#             if (mHeight!=h) {
-//#                 grMB=new Gradient(0, 0, width, h, getMainBarBGndBottom(), getMainBarBGnd(), false);
-//#                 mHeight=h;
-//#             }
-//#             grMB.paint(g);
-//#         } else {
-//#             g.setColor(getMainBarBGnd());
-//#             g.fillRect(0, 0, width, h);
-//#         }
-//#else
+        if (getMainBarBGnd()!=getMainBarBGndBottom()) {
+            if (mHeight!=h) {
+                grMB=new Gradient(0, 0, width, h, getMainBarBGndBottom(), getMainBarBGnd(), false);
+                mHeight=h;
+            }
+            grMB.paint(g);
+        } else {
             g.setColor(getMainBarBGnd());
             g.fillRect(0, 0, width, h);
+        }
+//#else
+//#             g.setColor(getMainBarBGnd());
+//#             g.fillRect(0, 0, width, h);
 //#endif
         
         g.setColor(getMainBarRGB());
@@ -1491,12 +1491,12 @@ public abstract class VirtualList
     
     public Vector menuCommands=new Vector();
 
-    public void addCommand(Command command) {
+    public void addMenuCommand(MenuCommand command) {
         if (menuCommands.indexOf(command)<0)
             menuCommands.addElement(command);
     }
 
-    public void removeCommand(Command command) {
+    public void removeMenuCommand(MenuCommand command) {
         menuCommands.removeElement(command);
     }
 
@@ -1506,9 +1506,9 @@ public abstract class VirtualList
 
     public void setCommandListener(MenuListener menuListener) { }
 
-    public Command getCommand(int index) {
+    public MenuCommand getCommand(int index) {
         if (index>menuCommands.size()-1) return null;
-        return (Command) menuCommands.elementAt(index);
+        return (MenuCommand) menuCommands.elementAt(index);
     }
 
     public void showMenu() {}

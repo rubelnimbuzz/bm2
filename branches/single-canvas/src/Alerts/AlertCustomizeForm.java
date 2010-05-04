@@ -40,7 +40,7 @@ import ui.controls.form.SpacerItem;
 import ui.controls.form.TrackItem;
 import util.StringLoader;
 import java.util.Enumeration;
-import Menu.Command;
+import Menu.MenuCommand;
 import ui.VirtualList;
 
 
@@ -74,8 +74,8 @@ public class AlertCustomizeForm
     Vector files[];
     Vector fileNames;
 
-    Command cmdSave=new Command(SR.MS_SAVE, Command.OK, 1);
-    Command cmdTest=new Command(SR.MS_TEST_SOUND, Command.SCREEN, 2);
+    MenuCommand cmdSave=new MenuCommand(SR.MS_SAVE, MenuCommand.OK, 1);
+    MenuCommand cmdTest=new MenuCommand(SR.MS_TEST_SOUND, MenuCommand.SCREEN, 2);
 
     /** Creates a new instance of ConfigForm
      * @param pView
@@ -181,8 +181,8 @@ public class AlertCustomizeForm
         destroyView();
     }
     
-    public void commandAction(Command c, VirtualList d) {
-        super.commandAction(c, d);
+    public void menuAction(MenuCommand c, VirtualList d) {
+        super.menuAction(c, d);
         if (c==cmdTest)
             PlaySound();
         else if (c==cmdSave) {
@@ -214,8 +214,8 @@ public class AlertCustomizeForm
         menuCommands.removeAllElements();
         
         if (playable()>-1)
-            addCommand(cmdTest);
-        addCommand(cmdSave);        
+            addMenuCommand(cmdTest);
+        addMenuCommand(cmdSave);
     }
     
 

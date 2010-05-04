@@ -36,7 +36,7 @@ import locale.SR;
 
 public class ChangeTransport implements CommandListener {
 //#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_CHANGE_TRANSPORT");
+    public static String plugin = new String("PLUGIN_CHANGE_TRANSPORT");
 //#endif
 
     private Form f;
@@ -77,8 +77,8 @@ public class ChangeTransport implements CommandListener {
     public void commandAction(Command command, Displayable displayable) {
         if (command==cmdOk) {
 //#if CHANGE_TRANSPORT            
-//#             sd.roster.contactChangeTransport(srcTransport, tTranspList.getString(tTranspList.getSelectedIndex()));
-//#             //System.out.println(srcTransport+"->"+tTranspList.getString(tTranspList.getSelectedIndex()));
+            sd.roster.contactChangeTransport(srcTransport, tTranspList.getString(tTranspList.getSelectedIndex()));
+            //System.out.println(srcTransport+"->"+tTranspList.getString(tTranspList.getSelectedIndex()));
 //#endif
         }
         midlet.BombusMod.getInstance().setDisplayable(sd.roster);
