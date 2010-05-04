@@ -30,21 +30,19 @@ import Client.Config;
 import Client.ConfigForm;
 import Client.StaticData;
 //#ifdef STATS
-import Statistic.Stats;
+import Statistic.StatsWindow;
 //#endif
 import Colors.ColorTheme;
 //#ifdef CONSOLE
-//# import Console.XMLList;
+import Console.XMLList;
 //#endif
 //#ifdef PRIVACY
 import PrivacyLists.PrivacySelect;
 //#endif
 //#ifdef SERVICE_DISCOVERY
 import ServiceDiscovery.*;
-import Statistic.StatsWindow;
 //#endif
 import java.util.Vector;
-import javax.microedition.lcdui.Display;
 import locale.SR;
 import midlet.BombusMod;
 import ui.VirtualList;
@@ -106,7 +104,7 @@ public class UserKeyExec {
         available_commands[0].addElement(new UserKeyCommand(14, SR.MS_APP_MINIMIZE));
         available_commands[0].addElement(new UserKeyCommand(15, SR.MS_INVERT));
 //#ifdef CONSOLE
-//#         available_commands[0].addElement(new UserKeyCommand(16, SR.MS_XML_CONSOLE));
+        available_commands[0].addElement(new UserKeyCommand(16, SR.MS_XML_CONSOLE));
 //#endif
         available_commands[0].addElement(new UserKeyCommand(17, SR.MS_FULLSCREEN));
 //#ifdef JUICK
@@ -137,7 +135,7 @@ public class UserKeyExec {
         
 //#ifdef USER_KEYS
 //#ifdef PLUGINS
-//#         if (sd.UserKeys) {
+        if (sd.UserKeys) {
 //#endif
             DataInputStream is = NvStorage.ReadFileRecord(UserKey.storage, 0);
 
@@ -151,7 +149,7 @@ public class UserKeyExec {
                 UserKeysList.rmsUpdate(userKeysList);
             }
 //#ifdef PLUGINS
-//#         } else
+        } else
 //#endif
 //#endif
             userKeysList = UserKeysList.getDefaultKeysList();
@@ -190,7 +188,7 @@ public class UserKeyExec {
 //#ifdef STATS
             case 4:
 //#ifdef PLUGINS
-//#                 if (sd.Stats)
+                if (sd.Stats)
 //#endif
                     new StatsWindow( sd.roster);
                 break;
@@ -207,7 +205,7 @@ public class UserKeyExec {
             case 7: 
 //#ifdef ARCHIVE
 //#ifdef PLUGINS
-//#                 if (sd.Archive)
+                if (sd.Archive)
 //#endif
                     sd.roster.cmdArchive();
 //#endif
@@ -248,12 +246,12 @@ public class UserKeyExec {
             case 16:
 //#ifdef CONSOLE
 //#ifdef PLUGINS
-//#                 try {
-//#                     Class.forName("Console.XMLList");
+                try {
+                    Class.forName("Console.XMLList");
 //#endif
-//#                     new XMLList( display.getCurrent());
+                    new XMLList();
 //#ifdef PLUGINS
-//#                 } catch (ClassNotFoundException ignore3) { }
+                } catch (ClassNotFoundException ignore3) { }
 //#endif
 //#endif
                 break;
@@ -266,7 +264,7 @@ public class UserKeyExec {
             case 18:
 //#ifdef JUICK
 //#ifdef PLUGINS
-//#                 if(sd.Juick)
+                if(sd.Juick)
 //#endif
                 if (current instanceof Roster) {
                     Contact jContact = sd.roster.getMainJuickContact();
@@ -302,7 +300,7 @@ public class UserKeyExec {
             case 21:
 //#ifdef JUICK
 //#ifdef PLUGINS
-//#                 if(sd.Juick)
+                if(sd.Juick)
 //#endif
                 if (current instanceof ContactMessageList) {
                     ContactMessageList current_cml = (ContactMessageList) current;

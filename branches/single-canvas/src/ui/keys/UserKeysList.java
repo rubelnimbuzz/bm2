@@ -42,9 +42,9 @@ import util.StringLoader;
 public class UserKeysList extends DefForm
     {
 //#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_USER_KEYS");
+    public static String plugin = new String("PLUGIN_USER_KEYS");
 //#endif
-
+    UserKeyExec uexec = UserKeyExec.getInstance();
     Vector userKeysList;
 
 //#ifdef USER_KEYS
@@ -64,12 +64,9 @@ public class UserKeysList extends DefForm
 //#ifdef USER_KEYS
         setMainBarItem(new MainBar(SR.MS_CUSTOM_KEYS));
 //#endif
-        
-        UserKeyExec uexec = UserKeyExec.getInstance();
-        uexec.init_commands_from_rms();
+                
         itemsList = copyVector(uexec.userKeysList);
 
-        commandState();
         setCommandListener(this);
         
         show(parentView);
@@ -109,10 +106,9 @@ public class UserKeysList extends DefForm
 
     public void commandState() {
 //#ifdef USER_KEYS
-      super.commandState();
-      removeCommand(cmdOk);
+      menuCommands.removeAllElements();
         addCommand(cmdAdd);
-        if (userKeysList.isEmpty()) {
+        if (itemsList.isEmpty()) {
             removeCommand(cmdEdit);
             removeCommand(cmdDel);
         } else {
@@ -180,6 +176,9 @@ public class UserKeysList extends DefForm
     
     void rmsUpdate() {
         rmsUpdate(userKeysList);
-    }    
+    }
+
+    public String touchLeftCommand()  {return SR.MS_MENU;}
+    public void touchLeftPressed(){ showMenu();}
 
 }

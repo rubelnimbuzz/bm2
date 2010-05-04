@@ -13,7 +13,6 @@ import Client.StaticData;
 import com.alsutton.jabber.JabberBlockListener;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.*;
-import javax.microedition.lcdui.Display;
 
 /**
  *
@@ -21,14 +20,12 @@ import javax.microedition.lcdui.Display;
  */
 public class Captcha implements JabberBlockListener, XDataForm.NotifyListener{
 
-    private Display display;
-    
     private String from;
     private String id;
     
     /** Creates a new instance of Captcha */
-    public Captcha(Display display) {
-        this.display=display;
+    public Captcha() {
+        
     }
 
     public int blockArrived(JabberDataBlock data) {

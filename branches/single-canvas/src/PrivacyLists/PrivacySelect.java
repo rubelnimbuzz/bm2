@@ -49,7 +49,7 @@ public class PrivacySelect
         MIDPTextBox.TextBoxNotify
 {
 //#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_PRIVACY");
+    public static String plugin = new String("PLUGIN_PRIVACY");
 //#endif
     
     private Vector list=new Vector();
@@ -82,7 +82,7 @@ public class PrivacySelect
     }
     
     public void commandState() {
-        super.commandState();
+        menuCommands.removeAllElements();
         addCommand(cmdActivate);
         addCommand(cmdDefault);
         addCommand(cmdNewList);

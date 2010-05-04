@@ -27,7 +27,7 @@
 
 package Menu;
 //#ifdef CONSOLE
-//# import Console.XMLList;
+import Console.XMLList;
 //#endif
 import Alerts.AlertCustomizeForm;
 import Client.*;
@@ -63,7 +63,7 @@ import ui.keys.UserKeysList;
 //# import Info.Upgrade;
 //#endif
 //#if SASL_XGOOGLETOKEN
-//# import xmpp.extensions.IqGmail;
+import xmpp.extensions.IqGmail;
 //#endif
 
 public class RosterToolsMenu extends Menu {
@@ -133,7 +133,7 @@ public class RosterToolsMenu extends Menu {
 //#ifdef PLUGINS
 //#         if (sd.Stats)
 //#endif
-            addItem(SR.MS_STATS, 13, MenuIcons.ICON_STAT);
+//#             addItem(SR.MS_STATS, 13, MenuIcons.ICON_STAT);
 //#endif
 //#ifdef CHECK_VERSION
 //#ifdef PLUGINS
@@ -153,8 +153,8 @@ public class RosterToolsMenu extends Menu {
             addItem(SR.MS_CUSTOM_KEYS, 16, MenuIcons.ICON_KEYS);
 //#endif
 //#if SASL_XGOOGLETOKEN
-//#         if (sd.account.isGmail() && connected)
-//#             addItem(SR.MS_CHECK_GOOGLE_MAIL, 17, MenuIcons.ICON_GMAIL);
+        if (sd.account.isGmail() && connected)
+            addItem(SR.MS_CHECK_GOOGLE_MAIL, 17, MenuIcons.ICON_GMAIL);
 //#endif 
 //#if AUTOTASK
 //#         addItem(SR.MS_AUTOTASKS, 18, MenuIcons.ICON_TASKS);
@@ -163,7 +163,7 @@ public class RosterToolsMenu extends Menu {
 //#ifdef PLUGINS
 //#         if (sd.Console)
 //#endif
-//#             addItem(SR.MS_XML_CONSOLE, 19, MenuIcons.ICON_CONCOLE);
+            addItem(SR.MS_XML_CONSOLE, 19, MenuIcons.ICON_CONCOLE);
 //#endif
 //#ifdef JUICK
 //#ifdef PLUGINS
@@ -244,9 +244,9 @@ public class RosterToolsMenu extends Menu {
                 new AlertCustomizeForm( (VirtualList)parentView);
                 return;
 //#ifdef STATS
-            case 13: //traffic stats
-                new StatsWindow( (VirtualList)parentView);
-                return;
+//#             case 13: //traffic stats
+//#                 new StatsWindow( (VirtualList)parentView);
+//#                 return;
 //#endif
 //#ifdef CHECK_VERSION
 //#             case 14:
@@ -262,9 +262,9 @@ public class RosterToolsMenu extends Menu {
                 return;
 //#endif
 //#if SASL_XGOOGLETOKEN
-//#             case 17: //mail check
-//#                 sd.roster.theStream.send(IqGmail.query());
-//# 		return;
+            case 17: //mail check
+                sd.roster.theStream.send(IqGmail.query());
+		return;
 //#endif
 //#if AUTOTASK
 //#             case 18:
@@ -272,9 +272,9 @@ public class RosterToolsMenu extends Menu {
 //#                 return;
 //#endif
 //#ifdef CONSOLE
-//#             case 19:
-//#                 new XMLList( (VirtualList)parentView);
-//#                 return;
+            case 19:
+                new XMLList();
+                return;
 //#endif
 //#ifdef JUICK
             case 20:

@@ -31,8 +31,8 @@ import io.file.FileIO;
 import io.file.browse.Browser;
 import io.file.browse.BrowserListener;
 //#endif
+import Client.StaticData;
 import java.util.Vector;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import ui.VirtualList;
 import ui.controls.form.DropChoiceBox;
@@ -78,13 +78,13 @@ public class ColorConfigForm
         super(SR.MS_COLOR_TUNE);        
 //#ifdef COLOR_TUNE
 //#ifdef PLUGINS
-//#             if (StaticData.getInstance().Colors) {
+            if (StaticData.getInstance().Colors) {
 //#endif
         final VirtualList returnTo = this;
         configureColors=new LinkString(SR.MS_COLOR_TUNE) { public void doAction() { new ColorsList( returnTo); } };
         itemsList.addElement(configureColors);
 //#ifdef PLUGINS
-//#             }
+            }
 //#endif
 //#endif
         invertColors=new LinkString(SR.MS_INVERT) { public void doAction() { ColorTheme.invertSkin(); } };

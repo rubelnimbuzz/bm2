@@ -39,7 +39,7 @@ import ui.VirtualList;
 import util.ClipBoard;
 //#endif
 //#ifdef CONSOLE 
-//# import ui.MainBar;
+import ui.MainBar;
 //#endif
 
 /**
@@ -66,7 +66,7 @@ public final class XMLList
     /** Creates a new instance of XMLList
      * @param pView
      */
-    public XMLList(VirtualList pView) {
+    public XMLList() {
         super ();
         
         super.smiles=false;
@@ -80,11 +80,10 @@ public final class XMLList
         moveCursorHome();
 
 //#ifdef CONSOLE        
-//# 	MainBar mainbar=new MainBar(SR.MS_XML_CONSOLE);
-//#         setMainBarItem(mainbar);
+	MainBar mb=new MainBar(SR.MS_XML_CONSOLE);
+        setMainBarItem(mb);
 //#endif
-        show(parentView);
-        this.parentView=pView;
+        show(parentView);        
     }
     
     public void commandState() {
