@@ -32,7 +32,6 @@ import java.util.Vector;
 import Menu.MenuListener;
 import Menu.Command;
 import Menu.MyMenu;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import ui.MainBar;
 import ui.VirtualElement;
@@ -115,8 +114,8 @@ public class DefForm
                 return;
             }
         }
-        MyMenu menu = new MyMenu( parentView, this, "", null, menuCommands);
-        menu.show(parentView);
+        MyMenu menu = new MyMenu(this, this, "", null, menuCommands);
+        menu.show(this);
     }
     
     public String touchLeftCommand(){ return SR.MS_OK; }

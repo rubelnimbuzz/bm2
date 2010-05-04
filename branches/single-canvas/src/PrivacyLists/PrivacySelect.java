@@ -28,11 +28,9 @@
 package PrivacyLists;
 
 import Client.StaticData;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import images.RosterIcons;
 import Menu.Command;
-import Menu.MyMenu;
 import locale.SR;
 import ui.*;
 import ui.controls.AlertBox;
@@ -65,7 +63,9 @@ public class PrivacySelect
     
     JabberStream stream=StaticData.getInstance().roster.theStream;
     
-    /** Creates a new instance of PrivacySelect */
+    /** Creates a new instance of PrivacySelect
+     * @param pView
+     */
     public PrivacySelect(VirtualList pView) {
         super(null);
         this.parentView=pView;

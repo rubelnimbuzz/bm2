@@ -41,7 +41,7 @@ import ui.VirtualElement;
 import ui.VirtualList;
 import ui.reconnectWindow;
 //#ifdef CLIPBOARD
-//# import util.ClipBoard;
+import util.ClipBoard;
 //#endif
 
 public abstract class MessageList extends VirtualList
@@ -53,10 +53,10 @@ public abstract class MessageList extends VirtualList
     
     protected Vector messages;
 //#ifdef CLIPBOARD
-//#     private ClipBoard clipboard=ClipBoard.getInstance();
-//#     
-//#     protected Command cmdCopy = new Command(SR.MS_COPY, Command.SCREEN, 20);
-//#     protected Command cmdCopyPlus = new Command("+ "+SR.MS_COPY, Command.SCREEN, 30);
+    private ClipBoard clipboard=ClipBoard.getInstance();
+    
+    protected Command cmdCopy = new Command(SR.MS_COPY, Command.SCREEN, 20);
+    protected Command cmdCopyPlus = new Command("+ "+SR.MS_COPY, Command.SCREEN, 30);
 //#endif
     protected Command cmdxmlSkin = new Command(SR.MS_USE_COLOR_SCHEME, Command.SCREEN, 40);
 
@@ -107,10 +107,10 @@ public abstract class MessageList extends VirtualList
 
     public void addCommands() {
 //#ifdef CLIPBOARD
-//#         if (cf.useClipBoard) {
-//#             addCommand(cmdCopy);
-//#             addCommand(cmdCopyPlus);
-//#         }
+        if (cf.useClipBoard) {
+            addCommand(cmdCopy);
+            addCommand(cmdCopyPlus);
+        }
 //#endif
         addCommand(cmdxmlSkin);
         addCommand(cmdUrl);
@@ -118,10 +118,10 @@ public abstract class MessageList extends VirtualList
     }
     public void removeCommands () {
 //#ifdef CLIPBOARD
-//#         if (cf.useClipBoard) {
-//#             removeCommand(cmdCopy);
-//#             removeCommand(cmdCopyPlus);
-//#         }
+        if (cf.useClipBoard) {
+            removeCommand(cmdCopy);
+            removeCommand(cmdCopyPlus);
+        }
 //#endif
         removeCommand(cmdxmlSkin);
         removeCommand(cmdUrl);
@@ -148,18 +148,18 @@ public abstract class MessageList extends VirtualList
         }
         
 //#ifdef CLIPBOARD
-//#         if (c == cmdCopy)
-//#         {
-//#             try {
-//#                 clipboard.add(((MessageItem)getFocusedObject()).msg);
-//#             } catch (Exception e) {/*no messages*/}
-//#         }
-//#         
-//#         if (c==cmdCopyPlus) {
-//#             try {
-//#                 clipboard.append(((MessageItem)getFocusedObject()).msg);
-//#             } catch (Exception e) {/*no messages*/}
-//#         }
+        if (c == cmdCopy)
+        {
+            try {
+                clipboard.add(((MessageItem)getFocusedObject()).msg);
+            } catch (Exception e) {/*no messages*/}
+        }
+        
+        if (c==cmdCopyPlus) {
+            try {
+                clipboard.append(((MessageItem)getFocusedObject()).msg);
+            } catch (Exception e) {/*no messages*/}
+        }
 //#endif
     }
 
@@ -181,7 +181,7 @@ public abstract class MessageList extends VirtualList
         try {
             capt=getMainBarItem().elementAt(0).toString();
         } catch (Exception ex){ }
-        new MyMenu( parentView, this, capt, null, menuCommands);
+        new MyMenu( this, this, capt, null, menuCommands);
    }
 
     public void commandState() { }
