@@ -222,7 +222,7 @@ public abstract class VirtualList
     private int list_bottom;
     
 //#ifdef BACK_IMAGE
-    public Image img;
+//#     public Image img;
 //#endif
     
     CommandsPointer ar=new CommandsPointer();
@@ -354,10 +354,10 @@ public abstract class VirtualList
         stringHeight=FontCache.getFont(false, FontCache.roster).getHeight();
         
 //#ifdef BACK_IMAGE
-        try {
-            if (img==null)
-                img=Image.createImage("/images/bg.png");
-        } catch (Exception e) { }
+//#         try {
+//#             if (img==null)
+//#                 img=Image.createImage("/images/bg.png");
+//#         } catch (Exception e) { }
 //#endif
 //#if USE_ROTATOR
         TimerTaskRotate.startRotate(0, this);
@@ -414,6 +414,8 @@ public abstract class VirtualList
      * двойной буферизации
      */
     protected void showNotify() {
+        VirtualCanvas.nativeCanvas.setOk(touchLeftCommand());
+        VirtualCanvas.nativeCanvas.setCancel(touchRightCommand());
 	if (!isDoubleBuffered()) offscreen=Image.createImage(width, height);
 //#if (USE_ROTATOR)
         TimerTaskRotate.startRotate(-1, this);
@@ -473,9 +475,9 @@ public abstract class VirtualList
         g.fillRect(0, 0, width, height);
         
 //#ifdef BACK_IMAGE
-        if (img!=null) {
-            g.drawImage(img, width/2, height/2, Graphics.VCENTER|Graphics.HCENTER);
-        }
+//#         if (img!=null) {
+//#             g.drawImage(img, width/2, height/2, Graphics.VCENTER|Graphics.HCENTER);
+//#         }
 //#endif
         
         if (mainbar!=null)
@@ -555,7 +557,7 @@ public abstract class VirtualList
                     baloon=g.getTranslateY();
                 } else {
 //#ifdef BACK_IMAGE
-                    if (img==null)
+//#                     if (img==null)
 //#endif
                         g.fillRect(0,0, itemMaxWidth, lh); //clear field
                 }
@@ -574,7 +576,7 @@ public abstract class VirtualList
 
         if (clrH>0
 //#ifdef BACK_IMAGE
-                && img==null
+//#                 && img==null
 //#endif
                 ) {
             setAbsOrg(g, 0,displayedBottom);
@@ -836,7 +838,7 @@ public abstract class VirtualList
     protected void pointerPressed(int x, int y) {
 //#ifdef POPUPS
         if (PopUp.getInstance().next()) {
-            repaint();
+            redraw();
             return;
         }
 //#endif
@@ -1033,7 +1035,7 @@ public abstract class VirtualList
      */
     private void key(int keyCode) {
 //#if DEBUG
-        //System.out.println(keyCode); // Только мешает.
+//#         //System.out.println(keyCode); // Только мешает.
 //#endif
 //#ifdef POPUPS
         boolean popupSkipped = skipPopUp(keyCode);
@@ -1155,7 +1157,7 @@ public abstract class VirtualList
         if (getItemCount()==0)
             return;
 //#ifdef DEBUG
-	//System.out.println("keyUp");
+//# 	//System.out.println("keyUp");
 //#endif
         if (cursor==0) {
             if (wrapping) {
@@ -1184,7 +1186,7 @@ public abstract class VirtualList
         if (getItemCount()==0)
             return;
 //#ifdef DEBUG
-        //System.out.println("keyDwn");
+//#         //System.out.println("keyDwn");
 //#endif
 	if (cursor==(getItemCount()-1)) {
             if (wrapping) {
@@ -1287,7 +1289,7 @@ public abstract class VirtualList
         if (getItemCount()==0)
             return;
 //#ifdef DEBUG
-        //System.out.println("keyLeft");
+//#         //System.out.println("keyLeft");
 //#endif
         try {
             stickyWindow=false;
@@ -1310,7 +1312,7 @@ public abstract class VirtualList
         if (getItemCount()==0)
             return;
 //#ifdef DEBUG
-        //System.out.println("keyRight");
+//#         //System.out.println("keyRight");
 //#endif
         try {
             stickyWindow=false;
@@ -1355,8 +1357,8 @@ public abstract class VirtualList
             focusedItem(cursor);
             } catch (Exception e) {
 //#ifdef DEBUG
-            System.out.println("setRotator() in VirtialList in one try{} block catch exception:");
-            System.out.println(e);
+//#             System.out.println("setRotator() in VirtialList in one try{} block catch exception:");
+//#             System.out.println(e);
 //#endif
             }
 
@@ -1372,8 +1374,8 @@ public abstract class VirtualList
             }
         } catch (Exception e) {
 //#ifdef DEBUG
-            System.out.println("setRotator() in VirtialList in two try{} block catch exception:");
-            System.out.println(e);
+//#             System.out.println("setRotator() in VirtialList in two try{} block catch exception:");
+//#             System.out.println(e);
 //#endif
         }
  //#endif

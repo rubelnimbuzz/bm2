@@ -81,6 +81,7 @@ public class VirtualCanvas extends Canvas implements CommandListener{
     }
 
     protected void showNotify() {
+        setFullScreenMode(Config.fullscreen);
         list.showNotify();        
     }
     protected void hideNotify() {
@@ -107,7 +108,7 @@ public class VirtualCanvas extends Canvas implements CommandListener{
         commandOk = new Command(title, Command.OK, 1);
         addCommand(commandOk);
         }
-        setCommandListener(this);
+       // setCommandListener(this);
     }
     public void setCancel(String title) {
         if (!Config.fullscreen) {
@@ -116,7 +117,7 @@ public class VirtualCanvas extends Canvas implements CommandListener{
         commandCancel = new Command(title, Command.BACK, 99);
         addCommand(commandCancel);
         }
-        setCommandListener(this);
+       // setCommandListener(this);
     }
 
 }

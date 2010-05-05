@@ -34,16 +34,15 @@ import ui.*;
 import java.util.Vector;
 import ui.controls.Balloon;
 
-import Menu.MenuListener;
 import Menu.MenuCommand;
 
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Graphics;
+import ui.controls.form.DefForm;
 
 public class SmilePicker 
-        extends VirtualList 
-        implements 
-        MenuListener,
+        extends DefForm
+        implements       
         VirtualElement
 {
 
@@ -66,9 +65,6 @@ public class SmilePicker
     private int realWidth=0;
     private int xBorder = 0;
     
-    MenuCommand cmdCancel=new MenuCommand(SR.MS_CANCEL,MenuCommand.BACK,99);
-    MenuCommand cmdOk=new MenuCommand(SR.MS_SELECT,MenuCommand.OK,1);
-     
     private Vector smileTable;
 
     private MessageEdit me;
@@ -79,7 +75,7 @@ public class SmilePicker
      * @param me 
      */
     public SmilePicker(Displayable pView, int caretPos, MessageEdit me) {
-         super();
+         super(SR.MS_SELECT);
          this.caretPos=caretPos;
 
          this.me = me;
@@ -104,16 +100,13 @@ public class SmilePicker
 
         xBorder=(realWidth-(xCnt*imgWidth))/2;
 
-        commandState();
         show(pView);
     }
     
     public void commandState() {
         menuCommands.removeAllElements();
         addMenuCommand(cmdOk);
-        addMenuCommand(cmdCancel);
-        
-        setMenuListener(this);
+        addMenuCommand(cmdCancel);             
     }
     
     int lineIndex;
@@ -186,15 +179,8 @@ public class SmilePicker
             return;
         if (xCursor >= xLastCnt)
             xCursor=xLastCnt-1;
-    }
-    
-    public void menuAction(MenuCommand c, VirtualList d){
-        if (c==cmdCancel) {
-            destroyView();
-            return;
-        }
-        if (c==cmdOk) { eventOk(); }
-    }
+    }   
+   
 
     public void moveCursorEnd() {
         super.moveCursorEnd();
@@ -237,7 +223,7 @@ public class SmilePicker
     
     public boolean handleEvent(int keyCode) { return false; }
     
-    public void showMenu(){ eventOk(); }
+    public void cmdOk(){ eventOk(); }
      
     public String touchLeftCommand(){ return SR.MS_SELECT; }
     public String touchRightCommand(){ return SR.MS_BACK; }

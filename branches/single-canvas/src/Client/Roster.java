@@ -102,7 +102,7 @@ import xmpp.extensions.IqPing;
 import xmpp.extensions.IqVersionReply;
 import xmpp.extensions.IqTimeReply;
 //#ifdef ADHOC
-import xmpp.extensions.IQCommands;
+//# import xmpp.extensions.IQCommands;
 //#endif
 
 //#ifdef PEP
@@ -173,9 +173,9 @@ public class Roster
     public boolean querysign=false;
     
 //#ifdef AUTOSTATUS
-    private AutoStatusTask autostatus;
-    public static boolean autoAway=false;
-    public static boolean autoXa=false;
+//#     private AutoStatusTask autostatus;
+//#     public static boolean autoAway=false;
+//#     public static boolean autoXa=false;
 //#endif
     
 //#if SASL_XGOOGLETOKEN
@@ -236,15 +236,15 @@ public class Roster
         setMenuListener(this);
         splash.setExit(this);
 //#ifdef AUTOSTATUS
-        if (cf.autoAwayType==Config.AWAY_IDLE || cf.autoAwayType==Config.AWAY_MESSAGE)
-            autostatus=new AutoStatusTask();
-
-        if (myStatus<2)
-            messageActivity();
+//#         if (cf.autoAwayType==Config.AWAY_IDLE || cf.autoAwayType==Config.AWAY_MESSAGE)
+//#             autostatus=new AutoStatusTask();
+//# 
+//#         if (myStatus<2)
+//#             messageActivity();
 //#endif
 //#ifdef CLIENTS_ICONS
 //#ifdef PLUGINS
-	if (sd.ClientsIcons)
+//# 	if (sd.ClientsIcons)
 //#endif
         ClientsIconsData.getInstance();
 //#endif
@@ -288,7 +288,7 @@ public class Roster
         addMenuCommand(cmdAlert);
 //#ifdef ARCHIVE
 //#ifdef PLUGINS
-         if (sd.Archive)
+//#          if (sd.Archive)
 //#endif
             addMenuCommand(cmdArchive);
 //#endif
@@ -381,7 +381,7 @@ public class Roster
             theStream.initiateStream();
         } catch( Exception e ) {
 //#ifdef DEBUG
-            e.printStackTrace();
+//#             e.printStackTrace();
 //#endif
             //SplashScreen.getInstance().close();
             setProgress(SR.MS_FAILED, 100);
@@ -711,16 +711,16 @@ public class Roster
     
     public final ConferenceGroup initMuc(String from, String joinPassword){
 //#ifdef AUTOSTATUS
-        if (autoAway) {
-            ExtendedStatus es=sl.getStatus(oldStatus);
-            String ms=es.getMessage();
-            sendPresence(oldStatus, ms);
-            autoAway=false;
-            autoXa=false;
-            myStatus=oldStatus;
-
-            messageActivity();
-        }
+//#         if (autoAway) {
+//#             ExtendedStatus es=sl.getStatus(oldStatus);
+//#             String ms=es.getMessage();
+//#             sendPresence(oldStatus, ms);
+//#             autoAway=false;
+//#             autoXa=false;
+//#             myStatus=oldStatus;
+//# 
+//#             messageActivity();
+//#         }
 //#endif
 
         // muc message
@@ -959,7 +959,7 @@ public class Roster
         if (newStatus!=Presence.PRESENCE_SAME) 
             myStatus=newStatus;
 //#ifdef AUTOSTATUS
-        messageActivity();
+//#         messageActivity();
 //#endif
 	if (message!=null) 
             myMessage=message;
@@ -1017,8 +1017,8 @@ public class Roster
             }
             theStream=null;
 //#ifdef AUTOSTATUS
-            autoAway=false;
-            autoXa=false;
+//#             autoAway=false;
+//#             autoXa=false;
 //#endif
             systemGC();
         }
@@ -1148,14 +1148,14 @@ public class Roster
 //#endif
             
 //#ifdef AUTOSTATUS
-            if (autoAway) {
-                    ExtendedStatus es=sl.getStatus(oldStatus);
-                    String ms=es.getMessage();
-                    sendPresence(oldStatus, ms);
-                    autoAway=false;
-                    autoXa=false;
-                    myStatus=oldStatus;
-            }
+//#             if (autoAway) {
+//#                     ExtendedStatus es=sl.getStatus(oldStatus);
+//#                     String ms=es.getMessage();
+//#                     sendPresence(oldStatus, ms);
+//#                     autoAway=false;
+//#                     autoXa=false;
+//#                     myStatus=oldStatus;
+//#             }
 //#endif
             Message message = new Message( 
                     to.getJid(), 
@@ -1179,7 +1179,7 @@ public class Roster
             playNotify(SOUND_OUTGOING);
         } catch (Exception e) { e.printStackTrace(); }
 //#ifdef AUTOSTATUS
-        messageActivity();
+//#         messageActivity();
 //#endif
     }
     
@@ -1229,27 +1229,27 @@ public class Roster
     }
     
 //#if CHANGE_TRANSPORT
-    public void contactChangeTransport(String srcTransport, String dstTransport){ //voffk
-	setQuerySign(true);
-        for (Enumeration e=hContacts.elements(); e.hasMoreElements(); ) {
-	    Contact k=(Contact) e.nextElement();
-	    if (k.jid.isTransport()) continue;
-            int grpType=k.getGroupType();
-            if (k.jid.getServer().equals(srcTransport) &&
-                    (grpType==Groups.TYPE_COMMON || grpType==Groups.TYPE_NO_GROUP ||
-                    grpType==Groups.TYPE_VISIBLE || grpType==Groups.TYPE_VIP ||
-                    grpType==Groups.TYPE_IGNORE)) {
-                String jid=k.getJid();
-                jid=StringUtils.stringReplace(jid, srcTransport, dstTransport);
-                storeContact(jid, k.nick, (!k.group.getName().equals(SR.MS_GENERAL))?(k.group.getName()):"", true); //new contact addition
-                try {
-                    Thread.sleep(300);
-                } catch (Exception ex) { }
-                deleteContact(k); //old contact deletion
-	    }
-	}
-	setQuerySign(false);
-    }
+//#     public void contactChangeTransport(String srcTransport, String dstTransport){ //voffk
+//# 	setQuerySign(true);
+//#         for (Enumeration e=hContacts.elements(); e.hasMoreElements(); ) {
+//# 	    Contact k=(Contact) e.nextElement();
+//# 	    if (k.jid.isTransport()) continue;
+//#             int grpType=k.getGroupType();
+//#             if (k.jid.getServer().equals(srcTransport) &&
+//#                     (grpType==Groups.TYPE_COMMON || grpType==Groups.TYPE_NO_GROUP ||
+//#                     grpType==Groups.TYPE_VISIBLE || grpType==Groups.TYPE_VIP ||
+//#                     grpType==Groups.TYPE_IGNORE)) {
+//#                 String jid=k.getJid();
+//#                 jid=StringUtils.stringReplace(jid, srcTransport, dstTransport);
+//#                 storeContact(jid, k.nick, (!k.group.getName().equals(SR.MS_GENERAL))?(k.group.getName()):"", true); //new contact addition
+//#                 try {
+//#                     Thread.sleep(300);
+//#                 } catch (Exception ex) { }
+//#                 deleteContact(k); //old contact deletion
+//# 	    }
+//# 	}
+//# 	setQuerySign(false);
+//#     }
 //#endif
     
     public void loginFailed(String error){
@@ -1285,17 +1285,17 @@ public class Roster
         theStream.addBlockListener(new IqLast());
         theStream.addBlockListener(new IqTimeReply());
 //#ifdef ADHOC
-        if (cf.adhoc)
+//#         if (cf.adhoc)
 //#ifdef PLUGINS
-            if (sd.Adhoc)
+//#             if (sd.Adhoc)
 //#endif
-                IQCommands.getInstance().addBlockListener();
+//#                 IQCommands.getInstance().addBlockListener();
 //#endif
 
 //#ifdef PEP
         if (cf.sndrcvmood)
 //#ifdef PLUGINS
-            if (sd.PEP)
+//#             if (sd.PEP)
 //#endif
                 PepListener.getInstance().addBlockListener();
 //#endif
@@ -1306,7 +1306,7 @@ public class Roster
 //#if FILE_TRANSFER
         if (cf.fileTransfer) // enable File transfers
 //#ifdef PLUGINS
-            if (sd.FileTransfer)
+//#             if (sd.FileTransfer)
 //#endif
                 TransferDispatcher.getInstance().addBlockListener();
 //#endif
@@ -1668,7 +1668,7 @@ public class Roster
                         if (pr.getAttribute("ver")!=null) c.version=pr.getAttribute("ver"); // for bombusmod only
 //#ifdef CLIENTS_ICONS
 //#ifdef PLUGINS
-                    if (sd.ClientsIcons)
+//#                     if (sd.ClientsIcons)
 //#endif
                         if (cf.showClientIcon) {
                             if (pr.hasEntityCaps()) {
@@ -1719,8 +1719,8 @@ public class Roster
                         
                         if (cf.autoSubscribe==Config.SUBSCR_REJECT) {
 //#if DEBUG 
-                            System.out.print(from);
-                            System.out.println(": decline subscription");
+//#                             System.out.print(from);
+//#                             System.out.println(": decline subscription");
 //#endif
                             sendPresence(from, "unsubscribed", null, false);
                             return JabberBlockListener.BLOCK_PROCESSED;
@@ -1746,7 +1746,7 @@ public class Roster
                         if (pr.getTypeIndex()!=Presence.PRESENCE_ERROR) {
 //#ifdef CLIENTS_ICONS
 //#ifdef PLUGINS
-                        if (sd.ClientsIcons)
+//#                         if (sd.ClientsIcons)
 //#endif
                             if (cf.showClientIcon) if (ti<Presence.PRESENCE_OFFLINE)
                                 if (pr.hasEntityCaps()) {
@@ -1768,7 +1768,7 @@ public class Roster
                             
                             String lang=pr.getAttribute("xml:lang");
 //#if DEBUG
-                            //System.out.println("xml:lang="+lang); // Very much output!
+//#                             //System.out.println("xml:lang="+lang); // Very much output!
 //#endif
                             c.lang=lang; lang=null;
 
@@ -1830,7 +1830,7 @@ public class Roster
             System.out.println("error bombusmod\\src\\Client\\Roster.java:12");
         } catch( Exception e ) {
 //#if DEBUG
-            e.printStackTrace();
+//#             e.printStackTrace();
 //#endif
         }
         return JabberBlockListener.BLOCK_REJECTED;
@@ -1977,7 +1977,7 @@ public class Roster
             ExtendedStatus es=sl.getStatus(myStatus);
             if (es.getAutoRespond()) {
 //#if DEBUG
-                System.out.println(SR.MS_AUTORESPOND+" "+c.getJid());
+//#                 System.out.println(SR.MS_AUTORESPOND+" "+c.getJid());
 //#endif
 
                 Message autoMessage = new Message( 
@@ -2010,7 +2010,7 @@ public class Roster
     public void playNotify(int event) {
         if (!notifyReady(event)) return;
 //#if DEBUG        
-        System.out.println("event: "+event);
+//#         System.out.println("event: "+event);
 //#endif
         AlertCustomize ac=AlertCustomize.getInstance();
         
@@ -2129,7 +2129,7 @@ public class Roster
                 sendPresence(Presence.PRESENCE_OFFLINE, null);
             } catch (Exception e2) {
 //#if DEBUG
-                e2.printStackTrace();
+//#                 e2.printStackTrace();
 //#endif
             }
          }
@@ -2268,23 +2268,23 @@ public class Roster
                 super.pageRight();
                 return;
 //#ifdef AUTOSTATUS
-            case SE_FLIPCLOSE_JP6:
-            case SIEMENS_FLIPCLOSE:
-            case MOTOROLA_FLIP:
-                if (phoneManufacturer!=Config.SONYE) { //workaround for SE JP6 - enabling vibra in closed state
-                    midlet.BombusMod.getInstance().setDisplayable(null);
-                    try {
-                        Thread.sleep(300);
-                    } catch (Exception ex) {}
-                    midlet.BombusMod.getInstance().setDisplayable(this);
-                }
+//#             case SE_FLIPCLOSE_JP6:
+//#             case SIEMENS_FLIPCLOSE:
+//#             case MOTOROLA_FLIP:
+//#                 if (phoneManufacturer!=Config.SONYE) { //workaround for SE JP6 - enabling vibra in closed state
+//#                     midlet.BombusMod.getInstance().setDisplayable(null);
+//#                     try {
+//#                         Thread.sleep(300);
+//#                     } catch (Exception ex) {}
+//#                     midlet.BombusMod.getInstance().setDisplayable(this);
+//#                 }
 //#if DEBUG
-            System.out.println("Flip closed");
+//#             System.out.println("Flip closed");
 //#endif
-                if (cf.autoAwayType==Config.AWAY_LOCK)
-                    if (!autoAway)
-                        autostatus.setTimeEvent(cf.autoAwayDelay* 60*1000);
-                break;
+//#                 if (cf.autoAwayType==Config.AWAY_LOCK)
+//#                     if (!autoAway)
+//#                         autostatus.setTimeEvent(cf.autoAwayDelay* 60*1000);
+//#                 break;
 //#endif
             case KEY_NUM0:            
                 if (getItemCount()==0)
@@ -2346,7 +2346,7 @@ public class Roster
                 break;
         }
 //#ifdef AUTOSTATUS
-        userActivity();
+//#         userActivity();
 //#endif
      }
  
@@ -2357,16 +2357,16 @@ public class Roster
         
         if (keyCode==cf.keyLock) {            
                 //#ifdef AUTOSTATUS
-                            if (cf.autoAwayType==Config.AWAY_LOCK) {
-                                if (!autoAway) {
-                                    autoAway=true;
-                                    if (cf.useMyStatusMessages) {
-                                        sendPresence(Presence.PRESENCE_AWAY, null);
-                                    } else {
-                                        sendPresence(Presence.PRESENCE_AWAY, "Auto Status on KeyLock since %t");
-                                    }
-                                }
-                            }
+//#                             if (cf.autoAwayType==Config.AWAY_LOCK) {
+//#                                 if (!autoAway) {
+//#                                     autoAway=true;
+//#                                     if (cf.useMyStatusMessages) {
+//#                                         sendPresence(Presence.PRESENCE_AWAY, null);
+//#                                     } else {
+//#                                         sendPresence(Presence.PRESENCE_AWAY, "Auto Status on KeyLock since %t");
+//#                                     }
+//#                                 }
+//#                             }
                 //#endif
             new SplashScreen( getMainBarItem(), cf.keyLock);            
             return;
@@ -2417,32 +2417,32 @@ public class Roster
     }
 
 //#ifdef AUTOSTATUS
-    private void userActivity() {
-        if (autostatus==null) return;
-
-        if (cf.autoAwayType==Config.AWAY_IDLE) {
-            if (!autoAway) {
-                autostatus.setTimeEvent(cf.autoAwayDelay* 60*1000);
-                return;
-            }
-        } else {
-            return;
-        }
-        autostatus.setTimeEvent(0);
-        setAutoStatus(Presence.PRESENCE_ONLINE);
-    }
-
-    public void messageActivity() {
-        if (autostatus==null) return;
-
-        if (cf.autoAwayType==Config.AWAY_MESSAGE) {
-             //System.out.println("messageActivity "+myStatus.getImageIndex());
-             if (myStatus<2)
-                autostatus.setTimeEvent(cf.autoAwayDelay* 60*1000);
-             else if (!autoAway)
-                autostatus.setTimeEvent(0);
-        }
-    }
+//#     private void userActivity() {
+//#         if (autostatus==null) return;
+//# 
+//#         if (cf.autoAwayType==Config.AWAY_IDLE) {
+//#             if (!autoAway) {
+//#                 autostatus.setTimeEvent(cf.autoAwayDelay* 60*1000);
+//#                 return;
+//#             }
+//#         } else {
+//#             return;
+//#         }
+//#         autostatus.setTimeEvent(0);
+//#         setAutoStatus(Presence.PRESENCE_ONLINE);
+//#     }
+//# 
+//#     public void messageActivity() {
+//#         if (autostatus==null) return;
+//# 
+//#         if (cf.autoAwayType==Config.AWAY_MESSAGE) {
+//#              //System.out.println("messageActivity "+myStatus.getImageIndex());
+//#              if (myStatus<2)
+//#                 autostatus.setTimeEvent(cf.autoAwayDelay* 60*1000);
+//#              else if (!autoAway)
+//#                 autostatus.setTimeEvent(0);
+//#         }
+//#     }
 //#endif
 
 //#ifdef POPUPS
@@ -2527,7 +2527,7 @@ public class Roster
                 mess.append((cntact.j2j!=null)?"\nJ2J: "+cntact.j2j:"");
 //#ifdef CLIENTS_ICONS
 //#ifdef PLUGINS
-                if (cf.showClientIcon)
+//#                 if (cf.showClientIcon)
 //#endif
                     if (cntact.client>-1) {
                         mess.append("\n")
@@ -2584,7 +2584,7 @@ public class Roster
         }
 //#ifdef STATS
 //#ifdef PLUGINS
-        if (sd.Stats)
+//#         if (sd.Stats)
 //#endif
             Stats.getInstance().saveToStorage(false);
 //#endif
@@ -2592,11 +2592,11 @@ public class Roster
 
     public void quit() {
 //#ifdef AUTOSTATUS
-        if (cf.autoAwayType!=Config.AWAY_OFF) {
-            try {
-                autostatus.destroyTask();
-            } catch (Exception ex) {}
-        }
+//#         if (cf.autoAwayType!=Config.AWAY_OFF) {
+//#             try {
+//#                 autostatus.destroyTask();
+//#             } catch (Exception ex) {}
+//#         }
 //#endif
         destroyView();
         logoff(null);
@@ -2605,7 +2605,7 @@ public class Roster
     }
     public void menuAction(MenuCommand c, VirtualList d){
 //#ifdef AUTOSTATUS
-        userActivity();
+//#         userActivity();
 //#endif
         if (c==cmdActions) { cmdActions(); }
         else if (c==cmdMinimize) { cmdMinimize();  }
@@ -2706,25 +2706,25 @@ public class Roster
     }
 //#endif
     protected void showNotify() { 
-        super.showNotify(); 
+        super.showNotify();         
         countNewMsgs(); 
 //#ifdef AUTOSTATUS
-        if (cf.autoAwayType==Config.AWAY_IDLE) {
-            if (autostatus == null)  // Issue 107
-                autostatus = new AutoStatusTask();
-            if (!autostatus.isAwayTimerSet())
-                if (!autoAway)
-                    autostatus.setTimeEvent(cf.autoAwayDelay* 60*1000);
-        }
+//#         if (cf.autoAwayType==Config.AWAY_IDLE) {
+//#             if (autostatus == null)  // Issue 107
+//#                 autostatus = new AutoStatusTask();
+//#             if (!autostatus.isAwayTimerSet())
+//#                 if (!autoAway)
+//#                     autostatus.setTimeEvent(cf.autoAwayDelay* 60*1000);
+//#         }
 //#endif
     }
     
     protected void hideNotify() {
         super.hideNotify();
 //#ifdef AUTOSTATUS
-        if (cf.autoAwayType==Config.AWAY_IDLE)
-            if (kHold==0)
-                autostatus.setTimeEvent(0);
+//#         if (cf.autoAwayType==Config.AWAY_IDLE)
+//#             if (kHold==0)
+//#                 autostatus.setTimeEvent(0);
 //#endif
     }
     
@@ -2829,49 +2829,49 @@ public class Roster
     }
     
 //#ifdef AUTOSTATUS
-    public void setAutoAway() {
-        if (!autoAway) {
-            oldStatus=myStatus;
-            if (myStatus==0 || myStatus==1) {
-                autoAway=true;
-                if (cf.useMyStatusMessages) {
-                    sendPresence(Presence.PRESENCE_AWAY, null);
-                } else {
-                    sendPresence(Presence.PRESENCE_AWAY, SR.MS_AUTO_AWAY);
-                }
-            }
-        }
-    }
-
-    public void setAutoXa() {
-        if (autoAway && !autoXa) {
-            autoXa=true;
-            if (cf.useMyStatusMessages) {
-                sendPresence(Presence.PRESENCE_XA, null);
-            } else {
-                sendPresence(Presence.PRESENCE_XA, SR.MS_AUTO_XA);
-            }
-        }
-    }
-
-    public void setAutoStatus(int status) {
-        if (!isLoggedIn())
-            return;
-        if (status==Presence.PRESENCE_ONLINE && autoAway) {
-            autoAway=false;
-            autoXa=false;
-            sendPresence(Presence.PRESENCE_ONLINE, null);
-            return;
-        }
-        if (status!=Presence.PRESENCE_ONLINE && myStatus==Presence.PRESENCE_ONLINE && !autoAway) {
-            autoAway=true;
-            if (cf.useMyStatusMessages) {
-                sendPresence(Presence.PRESENCE_AWAY, null);
-            } else {
-                sendPresence(Presence.PRESENCE_AWAY, "Auto Status on KeyLock since %t");
-            }
-        }
-    }
+//#     public void setAutoAway() {
+//#         if (!autoAway) {
+//#             oldStatus=myStatus;
+//#             if (myStatus==0 || myStatus==1) {
+//#                 autoAway=true;
+//#                 if (cf.useMyStatusMessages) {
+//#                     sendPresence(Presence.PRESENCE_AWAY, null);
+//#                 } else {
+//#                     sendPresence(Presence.PRESENCE_AWAY, SR.MS_AUTO_AWAY);
+//#                 }
+//#             }
+//#         }
+//#     }
+//# 
+//#     public void setAutoXa() {
+//#         if (autoAway && !autoXa) {
+//#             autoXa=true;
+//#             if (cf.useMyStatusMessages) {
+//#                 sendPresence(Presence.PRESENCE_XA, null);
+//#             } else {
+//#                 sendPresence(Presence.PRESENCE_XA, SR.MS_AUTO_XA);
+//#             }
+//#         }
+//#     }
+//# 
+//#     public void setAutoStatus(int status) {
+//#         if (!isLoggedIn())
+//#             return;
+//#         if (status==Presence.PRESENCE_ONLINE && autoAway) {
+//#             autoAway=false;
+//#             autoXa=false;
+//#             sendPresence(Presence.PRESENCE_ONLINE, null);
+//#             return;
+//#         }
+//#         if (status!=Presence.PRESENCE_ONLINE && myStatus==Presence.PRESENCE_ONLINE && !autoAway) {
+//#             autoAway=true;
+//#             if (cf.useMyStatusMessages) {
+//#                 sendPresence(Presence.PRESENCE_AWAY, null);
+//#             } else {
+//#                 sendPresence(Presence.PRESENCE_AWAY, "Auto Status on KeyLock since %t");
+//#             }
+//#         }
+//#     }
 //#endif
 
     public void deleteGroup(Group deleteGroup) {
@@ -2986,7 +2986,7 @@ public class Roster
             }
             //} catch (Exception e) {
 //#ifdef DEBUG
-                //e.printStackTrace();
+//#                 //e.printStackTrace();
 //#endif
             //}
             //thread=null;

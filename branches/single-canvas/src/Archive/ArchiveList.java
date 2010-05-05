@@ -45,7 +45,7 @@ import ui.controls.AlertBox;
 public class ArchiveList 
     extends MessageList {
 //#ifdef PLUGINS
-    public static String plugin = new String("PLUGIN_ARCHIVE");
+//#     public static String plugin = new String("PLUGIN_ARCHIVE");
 //#endif
     
     MenuCommand cmdPaste=new MenuCommand(SR.MS_PASTE_BODY, MenuCommand.SCREEN, 1);
@@ -88,8 +88,7 @@ public class ArchiveList
         commandState();
         addMenuCommands();
         setMenuListener(this);
-        this.pView = midlet.BombusMod.getInstance().getCurrentDisplayable();
-        show(pView);
+        show(parentView);
     }
 
     public void commandState() {
