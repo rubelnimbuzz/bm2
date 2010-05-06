@@ -2884,6 +2884,8 @@ public class Roster
         }
     }
 
+	public void destroyView() {
+	}
     
     public void showMenu() {
         commandState();

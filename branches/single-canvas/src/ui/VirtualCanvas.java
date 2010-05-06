@@ -103,7 +103,6 @@ public class VirtualCanvas extends Canvas implements CommandListener{
 
     public void setOk(String title) {
         if (!Config.fullscreen) {
-        if (title == null) return;
         if (commandOk != null) removeCommand(commandOk);
         commandOk = null;
         commandOk = new Command(title, Command.OK, 1);
@@ -113,7 +112,6 @@ public class VirtualCanvas extends Canvas implements CommandListener{
     }
     public void setCancel(String title) {
         if (!Config.fullscreen) {
-        if (title == null) return;
         if (commandCancel != null) removeCommand(commandCancel);
         commandCancel = null;
         commandCancel = new Command(title, Command.BACK, 99);
@@ -123,3 +121,4 @@ public class VirtualCanvas extends Canvas implements CommandListener{
     }
 
 }
+
