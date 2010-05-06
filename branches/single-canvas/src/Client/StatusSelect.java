@@ -67,12 +67,11 @@ public class StatusSelect
              setMainBarItem(new MainBar(to));
         }
 
-        commandState();
-        
         setMenuListener(this);
         
         defp=cf.loginstatus;
         moveCursorTo(defp);
+        enableListWrapping(true);
         show(parentView);
     }
     
@@ -113,9 +112,9 @@ public class StatusSelect
     public void run(){
         int status=getSel().getImageIndex();
 //#ifdef AUTOSTATUS
-        Roster.autoAway=false;
-        Roster.autoXa=false;
-        sd.roster.messageActivity();
+//#         Roster.autoAway=false;
+//#         Roster.autoXa=false;
+//#         sd.roster.messageActivity();
 //#endif
         try {
             if (sd.roster.isLoggedIn()) {

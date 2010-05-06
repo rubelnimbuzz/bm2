@@ -34,7 +34,7 @@ import javax.microedition.lcdui.*;
 import Client.*;
 import locale.SR;
 //#ifdef POPUPS
-import ui.controls.PopUp;
+//# import ui.controls.PopUp;
 //#endif
 import ui.controls.Balloon;
 import ui.controls.Progress;
@@ -120,10 +120,10 @@ public abstract class VirtualList
     private static int previous_key_code = -1;
 
 //#ifdef POPUPS
-    public void setWobble(int type, String contact, String txt) {
-        PopUp.getInstance().addPopup(type, contact, txt);
-        redraw();
-    }
+//#     public void setWobble(int type, String contact, String txt) {
+//#         PopUp.getInstance().addPopup(type, contact, txt);
+//#         redraw();
+//#     }
 //#endif
     protected int getMainBarRGB() {return ColorTheme.getColor(ColorTheme.BAR_INK);}
     
@@ -241,6 +241,7 @@ public abstract class VirtualList
         }
         listHeight=y;
         itemLayoutY=layout;
+        redraw();
     }
     public int getListHeight() {
         return winHeight;
@@ -323,15 +324,11 @@ public abstract class VirtualList
     /** Creates a new instance of VirtualList */
     public VirtualList() {
         setFullScreenMode(Config.fullscreen);
-        VirtualCanvas.nativeCanvas.setOk(touchLeftCommand());
-        VirtualCanvas.nativeCanvas.setCancel(touchRightCommand());
         width=getWidth();
         height=getHeight();
 //#ifdef POPUPS
-        PopUp.getInstance();
+//#         PopUp.getInstance();
 //#endif
-        if (!isDoubleBuffered())
-            System.out.println("offscreen");
         if (phoneManufacturer==Config.WINDOWS) {
             setTitle("BombusMod");
         }
@@ -459,7 +456,7 @@ public abstract class VirtualList
         Graphics g=(offscreen==null)? graphics: offscreen.getGraphics();
         
 //#ifdef POPUPS
-        PopUp.getInstance().init(g, width, height);
+//#         PopUp.getInstance().init(g, width, height);
 //#endif
         beginPaint();
         
@@ -635,8 +632,8 @@ public abstract class VirtualList
         }
         
 //#ifdef POPUPS
-        setAbsClip(g, width, height);
-        drawPopUp(g);
+//#         setAbsClip(g, width, height);
+//#         drawPopUp(g);
 //#endif
         
         if (reconnectWindow.getInstance().isActive()) {
@@ -697,9 +694,9 @@ public abstract class VirtualList
     }
     
 //#ifdef POPUPS
-    protected void drawPopUp(final Graphics g) {
-        PopUp.getInstance().paintCustom(g);
-    }
+//#     protected void drawPopUp(final Graphics g) {
+//#         PopUp.getInstance().paintCustom(g);
+//#     }
 //#endif
     
     private void setAbsClip(final Graphics g, int w, int h) {
@@ -837,10 +834,10 @@ public abstract class VirtualList
     
     protected void pointerPressed(int x, int y) {
 //#ifdef POPUPS
-        if (PopUp.getInstance().next()) {
-            redraw();
-            return;
-        }
+//#         if (PopUp.getInstance().next()) {
+//#             redraw();
+//#             return;
+//#         }
 //#endif
         int act=ar.pointerPressed(x, y);
         if (act==1) {
@@ -1003,10 +1000,10 @@ public abstract class VirtualList
     }
 
 //#ifdef POPUPS
-    private boolean skipPopUp(int key_code) {
-        int key = getKeyCodeForSendEvent(key_code);
-        return PopUp.getInstance().handleEvent(key);
-    }
+//#     private boolean skipPopUp(int key_code) {
+//#         int key = getKeyCodeForSendEvent(key_code);
+//#         return PopUp.getInstance().handleEvent(key);
+//#     }
 //#endif
     
     private boolean sendEvent(int key_code) {
@@ -1038,18 +1035,18 @@ public abstract class VirtualList
 //#         //System.out.println(keyCode); // Только мешает.
 //#endif
 //#ifdef POPUPS
-        boolean popupSkipped = skipPopUp(keyCode);
-        if (popupSkipped) {
-            redraw();
-        }
+//#         boolean popupSkipped = skipPopUp(keyCode);
+//#         if (popupSkipped) {
+//#             redraw();
+//#         }
 //#endif
         boolean executed = UserKeyExec.getInstance().commandExecute(previous_key_code, keyCode);
         previous_key_code = keyCode;
         if (executed)
             return;
 //#ifdef POPUPS
-        if (popupSkipped)
-            return;
+//#         if (popupSkipped)
+//#             return;
 //#endif
         if (sendEvent(keyCode)) {
             redraw();
@@ -1110,16 +1107,16 @@ public abstract class VirtualList
 // Здесь была 19-я команда из UserKeyExec.
             break;
 //#ifdef POPUPS
-        case KEY_POUND:        
-            if (cf.popUps) {
-                try {
-                    String text=((VirtualElement)getFocusedObject()).getTipString();
-                    if (text!=null) {
-                        setWobble(1, null, text);
-                    }
-                } catch (Exception e) { }
-            }
-            break;
+//#         case KEY_POUND:        
+//#             if (cf.popUps) {
+//#                 try {
+//#                     String text=((VirtualElement)getFocusedObject()).getTipString();
+//#                     if (text!=null) {
+//#                         setWobble(1, null, text);
+//#                     }
+//#                 } catch (Exception e) { }
+//#             }
+//#             break;
 //#endif
 
         default:
@@ -1474,19 +1471,19 @@ public abstract class VirtualList
 
     public void showHeapInfo() {
 //#ifdef POPUPS
-        StringBuffer mem = new StringBuffer();
-        mem.append("Time: ")
-           .append(Time.getTimeWeekDay())
-           .append("\nTraffic: ")
-           .append(getTraffic())
-           .append("\nFree: ")
-           .append(Runtime.getRuntime().freeMemory()>>10)
-           .append(" kb");
-        if (phoneManufacturer == Config.SONYE)
-            mem.append("\nTotal: ")
-               .append(Runtime.getRuntime().totalMemory()>>10)
-               .append(" kb");
-        setWobble(1, null, mem.toString());
+//#         StringBuffer mem = new StringBuffer();
+//#         mem.append("Time: ")
+//#            .append(Time.getTimeWeekDay())
+//#            .append("\nTraffic: ")
+//#            .append(getTraffic())
+//#            .append("\nFree: ")
+//#            .append(Runtime.getRuntime().freeMemory()>>10)
+//#            .append(" kb");
+//#         if (phoneManufacturer == Config.SONYE)
+//#             mem.append("\nTotal: ")
+//#                .append(Runtime.getRuntime().totalMemory()>>10)
+//#                .append(" kb");
+//#         setWobble(1, null, mem.toString());
 //#endif
     }
 

@@ -32,9 +32,9 @@ import Menu.MenuCommand;
 import locale.SR;
 import ui.Time;
 //#ifdef POPUPS
-import ui.VirtualList;
-import ui.controls.PopUp;
+//# import ui.controls.PopUp;
 //#endif
+import ui.VirtualList;
 import ui.controls.form.DefForm;
 
 /**
@@ -45,7 +45,7 @@ public class TransferManager
     extends DefForm
     {
 //#ifdef PLUGINS
-    public static String plugin = new String("PLUGIN_FILE_TRANSFER");
+//#     public static String plugin = new String("PLUGIN_FILE_TRANSFER");
 //#endif    
     
     
@@ -165,8 +165,8 @@ public class TransferManager
             if (t.errMsg!=null)
                 info.append("\nError: ").append(t.errMsg);
 //#ifdef POPUPS
-            PopUp.getInstance().addPopup(1, null, info.toString());
-            redraw();
+//#             PopUp.getInstance().addPopup(1, null, info.toString());
+//#             redraw();
 //#endif
         }
     }

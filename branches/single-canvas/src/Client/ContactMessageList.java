@@ -40,7 +40,6 @@ import History.HistoryReader;
 //#endif
 import Menu.RosterItemActions;
 import Messages.MessageList;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import ui.MainBar;
 import java.util.*;
@@ -214,13 +213,13 @@ public class ContactMessageList extends MessageList {
         if (contact.msgs.size()>0) {
 //#ifdef ARCHIVE
 //#ifdef PLUGINS
-         if (sd.Archive)
+//#          if (sd.Archive)
 //#endif
             addMenuCommand(cmdArch);
 //#endif
 //#if TEMPLATES
 //#ifdef PLUGINS         
-         if (sd.Archive)
+//#          if (sd.Archive)
 //#endif
             addMenuCommand(cmdTemplate);
 //#endif
@@ -244,12 +243,12 @@ public class ContactMessageList extends MessageList {
         
 //#ifdef JUICK
 //#ifdef PLUGINS
-        if(sd.Juick) {
+//#         if(sd.Juick) {
 //#endif
         // http://code.google.com/p/bm2/issues/detail?id=94
         addMenuCommand(cmdJuickCommands);
 //#ifdef PLUGINS
-        }
+//#         }
 //#endif
 //#endif
 
@@ -674,7 +673,7 @@ public void showNotify() {
 //#endif
 //#ifdef JUICK
 //#ifdef PLUGINS
-        if (sd.Juick)
+//#         if (sd.Juick)
 //#endif
         if (isJuickContact(contact) || isJuBoContact(contact)) {
             if (juickPoundFork())
@@ -740,7 +739,7 @@ public void showNotify() {
 //#endif
 //#ifdef JUICK
 //#ifdef PLUGINS
-        if (sd.Juick)
+//#         if (sd.Juick)
 //#endif
             if (isJuickContact(contact) || isJuBoContact(contact)) {
                 if (juickPoundFork())

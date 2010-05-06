@@ -99,6 +99,7 @@ public class SmilePicker
         if (xLastCnt>0) lines++; else xLastCnt=xCnt;
 
         xBorder=(realWidth-(xCnt*imgWidth))/2;
+        enableListWrapping(true);
 
         show(pView);
     }

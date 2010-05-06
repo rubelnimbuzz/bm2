@@ -144,7 +144,7 @@ public static boolean fullscreen = true;
     public int loginstatus=0;//loginstatus
     public int gmtOffset;
     public boolean popupFromMinimized=true;
-    public boolean memMonitor=true;
+    public boolean memMonitor=false;
 
     public int rosterFont=0;
     public int msgFont=0;
@@ -168,7 +168,7 @@ public static boolean fullscreen = true;
     public boolean lightState=false;
     public boolean autoScroll=true;
 //#ifdef POPUPS
-    public boolean popUps=true;
+//#     public boolean popUps=true;
 //#endif
     public boolean showResources=true;
     public boolean enableVersionOs=true;
@@ -209,7 +209,7 @@ public static boolean fullscreen = true;
     public boolean notifyPicture=false;
     public boolean useBoldFont=false;
 //#ifdef RUNNING_MESSAGE
-    public boolean notifyWhenMessageType = false;
+//#     public boolean notifyWhenMessageType = false;
 //#endif
 //#ifdef CLIPBOARD
     public boolean useClipBoard = true;
@@ -339,7 +339,7 @@ public static boolean fullscreen = true;
     
     protected final void loadFromStorage() {
 //#ifdef DEBUG
-        System.out.println("LoadFromStorage config");
+//#         System.out.println("LoadFromStorage config");
 //#endif
         DataInputStream inputStream=NvStorage.ReadFileRecord("config", 0);
 	try {
@@ -414,9 +414,9 @@ public static boolean fullscreen = true;
 //#endif
             autoScroll=inputStream.readBoolean();
 //#ifdef POPUPS
-            popUps=inputStream.readBoolean();
+//#             popUps=inputStream.readBoolean();
 //#else
-//#             inputStream.readBoolean();
+            inputStream.readBoolean();
 //#endif
             showResources=inputStream.readBoolean();
             
@@ -448,9 +448,9 @@ public static boolean fullscreen = true;
             autoSubscribe=inputStream.readInt();
             useBoldFont=inputStream.readBoolean();
 //#ifdef RUNNING_MESSAGE
-            notifyWhenMessageType = inputStream.readBoolean();
+//#             notifyWhenMessageType = inputStream.readBoolean();
 //#else
-//#             inputStream.readBoolean();
+            inputStream.readBoolean();
 //#endif
             IQNotify=inputStream.readBoolean(); //IRC_LIKE
 //#ifdef PEP
@@ -657,9 +657,9 @@ public static boolean fullscreen = true;
 //#endif
             outputStream.writeBoolean(autoScroll);
 //#ifdef POPUPS
-            outputStream.writeBoolean(popUps);
+//#             outputStream.writeBoolean(popUps);
 //#else
-//#             outputStream.writeBoolean(false);
+            outputStream.writeBoolean(false);
 //#endif
             outputStream.writeBoolean(showResources);
 
@@ -692,9 +692,9 @@ public static boolean fullscreen = true;
             outputStream.writeInt(autoSubscribe);
             outputStream.writeBoolean(useBoldFont);
 //#ifdef RUNNING_MESSAGE
-            outputStream.writeBoolean(notifyWhenMessageType);
+//#             outputStream.writeBoolean(notifyWhenMessageType);
 //#else
-//#             outputStream.writeBoolean(false);
+            outputStream.writeBoolean(false);
 //#endif
             outputStream.writeBoolean(IQNotify); //IRC_LIKE
 //#ifdef PEP

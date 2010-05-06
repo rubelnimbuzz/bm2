@@ -252,13 +252,13 @@ public class Roster
     
     public void setLight(boolean state) {
 //#ifndef NOLEGACY
-        if (phoneManufacturer==Config.SIEMENS || phoneManufacturer==Config.SIEMENS2) {
-            try {
-                if (state) com.siemens.mp.game.Light.setLightOn();
-                else com.siemens.mp.game.Light.setLightOff();  
-            } catch( Exception e ) { }
-            return;
-        }
+//#         if (phoneManufacturer==Config.SIEMENS || phoneManufacturer==Config.SIEMENS2) {
+//#             try {
+//#                 if (state) com.siemens.mp.game.Light.setLightOn();
+//#                 else com.siemens.mp.game.Light.setLightOff();  
+//#             } catch( Exception e ) { }
+//#             return;
+//#         }
 //#endif
         if (!state) return;
 //#ifdef SE_LIGHT
@@ -457,13 +457,13 @@ public class Roster
         int s=querysign?RosterIcons.ICON_PROGRESS_INDEX:myStatus;
         int profile=cf.profile;
         Object en=(profile>0)? new Integer(profile+RosterIcons.ICON_PROFILE_INDEX+1):null;
-        MainBar mainbar=(MainBar) getMainBarItem();
+        MainBar mb=(MainBar) getMainBarItem();
 
-        mainbar.setElementAt((messageCount==0)?null:new Integer(RosterIcons.ICON_MESSAGE_INDEX), 0);
+        mb.setElementAt((messageCount==0)?null:new Integer(RosterIcons.ICON_MESSAGE_INDEX), 0);
         
-        mainbar.setElementAt((messageCount==0)?null:getHeaderString(),1);
-        mainbar.setElementAt(new Integer(s), 2);
-        mainbar.setElementAt(en, 5);
+        mb.setElementAt((messageCount==0)?null:getHeaderString(),1);
+        mb.setElementAt(new Integer(s), 2);
+        mb.setElementAt(en, 5);
         
         if (phoneManufacturer==Config.WINDOWS) {
             if (messageCount==0) {
