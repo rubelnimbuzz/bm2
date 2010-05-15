@@ -119,7 +119,10 @@ public final class MessageEdit
 
         cf=Config.getInstance();
 //#ifdef DETRANSLIT
-        DeTranslit.getInstance();
+//#ifdef PLUGINS
+       if (sd.DeTranslit)
+//#endif
+            DeTranslit.getInstance();
 //#endif
 
         if (!cf.swapSendAndSuspend) {
@@ -167,8 +170,14 @@ public final class MessageEdit
         if (to.origin>=Contact.ORIGIN_GROUPCHAT)
             t.addCommand(cmdInsNick);
 //#ifdef DETRANSLIT
+//#ifdef PLUGINS
+       if (sd.DeTranslit) {
+//#endif
         t.addCommand(cmdSendInTranslit);
         t.addCommand(cmdSendInDeTranslit);
+//#ifdef PLUGINS
+       }
+//#endif
 //#endif
         t.addCommand(cmdSuspend);
         t.addCommand(cmdCancel);
@@ -239,6 +248,9 @@ public final class MessageEdit
             composing = false;
         }
 //#ifdef DETRANSLIT
+//#ifdef PLUGINS
+       if (sd.DeTranslit) {
+//#endif
         if (c==cmdSendInTranslit) {
             sendInTranslit=true;
         }
@@ -246,6 +258,10 @@ public final class MessageEdit
         if (c==cmdSendInDeTranslit) {
             sendInDeTranslit=true;
         }
+//#ifdef PLUGINS
+       }
+//#endif
+
 //#endif
         if (c==cmdSubj) {
             if (body==null) return;
@@ -342,6 +358,9 @@ public final class MessageEdit
 
          if (body!=null || subj!=null ) {
 //#ifdef DETRANSLIT
+//#ifdef PLUGINS
+       if (sd.DeTranslit) {
+//#endif
              if (sendInTranslit == true) {
                  if (body != null)
                      body = DeTranslit.translit(body);
@@ -354,6 +373,9 @@ public final class MessageEdit
                  if (subj != null)
                      subj = DeTranslit.deTranslit(subj);
              }
+//#ifdef PLUGINS
+       }
+//#endif
 //#endif
              String from = sd.account.toString();
              Msg msg = new Msg(Msg.MESSAGE_TYPE_OUT, from, subj, body);

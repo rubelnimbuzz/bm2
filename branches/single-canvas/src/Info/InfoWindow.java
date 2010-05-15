@@ -170,9 +170,9 @@ public class InfoWindow
         Vector abilitiesList=new Vector();
 //#ifdef ADHOC
 //#ifdef PLUGINS
-        if (sd.Adhoc)
+//#         if (sd.Adhoc)
 //#endif
-            abilitiesList.addElement("ADHOC");
+//#             abilitiesList.addElement("ADHOC");
 //#endif
 //#ifdef ANTISPAM
 //#             abilitiesList.addElement("ANTISPAM");
@@ -187,25 +187,25 @@ public class InfoWindow
         abilitiesList.addElement("AUTOSTATUS");
 //#endif
 //#ifdef AUTOTASK
-        abilitiesList.addElement("AUTOTASK");
+//#         abilitiesList.addElement("AUTOTASK");
 //#endif
 //#ifdef BACK_IMAGE
-        abilitiesList.addElement("BACK_IMAGE");
+//#         abilitiesList.addElement("BACK_IMAGE");
 //#endif
 //#ifdef CAPTCHA
         abilitiesList.addElement("CAPTCHA");
 //#endif
 //#ifdef CHANGE_TRANSPORT
 //#ifdef PLUGINS
-        if (sd.ChangeTransport)
+//#         if (sd.ChangeTransport)
 //#endif
-            abilitiesList.addElement("CHANGE_TRANSPORT");
+//#             abilitiesList.addElement("CHANGE_TRANSPORT");
 //#endif
 //#ifdef CHECK_VERSION
 //#ifdef PLUGINS
-        if (sd.Upgrade)
+//#         if (sd.Upgrade)
 //#endif
-            abilitiesList.addElement("CHECK_VERSION");
+//#             abilitiesList.addElement("CHECK_VERSION");
 //#endif
 //#ifdef CLIENTS_ICONS
 //#ifdef PLUGINS
@@ -229,6 +229,9 @@ public class InfoWindow
             abilitiesList.addElement("COLOR_TUNE");
 //#endif
 //#ifdef DETRANSLIT
+//#ifdef PLUGINS
+        if (sd.DeTranslit)
+//#endif
         abilitiesList.addElement("DETRANSLIT");
 //#endif
 //#ifdef ELF

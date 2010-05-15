@@ -73,7 +73,7 @@ public class ConfigForm
     private CheckBox executeByNum;
     
 //#ifdef DETRANSLIT
-//#     private CheckBox autoDetranslit;
+    private CheckBox autoDetranslit;
 //#endif
 //#ifdef CLIPBOARD
     private CheckBox useClipBoard;
@@ -113,9 +113,9 @@ public class ConfigForm
     private DropChoiceBox textWrap;
     private DropChoiceBox langFiles;
 //#ifdef AUTOSTATUS
-//#     private DropChoiceBox autoAwayType;
-//#     private NumberInput fieldAwayDelay; 
-//#     private CheckBox awayStatus;
+    private DropChoiceBox autoAwayType;
+    private NumberInput fieldAwayDelay; 
+    private CheckBox awayStatus;
 //#endif
     
 //#ifdef RUNNING_MESSAGE
@@ -162,7 +162,7 @@ public class ConfigForm
 //#ifdef CLIENTS_ICONS
         showClientIcon = new CheckBox(SR.MS_SHOW_CLIENTS_ICONS, cf.showClientIcon);
 //#ifdef PLUGINS
-//#         if (sd.ClientsIcons)
+        if (sd.ClientsIcons)
 //#endif
             itemsList.addElement(showClientIcon);
 //#endif
@@ -207,7 +207,10 @@ public class ConfigForm
         useClipBoard = new CheckBox(SR.MS_CLIPBOARD, cf.useClipBoard); itemsList.addElement(useClipBoard);
 //#endif
 //#ifdef DETRANSLIT
-//#        autoDetranslit = new CheckBox(SR.MS_AUTODETRANSLIT, cf.autoDeTranslit); itemsList.addElement(autoDetranslit);
+//#ifdef PLUGINS
+       if (sd.DeTranslit)
+//#endif
+        autoDetranslit = new CheckBox(SR.MS_AUTODETRANSLIT, cf.autoDeTranslit); itemsList.addElement(autoDetranslit);
 //#endif
        showNickNames = new CheckBox(SR.MS_SHOW_NACKNAMES, cf.showNickNames); itemsList.addElement(showNickNames);
        swapSendAndSuspend = new CheckBox("swap \""+SR.MS_SEND+"\" and \""+SR.MS_SUSPEND+"\" commands", cf.swapSendAndSuspend); itemsList.addElement(swapSendAndSuspend);
@@ -253,14 +256,14 @@ public class ConfigForm
 //#ifdef FILE_TRANSFER
         fileTransfer = new CheckBox(SR.MS_FILE_TRANSFERS, cf.fileTransfer); 
 //#ifdef PLUGINS
-//#         if (sd.FileTransfer)
+        if (sd.FileTransfer)
 //#endif
             itemsList.addElement(fileTransfer);
 //#endif
 //#ifdef HISTORY
         saveHistory = new CheckBox(SR.MS_HISTORY, cf.saveHistory); 
 //#ifdef PLUGINS
-//#         if (sd.History)
+        if (sd.History)
 //#endif
             itemsList.addElement(saveHistory);
 //#endif
@@ -278,10 +281,10 @@ public class ConfigForm
         executeByNum = new CheckBox(SR.MS_EXECUTE_MENU_BY_NUMKEY, cf.executeByNum); itemsList.addElement(executeByNum);
 
         itemsList.addElement(new SpacerItem(10));
-        itemsList.addElement(new SimpleString("Memory usage", true));
+        itemsList.addElement(new SimpleString(SR.MS_MEMORY_USAGE, true));
         widthSystemgc = new CheckBox(SR.MS_WITH_SYSTEM_GC, cf.widthSystemgc);
         itemsList.addElement(widthSystemgc);
-        autoClean = new CheckBox("Auto clean groups", cf.autoClean);
+        autoClean = new CheckBox(SR.MS_AUTOCLEAN_GROUPS, cf.autoClean);
         itemsList.addElement(autoClean);
         
         itemsList.addElement(new SpacerItem(10));
@@ -311,20 +314,20 @@ public class ConfigForm
         itemsList.addElement(drawMenuCommand);
 
 //#ifdef AUTOSTATUS
-//#         itemsList.addElement(new SpacerItem(10));
-//#         autoAwayType=new DropChoiceBox(SR.MS_AWAY_TYPE);
-//#         autoAwayType.append(SR.MS_AWAY_OFF);
-//#         autoAwayType.append(SR.MS_AWAY_LOCK);
-//#         autoAwayType.append(SR.MS_MESSAGE_LOCK);
-//#         autoAwayType.append(SR.MS_IDLE);
-//#         autoAwayType.setSelectedIndex(cf.autoAwayType);
-//#         itemsList.addElement(autoAwayType);
-//# 
-//#         fieldAwayDelay=new NumberInput( SR.MS_AWAY_PERIOD, Integer.toString(cf.autoAwayDelay), 1, 60);
-//#         itemsList.addElement(fieldAwayDelay);
-//# 
-//#         awayStatus=new CheckBox(SR.MS_USE_MY_STATUS_MESSAGES, cf.useMyStatusMessages);
-//#         itemsList.addElement(awayStatus);
+        itemsList.addElement(new SpacerItem(10));
+        autoAwayType=new DropChoiceBox(SR.MS_AWAY_TYPE);
+        autoAwayType.append(SR.MS_AWAY_OFF);
+        autoAwayType.append(SR.MS_AWAY_LOCK);
+        autoAwayType.append(SR.MS_MESSAGE_LOCK);
+        autoAwayType.append(SR.MS_IDLE);
+        autoAwayType.setSelectedIndex(cf.autoAwayType);
+        itemsList.addElement(autoAwayType);
+
+        fieldAwayDelay=new NumberInput( SR.MS_AWAY_PERIOD, Integer.toString(cf.autoAwayDelay), 1, 60);
+        itemsList.addElement(fieldAwayDelay);
+
+        awayStatus=new CheckBox(SR.MS_USE_MY_STATUS_MESSAGES, cf.useMyStatusMessages);
+        itemsList.addElement(awayStatus);
 //#endif
 
 	langs=new StringLoader().stringLoader("/lang/res.txt",3);
@@ -365,7 +368,7 @@ public class ConfigForm
         cf.rosterStatus=rosterStatus.getValue();
 //#ifdef CLIENTS_ICONS
 //#ifdef PLUGINS
-//#         if (sd.ClientsIcons)
+        if (sd.ClientsIcons)
 //#endif
             cf.showClientIcon=showClientIcon.getValue();
 //#endif
@@ -395,7 +398,15 @@ public class ConfigForm
         cf.useClipBoard=useClipBoard.getValue();
 //#endif
 //#ifdef DETRANSLIT
-//#         cf.autoDeTranslit=autoDetranslit.getValue();
+//#ifdef PLUGINS
+       if (sd.DeTranslit) {
+//#endif
+        cf.autoDeTranslit=autoDetranslit.getValue();
+//#ifdef PLUGINS
+       } else {
+            cf.autoDeTranslit = false;
+       }
+//#endif
 //#endif
         cf.showNickNames=showNickNames.getValue();
         cf.executeByNum=executeByNum.getValue();
@@ -407,13 +418,13 @@ public class ConfigForm
         cf.reconnectTime=Integer.parseInt(reconnectTime.getValue());
 //#ifdef FILE_TRANSFER
 //#ifdef PLUGINS
-//#         if (sd.FileTransfer)
+        if (sd.FileTransfer)
 //#endif
             cf.fileTransfer=fileTransfer.getValue();
 //#endif
 //#ifdef HISTORY
 //#ifdef PLUGINS
-//#         if (sd.History)
+        if (sd.History)
 //#endif
             cf.saveHistory=saveHistory.getValue();
 //#endif
@@ -452,9 +463,9 @@ public class ConfigForm
         }
 
 //#ifdef AUTOSTATUS
-//#             cf.useMyStatusMessages=awayStatus.getValue();
-//#             cf.autoAwayDelay=Integer.parseInt(fieldAwayDelay.getValue());
-//#             cf.autoAwayType=autoAwayType.getSelectedIndex();
+            cf.useMyStatusMessages=awayStatus.getValue();
+            cf.autoAwayDelay=Integer.parseInt(fieldAwayDelay.getValue());
+            cf.autoAwayType=autoAwayType.getSelectedIndex();
 //#endif
         cf.messageLimit=Integer.parseInt(messageLimit.getValue());
         if (StaticData.getInstance().roster.hasPointerEvents())

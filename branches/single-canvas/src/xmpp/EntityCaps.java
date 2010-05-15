@@ -119,6 +119,13 @@ public class EntityCaps implements JabberBlockListener{
 //#             features.addElement("http://jabber.org/protocol/commands"); //xep-0050
 //#endif
         features.addElement("http://jabber.org/protocol/disco#info");
+//#ifdef PEP_LOCATION
+//#         if (cf.rcvloc) {
+//#               features.addElement("http://jabber.org/protocol/geoloc");
+//#               features.addElement("http://jabber.org/protocol/geoloc+notify");
+//#         }
+//#endif
+
 //#ifdef FILE_TRANSFER
         if (cf.fileTransfer) {
             features.addElement("http://jabber.org/protocol/ibb");
@@ -133,6 +140,7 @@ public class EntityCaps implements JabberBlockListener{
 //#ifndef WMUC
         features.addElement("http://jabber.org/protocol/muc");
 //#endif
+        features.addElement("http://jabber.org/protocol/rosterx"); // XEP-0144
 //#ifdef FILE_TRANSFER
         if (cf.fileTransfer) {
             features.addElement("http://jabber.org/protocol/si");
@@ -145,12 +153,6 @@ public class EntityCaps implements JabberBlockListener{
 //#               features.addElement("http://jabber.org/protocol/tune");
 //#               features.addElement("http://jabber.org/protocol/tune+notify");
 //#          }
-//#endif
-//#ifdef PEP_LOCATION
-//#         if (cf.rcvloc) {
-//#               features.addElement("http://jabber.org/protocol/geoloc");
-//#               features.addElement("http://jabber.org/protocol/geoloc+notify");
-//#         }
 //#endif
 //#endif
         features.addElement("jabber:iq:time"); //DEPRECATED

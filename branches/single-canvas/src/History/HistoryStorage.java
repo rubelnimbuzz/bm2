@@ -28,19 +28,20 @@ package History;
 
 import Client.Config;
 import Client.Msg;
+import Client.StaticData;
 import io.file.FileIO;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Vector;
 import util.StringUtils;
 //#ifdef DETRANSLIT
-//# import util.DeTranslit;
+import util.DeTranslit;
 //#endif
 import util.Strconv;
 
 public class HistoryStorage {
 //#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_HISTORY");
+    public static String plugin = new String("PLUGIN_HISTORY");
 //#endif
     
     private String history;
@@ -55,10 +56,13 @@ public class HistoryStorage {
     public HistoryStorage(String filename) {
         cf=Config.getInstance();
 //#ifdef DETRANSLIT
-//#        filename=(cf.transliterateFilenames)?DeTranslit.getInstance().translit(filename):filename;
+//#ifdef PLUGINS
+       if (StaticData.getInstance().DeTranslit)
+//#endif
+       filename=(cf.transliterateFilenames)?DeTranslit.getInstance().translit(filename):filename;
 //#endif
 //#ifdef HISTORY
-//#        filename=cf.msgPath+StringUtils.replaceBadChars(filename)+".txt";
+       filename=cf.msgPath+StringUtils.replaceBadChars(filename)+".txt";
 //#endif
        this.history = loadHistory(filename);
    }

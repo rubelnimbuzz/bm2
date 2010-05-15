@@ -320,14 +320,14 @@ public void showNotify() {
 //#endif
     }
 //#ifdef LOGROTATE
-    private void getRedraw(boolean redraw) {
-        if (!redraw) return;
-
-        contact.redraw=false;
-        messages=null;
-        messages=new Vector();
-        redraw();
-    }
+//#     private void getRedraw(boolean redraw) {
+//#         if (!redraw) return;
+//# 
+//#         contact.redraw=false;
+//#         messages=null;
+//#         messages=new Vector();
+//#         redraw();
+//#     }
 //#endif
     public int getItemCount(){ return (contact == null)? 0 :contact.msgs.size(); }
 
@@ -755,14 +755,18 @@ public void showNotify() {
     public void userKeyPressed(int keyCode) {
         switch (keyCode) {
             case KEY_NUM4:
-                if (cf.useTabs)
+                if (cf.useTabs) {
+                    savePosition();
                     sd.roster.searchActiveContact(-1); //previous contact with messages
+                }
                 else
                     super.pageLeft();
                 break;
             case KEY_NUM6:
-                if (cf.useTabs)
+                if (cf.useTabs) {
+                    savePosition();
                     sd.roster.searchActiveContact(1); //next contact with messages
+                }
                 else
                     super.pageRight();
                 break;
@@ -777,6 +781,10 @@ public void showNotify() {
 
     public void touchRightPressed(){ if (cf.oldSE) showMenu(); else destroyView(); }
     public void touchLeftPressed(){ if (cf.oldSE) keyGreen(); else showMenu(); }
+    public void captionPressed() {
+         savePosition();
+         sd.roster.searchActiveContact(1); //next contact with messages
+    }
     
     private void Reply() {
         if (!sd.roster.isLoggedIn()) return;
@@ -927,6 +935,10 @@ public void showNotify() {
         contact.resetNewMsgCnt();
     }
 
+    public void savePosition() {
+        contact.mark = on_end ? -1 : cursor;
+    }
+
     public void destroyView(){
         /*
         if (startSelection) {
@@ -939,7 +951,7 @@ public void showNotify() {
             startSelection = false;
         }
         */
-        contact.mark = on_end ? -1 : cursor;        
+        savePosition();
         sd.roster.activeContact=null;
         sd.roster.reEnumRoster(); //to reset unread messages icon for this conference in roster
         super.destroyView();

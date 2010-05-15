@@ -107,6 +107,7 @@ import xmpp.extensions.IqTimeReply;
 
 //#ifdef PEP
 import xmpp.extensions.PepListener;
+import xmpp.extensions.RosterXListener;
 //#endif
 
 public class Roster
@@ -173,9 +174,9 @@ public class Roster
     public boolean querysign=false;
     
 //#ifdef AUTOSTATUS
-//#     private AutoStatusTask autostatus;
-//#     public static boolean autoAway=false;
-//#     public static boolean autoXa=false;
+    private AutoStatusTask autostatus;
+    public static boolean autoAway=false;
+    public static boolean autoXa=false;
 //#endif
     
 //#if SASL_XGOOGLETOKEN
@@ -236,15 +237,15 @@ public class Roster
         setMenuListener(this);
         splash.setExit(this);
 //#ifdef AUTOSTATUS
-//#         if (cf.autoAwayType==Config.AWAY_IDLE || cf.autoAwayType==Config.AWAY_MESSAGE)
-//#             autostatus=new AutoStatusTask();
-//# 
-//#         if (myStatus<2)
-//#             messageActivity();
+        if (cf.autoAwayType==Config.AWAY_IDLE || cf.autoAwayType==Config.AWAY_MESSAGE)
+            autostatus=new AutoStatusTask();
+
+        if (myStatus<2)
+            messageActivity();
 //#endif
 //#ifdef CLIENTS_ICONS
 //#ifdef PLUGINS
-//# 	if (sd.ClientsIcons)
+	if (sd.ClientsIcons)
 //#endif
         ClientsIconsData.getInstance();
 //#endif
@@ -252,13 +253,13 @@ public class Roster
     
     public void setLight(boolean state) {
 //#ifndef NOLEGACY
-//#         if (phoneManufacturer==Config.SIEMENS || phoneManufacturer==Config.SIEMENS2) {
-//#             try {
-//#                 if (state) com.siemens.mp.game.Light.setLightOn();
-//#                 else com.siemens.mp.game.Light.setLightOff();  
-//#             } catch( Exception e ) { }
-//#             return;
-//#         }
+        if (phoneManufacturer==Config.SIEMENS || phoneManufacturer==Config.SIEMENS2) {
+            try {
+                if (state) com.siemens.mp.game.Light.setLightOn();
+                else com.siemens.mp.game.Light.setLightOff();  
+            } catch( Exception e ) { }
+            return;
+        }
 //#endif
         if (!state) return;
 //#ifdef SE_LIGHT
@@ -288,7 +289,7 @@ public class Roster
         addMenuCommand(cmdAlert);
 //#ifdef ARCHIVE
 //#ifdef PLUGINS
-//#          if (sd.Archive)
+         if (sd.Archive)
 //#endif
             addMenuCommand(cmdArchive);
 //#endif
@@ -711,16 +712,16 @@ public class Roster
     
     public final ConferenceGroup initMuc(String from, String joinPassword){
 //#ifdef AUTOSTATUS
-//#         if (autoAway) {
-//#             ExtendedStatus es=sl.getStatus(oldStatus);
-//#             String ms=es.getMessage();
-//#             sendPresence(oldStatus, ms);
-//#             autoAway=false;
-//#             autoXa=false;
-//#             myStatus=oldStatus;
-//# 
-//#             messageActivity();
-//#         }
+        if (autoAway) {
+            ExtendedStatus es=sl.getStatus(oldStatus);
+            String ms=es.getMessage();
+            sendPresence(oldStatus, ms);
+            autoAway=false;
+            autoXa=false;
+            myStatus=oldStatus;
+
+            messageActivity();
+        }
 //#endif
 
         // muc message
@@ -935,18 +936,22 @@ public class Roster
     }
 
     public boolean isMainJuickContact(Contact c) {
-        return c.bareJid.equals((new JuickConfig((VirtualList)parentView)).getJuickJID());
+        return c.bareJid.equals((new JuickConfig(this, "Juick")).getJuickJID());
     }
 
     public void updateMainJuickContact() {
-        JuickConfig juickConfig = new JuickConfig((VirtualList)parentView);
+        JuickConfig juickConfig = new JuickConfig(this, "Juick");
         int size = juickContacts.size();
         if (size < 1) {
             indexMainJuickContact = -1;
         } else if ((size == 1) || (juickConfig.getJuickJID().equals(""))) {
             indexMainJuickContact = 0;
         } else {
-            indexMainJuickContact = juickContacts.indexOf(new Contact("Juick", juickConfig.getJuickJID(), Presence.PRESENCE_OFFLINE, null));
+            //indexMainJuickContact = juickContacts.indexOf(new Contact("Juick", juickConfig.getJuickJID(), Presence.PRESENCE_OFFLINE, null));
+            for (int i=0; i<juickContacts.size(); i++) {
+                if (((Contact)juickContacts.elementAt(i)).bareJid.equals( juickConfig.getJuickJID()))
+                    indexMainJuickContact = i;
+            }
             if (indexMainJuickContact < 0) {
                 juickConfig.setJuickJID("", false);
                 indexMainJuickContact = 0; // Можно сделать это присваивание через рекурсию, но вроде пока не надо.
@@ -959,7 +964,7 @@ public class Roster
         if (newStatus!=Presence.PRESENCE_SAME) 
             myStatus=newStatus;
 //#ifdef AUTOSTATUS
-//#         messageActivity();
+        messageActivity();
 //#endif
 	if (message!=null) 
             myMessage=message;
@@ -1017,8 +1022,8 @@ public class Roster
             }
             theStream=null;
 //#ifdef AUTOSTATUS
-//#             autoAway=false;
-//#             autoXa=false;
+            autoAway=false;
+            autoXa=false;
 //#endif
             systemGC();
         }
@@ -1148,14 +1153,14 @@ public class Roster
 //#endif
             
 //#ifdef AUTOSTATUS
-//#             if (autoAway) {
-//#                     ExtendedStatus es=sl.getStatus(oldStatus);
-//#                     String ms=es.getMessage();
-//#                     sendPresence(oldStatus, ms);
-//#                     autoAway=false;
-//#                     autoXa=false;
-//#                     myStatus=oldStatus;
-//#             }
+            if (autoAway) {
+                    ExtendedStatus es=sl.getStatus(oldStatus);
+                    String ms=es.getMessage();
+                    sendPresence(oldStatus, ms);
+                    autoAway=false;
+                    autoXa=false;
+                    myStatus=oldStatus;
+            }
 //#endif
             Message message = new Message( 
                     to.getJid(), 
@@ -1179,7 +1184,7 @@ public class Roster
             playNotify(SOUND_OUTGOING);
         } catch (Exception e) { e.printStackTrace(); }
 //#ifdef AUTOSTATUS
-//#         messageActivity();
+        messageActivity();
 //#endif
     }
     
@@ -1284,6 +1289,7 @@ public class Roster
         
         theStream.addBlockListener(new IqLast());
         theStream.addBlockListener(new IqTimeReply());
+        theStream.addBlockListener(new RosterXListener());
 //#ifdef ADHOC
 //#         if (cf.adhoc)
 //#ifdef PLUGINS
@@ -1295,7 +1301,7 @@ public class Roster
 //#ifdef PEP
         if (cf.sndrcvmood)
 //#ifdef PLUGINS
-//#             if (sd.PEP)
+            if (sd.PEP)
 //#endif
                 PepListener.getInstance().addBlockListener();
 //#endif
@@ -1306,7 +1312,7 @@ public class Roster
 //#if FILE_TRANSFER
         if (cf.fileTransfer) // enable File transfers
 //#ifdef PLUGINS
-//#             if (sd.FileTransfer)
+            if (sd.FileTransfer)
 //#endif
                 TransferDispatcher.getInstance().addBlockListener();
 //#endif
@@ -1668,7 +1674,7 @@ public class Roster
                         if (pr.getAttribute("ver")!=null) c.version=pr.getAttribute("ver"); // for bombusmod only
 //#ifdef CLIENTS_ICONS
 //#ifdef PLUGINS
-//#                     if (sd.ClientsIcons)
+                    if (sd.ClientsIcons)
 //#endif
                         if (cf.showClientIcon) {
                             if (pr.hasEntityCaps()) {
@@ -1746,7 +1752,7 @@ public class Roster
                         if (pr.getTypeIndex()!=Presence.PRESENCE_ERROR) {
 //#ifdef CLIENTS_ICONS
 //#ifdef PLUGINS
-//#                         if (sd.ClientsIcons)
+                        if (sd.ClientsIcons)
 //#endif
                             if (cf.showClientIcon) if (ti<Presence.PRESENCE_OFFLINE)
                                 if (pr.hasEntityCaps()) {
@@ -2268,23 +2274,23 @@ public class Roster
                 super.pageRight();
                 return;
 //#ifdef AUTOSTATUS
-//#             case SE_FLIPCLOSE_JP6:
-//#             case SIEMENS_FLIPCLOSE:
-//#             case MOTOROLA_FLIP:
-//#                 if (phoneManufacturer!=Config.SONYE) { //workaround for SE JP6 - enabling vibra in closed state
-//#                     midlet.BombusMod.getInstance().setDisplayable(null);
-//#                     try {
-//#                         Thread.sleep(300);
-//#                     } catch (Exception ex) {}
-//#                     midlet.BombusMod.getInstance().setDisplayable(this);
-//#                 }
+            case SE_FLIPCLOSE_JP6:
+            case SIEMENS_FLIPCLOSE:
+            case MOTOROLA_FLIP:
+                if (phoneManufacturer!=Config.SONYE) { //workaround for SE JP6 - enabling vibra in closed state
+                    midlet.BombusMod.getInstance().setDisplayable(null);
+                    try {
+                        Thread.sleep(300);
+                    } catch (Exception ex) {}
+                    midlet.BombusMod.getInstance().setDisplayable(this);
+                }
 //#if DEBUG
 //#             System.out.println("Flip closed");
 //#endif
-//#                 if (cf.autoAwayType==Config.AWAY_LOCK)
-//#                     if (!autoAway)
-//#                         autostatus.setTimeEvent(cf.autoAwayDelay* 60*1000);
-//#                 break;
+                if (cf.autoAwayType==Config.AWAY_LOCK)
+                    if (!autoAway)
+                        autostatus.setTimeEvent(cf.autoAwayDelay* 60*1000);
+                break;
 //#endif
             case KEY_NUM0:            
                 if (getItemCount()==0)
@@ -2346,7 +2352,7 @@ public class Roster
                 break;
         }
 //#ifdef AUTOSTATUS
-//#         userActivity();
+        userActivity();
 //#endif
      }
  
@@ -2357,16 +2363,16 @@ public class Roster
         
         if (keyCode==cf.keyLock) {            
                 //#ifdef AUTOSTATUS
-//#                             if (cf.autoAwayType==Config.AWAY_LOCK) {
-//#                                 if (!autoAway) {
-//#                                     autoAway=true;
-//#                                     if (cf.useMyStatusMessages) {
-//#                                         sendPresence(Presence.PRESENCE_AWAY, null);
-//#                                     } else {
-//#                                         sendPresence(Presence.PRESENCE_AWAY, "Auto Status on KeyLock since %t");
-//#                                     }
-//#                                 }
-//#                             }
+                            if (cf.autoAwayType==Config.AWAY_LOCK) {
+                                if (!autoAway) {
+                                    autoAway=true;
+                                    if (cf.useMyStatusMessages) {
+                                        sendPresence(Presence.PRESENCE_AWAY, null);
+                                    } else {
+                                        sendPresence(Presence.PRESENCE_AWAY, "Auto Status on KeyLock since %t");
+                                    }
+                                }
+                            }
                 //#endif
             new SplashScreen( getMainBarItem(), cf.keyLock);            
             return;
@@ -2417,32 +2423,32 @@ public class Roster
     }
 
 //#ifdef AUTOSTATUS
-//#     private void userActivity() {
-//#         if (autostatus==null) return;
-//# 
-//#         if (cf.autoAwayType==Config.AWAY_IDLE) {
-//#             if (!autoAway) {
-//#                 autostatus.setTimeEvent(cf.autoAwayDelay* 60*1000);
-//#                 return;
-//#             }
-//#         } else {
-//#             return;
-//#         }
-//#         autostatus.setTimeEvent(0);
-//#         setAutoStatus(Presence.PRESENCE_ONLINE);
-//#     }
-//# 
-//#     public void messageActivity() {
-//#         if (autostatus==null) return;
-//# 
-//#         if (cf.autoAwayType==Config.AWAY_MESSAGE) {
-//#              //System.out.println("messageActivity "+myStatus.getImageIndex());
-//#              if (myStatus<2)
-//#                 autostatus.setTimeEvent(cf.autoAwayDelay* 60*1000);
-//#              else if (!autoAway)
-//#                 autostatus.setTimeEvent(0);
-//#         }
-//#     }
+    private void userActivity() {
+        if (autostatus==null) return;
+
+        if (cf.autoAwayType==Config.AWAY_IDLE) {
+            if (!autoAway) {
+                autostatus.setTimeEvent(cf.autoAwayDelay* 60*1000);
+                return;
+            }
+        } else {
+            return;
+        }
+        autostatus.setTimeEvent(0);
+        setAutoStatus(Presence.PRESENCE_ONLINE);
+    }
+
+    public void messageActivity() {
+        if (autostatus==null) return;
+
+        if (cf.autoAwayType==Config.AWAY_MESSAGE) {
+             //System.out.println("messageActivity "+myStatus.getImageIndex());
+             if (myStatus<2)
+                autostatus.setTimeEvent(cf.autoAwayDelay* 60*1000);
+             else if (!autoAway)
+                autostatus.setTimeEvent(0);
+        }
+    }
 //#endif
 
 //#ifdef POPUPS
@@ -2527,7 +2533,7 @@ public class Roster
                 mess.append((cntact.j2j!=null)?"\nJ2J: "+cntact.j2j:"");
 //#ifdef CLIENTS_ICONS
 //#ifdef PLUGINS
-//#                 if (cf.showClientIcon)
+                if (cf.showClientIcon)
 //#endif
                     if (cntact.client>-1) {
                         mess.append("\n")
@@ -2584,7 +2590,7 @@ public class Roster
         }
 //#ifdef STATS
 //#ifdef PLUGINS
-//#         if (sd.Stats)
+        if (sd.Stats)
 //#endif
             Stats.getInstance().saveToStorage(false);
 //#endif
@@ -2592,11 +2598,11 @@ public class Roster
 
     public void quit() {
 //#ifdef AUTOSTATUS
-//#         if (cf.autoAwayType!=Config.AWAY_OFF) {
-//#             try {
-//#                 autostatus.destroyTask();
-//#             } catch (Exception ex) {}
-//#         }
+        if (cf.autoAwayType!=Config.AWAY_OFF) {
+            try {
+                autostatus.destroyTask();
+            } catch (Exception ex) {}
+        }
 //#endif
         destroyView();
         logoff(null);
@@ -2605,7 +2611,7 @@ public class Roster
     }
     public void menuAction(MenuCommand c, VirtualList d){
 //#ifdef AUTOSTATUS
-//#         userActivity();
+        userActivity();
 //#endif
         if (c==cmdActions) { cmdActions(); }
         else if (c==cmdMinimize) { cmdMinimize();  }
@@ -2709,22 +2715,22 @@ public class Roster
         super.showNotify();         
         countNewMsgs(); 
 //#ifdef AUTOSTATUS
-//#         if (cf.autoAwayType==Config.AWAY_IDLE) {
-//#             if (autostatus == null)  // Issue 107
-//#                 autostatus = new AutoStatusTask();
-//#             if (!autostatus.isAwayTimerSet())
-//#                 if (!autoAway)
-//#                     autostatus.setTimeEvent(cf.autoAwayDelay* 60*1000);
-//#         }
+        if (cf.autoAwayType==Config.AWAY_IDLE) {
+            if (autostatus == null)  // Issue 107
+                autostatus = new AutoStatusTask();
+            if (!autostatus.isAwayTimerSet())
+                if (!autoAway)
+                    autostatus.setTimeEvent(cf.autoAwayDelay* 60*1000);
+        }
 //#endif
     }
     
     protected void hideNotify() {
         super.hideNotify();
 //#ifdef AUTOSTATUS
-//#         if (cf.autoAwayType==Config.AWAY_IDLE)
-//#             if (kHold==0)
-//#                 autostatus.setTimeEvent(0);
+        if (cf.autoAwayType==Config.AWAY_IDLE)
+            if (kHold==0)
+                autostatus.setTimeEvent(0);
 //#endif
     }
     
@@ -2829,49 +2835,49 @@ public class Roster
     }
     
 //#ifdef AUTOSTATUS
-//#     public void setAutoAway() {
-//#         if (!autoAway) {
-//#             oldStatus=myStatus;
-//#             if (myStatus==0 || myStatus==1) {
-//#                 autoAway=true;
-//#                 if (cf.useMyStatusMessages) {
-//#                     sendPresence(Presence.PRESENCE_AWAY, null);
-//#                 } else {
-//#                     sendPresence(Presence.PRESENCE_AWAY, SR.MS_AUTO_AWAY);
-//#                 }
-//#             }
-//#         }
-//#     }
-//# 
-//#     public void setAutoXa() {
-//#         if (autoAway && !autoXa) {
-//#             autoXa=true;
-//#             if (cf.useMyStatusMessages) {
-//#                 sendPresence(Presence.PRESENCE_XA, null);
-//#             } else {
-//#                 sendPresence(Presence.PRESENCE_XA, SR.MS_AUTO_XA);
-//#             }
-//#         }
-//#     }
-//# 
-//#     public void setAutoStatus(int status) {
-//#         if (!isLoggedIn())
-//#             return;
-//#         if (status==Presence.PRESENCE_ONLINE && autoAway) {
-//#             autoAway=false;
-//#             autoXa=false;
-//#             sendPresence(Presence.PRESENCE_ONLINE, null);
-//#             return;
-//#         }
-//#         if (status!=Presence.PRESENCE_ONLINE && myStatus==Presence.PRESENCE_ONLINE && !autoAway) {
-//#             autoAway=true;
-//#             if (cf.useMyStatusMessages) {
-//#                 sendPresence(Presence.PRESENCE_AWAY, null);
-//#             } else {
-//#                 sendPresence(Presence.PRESENCE_AWAY, "Auto Status on KeyLock since %t");
-//#             }
-//#         }
-//#     }
+    public void setAutoAway() {
+        if (!autoAway) {
+            oldStatus=myStatus;
+            if (myStatus==0 || myStatus==1) {
+                autoAway=true;
+                if (cf.useMyStatusMessages) {
+                    sendPresence(Presence.PRESENCE_AWAY, null);
+                } else {
+                    sendPresence(Presence.PRESENCE_AWAY, SR.MS_AUTO_AWAY);
+                }
+            }
+        }
+    }
+
+    public void setAutoXa() {
+        if (autoAway && !autoXa) {
+            autoXa=true;
+            if (cf.useMyStatusMessages) {
+                sendPresence(Presence.PRESENCE_XA, null);
+            } else {
+                sendPresence(Presence.PRESENCE_XA, SR.MS_AUTO_XA);
+            }
+        }
+    }
+
+    public void setAutoStatus(int status) {
+        if (!isLoggedIn())
+            return;
+        if (status==Presence.PRESENCE_ONLINE && autoAway) {
+            autoAway=false;
+            autoXa=false;
+            sendPresence(Presence.PRESENCE_ONLINE, null);
+            return;
+        }
+        if (status!=Presence.PRESENCE_ONLINE && myStatus==Presence.PRESENCE_ONLINE && !autoAway) {
+            autoAway=true;
+            if (cf.useMyStatusMessages) {
+                sendPresence(Presence.PRESENCE_AWAY, null);
+            } else {
+                sendPresence(Presence.PRESENCE_AWAY, "Auto Status on KeyLock since %t");
+            }
+        }
+    }
 //#endif
 
     public void deleteGroup(Group deleteGroup) {

@@ -28,6 +28,7 @@
 package History;
 
 import Client.Config;
+import Client.StaticData;
 import io.file.browse.Browser;
 import io.file.browse.BrowserListener;
 import Menu.MenuCommand;
@@ -84,7 +85,13 @@ public class HistoryConfig
         saveConfPres = new CheckBox(SR.MS_SAVE_PRESENCES_CONF, cf.msgLogConfPresence); itemsList.addElement(saveConfPres);
         win1251 = new CheckBox(SR.MS_1251_CORRECTION, cf.cp1251); itemsList.addElement(win1251);
 //#ifdef DETRANSLIT
+//#ifdef PLUGINS
+       if (StaticData.getInstance().DeTranslit) {
+//#endif
         translit = new CheckBox(SR.MS_1251_TRANSLITERATE_FILENAMES, cf.transliterateFilenames); itemsList.addElement(translit);
+//#ifdef PLUGINS
+       }
+//#endif
 //#endif
 
 	historyFolder = new TextInput(SR.MS_HISTORY_FOLDER, cf.msgPath, null, TextField.ANY); itemsList.addElement(historyFolder);
@@ -124,7 +131,13 @@ public class HistoryConfig
         cf.msgLogConfPresence=saveConfPres.getValue();
         cf.cp1251=win1251.getValue();
 //#ifdef DETRANSLIT
+//#ifdef PLUGINS
+       if (StaticData.getInstance().DeTranslit) {
+//#endif
         cf.transliterateFilenames=translit.getValue();
+//#ifdef PLUGINS
+       }
+//#endif
 //#endif
         cf.msgPath=historyFolder.getValue();
 //#endif
