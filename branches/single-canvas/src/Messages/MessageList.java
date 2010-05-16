@@ -35,7 +35,6 @@ import java.util.Vector;
 import Menu.MenuListener;
 import Menu.MenuCommand;
 import Menu.MyMenu;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import ui.VirtualElement;
 import ui.VirtualList;

@@ -162,9 +162,8 @@ public class ConferenceForm
         
 	setMenuListener(this);
 
-        moveCursorTo(getNextSelectableRef(-1));
-        show(parentView);
-        this.parentView=pView;
+        moveCursorTo(getNextSelectableRef(-1));        
+        show(pView);        
     }
 
     public void menuAction(MenuCommand c, VirtualList d){
@@ -193,7 +192,7 @@ public class ConferenceForm
             sd.roster.bookmarks.removeElement(editConf);
             sd.roster.bookmarks.insertElementAt(new BookmarkItem(name, gchat.toString(), nick, pass, autojoin), cursor);
             new BookmarkQuery(BookmarkQuery.SAVE);
-            midlet.BombusMod.getInstance().setDisplayable(parentView);
+            destroyView();
         } else if (c==cmdAdd) {
             new Bookmarks( sd.roster, new BookmarkItem(name, gchat.toString(), nick, pass, autojoin));
         } else if (c==cmdJoin) {
@@ -202,7 +201,7 @@ public class ConferenceForm
                 cf.saveToStorage();
                 gchat.append('/').append(nick);
                 join(name, gchat.toString(), pass, msgLimit);
-                midlet.BombusMod.getInstance().setDisplayable(sd.roster);
+                sd.roster.show();
             } catch (Exception e) { }
         }
         gchat=null;

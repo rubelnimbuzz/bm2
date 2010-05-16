@@ -159,7 +159,7 @@ public class Roster
     public Vector bookmarks;
     
 //#ifdef RUNNING_MESSAGE
-    public static MessageEdit me=null;
+//#     public static MessageEdit me=null;
 //#endif
     
     private StatusList sl;
@@ -245,7 +245,7 @@ public class Roster
 //#endif
 //#ifdef CLIENTS_ICONS
 //#ifdef PLUGINS
-	if (sd.ClientsIcons)
+//# 	if (sd.ClientsIcons)
 //#endif
         ClientsIconsData.getInstance();
 //#endif
@@ -289,7 +289,7 @@ public class Roster
         addMenuCommand(cmdAlert);
 //#ifdef ARCHIVE
 //#ifdef PLUGINS
-         if (sd.Archive)
+//#          if (sd.Archive)
 //#endif
             addMenuCommand(cmdArchive);
 //#endif
@@ -1301,7 +1301,7 @@ public class Roster
 //#ifdef PEP
         if (cf.sndrcvmood)
 //#ifdef PLUGINS
-            if (sd.PEP)
+//#             if (sd.PEP)
 //#endif
                 PepListener.getInstance().addBlockListener();
 //#endif
@@ -1312,7 +1312,7 @@ public class Roster
 //#if FILE_TRANSFER
         if (cf.fileTransfer) // enable File transfers
 //#ifdef PLUGINS
-            if (sd.FileTransfer)
+//#             if (sd.FileTransfer)
 //#endif
                 TransferDispatcher.getInstance().addBlockListener();
 //#endif
@@ -1580,14 +1580,14 @@ public class Roster
                         c.acceptComposing=true;
                         c.showComposing=false;
 //#ifdef RUNNING_MESSAGE
-                        setTicker(c, "");
+//#                         setTicker(c, "");
 //#endif
                     }
                     if (message.findNamespace("paused", "http://jabber.org/protocol/chatstates")!=null) {
                         c.acceptComposing=true;
                         c.showComposing=false;
 //#ifdef RUNNING_MESSAGE
-                        setTicker(c, "");
+//#                         setTicker(c, "");
 //#endif
                     }
                     if (message.findNamespace("composing", "http://jabber.org/protocol/chatstates")!=null) {
@@ -1595,7 +1595,7 @@ public class Roster
                         c.acceptComposing=true;
                         c.showComposing=true;
 //#ifdef RUNNING_MESSAGE
-                        setTicker(c, SR.MS_COMPOSING_NOTIFY);
+//#                         setTicker(c, SR.MS_COMPOSING_NOTIFY);
 //#endif
                     }
                 }
@@ -1674,7 +1674,7 @@ public class Roster
                         if (pr.getAttribute("ver")!=null) c.version=pr.getAttribute("ver"); // for bombusmod only
 //#ifdef CLIENTS_ICONS
 //#ifdef PLUGINS
-                    if (sd.ClientsIcons)
+//#                     if (sd.ClientsIcons)
 //#endif
                         if (cf.showClientIcon) {
                             if (pr.hasEntityCaps()) {
@@ -1752,7 +1752,7 @@ public class Roster
                         if (pr.getTypeIndex()!=Presence.PRESENCE_ERROR) {
 //#ifdef CLIENTS_ICONS
 //#ifdef PLUGINS
-                        if (sd.ClientsIcons)
+//#                         if (sd.ClientsIcons)
 //#endif
                             if (cf.showClientIcon) if (ti<Presence.PRESENCE_OFFLINE)
                                 if (pr.hasEntityCaps()) {
@@ -1810,10 +1810,10 @@ public class Roster
                     }
                     if (ti>=0) {
 //#ifdef RUNNING_MESSAGE
-                        if (ti==Presence.PRESENCE_OFFLINE)
-                            setTicker(c, SR.MS_OFFLINE);
-                        else if (ti==Presence.PRESENCE_ONLINE)
-                            setTicker(c, SR.MS_ONLINE);
+//#                         if (ti==Presence.PRESENCE_OFFLINE)
+//#                             setTicker(c, SR.MS_OFFLINE);
+//#                         else if (ti==Presence.PRESENCE_ONLINE)
+//#                             setTicker(c, SR.MS_ONLINE);
 //#endif
                         if ((ti==Presence.PRESENCE_ONLINE || ti==Presence.PRESENCE_CHAT || ti==Presence.PRESENCE_OFFLINE) && (c.getGroupType()!=Groups.TYPE_TRANSP) && (c.getGroupType()!=Groups.TYPE_IGNORE)) 
                             playNotify(ti);
@@ -1907,8 +1907,8 @@ public class Roster
 
         boolean autorespond = false;
 //#ifdef RUNNING_MESSAGE
-        if (message.messageType==Msg.MESSAGE_TYPE_IN)
-            setTicker(c, message.body);
+//#         if (message.messageType==Msg.MESSAGE_TYPE_IN)
+//#             setTicker(c, message.body);
 //#endif
         if (Config.getInstance().widthSystemgc) {
                 if (cf.ghostMotor) {
@@ -2207,9 +2207,9 @@ public class Roster
         if (pview!=null) {
             Contact c=(Contact)getFocusedObject();
 //#ifdef RUNNING_MESSAGE
-            me = new MessageEdit((VirtualList)pview, c, c.msgSuspended);
+//#             me = new MessageEdit((VirtualList)pview, c, c.msgSuspended);
 //#else
-//#             new MessageEdit(pview, c, c.msgSuspended);
+            new MessageEdit(pview, c, c.msgSuspended);
 //#endif
             c.msgSuspended=null;
         }
@@ -2533,7 +2533,7 @@ public class Roster
                 mess.append((cntact.j2j!=null)?"\nJ2J: "+cntact.j2j:"");
 //#ifdef CLIENTS_ICONS
 //#ifdef PLUGINS
-                if (cf.showClientIcon)
+//#                 if (cf.showClientIcon)
 //#endif
                     if (cntact.client>-1) {
                         mess.append("\n")
@@ -2590,7 +2590,7 @@ public class Roster
         }
 //#ifdef STATS
 //#ifdef PLUGINS
-        if (sd.Stats)
+//#         if (sd.Stats)
 //#endif
             Stats.getInstance().saveToStorage(false);
 //#endif
@@ -2895,7 +2895,7 @@ public class Roster
     
     public void showMenu() {
         commandState();
-        new MyMenu( parentView, this, SR.MS_MAIN_MENU, MenuIcons.getInstance(), menuCommands);
+        new MyMenu( this, this, SR.MS_MAIN_MENU, MenuIcons.getInstance(), menuCommands);
     }
 
     public String touchRightCommand(){ return (Config.getInstance().oldSE)?SR.MS_MENU:SR.MS_ACTION; }
@@ -2907,13 +2907,13 @@ public class Roster
 
     
 //#ifdef RUNNING_MESSAGE
-    void setTicker(Contact c, String message) {
-        if (cf.notifyWhenMessageType) {
-            if (me!=null)
-                if (me.to==c)
-                    me.setMyTicker(message);
-        }
-    }
+//#     void setTicker(Contact c, String message) {
+//#         if (cf.notifyWhenMessageType) {
+//#             if (me!=null)
+//#                 if (me.to==c)
+//#                     me.setMyTicker(message);
+//#         }
+//#     }
 //#endif
     
 

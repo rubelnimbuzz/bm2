@@ -27,57 +27,47 @@
 
 package ui.controls.form;
 
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import ui.MainBar;
-import ui.VirtualElement;
 import ui.VirtualList;
 
-import java.util.Vector;
 import locale.SR;
 
-import Menu.MenuListener;
 import Menu.MenuCommand;
-import Menu.MyMenu;
+import java.util.Enumeration;
 
 /**
  *
  * @author ad
  */
 public class TextListBox 
-        extends VirtualList 
-        implements
-        MenuListener
+        extends DefForm
     {
 
-    private MenuCommand cmdCancel=new MenuCommand(SR.MS_CANCEL, MenuCommand.BACK,99);
-    private MenuCommand cmdOk=new MenuCommand(SR.MS_OK, MenuCommand.OK,1);
     private MenuCommand cmdClear=new MenuCommand(SR.MS_CLEAR, MenuCommand.SCREEN, 2);
 
-    private Vector recentList;
-
-    private EditBox ti;
+    private EditBox ti;    
 
     public TextListBox(EditBox ti) {
-        super();
+        super(null);
         this.ti=ti;
-        this.recentList=ti.recentList;
+        SimpleString item = null;
         setMainBarItem(new MainBar(SR.MS_SELECT));
-
-        commandState();
+        for (Enumeration e = ti.recentList.elements(); e.hasMoreElements();) {
+            item = new SimpleString((String)e.nextElement(), false);
+            item.selectable = true;
+            itemsList.addElement(item);
+        }
+        show(ti.t);
     }
     
     public void commandState() {
-        menuCommands.removeAllElements();
-        addMenuCommand(cmdOk);
+        super.commandState();
         addMenuCommand(cmdClear);
-        addMenuCommand(cmdCancel);
-        setMenuListener(this);
     }
     
     public void eventOk() {
-        if (recentList.size()>0)
-            ti.setValue((String) recentList.elementAt(cursor));
+        if (itemsList.size()>0)
+            ti.setValue(itemsList.elementAt(cursor).toString());
         
         midlet.BombusMod.getInstance().setDisplayable(ti.t);
     }
@@ -86,26 +76,14 @@ public class TextListBox
         if (c==cmdClear) {
             ti.recentList.removeAllElements();
             ti.saveRecentList();
-        }
-        if (c==cmdOk) {
-            eventOk();
-            return;
-        }
-        
-        midlet.BombusMod.getInstance().setDisplayable(parentView);
+        }        
+        super.menuAction(c, d);
     }
 
-    public VirtualElement getItemRef(int index){ 
-        return new ListItem((String) recentList.elementAt(index)); 
+    public void cmdOk() {
+        eventOk();
     }
-    public int getItemCount() { return recentList.size(); }
-    
-    public void showMenu() {
-        commandState();
-        String capt="";
-        try {
-            capt=getMainBarItem().elementAt(0).toString();
-        } catch (Exception ex){ }
-        new MyMenu( parentView, this, capt, null, menuCommands);
-   }
+
+    public String touchLeftCommand() {return SR.MS_MENU; }
+    public void touchLeftPressed() { showMenu(); }
 }

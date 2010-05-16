@@ -301,7 +301,7 @@ public class Browser
         }
     }
     public void showMenu() {
-        new MyMenu( parentView, this, SR.MS_DISCO, null, menuCommands);
+        new MyMenu( this, this, SR.MS_DISCO, null, menuCommands);
     }
     
     public void touchRightPressed() { cmdCancel(); }

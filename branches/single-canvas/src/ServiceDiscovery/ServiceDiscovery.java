@@ -236,10 +236,10 @@ public class ServiceDiscovery
             if (command2!=null) {
                 command1=command2;
             }
-            String node = command1.getAttribute("node");
-            if ((node!=null) && (node.startsWith("http://jabber.org/protocol/rc#")))
+            String node1 = command1.getAttribute("node");
+            if ((node1!=null) && (node1.startsWith("http://jabber.org/protocol/rc#")))
                 id="discocmd"; //hack
-            node=null;
+            node1=null;
         }
         
         JabberDataBlock query=data.getChildBlock((id.equals("discocmd"))?"command":"query");
@@ -247,30 +247,30 @@ public class ServiceDiscovery
         //System.out.println(id);
 
         if (id.equals(discoId("disco2"))) {
-            Vector items=new Vector();
+            Vector items1=new Vector();
             if (childs!=null)
             for (Enumeration e=childs.elements(); e.hasMoreElements(); ){
                 JabberDataBlock i=(JabberDataBlock)e.nextElement();
                 if (i.getTagName().equals("item")){
                     String name=i.getAttribute("name");
                     String jid=i.getAttribute("jid");
-                    String node=i.getAttribute("node");
+                    String node1=i.getAttribute("node");
                     Object serv=null;
-                    if (node==null) {
+                    if (node1==null) {
                         int resourcePos=jid.indexOf('/');
                         if (resourcePos>-1)
                             jid=jid.substring(0, resourcePos);
                         serv=new DiscoContact(name, jid, 0);
                     } else {
-                        serv=new Node(name, node);
+                        serv=new Node(name, node1);
                     }
-                    items.addElement(serv);
+                    items1.addElement(serv);
                 }
             }
             
-            showResults(items);
+            showResults(items1);
         } else if (id.equals(discoId("disco"))) {
-            Vector cmds=new Vector();
+            Vector cmds1=new Vector();
             boolean showPartialResults=false;
             boolean loadItems=true;
             boolean client=false;
@@ -284,11 +284,11 @@ public class ServiceDiscovery
                         requestCommand(NODE_CMDS, "discocmd");
                     }
                     if (category.equals("conference")) {
-                        cmds.addElement(new DiscoCommand(RosterIcons.ICON_GCJOIN_INDEX, SR.MS_JOIN_CONFERENCE));
+                        cmds1.addElement(new DiscoCommand(RosterIcons.ICON_GCJOIN_INDEX, SR.MS_JOIN_CONFERENCE));
                         if (service.indexOf('@')<=0) {
                             loadItems=false;
                             showPartialResults=true;
-                            cmds.addElement(new DiscoCommand(RosterIcons.ICON_ROOMLIST, SR.MS_LOAD_ROOMLIST));
+                            cmds1.addElement(new DiscoCommand(RosterIcons.ICON_ROOMLIST, SR.MS_LOAD_ROOMLIST));
                         }
                     }
                  }
@@ -298,15 +298,15 @@ public class ServiceDiscovery
                         String var=i.getAttribute("var");
                         features.addElement(var);
                         //if (var.equals(NS_MUC)) { cmds.addElement(new DiscoCommand(RosterIcons.ICON_GCJOIN_INDEX, strJoin)); }
-                        if (var.equals(NS_SRCH)) { cmds.addElement(new DiscoCommand(RosterIcons.ICON_SEARCH_INDEX, SR.MS_SEARCH)); }
-                        if (var.equals(NS_REGS)) { cmds.addElement(new DiscoCommand(RosterIcons.ICON_REGISTER_INDEX, SR.MS_REGISTER)); }
+                        if (var.equals(NS_SRCH)) { cmds1.addElement(new DiscoCommand(RosterIcons.ICON_SEARCH_INDEX, SR.MS_SEARCH)); }
+                        if (var.equals(NS_REGS)) { cmds1.addElement(new DiscoCommand(RosterIcons.ICON_REGISTER_INDEX, SR.MS_REGISTER)); }
                         if (var.equals(NS_GATE)) { showPartialResults=true; }
                         //if (var.equals(NODE_CMDS)) { cmds.addElement(new DiscoCommand(AD_HOC_INDEX,strCmds)); }
                     }
                 }
              }
             /*if (data.getAttribute("from").equals(service)) */ { //FIXME!!!
-                this.cmds=cmds;
+                this.cmds=cmds1;
                 if (loadItems) requestQuery(NS_ITEMS, "disco2");
                 if (showPartialResults) showResults(new Vector());
             }
@@ -334,14 +334,14 @@ public class ServiceDiscovery
 //#endif          
         } else if (id.startsWith("discoR")) {
             String text=SR.MS_DONE;
-            String mainbar=data.getTypeAttribute();
-            if (mainbar.equals("error")) {
+            String mb=data.getTypeAttribute();
+            if (mb.equals("error")) {
                 text=XmppError.findInStanza(data).toString();
             }
             if (text.equals(SR.MS_DONE) && id.endsWith("Search") ) {
                 new SearchResult( data);
             } else {
-                new AlertBox(mainbar, text) {
+                new AlertBox(mb, text) {
                     public void yes() { }
                     public void no() { }
                 };
@@ -503,7 +503,7 @@ public class ServiceDiscovery
     }
 
     public void showMenu() {
-        new MyMenu( parentView, this, SR.MS_DISCO, null, menuCommands);
+        new MyMenu( this, this, SR.MS_DISCO, null, menuCommands);
     }
 
 }
