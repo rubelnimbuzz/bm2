@@ -102,14 +102,14 @@ public class Config {
     public char keyVibra='#';
     
 //#ifdef AUTOSTATUS
-//#     public final static int AWAY_OFF=0;
-//#     public final static int AWAY_LOCK=1;
-//#     public final static int AWAY_MESSAGE=2;
-//#     public final static int AWAY_IDLE=3;
-//#     
-//#     public int autoAwayType=0;
-//#     public int autoAwayDelay=5; //5 minutes
-//#     public boolean useMyStatusMessages=true;
+    public final static int AWAY_OFF=0;
+    public final static int AWAY_LOCK=1;
+    public final static int AWAY_MESSAGE=2;
+    public final static int AWAY_IDLE=3;
+    
+    public int autoAwayType=0;
+    public int autoAwayDelay=5; //5 minutes
+    public boolean useMyStatusMessages=true;
 //#endif
     
 //#ifdef HISTORY
@@ -168,7 +168,7 @@ public static boolean fullscreen = true;
     public boolean lightState=false;
     public boolean autoScroll=true;
 //#ifdef POPUPS
-//#     public boolean popUps=true;
+    public boolean popUps=true;
 //#endif
     public boolean showResources=true;
     public boolean enableVersionOs=true;
@@ -260,9 +260,6 @@ public static boolean fullscreen = true;
 	gmtOffset=gmtloc;
 	
 	short greenKeyCode=-1000;
-        
-        switch (phoneManufacturer) {
-            case SONYE:
                 //prefetch images
                 RosterIcons.getInstance();
                 ActionsIcons.getInstance();
@@ -278,6 +275,9 @@ public static boolean fullscreen = true;
 //#                 }
 //#endif
 //#endif
+        
+        switch (phoneManufacturer) {
+            case SONYE:
 
 
 //                if (widthSystemgc) { _vt
@@ -387,9 +387,9 @@ public static boolean fullscreen = true;
 //#endif
             cp1251=inputStream.readBoolean();
 //#ifdef AUTOSTATUS
-//#             autoAwayDelay=inputStream.readInt();
+            autoAwayDelay=inputStream.readInt();
 //#else
-            inputStream.readInt();
+//#             inputStream.readInt();
 //#endif
             defGcRoom=inputStream.readUTF();
             firstRun=inputStream.readBoolean();
@@ -406,17 +406,17 @@ public static boolean fullscreen = true;
 //#             inputStream.readBoolean();
 //#endif
 //#ifdef AUTOSTATUS
-//#             useMyStatusMessages=inputStream.readBoolean();
-//#             autoAwayType=inputStream.readInt();
+            useMyStatusMessages=inputStream.readBoolean();
+            autoAwayType=inputStream.readInt();
 //#else
-            inputStream.readBoolean();
-            inputStream.readInt();
+//#             inputStream.readBoolean();
+//#             inputStream.readInt();
 //#endif
             autoScroll=inputStream.readBoolean();
 //#ifdef POPUPS
-//#             popUps=inputStream.readBoolean();
+            popUps=inputStream.readBoolean();
 //#else
-            inputStream.readBoolean();
+//#             inputStream.readBoolean();
 //#endif
             showResources=inputStream.readBoolean();
             
@@ -630,9 +630,9 @@ public static boolean fullscreen = true;
 //#endif
             outputStream.writeBoolean(cp1251);
 //#ifdef AUTOSTATUS
-//#             outputStream.writeInt(autoAwayDelay);
+            outputStream.writeInt(autoAwayDelay);
 //#else
-            outputStream.writeInt(5);
+//#             outputStream.writeInt(5);
 //#endif
             outputStream.writeUTF(defGcRoom);
             outputStream.writeBoolean(firstRun);
@@ -649,17 +649,17 @@ public static boolean fullscreen = true;
 //#             outputStream.writeBoolean(false);
 //#endif
 //#ifdef AUTOSTATUS
-//#             outputStream.writeBoolean(useMyStatusMessages);
-//#             outputStream.writeInt(autoAwayType);
+            outputStream.writeBoolean(useMyStatusMessages);
+            outputStream.writeInt(autoAwayType);
 //#else
-            outputStream.writeBoolean(false);
-            outputStream.writeInt(0);
+//#             outputStream.writeBoolean(false);
+//#             outputStream.writeInt(0);
 //#endif
             outputStream.writeBoolean(autoScroll);
 //#ifdef POPUPS
-//#             outputStream.writeBoolean(popUps);
+            outputStream.writeBoolean(popUps);
 //#else
-            outputStream.writeBoolean(false);
+//#             outputStream.writeBoolean(false);
 //#endif
             outputStream.writeBoolean(showResources);
 

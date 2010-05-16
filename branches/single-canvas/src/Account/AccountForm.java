@@ -64,7 +64,7 @@ public class AccountForm
 //#if HTTPCONNECT
 //#       private CheckBox proxybox;
 //#elif HTTPPOLL        
-//#       private CheckBox pollingbox;
+      private CheckBox pollingbox;
 //#endif
     private CheckBox registerbox;
     
@@ -74,10 +74,10 @@ public class AccountForm
     private DropChoiceBox keepAliveType;
     
 //#if HTTPPOLL || HTTPCONNECT  
-//#     private TextInput proxyHost;
-//#     private TextInput proxyPort;
-//#     private TextInput proxyUser;
-//#     private TextInput proxyPass;
+    private TextInput proxyHost;
+    private TextInput proxyPort;
+    private TextInput proxyUser;
+    private TextInput proxyPass;
 //#endif
 
     Account account;
@@ -152,7 +152,7 @@ public class AccountForm
 //#if HTTPCONNECT
 //#        proxybox = new CheckBox(/*SR.MS_PROXY_ENABLE*/"Proxy connect", account.isEnableProxy());
 //#elif HTTPPOLL        
-//#        pollingbox = new CheckBox("HTTP Polling", account.isEnableProxy());
+       pollingbox = new CheckBox("HTTP Polling", account.isEnableProxy());
 //#endif
         
         itemsList.addElement(dnsResolver);
@@ -163,7 +163,7 @@ public class AccountForm
 //#if HTTPCONNECT
 //#        itemsList.addElement(proxybox);
 //#elif HTTPPOLL        
-//#        itemsList.addElement(pollingbox);
+       itemsList.addElement(pollingbox);
 //#endif
 
         keepAliveType=new DropChoiceBox(SR.MS_KEEPALIVE);
@@ -183,7 +183,7 @@ public class AccountForm
 //#         proxyUser = new TextInput(/*SR.MS_PROXY_HOST*/"Proxy user", account.getProxyUser(), null, TextField.URL);//32, TextField.URL
 //#         proxyPass = new TextInput(/*SR.MS_PROXY_HOST*/"Proxy pass", account.getProxyPass(), null, TextField.URL);//32, TextField.URL
 //#elif HTTPPOLL        
-//# 	proxyHost = new TextInput("HTTP Polling URL (http://)", account.getProxyHostAddr(), null, TextField.URL);//32, TextField.URL
+	proxyHost = new TextInput("HTTP Polling URL (http://server.tld:port)", account.getProxyHostAddr(), null, TextField.URL);//32, TextField.URL
 //#endif
         
         itemsList.addElement(ipbox);
@@ -198,7 +198,7 @@ public class AccountForm
 //#         itemsList.addElement(proxyUser);
 //#         itemsList.addElement(proxyPass);
 //#elif HTTPPOLL        
-//# 	itemsList.addElement(proxyHost);
+	itemsList.addElement(proxyHost);
 //#endif
         itemsList.addElement(linkSave);
     }
@@ -239,14 +239,17 @@ public class AccountForm
 //#if HTTPCONNECT
 //#             account.setEnableProxy(proxybox.getValue());
 //#elif HTTPPOLL
-//#             account.setEnableProxy(pollingbox.getValue());
+            account.setEnableProxy(pollingbox.getValue());
 //#endif
             
-//#if HTTPPOLL || HTTPCONNECT            
-//#             account.setProxyHostAddr(proxyHost.getValue());
+//#if HTTPPOLL || HTTPCONNECT
+            account.setProxyHostAddr(proxyHost.getValue());
+//#if HTTPCONNECT
 //#             account.setProxyPort(Integer.parseInt(proxyPort.getValue()));
+//#
 //#             account.setProxyUser(proxyUser.getValue());
 //#             account.setProxyPass(proxyPass.getValue());
+//#endif
 //#endif
         
             account.setKeepAlivePeriod(Integer.parseInt(keepAlive.getValue()));

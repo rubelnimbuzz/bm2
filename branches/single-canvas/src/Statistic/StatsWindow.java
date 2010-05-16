@@ -46,14 +46,14 @@ public class StatsWindow
         extends DefForm {
 
 //#ifdef PLUGINS
-    public static String plugin = new String("PLUGIN_STATS");
+//#     public static String plugin = new String("PLUGIN_STATS");
 //#endif
     
     Stats st=Stats.getInstance();
     
     public MenuCommand cmdClear = new MenuCommand(SR.MS_CLEAR, MenuCommand.SCREEN, 2);
 //#ifdef CLIPBOARD
-    ClipBoard clipboard  = ClipBoard.getInstance();
+    ClipBoard clipboard = null;
     MenuCommand cmdCopy      = new MenuCommand(SR.MS_COPY, MenuCommand.SCREEN, 1);
     MenuCommand cmdCopyPlus  = new MenuCommand("+ "+SR.MS_COPY, MenuCommand.SCREEN, 2);
 //#endif
@@ -82,19 +82,17 @@ public class StatsWindow
 //#endif
         item=new MultiLine(SR.MS_CONN, Integer.toString(st.getSessionsCount()), super.superWidth); item.selectable=true; itemsList.addElement(item);
                 
-        item=new MultiLine(SR.MS_STARTED, Roster.startTime, super.superWidth); item.selectable=true; itemsList.addElement(item);
-        
-        
-//        removeCommand(cmdOk);
-        //setCommandListener(this);
-        show(parentView);
-        this.parentView=pView;
+        item=new MultiLine(SR.MS_STARTED, Roster.startTime, super.superWidth); item.selectable=true; itemsList.addElement(item);        
+
+        show(pView);        
     }
 
     public void commandState() {
-        super.commandState();
+        menuCommands.removeAllElements();
+        addMenuCommand(cmdClear);
 //#ifdef CLIPBOARD
             if (Config.getInstance().useClipBoard) {
+                clipboard = ClipBoard.getInstance();
                 addMenuCommand(cmdCopy);
                 if (!clipboard.isEmpty())
                     addMenuCommand(cmdCopyPlus);
@@ -103,8 +101,7 @@ public class StatsWindow
     }
 
     public String touchLeftCommand(){ return SR.MS_MENU; }
-    public void touchLeftPressed(){ cmdOk(); }
-    public void cmdOk() { showMenu(); }
+    public void touchLeftPressed(){ showMenu(); }
     
     public void menuAction(MenuCommand command, VirtualList displayable) {
 //#ifdef CLIPBOARD
@@ -131,6 +128,7 @@ public class StatsWindow
         if (command==cmdClear) {
             st.saveToStorage(true);
             cmdCancel();
-        } else super.menuAction(command, displayable);
+        }
+        super.menuAction(command, displayable);
     }
 }
