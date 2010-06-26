@@ -28,6 +28,7 @@ package History;
 
 import Client.Config;
 import Client.Msg;
+import Messages.MessageItem;
 import io.file.FileIO;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,6 +38,7 @@ import java.util.Vector;
 //#endif
 import util.Strconv;
 import util.StringUtils;
+import ui.VirtualList;
 
 /**
  *
@@ -48,31 +50,54 @@ public class HistoryLoader {
 //#     public static String plugin = new String("PLUGIN_HISTORY");
 //#endif
 
+    private VirtualList view;
+    private boolean smiles;
+
     private String fileName="";
-    public Vector listMessages;
-    private Vector indexes;
-    private long nextIndex;
-    public long fileSize;
+    public final long fileSize;
+
+    private byte[] current_block = null;
+    private long current_index = -1;
+    private int first_m = -1; // index of '<' in first "<m>" in current_block
+    private int last_m = -1; //  index of '<' in last "</m>" in current_block
+
+    public static final int BLOCK_SIZE = 4096;
 
     public final static int MESSAGE_MARKER_OUT=1;
     public final static int MESSAGE_MARKER_PRESENCE=2;
     public final static int MESSAGE_MARKER_IN=3;
     public final static int MESSAGE_MARKER_OTHER=0;
 
-    public HistoryLoader(String file) {
-       cf=Config.getInstance();
+    public HistoryLoader(String file, VirtualList view, boolean smiles) {
+        this.view = view;
+        this.smiles = smiles;
+        cf = Config.getInstance();
 //#ifdef DETRANSLIT
-//#         file=(cf.transliterateFilenames)?DeTranslit.getInstance().translit(file):file;
+//#         file = DeTranslit.get_actual_filename(file);
 //#endif
 //#ifdef HISTORY
-//#        fileName=cf.msgPath+StringUtils.replaceBadChars(file)+".txt";
+//#         fileName = cf.msgPath + StringUtils.replaceBadChars(file) + ".txt";
 //#endif
-       listMessages = new Vector();
-       indexes = new Vector();
-       fileSize = getFileSize();
-       if (fileSize > 4096)
-           nextIndex=fileSize-4096;
-       else nextIndex = 0;
+
+        fileSize = getFileSize();
+    }
+
+    public Vector stepBegin() {
+        current_index = -last_m-4;
+        return getMIVector(true);
+    }
+
+    public Vector stepEnd() {
+        current_index = fileSize - first_m + 1;
+        return getMIVector(false);
+    }
+
+    public Vector stepBack() {
+        return getMIVector(false);
+    }
+
+    public Vector stepNext() {
+        return getMIVector(true);
     }
 
     private long getFileSize() {
@@ -98,143 +123,202 @@ public class HistoryLoader {
         return size;
     }
 
-    private long processMessage(long pos) {
-//#ifdef DEBUG
-//#         System.out.println("Called. pos=" + pos);
-//#endif
+    private void readByteBlock(long pos) {
         FileIO f = FileIO.createConnection(fileName);
-        Vector lm = new Vector();
-        byte[] b = readFile(pos);
-
-        if (b == null) {
-//#ifdef DEBUG
-//#             System.out.println("Вероятно, EOF.");
-//#endif
-            return pos;
+        if (current_block == null) {
+            current_block = new byte[BLOCK_SIZE];
         }
-
-        String str = getStrFromBytes(b);
-
-        String current = findBlock(str, "m");
-        while (current != null) {
-            String type = findBlock(current, "t");
-            String date = findBlock(current, "d");
-            String from = findBlock(current, "f");
-            String subj = findBlock(current, "s");
-            String body = findBlock(current, "b");
-            lm.addElement(processMessage(type, date, from, subj, body));
-
-            str = str.substring(str.indexOf("</m>") + 4);
-            current = findBlock(str, "m");
-        }
-
-        if ((lm.size() < 1) && (str.indexOf("<m>") > -1)) {
-            String largeMessage = "";
-            do {
-                largeMessage += str;
-                pos += 4096;
-                b = readFile(pos);
-                if (b == null) {
-//#ifdef DEBUG
-//#                     System.out.println("WARNING! Неожиданный конец лог-файла.");
-//#endif
-                    return pos; // Или что тут вообще делать?
-                    } else {
-                    str = getStrFromBytes(b);
-                }
-            } while (str.indexOf("</m>") < 0);
-
-            largeMessage = findBlock(largeMessage+str, "m");
-            String type = findBlock(largeMessage, "t");
-            String date = findBlock(largeMessage, "d");
-            String from = findBlock(largeMessage, "f");
-            String subj = findBlock(largeMessage, "s");
-            String body = findBlock(largeMessage, "b");
-            lm.addElement(processMessage(type, date, from, subj, body));
-        }
-
-        if (lm.size() > 0) {
-            pos += getNextMessagePos(b);
-            this.listMessages = lm;
-
-        }
-        return pos;
-    }
-
-    private byte[] readFile(long pos) {
-        FileIO f=FileIO.createConnection(fileName);
-        byte[] b = new byte[4096];
         try {
             InputStream is=f.openInputStream();
             is.skip(pos);
-            is.read(b);
+            is.read(current_block);
+//#ifdef DEBUG
+//#         System.out.println("!!! Readed byte block, begin: "+pos);
+//#endif
             is.close();
 
         } catch (IOException e) {
             try { f.close();
-                  return null;
+                  return;
                 } catch (IOException ex2) {/*No messages*/}
-        } catch (Exception e) { return null; }
+        } catch (Exception e) { return; }
 
         try {
             f.close();
         } catch (Exception e) {/*No messages*/}
-        return b;
+
+        current_index = pos;
     }
 
-    private String getStrFromBytes(byte[] b) {
-        String str = new String(b).trim();
+    private String getStrFromBytes(int off, int length) {
+        String str = new String(current_block, off, length);
         if (cf.cp1251) {
-            str = Strconv.convCp1251ToUnicode(str);
+            return Strconv.convCp1251ToUnicode(str);
         }
         return str;
     }
-    
-    private int getNextMessagePos(byte[] b) {
-        int ost = 4096;
-        while (!(b[ost - 4] == '<' && b[ost - 3] == '/' && b[ost - 2] == 'm' && b[ost - 1] == '>')) {
-            ost--;
 
+    private long getCorrectIndex(long pos) {
+        if (pos < 0) {
+            return 0;
+        } else if (pos > (fileSize - BLOCK_SIZE)) {
+            return (fileSize - BLOCK_SIZE);
         }
-        return ost;
-    }
-    // TODO: выпилить indexes и сделать навигацию по +4096 и -4096.
-    public void getNext() {
-        long oldIndex = nextIndex;
-        nextIndex = processMessage(oldIndex);
-        if (oldIndex != nextIndex)
-            indexes.addElement(new Long(oldIndex));
+        return pos;
     }
 
-    public void getPrev() {
-        int size = indexes.size();
-        if (size<2)
-            return;
-        indexes.removeElementAt(size-1);
-        nextIndex=processMessage(((Long)indexes.lastElement()).longValue());
+    public boolean inBegin() {
+        return (current_index <= 0)?true:false;
     }
 
-    private Msg processMessage(String marker, String date, String from, String subj, String body) {
-        int msgType=Msg.MESSAGE_TYPE_HISTORY;
+    public boolean inEnd() {
+        return ((current_index+BLOCK_SIZE) >= fileSize)?true:false;
+    }
+    
+    private void readBlock(boolean forward) {
+        if (forward) {
+            readByteBlock(getCorrectIndex(current_index+last_m+4));
+        } else readByteBlock(getCorrectIndex(current_index+first_m-1-BLOCK_SIZE));
+    }
+
+    private Vector getMIVector(boolean forward) {
+        readBlock(forward);
+
+        Vector listMessages = new Vector();
+        int pos = 0;
+        first_m = last_m = -1;
+
+        do {
+            int start = findOpenStr(current_block, pos, true, 'm');
+            int end = findCloseStr(current_block, start + 3, true, 'm');
+
+            if (start < 0 || end < 0) {
+                if ((first_m < 0) || (last_m < 0)) {
+                    boolean can_step_back = true;
+                    boolean can_step_next = true;
+                    if (forward)
+                        can_step_back = !inBegin();
+                    else can_step_next = !inEnd();
+
+                    StringBuffer bigMessage = new StringBuffer();
+
+                    do {
+//#ifdef DEBUG
+//#                         System.out.println("do");
+//#endif
+                        if (forward) {
+                            bigMessage.append(getStrFromBytes(start, current_block.length-start));
+                            readBlock(forward);
+                            end = findCloseStr(current_block, 0, true, 'm');
+                        } else {
+                            bigMessage.insert(0, getStrFromBytes(0, end));
+                            readBlock(forward);
+                            start = findOpenStr(current_block, current_block.length-3, false, 'm');
+                        }
+                        first_m = 0;
+                        last_m = current_block.length - 3;
+                    } while (start < 0 || end < 0);
+
+                    if (forward) {
+                        bigMessage.append(getStrFromBytes(start + 3, end - start - 3));
+                        can_step_next = !inEnd();
+                    } else {
+                        bigMessage.insert(0, getStrFromBytes(start + 3, end - start - 3));
+                        can_step_back = !inBegin();
+                    }
+
+                    current_block = null;
+
+                    String current = bigMessage.toString();
+                    bigMessage = null;
+                    listMessages.addElement(getMessageItem(processMessage(
+                            findBlock(current, "t"),
+                            findBlock(current, "d"),
+                            findBlock(current, "f"),
+                            findBlock(current, "s"),
+                            findBlock(current, "b"))));
+
+                    if (can_step_back)
+                        listMessages.insertElementAt(HistoryReader.MIPrev, 0);
+                    if (can_step_next)
+                        listMessages.addElement(HistoryReader.MINext);
+
+                    return listMessages;
+                }
+
+                current_block = null;
+
+                if (!inBegin())
+                    listMessages.insertElementAt(HistoryReader.MIPrev, 0);
+                if (!inEnd())
+                    listMessages.addElement(HistoryReader.MINext);
+
+                return listMessages;
+            }
+
+            if (first_m < 0)
+                first_m = start;
+            last_m = end;
+
+            String current = getStrFromBytes(start + 3, end - start - 3);
+            listMessages.addElement(getMessageItem(processMessage(
+                    findBlock(current, "t"),
+                    findBlock(current, "d"),
+                    findBlock(current, "f"),
+                    findBlock(current, "s"),
+                    findBlock(current, "b"))));
+            pos = end + 4;
+        } while (true);
+    }
+
+    // Ищет строку <m> в b и возвращает индекс '<' в b
+    private int findOpenStr(byte[] b, int i, boolean forward, char ch) {
+        while ((i >= 0) && (i < (b.length-2))) {
+            if ((b[i] == '<') && (b[i + 1] == ch) && (b[i + 2] == '>'))
+                return i;
+            i += forward?1:-1;
+        }
+        return -1;
+    }
+
+    // Ищет строку </m> в b и возвращает индекс '<' в b
+    private int findCloseStr(byte[] b, int i, boolean forward, char ch) {
+        while ((i >= 0) && (i < (b.length-3))) {
+            if ((b[i] == '<') && (b[i + 1] == '/') && (b[i + 2] == ch) && (b[i + 3] == '>'))
+                return i;
+            i += forward?1:-1;
+        }
+        return -1;
+    }
+
+    static Msg processMessage(String marker, String date, String from, String subj, String body) {
+        int msgType = Msg.MESSAGE_TYPE_HISTORY;
 
         int mrk = Integer.parseInt(marker);
 
         switch (mrk) {
             case MESSAGE_MARKER_IN:
-                msgType=Msg.MESSAGE_TYPE_IN;
+                msgType = Msg.MESSAGE_TYPE_IN;
                 break;
             case MESSAGE_MARKER_OUT:
-                msgType=Msg.MESSAGE_TYPE_OUT;
+                msgType = Msg.MESSAGE_TYPE_OUT;
                 break;
             case MESSAGE_MARKER_PRESENCE:
-                msgType=Msg.MESSAGE_TYPE_PRESENCE;
+                msgType = Msg.MESSAGE_TYPE_PRESENCE;
                 break;
         }
 
-        Msg msg=new Msg(msgType,from,subj,body);
+        Msg msg = new Msg(msgType,
+                StringUtils.unescapeTags(from),
+                StringUtils.unescapeTags(subj),
+                StringUtils.unescapeTags(body));
         msg.setDayTime(date);
 
         return msg;
+    }
+
+    private MessageItem getMessageItem(Msg msg) {
+        return new MessageItem(msg, view, smiles);
     }
 
     private String findBlock(String source, String needle) {

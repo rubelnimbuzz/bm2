@@ -68,6 +68,7 @@ public class Jid {
     }
 
     public boolean isTransport(){
+        if (bareJid.equals("")) return false;
         return bareJid.indexOf('@')==-1;
     }
 

@@ -25,6 +25,7 @@
 */
 
 package com.alsutton.jabber;
+import Client.Msg;
 import com.alsutton.jabber.datablocks.Iq;
 import java.util.*;
 import xmpp.XmppError;
@@ -102,15 +103,7 @@ public class JabberDataBlockDispatcher extends Thread
      * @param datablock The block to add
      */
     public void broadcastJabberDataBlock(JabberDataBlock dataBlock) {
-        waitingQueue.addElement(dataBlock);
-        if (Runtime.getRuntime().freeMemory() < 128 * 1024) {
-            while (!waitingQueue.isEmpty()) {
-                try {
-                    Thread.sleep(50L);
-                } catch (InterruptedException e) {
-                }
-            }
-        }
+        waitingQueue.addElement(dataBlock);        
     }
 
 
@@ -128,6 +121,12 @@ public class JabberDataBlockDispatcher extends Thread
             }
 
             JabberDataBlock dataBlock = (JabberDataBlock) waitingQueue.elementAt(0);
+            if (dataBlock instanceof Iq) {
+                // verify id attribute
+                if (dataBlock.getAttribute("id") == null) {
+                    dataBlock.setAttribute("id", "666");
+                }
+            }
             waitingQueue.removeElementAt( 0 );
 
             try {
@@ -161,9 +160,14 @@ public class JabberDataBlockDispatcher extends Thread
                     //TODO: reject iq stansas where type =="get" | "set"
                 }
 //#ifdef CONSOLE
-//#                 stream.addLog(dataBlock.toString(), 10);
+//#                 stream.addLog(dataBlock.toString(), Msg.MESSAGE_TYPE_IN);
 //#endif
-            } catch (Exception e) { }
+            } catch (Exception e) { 
+                Client.StaticData.getInstance().roster.errorLog("JabberDataBlockDispatcher exception\ndataBlock: " + dataBlock.toString());
+//#ifdef DEBUG                
+//#                 e.printStackTrace(); 
+//#endif                
+            }
         }
     }
     

@@ -48,12 +48,7 @@ public class JuickThingsMenu extends Menu {
         if (me==null) return;
         int index=me.index;
         try {
-//#ifdef RUNNING_MESSAGE
-                Client.Roster.me=new MessageEdit((VirtualList)this.parentView, contact, things.elementAt(index)+" ");
-//#else
-//#         new MessageEdit(parentView, contact, things.elementAt(index)+" "); // To chat
-//# //        new MessageEdit( this, contact, things.elementAt(index)+" "); // Previons menu
-//#endif
+               Client.Roster.me=new MessageEdit((VirtualList)this.parentView, contact, things.elementAt(index)+" ");
         } catch (Exception e) {/*no messages*/}
     }
 }

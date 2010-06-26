@@ -49,7 +49,7 @@ import ui.MainBar;
 public final class XMLList
     extends MessageList {
 //#ifdef PLUGINS
-    public static String plugin = "PLUGIN_CONSOLE";
+//#     public static String plugin = "PLUGIN_CONSOLE";
 //#endif
     
     StanzasList stanzas;

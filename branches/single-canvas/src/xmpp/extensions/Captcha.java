@@ -20,8 +20,8 @@ import com.alsutton.jabber.datablocks.*;
  */
 public class Captcha implements JabberBlockListener, XDataForm.NotifyListener{
 
-    private String from;
-    private String id;
+    private String from = null;
+    private String id = null;
     
     /** Creates a new instance of Captcha */
     public Captcha() {
@@ -31,10 +31,12 @@ public class Captcha implements JabberBlockListener, XDataForm.NotifyListener{
     public int blockArrived(JabberDataBlock data) {
         if (data instanceof Message) {
      
-            JabberDataBlock challenge=data.findNamespace("captcha", "urn:xmpp:captcha");
+            JabberDataBlock challenge = null;
+            challenge = data.findNamespace("captcha", "urn:xmpp:captcha");
             if (challenge==null) return BLOCK_REJECTED;
 
-            JabberDataBlock xdata=challenge.findNamespace("x","jabber:x:data");
+            JabberDataBlock xdata = null;
+            xdata = challenge.findNamespace("x","jabber:x:data");
 
             from=data.getAttribute("from");
             id=data.getAttribute("id");

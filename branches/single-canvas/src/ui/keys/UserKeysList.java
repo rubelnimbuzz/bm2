@@ -31,29 +31,27 @@ import io.NvStorage;
 import java.io.DataOutputStream;
 import java.util.Vector;
 import locale.SR;
-import ui.MainBar;
-import ui.VirtualList;
 
 import Menu.MenuCommand;
 import java.util.Enumeration;
+import ui.MainBar;
+import ui.VirtualList;
 import ui.controls.form.DefForm;
 import util.StringLoader;
 
 public class UserKeysList extends DefForm
     {
 //#ifdef PLUGINS
-    public static String plugin = new String("PLUGIN_USER_KEYS");
+//#     public static String plugin = new String("PLUGIN_USER_KEYS");
 //#endif
-    UserKeyExec uexec = UserKeyExec.getInstance();
-    Vector userKeysList;
-
+    
 //#ifdef USER_KEYS
     MenuCommand cmdApply = new MenuCommand(SR.MS_APPLY, MenuCommand.OK, 1);
     MenuCommand cmdAdd = new MenuCommand(SR.MS_ADD_CUSTOM_KEY, MenuCommand.SCREEN, 3);
-    MenuCommand cmdEdit = new MenuCommand(SR.MS_EDIT, MenuCommand.ITEM, 3);
-    MenuCommand cmdDel = new MenuCommand(SR.MS_DELETE, MenuCommand.ITEM, 4);
-    MenuCommand cmdRestore = new MenuCommand(SR.MS_SETDEFAULT, MenuCommand.ITEM, 5);
-    
+    MenuCommand cmdEdit = new MenuCommand(SR.MS_EDIT, MenuCommand.SCREEN, 3);
+    MenuCommand cmdDel = new MenuCommand(SR.MS_DELETE, MenuCommand.SCREEN, 4);
+    MenuCommand cmdRestore = new MenuCommand(SR.MS_SETDEFAULT, MenuCommand.SCREEN, 5);
+
 //#endif
 
     private Config cf=Config.getInstance();
@@ -64,11 +62,10 @@ public class UserKeysList extends DefForm
 //#ifdef USER_KEYS
         setMainBarItem(new MainBar(SR.MS_CUSTOM_KEYS));
 //#endif
-                
-        itemsList = copyVector(uexec.userKeysList);
-
-        setMenuListener(this);
         
+        UserKeyExec uexec = UserKeyExec.getInstance();
+        uexec.init_commands_from_rms();
+        itemsList = copyVector(uexec.userKeysList);
         show(parentView);
     }
 
@@ -101,7 +98,7 @@ public class UserKeysList extends DefForm
     }
 
     private void restoreDefault() {
-        userKeysList = getDefaultKeysList();
+        itemsList = getDefaultKeysList();
     }
 
     public void commandState() {
@@ -118,21 +115,16 @@ public class UserKeysList extends DefForm
         addMenuCommand(cmdRestore);
         
 //#endif
-    }
-   
-    public void cmdOk() {
-            UserKeyExec.getInstance().userKeysList = userKeysList;
-            rmsUpdate();
-            destroyView();
         }
+    
+    public void cmdOk() {
+       UserKeyExec.getInstance().userKeysList = itemsList;
+       rmsUpdate();
+       destroyView();    
+    }
 
     public void menuAction(MenuCommand c, VirtualList d) {
 //#ifdef USER_KEYS
-        if (c==cmdApply) {
-            UserKeyExec.getInstance().userKeysList = userKeysList;
-            rmsUpdate();
-            destroyView();
-        }
         if (c==cmdRestore) {
             restoreDefault();
             moveCursorHome();
@@ -144,10 +136,13 @@ public class UserKeysList extends DefForm
         if (c==cmdAdd)
             new UserKeyEdit( this, null);
         if (c==cmdDel) {
-            userKeysList.removeElement(getFocusedObject());
+            itemsList.removeElement(getFocusedObject());
             moveCursorHome();
             commandState();
             redraw();
+        }
+        if (c==cmdApply) {
+            cmdOk();
         }
 //#endif
         super.menuAction(c, d);
@@ -175,10 +170,11 @@ public class UserKeysList extends DefForm
     }
     
     void rmsUpdate() {
-        rmsUpdate(userKeysList);
+        rmsUpdate(itemsList);
     }
-
-    public String touchLeftCommand()  {return SR.MS_MENU;}
-    public void touchLeftPressed(){ showMenu();}
+//#ifdef MENU_LISTENER
+//#     public String touchLeftCommand() {return SR.MS_MENU;}
+//#     public void touchLeftPressed() { showMenu(); }
+//#endif    
 
 }

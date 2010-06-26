@@ -47,7 +47,9 @@ import History.HistoryConfig;
 //#ifdef PEP
 import PEP.PepForm;
 //#endif
+//#ifdef STATS
 import Statistic.StatsWindow;
+//#endif
 import VCard.VCard;
 import VCard.VCardEdit;
 import images.MenuIcons;
@@ -126,14 +128,14 @@ public class RosterToolsMenu extends Menu {
 //#ifdef PLUGINS
 //#         if (sd.IE)
 //#endif
-//#             addItem(SR.MS_IMPORT_EXPORT, 11, MenuIcons.ICON_IE);
+            addItem(SR.MS_IMPORT_EXPORT, 11, MenuIcons.ICON_IE);
 //#endif
         addItem(SR.MS_NOTICES_OPTIONS, 12, MenuIcons.ICON_NOTIFY);
 //#ifdef STATS
 //#ifdef PLUGINS
 //#         if (sd.Stats)
 //#endif
-//#             addItem(SR.MS_STATS, 13, MenuIcons.ICON_STAT);
+            addItem(SR.MS_STATS, 13, MenuIcons.ICON_STAT);
 //#endif
 //#ifdef CHECK_VERSION
 //#ifdef PLUGINS
@@ -153,7 +155,7 @@ public class RosterToolsMenu extends Menu {
             addItem(SR.MS_CUSTOM_KEYS, 16, MenuIcons.ICON_KEYS);
 //#endif
 //#if SASL_XGOOGLETOKEN
-        if (sd.account.isGmail() && connected)
+        if (sd.account != null && sd.account.isGmail() && connected)
             addItem(SR.MS_CHECK_GOOGLE_MAIL, 17, MenuIcons.ICON_GMAIL);
 //#endif 
 //#if AUTOTASK
@@ -236,17 +238,17 @@ public class RosterToolsMenu extends Menu {
                 new ColorConfigForm(this);
                 return;
 //#if IMPORT_EXPORT
-//#             case 11:
-//#                 new IE.IEMenu( sd.roster);
-//#                 return;
+            case 11:
+                new IE.IEMenu( sd.roster);
+                return;
 //#endif
             case 12:
                 new AlertCustomizeForm( (VirtualList)parentView);
                 return;
 //#ifdef STATS
-//#             case 13: //traffic stats
-//#                 new StatsWindow( (VirtualList)parentView);
-//#                 return;
+            case 13: //traffic stats
+                new StatsWindow( (VirtualList)parentView);
+                return;
 //#endif
 //#ifdef CHECK_VERSION
 //#             case 14:

@@ -28,6 +28,7 @@
 package Messages;
 
 //#ifdef SMILES
+import images.AniImageList;
 import images.SmilesIcons;
 //#endif
 import Fonts.FontCache;
@@ -57,13 +58,14 @@ public final class MessageParser {
     private int width; // window width
 //#ifdef SMILES 
     private ImageList smileImages;
+    private static String anires= "/smiles/smiles.txt";
+    private static String staticres= "/images/smiles.txt";  
+    
 //#endif
     
     boolean wordsWrap;
-    private static String wrapSeparators=" .,-=/\\;:+*()[]<>~!@#%^_&";
+    private static String wrapSeparators=" .,-=/\\;:+*()[]<>~!@#%^_&";    
     
-    private static String anires= "/smiles/smiles.txt";
-    private static String staticres= "/images/smiles.txt";
     
     public static MessageParser getInstance() {
         if (instance==null) {
@@ -139,7 +141,7 @@ public final class MessageParser {
             
             InputStream in=this.getClass().getResourceAsStream(anires);
             if (in == null) in=this.getClass().getResourceAsStream(staticres);
-            
+                
             boolean firstSmile=true;
             
             int c;
@@ -156,7 +158,7 @@ public final class MessageParser {
 
                         addSmile(root, smile, strnumber);
 
-                        s.setLength(0);
+                        s=new StringBuffer();
                         firstSmile=false;
 
                         break;
@@ -170,11 +172,11 @@ public final class MessageParser {
                     firstSmile=true;
                 }
             }
-            s.setLength(0);
+            s=new StringBuffer();
             in.close();
             in=null;
         } catch (Exception e) {
-            s.setLength(0);
+            s=new StringBuffer();
         }
 //#endif
         
@@ -279,7 +281,7 @@ public final class MessageParser {
                                     l.addUnderline();
                                     l.addElement(s.toString());
                                 }
-                                s.setLength(0);
+                                s=new StringBuffer();
                         }
                         break;
                     }
@@ -297,7 +299,7 @@ public final class MessageParser {
                 
                 if (smileIndex==URL) {
                     if (s.length()>0) l.addElement(s.toString());
-                    s.setLength(0);
+                    s=new StringBuffer();
                     underline=true;
                 }
 //**************************
@@ -313,8 +315,14 @@ public final class MessageParser {
                             l.addUnderline();
                         l.addElement(s.toString());
                     }
-                    s.setLength(0);
-                    int iw=(smileIndex<0x01000000)? smileImages.getWidth() : 0;
+                    s=new StringBuffer();
+                    int iw = 0;
+                    if (smileIndex<0x01000000) {
+                        iw = smileImages.getWidth();
+                        if (smileImages instanceof AniImageList) {
+                            iw = ((AniImageList)smileImages).iconAt(smileIndex).getWidth();
+                        }
+                    }
                     if (w+iw>width) {
                         //task.notifyRepaint(lines, task.msg, false);
                         l=new ComplexString(smileImages);
@@ -347,7 +355,7 @@ public final class MessageParser {
                         if (w+wordWidth+cw>width || newline) {
                             if (underline) l.addUnderline();
                             l.addElement(s.toString());
-                            s.setLength(0); w=0;
+                            s=new StringBuffer(); w=0;
 
                             if (c==0xa0) l.setColor(ColorTheme.getColor(ColorTheme.MSG_HIGHLIGHT));
 //#ifdef SMILES
@@ -395,7 +403,7 @@ public final class MessageParser {
 
             task.notifyRepaint(lines, task.msg, true);
             state++;
-            s.setLength(0);
+            s=new StringBuffer();
         }
     }
     

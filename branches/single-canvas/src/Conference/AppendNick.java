@@ -55,9 +55,8 @@ public final class AppendNick
     public AppendNick(Displayable pView, Contact to, int caretPos, MessageEdit me) {
         super(SR.MS_SELECT_NICKNAME);
         this.caretPos=caretPos;
-        
         this.me = me;      
-        
+                
         
         for (Enumeration e=StaticData.getInstance().roster.getHContacts().elements(); e.hasMoreElements(); ) {
             Contact c=(Contact)e.nextElement();
@@ -75,11 +74,7 @@ public final class AppendNick
              StringBuffer b=new StringBuffer(nick.substring(rp+1));
              
             if (caretPos==0) b.append(':');
-//#ifdef RUNNING_MESSAGE
-            Roster.me.insert(b.toString(), caretPos);
-//#else
 //#             me.insert(b.toString(), caretPos);
-//#endif
             b=null;
          } catch (Exception e) {}
          destroyView();

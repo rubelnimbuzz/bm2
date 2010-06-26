@@ -48,7 +48,7 @@ import ui.controls.Progress;
  *
  * @author Eugene Stahov
  */
-public class SplashScreen extends Canvas implements Runnable, CommandListener {
+public final class SplashScreen extends Canvas implements Runnable, CommandListener {
     
     private Display display;
     private Displayable parentView;
@@ -56,8 +56,8 @@ public class SplashScreen extends Canvas implements Runnable, CommandListener {
     private String capt;
     private int pos=-1;
     
-    private int width;
-    private int height;
+   // private int width;
+   // private int height;
     
     public Image img;
     
@@ -119,8 +119,8 @@ public class SplashScreen extends Canvas implements Runnable, CommandListener {
     }
 
     public void paint(Graphics g){
-        width=g.getClipWidth();
-        height=g.getClipHeight();
+        int width=g.getClipWidth();
+        int height=g.getClipHeight();
         
         g.setColor(ColorTheme.getColor(ColorTheme.BLK_BGND));
         g.fillRect(0,0, width, height);
@@ -142,7 +142,7 @@ public class SplashScreen extends Canvas implements Runnable, CommandListener {
             g.drawString(time, width/2, height, Graphics.BOTTOM | Graphics.HCENTER);
         } else {
             int filled=pos*width/100;
-            if (pb==null) pb=new Progress(0, height, width);
+            if (pb==null) pb=new Progress(0, height - Progress.getHeight() , width);
             Progress.draw(g, filled, capt);
         }
     }
@@ -158,9 +158,9 @@ public class SplashScreen extends Canvas implements Runnable, CommandListener {
     
     public void setProgress(String caption, int progress){
         capt=caption;
-////#if DEBUG
-        System.out.println(capt);
-////#endif
+//#if DEBUG
+//#         System.out.println(capt);
+//#endif
 	setProgress(progress);
     }
     
@@ -276,6 +276,10 @@ public class SplashScreen extends Canvas implements Runnable, CommandListener {
         if (pm==Config.MOTOEZX) {
             Config.SOFT_LEFT=-21;
             Config.SOFT_RIGHT=-22;
+            return;
+        } 
+         if (pm==Config.MICROEMU) {
+            Config.SOFT_LEFT=-82; // map android menu button as left softkey
             return;
         } 
         try {

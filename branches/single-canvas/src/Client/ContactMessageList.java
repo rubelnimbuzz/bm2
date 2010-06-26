@@ -93,7 +93,6 @@ public class ContactMessageList extends MessageList {
 //#ifdef JUICK
     MenuCommand cmdJuickMessageReply=new MenuCommand(SR.MS_JUICK_MESSAGE_REPLY, MenuCommand.SCREEN, 1);
     MenuCommand cmdJuickSendPrivateReply;
-    MenuCommand cmdJuickThings=new MenuCommand(SR.MS_JUICK_THINGS, MenuCommand.SCREEN, 3);
     MenuCommand cmdJuickMessageDelete=new MenuCommand(SR.MS_JUICK_MESSAGE_DELETE, MenuCommand.SCREEN, 4);
     MenuCommand cmdJuickPostSubscribe=new MenuCommand(SR.MS_JUICK_POST_SUBSCRIBE, MenuCommand.SCREEN, 5);
     MenuCommand cmdJuickPostUnsubscribe=new MenuCommand(SR.MS_JUICK_POST_UNSUBSCRIBE, MenuCommand.SCREEN, 6);
@@ -101,6 +100,7 @@ public class ContactMessageList extends MessageList {
     MenuCommand cmdJuickPostShow=new MenuCommand(SR.MS_JUICK_POST_SHOW, MenuCommand.SCREEN, 8);
 
     public MenuCommand cmdJuickCommands=new MenuCommand(SR.MS_COMMANDS+" Juick", MenuCommand.SCREEN, 15);
+    MenuCommand cmdJuickThings=new MenuCommand(SR.MS_JUICK_THINGS, MenuCommand.SCREEN, 16);
     Vector currentJuickCommands = new Vector();
 
     public ContactMessageList() {
@@ -149,7 +149,7 @@ public class ContactMessageList extends MessageList {
         show(sd.roster);
     }
 
-    public int firstUnread(){
+    public final int firstUnread(){
         int unreadIndex=0;
         for (Enumeration e=contact.msgs.elements(); e.hasMoreElements();) {
             if (((Msg)e.nextElement()).unread)
@@ -161,7 +161,7 @@ public class ContactMessageList extends MessageList {
         return unreadIndex;
     }    
 
-    public void commandState(){
+    public final void commandState(){
         menuCommands.removeAllElements();
         if (startSelection) addMenuCommand(cmdSelect);
         
@@ -232,7 +232,7 @@ public class ContactMessageList extends MessageList {
                     if (contact.msgs.size()>0)
                         addMenuCommand(cmdSaveChat);
 //#ifdef HISTORY_READER
-        if (cf.saveHistory && cf.lastMessages)
+        if (cf.saveHistory) // && cf.lastMessages)
             addMenuCommand(cmdReadHistory);
 //#endif
 //#endif
@@ -243,6 +243,7 @@ public class ContactMessageList extends MessageList {
 //#endif
         // http://code.google.com/p/bm2/issues/detail?id=94
         addMenuCommand(cmdJuickCommands);
+        addMenuCommand(cmdJuickThings);
 //#ifdef PLUGINS
 //#         }
 //#endif
@@ -255,7 +256,6 @@ public class ContactMessageList extends MessageList {
     private void updateJuickCommands() {
         currentJuickCommands = null;
         currentJuickCommands = new Vector();
-        currentJuickCommands.addElement(cmdJuickThings);
         if (isJuickContact(contact) || isJuBoContact(contact)) {
             String body = getBodyFromCurrentMsg();
             String target = getTargetForJuickReply(body);
@@ -465,7 +465,8 @@ public void showNotify() {
             viewJuickThings(body, d);
         } else if (c == cmdJuickCommands) {
             updateJuickCommands();
-            new MyMenu( this, this, SR.MS_COMMANDS, null, currentJuickCommands);
+            if (currentJuickCommands.size() > 0)
+                new MyMenu(parentView, (Menu.MenuListener) this, SR.MS_COMMANDS, null, currentJuickCommands);
         }
 //#endif
     }
@@ -613,11 +614,8 @@ public void showNotify() {
             resultAction = target+action;
         }
         try {
-//#ifdef RUNNING_MESSAGE
-//#                 Roster.me=new MessageEdit( this, getActualJuickContact(), resultAction);
-//#else
-            new MessageEdit(this, getActualJuickContact(), resultAction);
-//#endif
+                Roster.me = null; Roster.me = new MessageEdit(this, getActualJuickContact(), resultAction);
+                Roster.me.show(this);
             } catch (Exception e) {/*no messages*/}
     }
 
@@ -680,13 +678,9 @@ public void showNotify() {
     }
     
     public void keyGreen(){
-        if (!sd.roster.isLoggedIn()) return;
-        
-//#ifdef RUNNING_MESSAGE
-//#         Roster.me=new MessageEdit( this, contact, contact.msgSuspended);
-//#else
-        new MessageEdit(this, contact, contact.msgSuspended);
-//#endif
+        if (!sd.roster.isLoggedIn()) return;       
+        Roster.me = null; Roster.me = new MessageEdit(this, contact, contact.msgSuspended);
+        Roster.me.show(this);
         contact.msgSuspended=null;
     }
     
@@ -791,11 +785,8 @@ public void showNotify() {
             if (msg==null || msg.messageType == Msg.MESSAGE_TYPE_OUT || msg.messageType == Msg.MESSAGE_TYPE_SUBJ) {
                 keyGreen();
             } else {
-//#ifdef RUNNING_MESSAGE
-//#                 Roster.me=new MessageEdit( this, contact, msg.from+": ");
-//#else
-                new MessageEdit(this, contact, msg.from + ": ");
-//#endif
+                Roster.me = null; Roster.me=new MessageEdit(this, contact, msg.from+":");
+                Roster.me.show(this);
             }
         } catch (Exception e) {/*no messages*/}
     }
@@ -811,18 +802,15 @@ public void showNotify() {
                 .append("\n")
                 .append(" ")
                 .toString();
-//#ifdef RUNNING_MESSAGE
-//#             Roster.me=new MessageEdit( this, contact, msg);
-//#else
-            new MessageEdit(this, contact, msg);
-//#endif
+            Roster.me = null; Roster.me=new MessageEdit(this, contact, msg);
+            Roster.me.show(this);
             msg=null;
         } catch (Exception e) {/*no messages*/}
     }
     
 //#ifdef HISTORY
 //#ifdef LAST_MESSAGES
-//#     public void loadRecentList() {
+//#     public final void loadRecentList() {
 //#         contact.setHistoryLoaded(true);
 //#         HistoryStorage hs = new HistoryStorage(contact.bareJid);
 //#         Vector history=hs.importData();

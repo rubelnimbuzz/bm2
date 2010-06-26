@@ -135,7 +135,7 @@ public class UserKeyExec {
         
 //#ifdef USER_KEYS
 //#ifdef PLUGINS
-        if (sd.UserKeys) {
+//#         if (sd.UserKeys) {
 //#endif
             DataInputStream is = NvStorage.ReadFileRecord(UserKey.storage, 0);
 
@@ -149,10 +149,12 @@ public class UserKeyExec {
                 UserKeysList.rmsUpdate(userKeysList);
             }
 //#ifdef PLUGINS
-        } else
+//#         } else {
+//#             userKeysList = UserKeysList.getDefaultKeysList();
+//#             }
 //#endif
 //#endif
-            userKeysList = UserKeysList.getDefaultKeysList();
+            
     }
 
     public boolean commandExecute(int previous_key_code, int key_code) { //return false if key not executed
@@ -188,7 +190,7 @@ public class UserKeyExec {
 //#ifdef STATS
             case 4:
 //#ifdef PLUGINS
-                if (sd.Stats)
+//#                 if (sd.Stats)
 //#endif
                     new StatsWindow( sd.roster);
                 break;
@@ -205,7 +207,7 @@ public class UserKeyExec {
             case 7: 
 //#ifdef ARCHIVE
 //#ifdef PLUGINS
-                if (sd.Archive)
+//#                 if (sd.Archive)
 //#endif
                     sd.roster.cmdArchive();
 //#endif
@@ -220,9 +222,11 @@ public class UserKeyExec {
                 if (connected) new PrivacySelect(sd.roster);
 //#endif
                 break;
+//#ifdef USER_KEYS                
             case 10: //key pound
                 new UserKeysList();
                 break;
+//#endif                
             case 11:
 //#ifdef POPUPS
                 sd.roster.cmdClearPopups();
@@ -246,12 +250,12 @@ public class UserKeyExec {
             case 16:
 //#ifdef CONSOLE
 //#ifdef PLUGINS
-                try {
-                    Class.forName("Console.XMLList");
+//#                 try {
+//#                     Class.forName("Console.XMLList");
 //#endif
                     new XMLList();
 //#ifdef PLUGINS
-                } catch (ClassNotFoundException ignore3) { }
+//#                 } catch (ClassNotFoundException ignore3) { }
 //#endif
 //#endif
                 break;
@@ -264,7 +268,7 @@ public class UserKeyExec {
             case 18:
 //#ifdef JUICK
 //#ifdef PLUGINS
-                if(sd.Juick)
+//#                 if(sd.Juick)
 //#endif
                 if (current instanceof Roster) {
                     Contact jContact = sd.roster.getMainJuickContact();
@@ -289,9 +293,8 @@ public class UserKeyExec {
             case 20:
 //#ifdef SMILES
                 if (current instanceof MessageList) {
-                    MessageList current_ml = (ContactMessageList) current;
-                    ((MessageItem) current_ml.getFocusedObject()).toggleSmiles();
-                    current_ml.repaint();
+                    ((MessageItem)((MessageList)current).getFocusedObject()).toggleSmiles();
+                    ((MessageList)current).redraw();
                 } else {
                     return false;
                 }
@@ -300,7 +303,7 @@ public class UserKeyExec {
             case 21:
 //#ifdef JUICK
 //#ifdef PLUGINS
-                if(sd.Juick)
+//#                 if(sd.Juick)
 //#endif
                 if (current instanceof ContactMessageList) {
                     ContactMessageList current_cml = (ContactMessageList) current;

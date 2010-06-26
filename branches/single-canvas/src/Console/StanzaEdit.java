@@ -24,17 +24,13 @@
  * along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package Console;
 
-import Client.Config;
 import Client.StaticData;
 import java.io.IOException;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
-import javax.microedition.lcdui.TextField;
 import locale.SR;
 import ui.VirtualList;
 import ui.controls.ExTextBox;
@@ -43,69 +39,90 @@ import ui.controls.ExTextBox;
  *
  * @author ad
  */
-public class StanzaEdit 
+public class StanzaEdit
         extends ExTextBox
         implements CommandListener {
 //#ifdef PLUGINS
-    public static String plugin = new String("PLUGIN_CONSOLE");
+//#     public static String plugin = new String("PLUGIN_CONSOLE");
 //#endif
+    private Command cmdCancel;
+    private Command cmdSend;
+    private Command cmdPasteIQDisco;
+    private Command cmdPasteIQVersion;
+    private Command cmdPastePresence;
+    private Command cmdPasteMessage;
+    private static final String TEMPLATE_IQ_DISCO = "<iq to='???' type='get'>\n<query xmlns='http://jabber.org/protocol/disco#info'/>\n</iq>";
+    private static final String TEMPLATE_IQ_VERSION = "<iq to='???' type='get'>\n<query xmlns='jabber:iq:version'/>\n</iq>";
+    private static final String TEMPLATE_PRESENCE = "<presence to='???'>\n<show>???</show>\n<status>???</status>\n</presence>";
+    private static final String TEMPLATE_MESSAGE = "<message to='???' type='???'>\n<body>???</body>\n</message>";
 
-    Displayable pView;
+    public StanzaEdit(Displayable pView, String body) {
+        super(body, SR.MS_XML_CONSOLE);
+    }
 
-    private Command cmdCancel=new Command(SR.MS_CANCEL, Command.BACK,99);
-    private Command cmdSend=new Command(SR.MS_SEND, Command.OK,1);
+    public void setParentView(Displayable parentView) {
+        this.parentView = parentView;
+    }
 
-    private Command cmdPasteIQDisco=new Command("disco#info", Command.SCREEN,11);
-    private Command cmdPasteIQVersion=new Command("jabber:iq:version", Command.SCREEN,12);
-    private Command cmdPastePresence=new Command("presence", Command.SCREEN,13);
-    private Command cmdPasteMessage=new Command("message", Command.SCREEN,14);
-    
-    private static final String TEMPLATE_IQ_DISCO="<iq to='???' type='get'>\n<query xmlns='http://jabber.org/protocol/disco#info'/>\n</iq>";
-    private static final String TEMPLATE_IQ_VERSION="<iq to='???' type='get'>\n<query xmlns='jabber:iq:version'/>\n</iq>";
-    private static final String TEMPLATE_PRESENCE="<presence to='???'>\n<show>???</show>\n<status>???</status>\n</presence>";
-    private static final String TEMPLATE_MESSAGE="<message to='???' type='???'>\n<body>???</body>\n</message>";
+    public void commandState() {
+        cmdCancel = new Command(SR.MS_CANCEL, Command.BACK, 99);
+        cmdSend = new Command(SR.MS_SEND, Command.OK, 1);
 
-    public StanzaEdit( VirtualList pView, String body) {
-        super(body, SR.MS_XML_CONSOLE, TextField.ANY);
-        parentView = pView;
-        addCommand(cmdSend);
+        cmdPasteIQDisco = new Command("disco#info", Command.SCREEN, 11);
+        cmdPasteIQVersion = new Command("jabber:iq:version", Command.SCREEN, 12);
+        cmdPastePresence = new Command("presence", Command.SCREEN, 13);
+        cmdPasteMessage = new Command("message", Command.SCREEN, 14);
 
-        addCommand(cmdPasteIQDisco);
-        addCommand(cmdPasteIQVersion);
-        addCommand(cmdPastePresence);
-        addCommand(cmdPasteMessage);
-        
-        addCommand(cmdCancel);
-        if (Config.getInstance().phoneManufacturer == Config.SONYE) System.gc(); // prevent flickering on Sony Ericcsson C510
-        setCommandListener(this);
-        
-        midlet.BombusMod.getInstance().setDisplayable(this);        
-    }    
-    
-    
-    public void commandAction(Command c, Displayable d){
-        //if (executeCommand(c, d)) return;
-        
-        body=getString();
-        if (body.length()==0) body=null;
+        textbox.addCommand(cmdSend);
 
-        int caretPos=getCaretPos();
+        textbox.addCommand(cmdPasteIQDisco);
+        textbox.addCommand(cmdPasteIQVersion);
+        textbox.addCommand(cmdPastePresence);
+        textbox.addCommand(cmdPasteMessage);
 
-        if (c==cmdPasteIQDisco) { insert(TEMPLATE_IQ_DISCO, caretPos); return; }
-        if (c==cmdPasteIQVersion) { insert(TEMPLATE_IQ_VERSION, caretPos); return; }
-        if (c==cmdPastePresence) { insert(TEMPLATE_PRESENCE, caretPos); return; }
-        if (c==cmdPasteMessage) { insert(TEMPLATE_MESSAGE, caretPos); return; }
+        textbox.addCommand(cmdCancel);
 
-        if (c==cmdCancel) { 
-            body=null;
+        super.commandState();
+        super.show(parentView, this);
+
+    }
+
+    public void commandAction(Command c, Displayable d) {
+
+        if (!executeCommand(c, d)) {
+
+            if (body.length() == 0) {
+                body = null;
+            }
+            if (c == cmdPasteIQDisco) {
+                insert(TEMPLATE_IQ_DISCO, caretPos);
+                return;
+            }
+            if (c == cmdPasteIQVersion) {
+                insert(TEMPLATE_IQ_VERSION, caretPos);
+                return;
+            }
+            if (c == cmdPastePresence) {
+                insert(TEMPLATE_PRESENCE, caretPos);
+                return;
+            }
+            if (c == cmdPasteMessage) {
+                insert(TEMPLATE_MESSAGE, caretPos);
+                return;
+            }
+
+            if (c == cmdCancel) {
+                body = null;
+            }
+
+            if (c == cmdSend && body != null) {
+                try {
+                    StaticData.getInstance().roster.theStream.send(body.trim());
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            destroyView();
         }
-
-        if (c==cmdSend && body!=null) {
-            try {
-                StaticData.getInstance().roster.theStream.send(body.trim());
-            } catch (IOException ex) { }
-        }
-
-        destroyView();
     }
 }

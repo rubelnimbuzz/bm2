@@ -91,7 +91,7 @@ public class ArchiveList
         show(parentView);
     }
 
-    public void commandState() {
+    public final void commandState() {
         menuCommands.removeAllElements();
 
         if (getItemCount()>0) {
@@ -119,7 +119,7 @@ public class ArchiveList
 	return archive.size();
     }
     
-    public Msg getMessage(int index) {
+    protected Msg getMessage(int index) {
 	return archive.msg(index);
     }
 

@@ -10,6 +10,7 @@ import Client.Group;
 import Client.StaticData;
 import com.alsutton.jabber.JabberBlockListener;
 import com.alsutton.jabber.JabberDataBlock;
+import com.alsutton.jabber.datablocks.Iq;
 import com.alsutton.jabber.datablocks.Presence;
 import java.util.Enumeration;
 import java.util.Vector;
@@ -31,7 +32,11 @@ public class RosterXListener implements JabberBlockListener {
         if (data instanceof Presence)
             return BLOCK_REJECTED;
         JabberDataBlock x=data.findNamespace("x", "http://jabber.org/protocol/rosterx");
-        if (x == null) return BLOCK_REJECTED;        
+        if (x == null) return BLOCK_REJECTED;            
+        if (data instanceof Iq) {
+            Iq reply=new Iq(data.getAttribute("from"), Iq.TYPE_RESULT, data.getAttribute("id"));
+            StaticData.getInstance().roster.theStream.send(reply);
+        }        
         Vector newcontacts = null;
         newcontacts = new Vector();
         sender = data.getAttribute("from");
@@ -55,7 +60,6 @@ public class RosterXListener implements JabberBlockListener {
         }
         if (!newcontacts.isEmpty())
             new RosterAddForm(sender, newcontacts);
-
         return BLOCK_PROCESSED;
     }
 

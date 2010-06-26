@@ -27,9 +27,11 @@
 package images;
 
 import java.io.InputStream;
+import javax.microedition.lcdui.Canvas;
+import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Graphics;
+import midlet.BombusMod;
 import ui.ImageList;
-import ui.VirtualCanvas;
 
 /**
  *
@@ -54,7 +56,8 @@ public class AniImageList extends ImageList implements Runnable {
 
     public void drawImage(Graphics g, int index, int x, int y) {
         if (0 <= index && index < icons.length) {
-            icons[index].drawImage(g, x+(width-icons[index].getWidth())/2, y+(height-icons[index].getHeight())/2);
+            //g.drawRect(x, y+(height-icons[index].getHeight())/2, icons[index].getWidth(), icons[index].getHeight());
+            icons[index].drawImage(g, x, y+(height-icons[index].getHeight())/2);
         } else {
         }
     }
@@ -112,7 +115,11 @@ public class AniImageList extends ImageList implements Runnable {
                     }
                 }
                 if (update) {
-                    VirtualCanvas.nativeCanvas.repaint();
+                    Displayable d = BombusMod.getInstance().getDisplay().getCurrent();
+                    if (d instanceof Canvas) {
+                        ((Canvas)d).repaint();
+                    }
+
                 }
             }
             time = newTime;

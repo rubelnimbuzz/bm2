@@ -24,7 +24,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-
 package Archive;
 
 import Client.Config;
@@ -38,67 +37,68 @@ import ui.controls.ExTextBox;
  *
  * @author ad
  */
-public class archiveEdit 
+public class archiveEdit
         extends ExTextBox
         implements CommandListener {
 //#ifdef PLUGINS
-    public static String plugin = new String("PLUGIN_ARCHIVE");
+//#     public static String plugin = new String("PLUGIN_ARCHIVE");
 //#endif
-    
-    private Command cmdCancel=new Command(SR.MS_CANCEL, Command.BACK, 99);
-    private Command cmdOk=new Command(SR.MS_OK, Command.OK /*Command.SCREEN*/, 1);
-
+    private Command cmdCancel;
+    private Command cmdOk;
     private Msg msg;
-    
     MessageArchive archive;
-
-    private int where=1;
-
+    private int where = 1;
     private int pos;
-
     private ArchiveList al;
     
     public archiveEdit(VirtualList pView, int pos, int where, ArchiveList al) {
-        super(null, (pos>-1)?SR.MS_EDIT:SR.MS_NEW, TextField.ANY);
-        
-        archive=new MessageArchive(where);
 
-        this.where=where;
-        
-        this.pos=pos;
-        
-        this.al=al;
-        
-        if (pos>-1) {
-            this.msg=archive.msg(pos);
-            body=msg.quoteString();
+        super(null, (pos > -1) ? SR.MS_EDIT : SR.MS_NEW);
+
+        archive = new MessageArchive(where);
+
+        this.where = where;
+
+        this.pos = pos;
+
+        this.al = al;
+
+        if (pos > -1) {
+            this.msg = archive.msg(pos);
+            body = msg.quoteString();
         }
-        
+
         setText(body);
-        
-        addCommand(cmdOk);
-        addCommand(cmdCancel);
-        
-        
+        show(pView, this);
+    }
+
+    public void commandState() {
+
+        super.commandState();
+
+        cmdCancel = new Command(SR.MS_CANCEL, Command.BACK, 99);
+        cmdOk = new Command(SR.MS_OK, Command.OK /*Command.SCREEN*/, 1);
+
+        textbox.addCommand(cmdOk);
+        textbox.addCommand(cmdCancel);
+
 //#ifdef ARCHIVE
-        super.removeCommand(cmdPaste);
+        textbox.removeCommand(cmdPaste);
 //#endif
 //#if TEMPLATES
-        super.removeCommand(cmdTemplate);
+        textbox.removeCommand(cmdTemplate);
 //#endif
         if (Config.getInstance().phoneManufacturer == Config.SONYE) System.gc(); // prevent flickering on Sony Ericcsson C510
-        setCommandListener(this);
+        textbox.setCommandListener(this);
         
-        midlet.BombusMod.getInstance().setDisplayable(this);
+        midlet.BombusMod.getInstance().setDisplayable(textbox);
     }
     
     public void commandAction(Command c, Displayable d){
         //if (executeCommand(c, d)) return;
         
-        body=getString();
+        if (!executeCommand(c, d)) {
 		
-        if (body.length()==0) body=null;
-        
         if (c==cmdOk) {
             int type=Msg.MESSAGE_TYPE_OUT;
             String from="";
@@ -109,14 +109,10 @@ public class archiveEdit
                 subj=msg.subject;
                 archive.delete(pos);
             }
-            Msg newmsg=new Msg(type, from, subj, body);
-            
-            MessageArchive.store(newmsg, where);
-            archive.close();
-            
-            al.reFresh();
+            al.show(al.pView);
         }
         
-        al.show(al.pView);
+
+        }
     }
 }

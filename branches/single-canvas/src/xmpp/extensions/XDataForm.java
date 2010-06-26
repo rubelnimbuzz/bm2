@@ -67,12 +67,13 @@ public class XDataForm implements CommandListener {
             if (!ch.getTagName().equals("field")) continue;
             
             XDataField field=new XDataField(ch);
+            ch = null;
             
             items.addElement(field);
             
             if (field.hidden) continue;
             
-            if (field.media!=null)
+            if (field.media != null)
                 field.mediaIndex = f.append(field.media);
             field.formIndex=f.append(field.formItem);
         }
@@ -85,24 +86,38 @@ public class XDataForm implements CommandListener {
     
     public void fetchMediaElements(Vector bobCache) {
         //TODO: fetch external http bobs and non-cached in-band bobs
-        for (int i=0; i<items.size(); i++) {
-            XDataField field=(XDataField)items.elementAt(i);
+        byte [] bytes = null;
+        Image img = null;
+        String cid = null;
+        XDataField field = null;
+        JabberDataBlock data = null;
+        int formItems = items.size();
+        for (int i=0; i<formItems; i++) {
+            field=(XDataField)items.elementAt(i);
             if (field.mediaUri==null) continue;
             if (!(field.media instanceof StringItem)) continue;
 
             if (field.mediaUri.startsWith("cid:")) {
-                String cid=field.mediaUri.substring(4);
+                cid = field.mediaUri.substring(4);
                 if (bobCache==null) continue; //TODO: in-band bob request
 
                 for (int bob=0; bob<bobCache.size(); bob++) {
-                    JabberDataBlock data=(JabberDataBlock) bobCache.elementAt(bob);
+                    data = null;
+                    data = (JabberDataBlock) bobCache.elementAt(bob);
                     if (data.isJabberNameSpace("urn:xmpp:bob") && cid.equals(data.getAttribute("cid"))) {
-                        byte[] bytes=Strconv.fromBase64(data.getText());
-                        Image img=Image.createImage(bytes, 0, bytes.length);
+                        bytes = null;
+                        bytes = Strconv.fromBase64(data.getText());
+                        img = null;
+                        img = Image.createImage(bytes, 0, bytes.length);
+                        bytes = null;
+                        data = null;
                         
                         //workaround for SE
-                        f.delete(field.mediaIndex);
-                        f.insert(field.mediaIndex, new ImageItem(null, img, Item.LAYOUT_CENTER, null));
+                        if (field.media != null) {
+                            f.delete(field.mediaIndex);
+                            f.insert(field.mediaIndex, new ImageItem(null, img, Item.LAYOUT_CENTER, null));
+                        }
+                        img = null;
                     }
                 }
             }
@@ -115,9 +130,12 @@ public class XDataForm implements CommandListener {
             resultForm.setNameSpace("jabber:x:data");
             resultForm.setTypeAttribute("submit");
             
-            for (Enumeration e=items.elements(); e.hasMoreElements(); ) {
-                JabberDataBlock ch=((XDataField)e.nextElement()).constructJabberDataBlock();
-                if (ch!=null) resultForm.addChild(ch);
+            for (Enumeration e = items.elements(); e.hasMoreElements();) {
+                JabberDataBlock ch = ((XDataField) e.nextElement()).constructJabberDataBlock();
+                if (ch != null) {
+                    resultForm.addChild(ch);
+                }
+                ch = null;
             }
             notifyListener.XDataFormSubmit(resultForm);
         }

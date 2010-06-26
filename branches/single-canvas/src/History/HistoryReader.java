@@ -29,95 +29,81 @@ package History;
 
 import Client.Contact;
 import Client.Msg;
-import Menu.MenuCommand;
+import Messages.MessageItem;
 import Messages.MessageList;
-import java.util.Vector;
 import locale.SR;
 import ui.MainBar;
-import ui.VirtualList;
 
 /**
  *
  * @author ad
  */
 public class HistoryReader extends MessageList {
-
 //#ifdef PLUGINS
-    public static String plugin = new String("PLUGIN_HISTORY");
+//#     public static String plugin = new String("PLUGIN_HISTORY");
 //#endif
     
     private HistoryLoader hl;
-    MenuCommand cmdNext, cmdPrev;
+    static MessageItem MIPrev, MINext;
 
     /** Creates a new instance of HistoryReader
+     * @param display
      * @param c 
      */
     public HistoryReader(Contact c) {
         super();
-        cmdNext = new MenuCommand(SR.MS_NEXT, MenuCommand.ITEM, 1);
-        cmdPrev = new MenuCommand(SR.MS_PREVIOUS, MenuCommand.ITEM, 1);
-        hl = new HistoryLoader(c.bareJid);
-	MainBar mb=new MainBar(c.getName() + ": " + SR.MS_HISTORY);
-	mb.addElement(null);
-	mb.addRAlign();
-	mb.addElement(null);
-	//mb.addElement(SR.MS_FREE /*"free "*/);
-        setMainBarItem(mb);
+        MIPrev = new MessageItem(new Msg(Msg.MESSAGE_TYPE_SYSTEM, null, null, "<---"), this, smiles);
+        MINext = new MessageItem(new Msg(Msg.MESSAGE_TYPE_SYSTEM, null, null, "--->"), this, smiles);
 
-        removeAllMessages();
+        setMainBarItem(new MainBar(c.getName() + ": " + SR.MS_HISTORY));
         addMenuCommands();
         removeMenuCommand(cmdxmlSkin);
-        setMenuListener(this);
-        addMenuCommand(cmdPrev);
-        addMenuCommand(cmdNext);
-	addMenuCommand(cmdBack);
-        hl.getNext();
-        moveCursorTo(1);
+
+        hl = new HistoryLoader(c.bareJid, this, smiles);
+        messages = hl.stepEnd();
+        moveCursorEnd();
         show(parentView);
     }
 
-    public void keyPressed(int keyCode) {
-        if ((keyCode == KEY_NUM5) || (getGameAction(keyCode) == FIRE)) {
-           if (cursor == 0) {
-               removeAllMessages();
-               hl.getPrev();
-           } else if (cursor == (getItemCount()-1)) {
-               removeAllMessages();
-               hl.getNext();
-           }           
-        }
-        super.keyPressed(keyCode);
-    }
-
-    public void menuAction(MenuCommand c, VirtualList d) {
-        if(c==cmdNext) {
-            removeAllMessages();
-            hl.getNext();
+    public void eventOk() {
+        if (getItemRef(cursor) == MIPrev) {
+            messages = hl.stepBack();
+            moveCursorEnd();
             return;
-        } else if (c == cmdPrev) {
-            removeAllMessages();
-            hl.getPrev();
+        } else if (getItemRef(cursor) == MINext) {
+            messages = hl.stepNext();
+            moveCursorHome();
             return;
         }
-        super.menuAction(c, d);
+        super.eventOk();
     }
-
-    private void removeAllMessages() {
-        messages = null;
-        messages = new Vector();
+    
+    public void keyPressed(int key_code) {
+        switch(key_code) {
+            case KEY_NUM1:
+                messages = hl.stepBegin();
+                moveCursorHome();
+                return;
+            case KEY_NUM7:
+                messages = hl.stepEnd();
+                moveCursorEnd();
+                return;
+        }
+        super.keyPressed(key_code);
     }
 
     public int getItemCount() {
-        if (hl != null)
-           return hl.listMessages.size()+2;
+        if (messages != null)
+           return messages.size();
         else return 0;
     }
 
     public Msg getMessage(int i) {
-        if (i==0)
-            return new Msg(Msg.MESSAGE_TYPE_SYSTEM, null, null, "<---");
-        if (i==(getItemCount()-1))
-            return new Msg(Msg.MESSAGE_TYPE_SYSTEM, null, null, "--->");
-        return (Msg) hl.listMessages.elementAt(i-1);
+        if (messages == null) return null;
+        return ((MessageItem) messages.elementAt(i)).msg;
     }
+/*
+    public VirtualElement getItemRef(int i) {
+        return (VirtualElement) messages.elementAt(i);
+    }*/
 }

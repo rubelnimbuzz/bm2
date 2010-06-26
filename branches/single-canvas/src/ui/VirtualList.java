@@ -92,8 +92,8 @@ public abstract class VirtualList
     private int mHeight;
     
 //#ifdef GRADIENT
-    Gradient grIB;
-    Gradient grMB;
+//#     Gradient grIB;
+//#     Gradient grMB;
 //#endif
 
     public static int panelsState = 2;
@@ -139,6 +139,7 @@ public abstract class VirtualList
             ((VirtualElement)getFocusedObject()).onSelect();
             updateLayout();
             fitCursorByTop();
+            redraw();
         } catch (Exception e) {} 
     }
     
@@ -296,7 +297,7 @@ public abstract class VirtualList
     public void setMainBarItem(ComplexString mainbar) { this.mainbar=mainbar; }
     
     public ComplexString getInfoBarItem() {return (ComplexString)infobar;}
-    public void setInfoBarItem(ComplexString infobar) { this.infobar=infobar; }    
+    public final void setInfoBarItem(ComplexString infobar) { this.infobar=infobar; }
 
 //#ifdef ELF    
 //#     private static boolean sie_accu=true;
@@ -341,7 +342,7 @@ public abstract class VirtualList
         scrollbar=new ScrollBar();
         scrollbar.setHasPointerEvents(hasPointerEvents());
 
-        MainBar secondBar=new MainBar("", true);
+        MainBar secondBar=new MainBar("", true, hasPointerEvents() && cf.advTouch);
         secondBar.addElement(null); //1
         secondBar.addRAlign();
         secondBar.addElement(null); //3
@@ -429,8 +430,8 @@ public abstract class VirtualList
         width=w;
         height=h;
 //#ifdef GRADIENT
-        iHeight=0;
-        mHeight=0;
+//#         iHeight=0;
+//#         mHeight=0;
 //#endif
         if (!isDoubleBuffered())  offscreen=Image.createImage(width, height);
     }
@@ -446,8 +447,8 @@ public abstract class VirtualList
     protected void beginPaint(){};
 
     public void paint(Graphics graphics) {
-        width=getWidth();
-        height=getHeight();
+        width = graphics.getClipWidth();
+        height = graphics.getClipHeight();
 
         mHeight=0;
         iHeight=0;
@@ -720,48 +721,73 @@ public abstract class VirtualList
 
         g.setClip(0,0, width, h);
 //#ifdef GRADIENT
-        if (getMainBarBGnd()!=getMainBarBGndBottom()) {
-            if (iHeight!=h) {
-                grIB=new Gradient(0, 0, width, h, getMainBarBGnd(), getMainBarBGndBottom(), false);
-                iHeight=h;
-            }
-            grIB.paint(g);
-        } else {
-            g.setColor(getMainBarBGnd());
-            g.fillRect(0, 0, width, h);
-        }
-//#else
+//#         if (getMainBarBGnd()!=getMainBarBGndBottom()) {
+//#             if (iHeight!=h) {
+//#                 grIB=new Gradient(0, 0, width, h, getMainBarBGnd(), getMainBarBGndBottom(), false);
+//#                 iHeight=h;
+//#             }
+//#             grIB.paint(g);
+//#         } else {
 //#             g.setColor(getMainBarBGnd());
 //#             g.fillRect(0, 0, width, h);
+//#         }
+//#else
+//#ifdef BACK_IMAGE
+//#         if (MainBar.bg != null) {
 //#endif
 
-        g.setColor(getMainBarRGB());
+            g.setColor(getMainBarBGnd());
+            g.fillRect(0, 0, width, h);
+//#ifdef BACK_IMAGE
+//#         }
+//#endif
 
+//#endif
+//#ifdef BACK_IMAGE
+//#         if (MainBar.bg != null) {
+//#endif
+        g.setColor(getMainBarRGB());
+//#ifdef BACK_IMAGE
+//#         }
+//#endif
         infobar.drawItem(g,(phoneManufacturer==Config.NOKIA && reverse)?17:0,false);
+
     }
     
     private void drawMainPanel (final Graphics g) {    
         int h=mainbar.getVHeight()+1;
         g.setClip(0,0, width, h);
 //#ifdef GRADIENT
-        if (getMainBarBGnd()!=getMainBarBGndBottom()) {
-            if (mHeight!=h) {
-                grMB=new Gradient(0, 0, width, h, getMainBarBGndBottom(), getMainBarBGnd(), false);
-                mHeight=h;
-            }
-            grMB.paint(g);
-        } else {
-            g.setColor(getMainBarBGnd());
-            g.fillRect(0, 0, width, h);
-        }
-//#else
+//#         if (getMainBarBGnd()!=getMainBarBGndBottom()) {
+//#             if (mHeight!=h) {
+//#                 grMB=new Gradient(0, 0, width, h, getMainBarBGndBottom(), getMainBarBGnd(), false);
+//#                 mHeight=h;
+//#             }
+//#             grMB.paint(g);
+//#         } else {
 //#             g.setColor(getMainBarBGnd());
 //#             g.fillRect(0, 0, width, h);
+//#         }
+//#else
+//#ifdef BACK_IMAGE
+//#         if (MainBar.bg != null) {
 //#endif
-        
+        g.setColor(getMainBarBGnd());
+        g.fillRect(0, 0, width, h);
+//#ifdef BACK_IMAGE
+//#         }
+//#endif
+//#endif
+//#ifdef BACK_IMAGE
+//#         if (MainBar.bg != null) {
+//#endif
         g.setColor(getMainBarRGB());
+//#ifdef BACK_IMAGE
+//#         }
+//#endif
         mainbar.drawItem(g,(phoneManufacturer==Config.NOKIA && !reverse)?17:0,false);
     }
+    
 
     /**
      * перенос координат (0.0) в абсолютные координаты (x,y)
@@ -831,7 +857,7 @@ public abstract class VirtualList
     protected void keyReleased(int keyCode) { kHold=0; }
     protected void keyPressed(int keyCode) { kHold=0; key(keyCode);  }
     private int yPointerPos;
-    
+
     protected void pointerPressed(int x, int y) {
 //#ifdef POPUPS
         if (PopUp.getInstance().next()) {
@@ -918,8 +944,8 @@ public abstract class VirtualList
         
         redraw();
     }
+    
     protected void pointerDragged(int x, int y) { 
-
         if (scrollbar.pointerDragged(x, y, this)) {
             stickyWindow=false;
             return;
@@ -958,8 +984,11 @@ public abstract class VirtualList
 	long clickTime=System.currentTimeMillis();
         if (lastClickY-y<5 && y-lastClickY<5) {
             if (clickTime-lastClickTime>500) {
-                y=0;
+                y = 0;
                 eventLongOk();
+            } else if (clickTime-lastClickTime<200) {
+                y = 0;
+                eventOk();
             }
         }        
     }
@@ -1346,7 +1375,7 @@ public abstract class VirtualList
     protected void keyClear() {}
     protected void keyGreen() { eventOk(); }
     
-    protected  void setRotator(){
+    protected void setRotator() {
 //#if (USE_ROTATOR)
         try {
             if (getItemCount() < 1)

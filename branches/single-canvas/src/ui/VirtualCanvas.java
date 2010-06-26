@@ -58,6 +58,8 @@ public class VirtualCanvas extends Canvas implements CommandListener{
     }
 
     protected void paint(Graphics graphics) {
+        list.width = graphics.getClipWidth();
+        list.height = graphics.getClipHeight();
         list.paint(graphics);
     }
     protected void keyPressed(int keyCode) {
@@ -81,7 +83,7 @@ public class VirtualCanvas extends Canvas implements CommandListener{
     }
 
     protected void showNotify() {
-        setFullScreenMode(Config.fullscreen);
+        //setFullScreenMode(Config.fullscreen);
         list.showNotify();        
     }
     protected void hideNotify() {
@@ -89,6 +91,8 @@ public class VirtualCanvas extends Canvas implements CommandListener{
             list.hideNotify();
         }
     }
+
+    
     
     protected void sizeChanged(int w, int h) {
         if (list != null)
@@ -101,7 +105,7 @@ public class VirtualCanvas extends Canvas implements CommandListener{
         if (c == commandCancel) list.touchRightPressed();
     }
 
-    public void setOk(String title) {
+    public final void setOk(String title) {
         if (!Config.fullscreen) {
         if (commandOk != null) removeCommand(commandOk);
         commandOk = null;
@@ -110,7 +114,7 @@ public class VirtualCanvas extends Canvas implements CommandListener{
         }
        // setCommandListener(this);
     }
-    public void setCancel(String title) {
+    public final void setCancel(String title) {
         if (!Config.fullscreen) {
         if (commandCancel != null) removeCommand(commandCancel);
         commandCancel = null;

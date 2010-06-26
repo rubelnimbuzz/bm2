@@ -86,11 +86,11 @@ public class AccountSelect extends DefForm {
         } else {
 //#ifdef IMPORT_EXPORT
 //#ifdef PLUGINS
-            if (StaticData.getInstance().IE) {
+//#             if (StaticData.getInstance().IE) {
 //#endif     
             new IE.Accounts("/def_accounts.txt", 0,  true);
 //#ifdef PLUGINS                              
-            }
+//#             }
 //#endif
             loadAccounts();
         if (accountList.isEmpty()) {
@@ -144,7 +144,11 @@ public class AccountSelect extends DefForm {
         showMenu();
     }
 
-    public VirtualElement getItemRef(int Index) { return (VirtualElement)accountList.elementAt(Index); }
+    public VirtualElement getItemRef(int Index) {
+        if (Index > accountList.size())
+            Index = accountList.size() - 1;
+        return (VirtualElement)accountList.elementAt(Index);
+    }
     protected int getItemCount() { return accountList.size();  }
 
     public void menuAction(MenuCommand c, VirtualList d){

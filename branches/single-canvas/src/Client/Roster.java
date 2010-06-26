@@ -90,7 +90,7 @@ import xmpp.EntityCaps;
 
 import xmpp.XmppError;
 //#ifdef CAPTCHA
-import xmpp.extensions.Captcha;
+//# import xmpp.extensions.Captcha;
 //#endif
 
 import xmpp.extensions.IqQueryRoster;
@@ -109,6 +109,7 @@ import xmpp.extensions.IqTimeReply;
 import xmpp.extensions.PepListener;
 import xmpp.extensions.RosterXListener;
 //#endif
+import xmpp.extensions.RosterXListener;
 
 public class Roster
         extends VirtualList
@@ -158,9 +159,7 @@ public class Roster
     
     public Vector bookmarks;
     
-//#ifdef RUNNING_MESSAGE
-//#     public static MessageEdit me=null;
-//#endif
+    public static MessageEdit me = null;
     
     private StatusList sl;
     public int myStatus=cf.loginstatus;
@@ -253,13 +252,13 @@ public class Roster
     
     public void setLight(boolean state) {
 //#ifndef NOLEGACY
-        if (phoneManufacturer==Config.SIEMENS || phoneManufacturer==Config.SIEMENS2) {
-            try {
-                if (state) com.siemens.mp.game.Light.setLightOn();
-                else com.siemens.mp.game.Light.setLightOff();  
-            } catch( Exception e ) { }
-            return;
-        }
+//#         if (phoneManufacturer==Config.SIEMENS || phoneManufacturer==Config.SIEMENS2) {
+//#             try {
+//#                 if (state) com.siemens.mp.game.Light.setLightOn();
+//#                 else com.siemens.mp.game.Light.setLightOff();  
+//#             } catch( Exception e ) { }
+//#             return;
+//#         }
 //#endif
         if (!state) return;
 //#ifdef SE_LIGHT
@@ -436,7 +435,8 @@ public class Roster
     }
     
     public VirtualElement getItemRef(int Index){
-        return (VirtualElement)paintVContacts.elementAt(Index);
+        paintVContacts=vContacts;
+        return (VirtualElement)vContacts.elementAt(Index);
     }
     
     public int getItemCount() {
@@ -483,8 +483,8 @@ public class Roster
         int m=0;
         int h=0;
         synchronized (hContacts) {
-            for (Enumeration e=hContacts.elements();e.hasMoreElements();){
-                Contact c=(Contact)e.nextElement();
+            for (int i=0; i<hContacts.size(); i++){
+                Contact c=(Contact)hContacts.elementAt(i);
                 m+=c.getNewMsgsCount();
                 h+=c.getNewHighliteMsgsCount();
             }
@@ -522,8 +522,8 @@ public class Roster
     
     public void cleanAllMessages(){
         synchronized (hContacts) {
-            for (Enumeration e=hContacts.elements();e.hasMoreElements();) {
-                Contact c=(Contact)e.nextElement();
+            for (int i=0; i<hContacts.size(); i++) {
+                Contact c=(Contact)hContacts.elementAt(i);
                 try {
                     c.purge();
                 } catch (Exception ex) { }
@@ -611,9 +611,6 @@ public class Roster
     public void reEnumRoster(){
         if (reEnumerator==null) reEnumerator=new ReEnumerator();
         reEnumerator.queueEnum();
-        if (Config.getInstance().widthSystemgc) {
-            System.gc(); // issue 87 workaround
-        }
     }
     
     
@@ -639,8 +636,8 @@ public class Roster
         boolean firstInstance=true; //FS#712 workaround
         int index=0;
         synchronized (hContacts) {
-            for (Enumeration e=hContacts.elements();e.hasMoreElements();) {
-                c=(Contact)e.nextElement();
+            for (int i=0; i<hContacts.size(); i++) {
+                c=(Contact)hContacts.elementAt(i);
                 if (c.jid.equals(J,false)) {
                     Group group= (c.jid.isTransport())? 
                         groups.getGroup(Groups.TYPE_TRANSP) :
@@ -861,8 +858,8 @@ public class Roster
 
     public final Contact findContact(final Jid j, final boolean compareResources) {
         synchronized (hContacts) {
-            for (Enumeration e=hContacts.elements();e.hasMoreElements();){
-                Contact c=(Contact)e.nextElement();
+            for (int i=0; i<hContacts.size(); i++){
+                Contact c=(Contact)hContacts.elementAt(i);
                 if (c.jid.equals(j,compareResources)) return c;
             }
         }
@@ -994,7 +991,7 @@ public class Roster
             // send presence
             ExtendedStatus es= sl.getStatus(myStatus);
             if (message==null)
-                myMessage=StringUtils.toExtendedString(es.getMessage());;
+                myMessage=StringUtils.toExtendedString(es.getMessage());
 
             myMessage=StringUtils.toExtendedString(myMessage);
             int myPriority=es.getPriority();
@@ -1016,8 +1013,8 @@ public class Roster
             } catch (Exception e) { /*e.printStackTrace();*/ }
 
             synchronized(hContacts) {
-                for (Enumeration e=hContacts.elements(); e.hasMoreElements();){
-                    ((Contact)e.nextElement()).setStatus(Presence.PRESENCE_OFFLINE); // keep error & unknown
+                for (int i=0; i<hContacts.size(); i++){
+                    ((Contact)hContacts.elementAt(i)).setStatus(Presence.PRESENCE_OFFLINE); // keep error & unknown
                  }
             }
             theStream=null;
@@ -1079,8 +1076,8 @@ public class Roster
          if (myStatus==Presence.PRESENCE_INVISIBLE) return; //block multicasting presence invisible
          
          synchronized (hContacts) {
-             for (Enumeration e=hContacts.elements(); e.hasMoreElements();) {
-                Contact c=(Contact) e.nextElement();
+             for (int i=0; i<hContacts.size(); i++) {
+                Contact c=(Contact) hContacts.elementAt(i);
                 if (c.origin!=Contact.ORIGIN_GROUPCHAT) continue;
                 if (!((MucContact)c).commonPresence) continue; // stop if room left manually
                 ConferenceGroup confGroup=(ConferenceGroup)c.group;
@@ -1192,7 +1189,7 @@ public class Roster
         if (!cf.eventDelivery) return;
         if (myStatus==Presence.PRESENCE_INVISIBLE) return;
         Message message=new Message(c.jid.getJid());
-
+        // FIXME: no need to send <received /> to forwarded messages
         //xep-0184
         message.setAttribute("id", id);
         message.addChildNs("received", "urn:xmpp:receipts");
@@ -1205,8 +1202,8 @@ public class Roster
         vCardQueue=null;
 	vCardQueue=new Vector();
         synchronized (hContacts) {
-            for (Enumeration e=hContacts.elements(); e.hasMoreElements();){
-                Contact k=(Contact) e.nextElement();
+            for (int i=0; i<hContacts.size(); i++){
+                Contact k=(Contact) hContacts.elementAt(i);
                 if (k.jid.isTransport()) 
                     continue;
                 int grpType=k.getGroupType();
@@ -1236,8 +1233,8 @@ public class Roster
 //#if CHANGE_TRANSPORT
 //#     public void contactChangeTransport(String srcTransport, String dstTransport){ //voffk
 //# 	setQuerySign(true);
-//#         for (Enumeration e=hContacts.elements(); e.hasMoreElements(); ) {
-//# 	    Contact k=(Contact) e.nextElement();
+//#         for (int i=0; i<hContacts.size(); i++) {
+//# 	    Contact k=(Contact) hContacts.elementAt(i);
 //# 	    if (k.jid.isTransport()) continue;
 //#             int grpType=k.getGroupType();
 //#             if (k.jid.getServer().equals(srcTransport) &&
@@ -1318,7 +1315,7 @@ public class Roster
 //#endif
      
 //#ifdef CAPTCHA
-        theStream.addBlockListener(new Captcha());
+//#         theStream.addBlockListener(new Captcha());
 //#endif
         
         playNotify(SOUND_CONNECTED);
@@ -1409,7 +1406,7 @@ public class Roster
                     
                 } // id!=null
                 if ( type.equals( "result" ) ) {
-                    if (id.equals("getros")){
+                    if (id.equals("getros")) {
                         //theStream.enableRosterNotify(false); //voffk
 
                         processRoster(data);
@@ -1481,7 +1478,7 @@ public class Roster
                 String oob=message.getOOB();
                 if (oob!=null) body+=oob;
                 if (body.length()==0)
-                    body=null; 
+                    body=null;
                 String subj=message.getSubject().trim(); 
                 if (subj.length()==0) 
                     subj=null;
@@ -1847,7 +1844,7 @@ public class Roster
     }
 //#endif
 
-    boolean  processRoster(JabberDataBlock data){
+    boolean  processRoster(JabberDataBlock data) {
         JabberDataBlock q=data.findNamespace("query", "jabber:iq:roster");
         if (q==null) return false;
         int type=0;
@@ -1861,10 +1858,11 @@ public class Roster
          }
         
         Vector cont=(q!=null)?q.getChildBlocks():null;
+        q = null;
         
         if (cont!=null)
-            for (Enumeration e=cont.elements(); e.hasMoreElements();){
-                JabberDataBlock i=(JabberDataBlock)e.nextElement();
+            for (int ii=0; ii<cont.size(); ii++){
+                JabberDataBlock i=(JabberDataBlock)cont.elementAt(ii);
                 if (i.getTagName().equals("item")) {
                     String name=i.getAttribute("name");
                     String jid=i.getAttribute("jid");
@@ -2206,26 +2204,24 @@ public class Roster
         Displayable pview=createMsgList();
         if (pview!=null) {
             Contact c=(Contact)getFocusedObject();
-//#ifdef RUNNING_MESSAGE
-//#             me = new MessageEdit((VirtualList)pview, c, c.msgSuspended);
-//#else
-            new MessageEdit(pview, c, c.msgSuspended);
-//#endif
+            me = null; me = new MessageEdit(pview, c, c.msgSuspended);
+            me.show(this);
             c.msgSuspended=null;
         }
     }
     
-    protected void keyClear(){
-        if (isLoggedIn()) {
-            final Contact c=(Contact) getFocusedObject();
-            try { 
-                boolean isContact=( getFocusedObject() instanceof Contact );
+    protected void keyClear() {
+        Object focusedObject = getFocusedObject();
+        if (isLoggedIn() && (focusedObject instanceof Contact)) {
+            final Contact c = (Contact) getFocusedObject();
+            try {
 //#ifndef WMUC
-                boolean isMucContact=( getFocusedObject() instanceof MucContact );
+                boolean isMucContact = (focusedObject instanceof MucContact);
 //#else
-//#                 boolean isMucContact=false;
+//#                 boolean isMucContact = false;
 //#endif
-                if (isContact && !isMucContact) {
+                focusedObject = null;
+                if (!isMucContact) {
                    new AlertBox(SR.MS_DELETE_ASK, c.getNickJid()) {
                         public void yes() {
                             deleteContact(c);
@@ -2234,7 +2230,7 @@ public class Roster
                     };
                 }
 //#ifndef WMUC
-                else if (isContact && isMucContact && c.origin!=Contact.ORIGIN_GROUPCHAT) {
+                else if (isMucContact && c.origin!=Contact.ORIGIN_GROUPCHAT) {
                     ConferenceGroup mucGrp=(ConferenceGroup)c.group;
                     if (mucGrp.selfContact.roleCode==MucContact.ROLE_MODERATOR) {
                         String myNick=mucGrp.selfContact.getName();
@@ -2275,29 +2271,30 @@ public class Roster
                 return;
 //#ifdef AUTOSTATUS
             case SE_FLIPCLOSE_JP6:
-            case SIEMENS_FLIPCLOSE:
-            case MOTOROLA_FLIP:
-                if (phoneManufacturer!=Config.SONYE) { //workaround for SE JP6 - enabling vibra in closed state
-                    midlet.BombusMod.getInstance().setDisplayable(null);
+                if (phoneManufacturer==Config.SONYE) { //workaround for SE JP6 - enabling vibra in closed state
+                    midlet.BombusMod.getInstance().getDisplay().setCurrent(null);
                     try {
                         Thread.sleep(300);
                     } catch (Exception ex) {}
-                    midlet.BombusMod.getInstance().setDisplayable(this);
-                }
-//#if DEBUG
-//#             System.out.println("Flip closed");
-//#endif
-                if (cf.autoAwayType==Config.AWAY_LOCK)
-                    if (!autoAway)
-                        autostatus.setTimeEvent(cf.autoAwayDelay* 60*1000);
+                    midlet.BombusMod.getInstance().getDisplay().setCurrent(this);
+                    keyLock();
+                }                
+                break;
+            case SIEMENS_FLIPCLOSE:
+                if (cf.phoneManufacturer == Config.SIEMENS) // verify platform because SIEMENS_FLIPCLOSE maybe MOTOROLA_FLIP
+                    keyLock();
+                break;              
+            case MOTOROLA_FLIP:
+                if (cf.phoneManufacturer == Config.MOTO) 
+                    keyLock();
                 break;
 //#endif
             case KEY_NUM0:            
                 if (getItemCount()==0)
                     return;
                 synchronized(hContacts) {
-                    for (Enumeration e=hContacts.elements(); e.hasMoreElements();){
-                        Contact c=(Contact)e.nextElement();
+                    for (int i=0; i<hContacts.size(); i++){
+                        Contact c=(Contact)hContacts.elementAt(i);
                         c.setIncoming(Contact.INC_NONE);
                         c=null;
                     }
@@ -2355,7 +2352,13 @@ public class Roster
         userActivity();
 //#endif
      }
- 
+//#ifdef AUTOSTATUS
+    private void keyLock() {
+        if (cf.autoAwayType==Config.AWAY_LOCK) 
+            if (!autoAway) 
+                autostatus.setTimeEvent(cf.autoAwayDelay* 60*1000);
+    } 
+//#endif    
     protected void keyRepeated(int keyCode) {
         super.keyRepeated(keyCode);
         if (kHold==keyCode) return;
@@ -2703,8 +2706,8 @@ public class Roster
     }
     
     public void roomOffline(final Group group) {
-         for (Enumeration e=hContacts.elements(); e.hasMoreElements();) {
-            Contact contact=(Contact)e.nextElement();
+         for (int i=0; i<hContacts.size(); i++) {
+            Contact contact=(Contact)hContacts.elementAt(i);
             if (contact.group==group) {
                 contact.setStatus(Presence.PRESENCE_OFFLINE);
             }
@@ -2757,8 +2760,8 @@ public class Roster
 	Vector activeContacts=new Vector();
         int nowContact = -1, contacts=-1, currentContact=-1;
         synchronized (hContacts) {
-            for (Enumeration r=hContacts.elements(); r.hasMoreElements(); ){
-                Contact c=(Contact)r.nextElement();
+            for (int i=0; i<hContacts.size(); i++){
+                Contact c=(Contact)hContacts.elementAt(i);
                 if (c.active()) {
                     activeContacts.addElement(c);
                     contacts=contacts+1;
@@ -2788,14 +2791,17 @@ public class Roster
 
     public void deleteContact(Contact c) {
         synchronized (hContacts) {
-            for (Enumeration e=hContacts.elements();e.hasMoreElements();) {
-                Contact c2=(Contact)e. nextElement();
+            for (int i=0; i<hContacts.size(); i++) {
+                Contact c2=(Contact)hContacts. elementAt(i);
                 if (c.jid.equals(c2.jid,false)) {
                     c2.setStatus(Presence.PRESENCE_TRASH);
                     c2.offline_type=Presence.PRESENCE_TRASH;
                 }
             }
             if (c.jid.isTransport()) {
+                // double-check for empty jid or our server jid
+                 if (c.bareJid.equals("")) return;
+                 if (c.bareJid.equals(myJid.getServer())) return;
                 // automatically remove registration
                 JabberDataBlock unreg = new Iq(c.bareJid, Iq.TYPE_SET, "unreg" + System.currentTimeMillis());
 				JabberDataBlock query = unreg.addChildNs("query", "jabber:iq:register");
@@ -2882,8 +2888,8 @@ public class Roster
 
     public void deleteGroup(Group deleteGroup) {
         synchronized (hContacts) {
-            for (Enumeration e=hContacts.elements(); e.hasMoreElements();){
-                Contact cr=(Contact)e.nextElement();
+            for (int i=0; i<hContacts.size(); i++){
+                Contact cr=(Contact)hContacts.elementAt(i);
                 if (cr.group==deleteGroup)
                     deleteContact(cr);                
             }
@@ -2918,7 +2924,7 @@ public class Roster
     
 
     private class ReEnumerator implements Runnable{
-        //Thread thread;
+        Thread thread=null;
         int pendingRepaints=0;
 	boolean force;
 	
@@ -2932,8 +2938,7 @@ public class Roster
 	
         synchronized public void queueEnum() {
             pendingRepaints++;
-            //if (thread==null) (thread=new Thread(this)).start();
-            new Thread(this).start();
+            if (thread==null || thread.isAlive() == false) (thread=new Thread(this)).start();
         }
         
         public synchronized void run() {
@@ -2949,8 +2954,8 @@ public class Roster
                 groups.resetCounters();
 
                 synchronized (hContacts) {
-                    for (Enumeration e = hContacts.elements(); e.hasMoreElements();) {
-                        Contact c = (Contact) e.nextElement();
+                    for (int i=0; i<hContacts.size(); i++) {
+                        Contact c = (Contact) hContacts.elementAt(i);
                         Group grp = c.group;
                         grp.addContact(c);
                     }
@@ -2998,6 +3003,7 @@ public class Roster
 //#endif
             //}
             //thread=null;
+			systemGC();
         }
     }
 }

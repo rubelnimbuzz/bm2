@@ -32,7 +32,7 @@ import Menu.MenuCommand;
 import locale.SR;
 import ui.Time;
 //#ifdef POPUPS
-//# import ui.controls.PopUp;
+import ui.controls.PopUp;
 //#endif
 import ui.VirtualList;
 import ui.controls.form.DefForm;
@@ -52,9 +52,7 @@ public class TransferManager
     MenuCommand cmdDel=new MenuCommand(SR.MS_DECLINE, MenuCommand.SCREEN, 10);
     MenuCommand cmdClrF=new MenuCommand(SR.MS_HIDE_FINISHED, MenuCommand.SCREEN, 11);
     MenuCommand cmdInfo=new MenuCommand(SR.MS_INFO, MenuCommand.SCREEN, 12);
-//#ifdef BYTESTREAMS
-//#     MenuCommand cmdSettings=new MenuCommand("Transfer settings", Command.SCREEN, 12);
-//#endif
+    MenuCommand cmdSettings=new MenuCommand("Transfer settings", MenuCommand.SCREEN, 12);
     
     /** Creates a new instance of TransferManager
      * @param pView
@@ -70,10 +68,7 @@ public class TransferManager
     
     public void commandState(){
         super.commandState();
-//#ifdef BYTESTREAMS
-//#          removeMenuCommand(cmdOk);
-//#          addMenuCommand(cmdSettings);
-//#endif        
+        addMenuCommand(cmdSettings);
         if (TransferDispatcher.getInstance().getTasksCount()>0) {
             removeMenuCommand(cmdOk);
         }
@@ -81,13 +76,9 @@ public class TransferManager
         addMenuCommand(cmdClrF);
         addMenuCommand(cmdInfo);
     }   
-    public String touchLeftCommand(){ return (TransferDispatcher.getInstance().getTasksCount()>0) ? SR.MS_MENU : SR.MS_OK; }
+    public String touchLeftCommand(){ return SR.MS_MENU; }
     public void touchLeftPressed(){ 
-        if (TransferDispatcher.getInstance().getTasksCount()>0) {
-            showMenu();
-        } else {
-            cmdOk();
-        } 
+            showMenu();         
     }
 
     
@@ -127,10 +118,7 @@ public class TransferManager
         }
         if (c==cmdDel) keyClear();        
         if (c==cmdInfo) cmdInfo();
-//#ifdef BYTESTREAMS
-//#         if (c==cmdSettings) new TransferSetupForm( this);
-//#endif
-        
+        if (c==cmdSettings) new TransferSetupForm( this);
     }
     public void cmdOk() {
         TransferDispatcher.getInstance().eventNotify();
@@ -165,8 +153,8 @@ public class TransferManager
             if (t.errMsg!=null)
                 info.append("\nError: ").append(t.errMsg);
 //#ifdef POPUPS
-//#             PopUp.getInstance().addPopup(1, null, info.toString());
-//#             redraw();
+            PopUp.getInstance().addPopup(1, null, info.toString());
+            redraw();
 //#endif
         }
     }

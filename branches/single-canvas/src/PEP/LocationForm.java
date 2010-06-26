@@ -10,11 +10,10 @@
 package PEP;
 //#ifdef PEP_LOCATION
 import Client.StaticData;
-import PEP.location.LocationImpl;
-import PEP.location.LocationListenerImpl;
+import PEP.location.LocationIO;
+import PEP.location.LocationListener;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.Iq;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
@@ -28,7 +27,7 @@ import ui.controls.form.TextInput;
  *
  * @author Vitaly
  */
-public class LocationForm extends DefForm implements LocationListenerImpl {
+public class LocationForm extends DefForm implements LocationListener {
 //#ifdef PLUGINS
 //#     public static String plugin = "PLUGIN_PEP";
 //#endif
@@ -67,7 +66,7 @@ public class LocationForm extends DefForm implements LocationListenerImpl {
         new GeoRetriever(this).start();
     }
 
-    public void locationUpdated(LocationImpl lctn) {
+    public void locationUpdated(LocationIO lctn) {
         if (lctn != null) {
             lat.setValue(lctn.getLatitude());
             lon.setValue(lctn.getLongitude());
@@ -106,9 +105,9 @@ public class LocationForm extends DefForm implements LocationListenerImpl {
 
 class GeoRetriever extends Thread {
 
-    private LocationListenerImpl returnto;
+    private LocationListener returnto;
 
-    public GeoRetriever(LocationListenerImpl returnto) {
+    public GeoRetriever(LocationListener returnto) {
         this.returnto = returnto;
     }
 
@@ -122,7 +121,7 @@ class GeoRetriever extends Thread {
     }
 
     public void retrieveLocation() throws Exception {
-        LocationImpl lp = LocationImpl.getInstance();
+        LocationIO lp = LocationIO.getInstance();
         lp.getCoordinates();
         returnto.locationUpdated(lp);
     }

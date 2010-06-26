@@ -27,7 +27,9 @@
 
 package ui;
 import Client.Config;
+import Client.StaticData;
 import Fonts.FontCache;
+import images.AniImageList;
 import java.util.*;
 import javax.microedition.lcdui.*;
 import Colors.ColorTheme;
@@ -54,6 +56,7 @@ public class ComplexString extends Vector implements VirtualElement {
     private ImageList imageList;
     private int colorBGnd;
     private int color;
+    protected boolean centered = false;
     
     //private int colors[]={0x800080, 0xff0000, 0xffa500, 0x008000, 0x0000ff};
     /*   purple 0x800080   red 0xff0000   orange 0xffa500   green 0x008000   blue 0x0000ff   */
@@ -88,6 +91,7 @@ public class ComplexString extends Vector implements VirtualElement {
     
     public void drawItem(Graphics g, int offset, boolean selected){
         boolean ralign=false;
+        boolean calign=false;
 	boolean underline=false;
         
 //#if NICK_COLORS
@@ -139,8 +143,17 @@ public class ComplexString extends Vector implements VirtualElement {
                         g.setColor(color);
                     } else {
 //#endif
-                        dw=font.stringWidth(s);
-                        if (ralign) w-=dw;
+                        dw=font.stringWidth(s);                        
+                        if (ralign) {
+                            w-=dw;
+                            if (centered) {
+                                if (dw > 0)
+                                    w -= ((g.getClipWidth() >> 1) - dw) >> 1;
+                            }
+                        } else if (centered) {
+                            if (dw > 0)
+                                w += ((g.getClipWidth() >> 1) - dw) >> 1;
+                        }
                         g.drawString(s,w,fontYOfs,Graphics.LEFT|Graphics.TOP);
                         if (underline) {
                             int y=getVHeight()-1;
@@ -158,20 +171,23 @@ public class ComplexString extends Vector implements VirtualElement {
                     switch (i&0xff000000) {
                         case IMAGE:
                             if (imageList==null) break;
+                            if (imageList instanceof AniImageList) {
+                                imgWidth = ((AniImageList)imageList).iconAt(i).getWidth();                                
+                            }
                             if (ralign) w-=imgWidth;
-                            imageList.drawImage(g, ((Integer)ob).intValue(), w, imageYOfs);
+                            imageList.drawImage(g, i, w, imageYOfs);
                             if (!ralign) w+=imgWidth;
                             break;
                         case COLOR:
                             g.setColor(0xFFFFFF&i);
                             break;
                         case RALIGN:
-                            ralign=true;
+                            ralign = true;
                             w=g.getClipWidth()-1;
 			    break;
 			case UNDERLINE:
 			    underline=true;
-			    break;
+			    break;                        
 //#if NICK_COLORS
                         case NICK_ON:
                             nick=true; 
@@ -211,6 +227,9 @@ public class ComplexString extends Vector implements VirtualElement {
                     int i=(((Integer)ob).intValue());
                     switch (i&0xff000000) {
                         case IMAGE:
+                            if (imageList instanceof AniImageList) {
+                                imgWidth = ((AniImageList)imageList).iconAt(i).getWidth();                                
+                            }
                             w+=imgWidth;
                             break;
                     }

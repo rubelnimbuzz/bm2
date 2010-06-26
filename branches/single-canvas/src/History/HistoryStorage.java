@@ -28,20 +28,19 @@ package History;
 
 import Client.Config;
 import Client.Msg;
-import Client.StaticData;
 import io.file.FileIO;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Vector;
 import util.StringUtils;
 //#ifdef DETRANSLIT
-import util.DeTranslit;
+//# import util.DeTranslit;
 //#endif
 import util.Strconv;
 
 public class HistoryStorage {
 //#ifdef PLUGINS
-    public static String plugin = new String("PLUGIN_HISTORY");
+//#     public static String plugin = new String("PLUGIN_HISTORY");
 //#endif
     
     private String history;
@@ -56,13 +55,10 @@ public class HistoryStorage {
     public HistoryStorage(String filename) {
         cf=Config.getInstance();
 //#ifdef DETRANSLIT
-//#ifdef PLUGINS
-       if (StaticData.getInstance().DeTranslit)
-//#endif
-       filename=(cf.transliterateFilenames)?DeTranslit.getInstance().translit(filename):filename;
+//#         filename = DeTranslit.get_actual_filename(filename);
 //#endif
 //#ifdef HISTORY
-       filename=cf.msgPath+StringUtils.replaceBadChars(filename)+".txt";
+//#        filename=cf.msgPath+StringUtils.replaceBadChars(filename)+".txt";
 //#endif
        this.history = loadHistory(filename);
    }
@@ -99,7 +95,7 @@ public class HistoryStorage {
                         
                         if (Integer.parseInt(type)!=MESSAGE_MARKER_PRESENCE) {
                             //System.out.println(type+" ["+date+"]"+from+": "+subj+" "+body+"\r\n");
-                            vector.insertElementAt(processMessage (type, date, from, subj, body),0);
+                            vector.insertElementAt(HistoryLoader.processMessage(type, date, from, subj, body), 0);
                         }
                     } else
                         break;
@@ -114,35 +110,12 @@ public class HistoryStorage {
         return vector;
     }
     
-    private Msg processMessage (String marker, String date, String from, String subj, String body) {
-        int msgType=Msg.MESSAGE_TYPE_HISTORY;
-        
-        int mrk = Integer.parseInt(marker);
-        
-        switch (mrk) {
-            case MESSAGE_MARKER_IN:
-                msgType=Msg.MESSAGE_TYPE_IN;
-                break;
-            case MESSAGE_MARKER_OUT:
-                msgType=Msg.MESSAGE_TYPE_OUT;
-                break;
-            case MESSAGE_MARKER_PRESENCE:
-                msgType=Msg.MESSAGE_TYPE_PRESENCE;
-                break;
-        }
-        
-        Msg msg=new Msg(msgType,from,subj,body);
-        msg.setDayTime(date);
-        
-        return msg;
-    }
-    
     private String findBlock(String source, String needle){
         String block = "";
-        int start =source.indexOf("<"+needle+">"); int end = source.indexOf("</"+needle+">");
+        int start =source.indexOf("<"+needle+">");
+        int end = source.indexOf("</"+needle+">");
         if (start<0 || end<0)
             return block;
-        
         return source.substring(start+3, end);
     }
         
