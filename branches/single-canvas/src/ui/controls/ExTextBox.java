@@ -83,8 +83,10 @@ public class ExTextBox {
 		
         try {
             //expanding buffer as much as possible
-            maxSize = textbox.setMaxSize(4096); //must not trow            
-            insert(body, 0);
+            maxSize = textbox.setMaxSize(4096); //must not trow
+            if (cf.phoneManufacturer != Config.MICROEMU)
+                insert(body, 0);
+            else setText(body);
          } catch (Exception e) {}
         
         commandState();
@@ -140,8 +142,10 @@ public class ExTextBox {
             }
         } catch (Exception e) {
         }
-
-        textbox.insert(sb.toString(), caretPos);
+        if (cf.phoneManufacturer != Config.MICROEMU)
+            textbox.insert(sb.toString(), caretPos);
+        else
+           setText(src + sb.toString());
         sb = null;        
     }
     public int getCaretPos() {
@@ -153,7 +157,7 @@ public class ExTextBox {
             pos = textbox.getString().length();
         return pos;
     }
-    public void setText(String body) {
+    public final void setText(String body) {
         if (body != null) {
             if (body.length() > maxSize)
                 body = body.substring(0, maxSize - 1);

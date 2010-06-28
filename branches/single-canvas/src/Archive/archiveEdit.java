@@ -89,9 +89,8 @@ public class archiveEdit
         textbox.removeCommand(cmdTemplate);
 //#endif
         if (Config.getInstance().phoneManufacturer == Config.SONYE) System.gc(); // prevent flickering on Sony Ericcsson C510
-        textbox.setCommandListener(this);
+        textbox.setCommandListener(this);        
         
-        midlet.BombusMod.getInstance().setDisplayable(textbox);
     }
     
     public void commandAction(Command c, Displayable d){
@@ -99,19 +98,23 @@ public class archiveEdit
         
         if (!executeCommand(c, d)) {
 		
-        if (c==cmdOk) {
-            int type=Msg.MESSAGE_TYPE_OUT;
-            String from="";
-            String subj="";
-            if (pos>-1) {
-                type=msg.messageType;
-                from=msg.from;
-                subj=msg.subject;
-                archive.delete(pos);
+        if (c == cmdOk) {
+                int type = Msg.MESSAGE_TYPE_OUT;
+                String from = "";
+                String subj = "";
+                if (pos > -1) {
+                    type = msg.messageType;
+                    from = msg.from;
+                    subj = msg.subject;
+                    archive.delete(pos);
+                }
+                Msg newmsg = new Msg(type, from, subj, body);
+
+                MessageArchive.store(newmsg, where);
+                archive.close();
+                al.reFresh();
             }
-            al.show(al.pView);
-        }
-        
+            destroyView();
 
         }
     }

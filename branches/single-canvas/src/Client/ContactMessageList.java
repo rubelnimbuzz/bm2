@@ -466,7 +466,7 @@ public void showNotify() {
         } else if (c == cmdJuickCommands) {
             updateJuickCommands();
             if (currentJuickCommands.size() > 0)
-                new MyMenu(parentView, (Menu.MenuListener) this, SR.MS_COMMANDS, null, currentJuickCommands);
+                new MyMenu(this, (Menu.MenuListener) this, SR.MS_COMMANDS, null, currentJuickCommands);
         }
 //#endif
     }

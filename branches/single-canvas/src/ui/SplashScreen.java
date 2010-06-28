@@ -88,7 +88,7 @@ public final class SplashScreen extends Canvas implements Runnable, CommandListe
     private SplashScreen() {
         setFullScreenMode(Config.fullscreen);
         this.display = midlet.BombusMod.getInstance().getDisplay();
-        midlet.BombusMod.getInstance().setDisplayable(this);
+        display.setCurrent(this);
     }
     
     public SplashScreen(ComplexString status, char exitKey) {
@@ -142,7 +142,7 @@ public final class SplashScreen extends Canvas implements Runnable, CommandListe
             g.drawString(time, width/2, height, Graphics.BOTTOM | Graphics.HCENTER);
         } else {
             int filled=pos*width/100;
-            if (pb==null) pb=new Progress(0, height - Progress.getHeight() , width);
+            if (pb==null) pb=new Progress(0, height , width);
             Progress.draw(g, filled, capt);
         }
     }

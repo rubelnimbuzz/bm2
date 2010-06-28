@@ -234,7 +234,8 @@ public final class MessageEdit
             if (c == cmdSend && !(parentView instanceof ContactMessageList))
                 parentView = new ContactMessageList(to);
          midlet.BombusMod.getInstance().setDisplayable(parentView);
-         ((ContactMessageList)parentView).forceScrolling();
+         if (parentView instanceof ContactMessageList)
+            ((ContactMessageList)parentView).forceScrolling();
 //#ifdef RUNNING_MESSAGE
 //#             runState = 3;
 //#else

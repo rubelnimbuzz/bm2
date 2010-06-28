@@ -34,6 +34,7 @@ import com.alsutton.jabber.datablocks.Iq;
 import java.util.Enumeration;
 import java.util.Vector;
 import com.alsutton.jabber.datablocks.Message;
+import ui.VirtualCanvas;
 import util.Strconv;
 import xmpp.extensions.XDataField;
 
@@ -239,7 +240,7 @@ public class TransferDispatcher implements JabberBlockListener {
     }
 
     void repaintNotify() {
-        sd.roster.redraw();
+        VirtualCanvas.nativeCanvas.repaint();
     }
 
     void sendFile(TransferTask task) {

@@ -92,8 +92,8 @@ public abstract class VirtualList
     private int mHeight;
     
 //#ifdef GRADIENT
-//#     Gradient grIB;
-//#     Gradient grMB;
+    Gradient grIB;
+    Gradient grMB;
 //#endif
 
     public static int panelsState = 2;
@@ -324,8 +324,8 @@ public abstract class VirtualList
     /** Creates a new instance of VirtualList */
     public VirtualList() {
         setFullScreenMode(Config.fullscreen);
-        width=getWidth();
-        height=getHeight();
+       // width=getWidth();
+       // height=getHeight();
 //#ifdef POPUPS
         PopUp.getInstance();
 //#endif
@@ -430,8 +430,8 @@ public abstract class VirtualList
         width=w;
         height=h;
 //#ifdef GRADIENT
-//#         iHeight=0;
-//#         mHeight=0;
+        iHeight=0;
+        mHeight=0;
 //#endif
         if (!isDoubleBuffered())  offscreen=Image.createImage(width, height);
     }
@@ -721,27 +721,27 @@ public abstract class VirtualList
 
         g.setClip(0,0, width, h);
 //#ifdef GRADIENT
-//#         if (getMainBarBGnd()!=getMainBarBGndBottom()) {
-//#             if (iHeight!=h) {
-//#                 grIB=new Gradient(0, 0, width, h, getMainBarBGnd(), getMainBarBGndBottom(), false);
-//#                 iHeight=h;
-//#             }
-//#             grIB.paint(g);
-//#         } else {
-//#             g.setColor(getMainBarBGnd());
-//#             g.fillRect(0, 0, width, h);
-//#         }
+        if (getMainBarBGnd()!=getMainBarBGndBottom()) {
+            if (iHeight!=h) {
+                grIB=new Gradient(0, 0, width, h, getMainBarBGnd(), getMainBarBGndBottom(), false);
+                iHeight=h;
+            }
+            grIB.paint(g);
+        } else {
+            g.setColor(getMainBarBGnd());
+            g.fillRect(0, 0, width, h);
+        }
 //#else
 //#ifdef BACK_IMAGE
 //#         if (MainBar.bg != null) {
 //#endif
-
-            g.setColor(getMainBarBGnd());
-            g.fillRect(0, 0, width, h);
+//# 
+//#             g.setColor(getMainBarBGnd());
+//#             g.fillRect(0, 0, width, h);
 //#ifdef BACK_IMAGE
 //#         }
 //#endif
-
+//# 
 //#endif
 //#ifdef BACK_IMAGE
 //#         if (MainBar.bg != null) {
@@ -758,22 +758,22 @@ public abstract class VirtualList
         int h=mainbar.getVHeight()+1;
         g.setClip(0,0, width, h);
 //#ifdef GRADIENT
-//#         if (getMainBarBGnd()!=getMainBarBGndBottom()) {
-//#             if (mHeight!=h) {
-//#                 grMB=new Gradient(0, 0, width, h, getMainBarBGndBottom(), getMainBarBGnd(), false);
-//#                 mHeight=h;
-//#             }
-//#             grMB.paint(g);
-//#         } else {
-//#             g.setColor(getMainBarBGnd());
-//#             g.fillRect(0, 0, width, h);
-//#         }
+        if (getMainBarBGnd()!=getMainBarBGndBottom()) {
+            if (mHeight!=h) {
+                grMB=new Gradient(0, 0, width, h, getMainBarBGndBottom(), getMainBarBGnd(), false);
+                mHeight=h;
+            }
+            grMB.paint(g);
+        } else {
+            g.setColor(getMainBarBGnd());
+            g.fillRect(0, 0, width, h);
+        }
 //#else
 //#ifdef BACK_IMAGE
 //#         if (MainBar.bg != null) {
 //#endif
-        g.setColor(getMainBarBGnd());
-        g.fillRect(0, 0, width, h);
+//#         g.setColor(getMainBarBGnd());
+//#         g.fillRect(0, 0, width, h);
 //#ifdef BACK_IMAGE
 //#         }
 //#endif
@@ -1173,6 +1173,8 @@ public abstract class VirtualList
         }
         redraw();
     }
+
+
 
     /**
      * событие "Нажатие кнопки UP"

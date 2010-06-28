@@ -172,9 +172,7 @@ public class UserKeysList extends DefForm
     void rmsUpdate() {
         rmsUpdate(itemsList);
     }
-//#ifdef MENU_LISTENER
-//#     public String touchLeftCommand() {return SR.MS_MENU;}
-//#     public void touchLeftPressed() { showMenu(); }
-//#endif    
+     public String touchLeftCommand() {return SR.MS_MENU;}
+     public void touchLeftPressed() { showMenu(); }
 
 }
