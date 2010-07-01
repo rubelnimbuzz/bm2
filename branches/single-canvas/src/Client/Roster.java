@@ -107,7 +107,6 @@ import xmpp.extensions.IqTimeReply;
 
 //#ifdef PEP
 import xmpp.extensions.PepListener;
-import xmpp.extensions.RosterXListener;
 //#endif
 import xmpp.extensions.RosterXListener;
 
@@ -250,7 +249,7 @@ public class Roster
 //#endif
     }
     
-    public void setLight(boolean state) {
+    public final void setLight(boolean state) {
 //#ifndef NOLEGACY
 //#         if (phoneManufacturer==Config.SIEMENS || phoneManufacturer==Config.SIEMENS2) {
 //#             try {
@@ -268,7 +267,7 @@ public class Roster
 //#endif
     }
     
-    public void commandState(){
+    public final void commandState(){
         menuCommands.removeAllElements();
         int activeType=MenuCommand.SCREEN;
         if (phoneManufacturer==Config.NOKIA) activeType=MenuCommand.BACK;
@@ -683,7 +682,7 @@ public class Roster
         //if (status<0) removeTrash();
     }
     
-    private final void removeTrash(){
+    private void removeTrash(){
         int index=0;
         synchronized (hContacts) {
             while (index<hContacts.size()) {
@@ -2443,7 +2442,7 @@ public class Roster
         setAutoStatus(Presence.PRESENCE_ONLINE);
     }
 
-    public void messageActivity() {
+    public final void messageActivity() {
         if (autostatus==null) return;
 
         if (cf.autoAwayType==Config.AWAY_MESSAGE) {

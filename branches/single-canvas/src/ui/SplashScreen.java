@@ -119,8 +119,11 @@ public final class SplashScreen extends Canvas implements Runnable, CommandListe
     }
 
     public void paint(Graphics g){
-        int width=g.getClipWidth();
-        int height=g.getClipHeight();
+        int width=getWidth();
+        int offs = 0;
+        if (Config.getInstance().phoneManufacturer == Config.MICROEMU)
+            offs = 25;
+        int height = getHeight() - offs;
         
         g.setColor(ColorTheme.getColor(ColorTheme.BLK_BGND));
         g.fillRect(0,0, width, height);
@@ -130,8 +133,8 @@ public final class SplashScreen extends Canvas implements Runnable, CommandListe
 
         if (pos==-1) {
             g.setColor(ColorTheme.getColor(ColorTheme.BLK_INK));
-
-            status.drawItem(g, 0, false);
+            if (status != null)
+                status.drawItem(g, 0, false);
 
             g.setFont(clockFont);
             int h=clockFont.getHeight()+1;

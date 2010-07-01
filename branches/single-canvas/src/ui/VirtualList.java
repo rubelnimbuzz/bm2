@@ -323,9 +323,12 @@ public abstract class VirtualList
     
     /** Creates a new instance of VirtualList */
     public VirtualList() {
-        setFullScreenMode(Config.fullscreen);
-       // width=getWidth();
-       // height=getHeight();
+       setFullScreenMode(Config.fullscreen);
+       width=getWidth();
+       int offs = 0;
+       if (Config.getInstance().phoneManufacturer == Config.MICROEMU)
+            offs = 25;
+       height = getHeight() - offs;
 //#ifdef POPUPS
         PopUp.getInstance();
 //#endif
@@ -447,8 +450,11 @@ public abstract class VirtualList
     protected void beginPaint(){};
 
     public void paint(Graphics graphics) {
-        width = graphics.getClipWidth();
-        height = graphics.getClipHeight();
+        width = getWidth();
+        int offs = 0;
+        if (Config.getInstance().phoneManufacturer == Config.MICROEMU) // TODO: remove when microemu fixed
+            offs = 25;
+        height = getHeight() - offs;
 
         mHeight=0;
         iHeight=0;

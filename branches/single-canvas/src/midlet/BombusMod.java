@@ -67,14 +67,15 @@ public class BombusMod extends MIDlet implements Runnable{
     private static BombusMod instance; 
 
     public BombusMod() {
-        instance=this; 
-        display = Display.getDisplay(this);
-        s = SplashScreen.getInstance();
-        s.setProgress("Loading", 3); // this message will not be localized
+        
     }
     
     /** Entry point  */
     public void startApp() {
+        instance=this;
+        display = Display.getDisplay(this);
+        s = SplashScreen.getInstance();
+        s.setProgress("Loading", 3); // this message will not be localized
         if (isRunning) {
             hideApp(false);
             return;

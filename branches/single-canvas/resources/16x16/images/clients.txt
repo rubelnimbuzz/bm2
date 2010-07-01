@@ -1,0 +1,43 @@
+﻿http://bombusmod.net.ru/caps,http://BombusMod.net.ru	BombusMod
+http://bombus-im.org/java	Bombus
+http://bombus-im.org/ng,http://bombusng-md.googlecode.com	BombusNG
+http://psi-im.org/caps	Psi
+http://miranda-im.org/caps	Miranda
+http://voffk.org.ru/bombus	Bombus+
+http://www.google.com/xmpp/client/caps,talk.google.com	GoogleTalk
+http://tkabber.jabber.ru/	Tkabber
+http://gajim.org/caps,http://gajim.org,http://gaim.sf.net/caps	Gajim
+http://qip.ru/caps,http://pda.qip.ru/caps	QIP
+http://pidgin.im/	Libpurple
+http://kopete.kde.org/jabber/caps	Kopete
+http://exodus.jabberstudio.org/caps	Exodus
+http://bitlbee.org/xmpp/caps	BitlBee
+http://coccinella.sourceforge.net/protocol/caps	Coccinella
+http://mcabber.lilotux.net/caps,http://mcabber.com/caps	mcabber
+http://www.apple.com/ichat/caps	iChatAgent
+http://dev.jabbim.cz/jabbim/caps	Jabbim
+http://jabber.pdg.pl/caps,http://klub54,http://bombusmod.eu,http://bombus.pl/caps	Fake Bombus (PL)
+http://jajc.jrudevels.org/caps	JAJC
+http://www.barobin.com	Bayan
+http://psi-dev.googlecode.com/caps	Psi+
+http://mchat.mgslab.com/	mChat
+http://online.yandex.ru/caps,aJabb	Я.Онлайн
+http://qutim.org	qutIM
+http://trillian.cc/caps,http://trillian.cc,Trillian,trillian	Trillian
+http://bombusmod-qd.wen.ru/caps	BombusQD
+http://ex-im.name/caps	EX
+http://jimm.net.ru/caps	Jimm Aspro
+http://www.talkonaut.com/caps,http://www.talkonaut.com/,http://talkonaut.ru/caps,http://talkonaut.ru/	Talkonaut
+smaper	Sm@per
+nimbuzz	Nimbuzz
+http://movamessenger.com	Mova Messenger
+http://apps.radio-t.com/caps	AIR Radio-T
+http://bluendo.com/protocol/caps	Lampiro
+http://palringo.com/caps	Palringo
+http://simak.ru/caps,http://simak.ru/tt/caps,http://bombus,http://butterfly/caps,http://jabber.pdg.pl/caps,http://bombus,bombus-	Fake Bombus
+http://java.util.Random,0.ru,1.ru,2.ru,3.ru,4.ru,5.ru,6.ru,7.ru,8.ru,9.ru	Bombus Avalon
+http://juick.com/caps	Juick
+http://vacuum,http://code.google.com/p/vacuum-im/	Vacuum IM
+http://isida.googlecode.com,http://pjc.googlecode.com/caps,http://jabbrik.ru/caps,http://jabrvista.net.ru,bot,Bot,jabber-bot,freQ,freq	Jabber Bot
+-Z-r	SieJC
+http://	неизвестен
