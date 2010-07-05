@@ -25,9 +25,11 @@ full_ver_newmenu_ani.abilities= HISTORY_READER=, FILE_TRANSFER=, CONSOLE=, CLIPB
 
 FilinX.abilities=FILE_IO=, HISTORY=, USER_KEYS=, POPUPS=, IMPORT_EXPORT=, SMILES=, TEMPLATES=, JUICK=, WSYSTEMGC=, ARCHIVE=, USE_ROTATOR=, ZLIB=, MENU_LISTENER=, CLIPBOARD=, FILE_TRANSFER=, DETRANSLIT=, SERVICE_DISCOVERY=, CLIENTS_ICONS=, NICK_COLORS=
 
+*Вопрос:* А нужна ли облегченная сборка, после того, как порешали проблемы с памятью?
+
 * BombusModNNNClassic.jar - с классическим (не графическим) меню, как в официальном бомбусе:
 
-STATS=,POPUPS=,AUTOSTATUS=,SMILES=,USE_ROTATOR=, CLIPBOARD=,FILE_TRANSFER=,SERVICE_DISCOVERY=,CLIENTS_ICONS=,NICK_COLORS=,PEP_TUNE=,PEP_ACTIVITY=, GRADIENT=,FILE_IO=,CONSOLE=,PEP=,ARCHIVE=,ZLIB=,ADHOC=,SASL_XGOOGLETOKEN=,JUICK= 
+В настоящее время (с тех пор, как решена проблема с утечкой памяти) собирается с теми же абилити, что и полная сборка, за исключением отсутствующей в классической сборке абилити MENU_LISTENER.
 
 = Тестовый конструктор = 
 
