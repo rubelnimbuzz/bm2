@@ -42,6 +42,9 @@ import java.util.TimerTask;
 import javax.microedition.lcdui.*;
 import midlet.BombusMod;
 import Colors.ColorTheme;
+//#ifdef LIGHT_CONFIG
+//# import LightControl.CustomLight;
+//#endif
 import ui.controls.Progress;
 
 /**
@@ -50,7 +53,6 @@ import ui.controls.Progress;
  */
 public final class SplashScreen extends Canvas implements Runnable, CommandListener {
     
-    private Display display;
     private Displayable parentView;
     
     private String capt;
@@ -87,13 +89,11 @@ public final class SplashScreen extends Canvas implements Runnable, CommandListe
     /** Creates a new instance of SplashScreen */
     private SplashScreen() {
         setFullScreenMode(Config.fullscreen);
-        this.display = midlet.BombusMod.getInstance().getDisplay();
-        display.setCurrent(this);
+        midlet.BombusMod.getInstance().setDisplayable(this);
     }
     
     public SplashScreen(ComplexString status, char exitKey) {
         this.status=status;
-        this.display = midlet.BombusMod.getInstance().getDisplay();
         this.exitKey=exitKey;
         kHold=exitKey;
         
@@ -135,6 +135,8 @@ public final class SplashScreen extends Canvas implements Runnable, CommandListe
             g.setColor(ColorTheme.getColor(ColorTheme.BLK_INK));
             if (status != null)
                 status.drawItem(g, 0, false);
+
+            status.drawItem(g, (Config.getInstance().phoneManufacturer==Config.NOKIA)?17:0, false);
 
             g.setFont(clockFont);
             int h=clockFont.getHeight()+1;
@@ -229,6 +231,12 @@ public final class SplashScreen extends Canvas implements Runnable, CommandListe
         if (pos>=20)
             close();
         kHold=0;
+//#ifdef LIGHT_CONFIG       
+//#ifdef PLUGINS                
+//#         if (StaticData.getInstance().lightConfig)
+//#endif            
+//#             CustomLight.keyPressed();
+//#endif        
     }
 
     protected void keyRepeated(int keyCode) { 
@@ -239,7 +247,7 @@ public final class SplashScreen extends Canvas implements Runnable, CommandListe
 
     private void destroyView(){
         status.setElementAt(null,6);
-        midlet.BombusMod.getInstance().setDisplayable(parentView);
+        midlet.BombusMod.getInstance().setDisplayable(StaticData.getInstance().roster);
         img=null;
         tc.stop();
 //#ifdef AUTOSTATUS

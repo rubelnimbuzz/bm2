@@ -265,21 +265,21 @@ public static boolean fullscreen = true;
         RosterIcons.getInstance();
         ActionsIcons.getInstance();
 //#ifdef SMILES
-        if (smiles) {
+        if (smiles) 
             SmilesIcons.getInstance();
 //#endif
 //#ifdef CLIENTS_ICONS
 //#ifdef PLUGINS
-//#                 if (sd.ClientsIcons) {
+//#                 if (sd.ClientsIcons) 
 //#endif
-        }
-        if (showClientIcon) {
+        
+        if (showClientIcon) 
             ClientsIcons.getInstance();
 //#ifdef PLUGINS
-//#                 }
+//#                 
 //#endif
 //#endif
-        }
+        
         System.gc();
         try {
             Thread.sleep(50);
@@ -367,7 +367,11 @@ public static boolean fullscreen = true;
 	    gmtOffset=inputStream.readInt();
 	    inputStream.readInt(); //locOffset
 	    autoLogin=inputStream.readBoolean();
+//#ifndef WMUC            
 	    autoJoinConferences=inputStream.readBoolean();
+//#else
+//#             inputStream.readBoolean();
+//#endif            
 	    popupFromMinimized=inputStream.readBoolean();
 	    notifyBlink=inputStream.readBoolean();
 	    memMonitor=inputStream.readBoolean();
@@ -375,7 +379,11 @@ public static boolean fullscreen = true;
             msgFont=inputStream.readInt();
             autoFocus=inputStream.readBoolean();
             notInListDropLevel=inputStream.readInt();
+//#ifndef WMUC                  
             storeConfPresence=inputStream.readBoolean();
+//#else
+//#             inputStream.readBoolean();
+//#endif                        
             capsState=inputStream.readBoolean();
 	    textWrap=inputStream.readInt();
             loginstatus=inputStream.readInt();
@@ -398,11 +406,18 @@ public static boolean fullscreen = true;
 //#else
 //#             inputStream.readInt();
 //#endif
+//#ifndef WMUC                  
             defGcRoom=inputStream.readUTF();
+//#else
+//#             inputStream.readUTF();
+//#endif                                    
             firstRun=inputStream.readBoolean();
             panelsState=inputStream.readInt();
+//#ifndef WMUC                             
             confMessageCount=inputStream.readInt();
-
+//#else
+//#             inputStream.readInt();
+//#endif                                    
             fileTransfer=inputStream.readBoolean(); //newMenu
 
             lightState=inputStream.readBoolean();
@@ -610,7 +625,11 @@ public static boolean fullscreen = true;
 	    outputStream.writeInt(gmtOffset);
 	    outputStream.writeInt(0); //locOffset
 	    outputStream.writeBoolean(autoLogin);
+//#ifndef WMUC                             
 	    outputStream.writeBoolean(autoJoinConferences);
+//#else 
+//#             outputStream.writeBoolean(false);
+//#endif            
             outputStream.writeBoolean(popupFromMinimized);
 	    outputStream.writeBoolean(notifyBlink);
 	    outputStream.writeBoolean(memMonitor);
@@ -618,7 +637,11 @@ public static boolean fullscreen = true;
             outputStream.writeInt(msgFont);
             outputStream.writeBoolean(autoFocus);
             outputStream.writeInt(notInListDropLevel);
+//#ifndef WMUC            
             outputStream.writeBoolean(storeConfPresence); 
+//#else 
+//#             outputStream.writeBoolean(false);
+//#endif                        
             outputStream.writeBoolean(capsState); 
 	    outputStream.writeInt(textWrap);
             outputStream.writeInt(loginstatus);
@@ -641,11 +664,18 @@ public static boolean fullscreen = true;
 //#else
 //#             outputStream.writeInt(5);
 //#endif
+//#ifndef WMUC            
             outputStream.writeUTF(defGcRoom);
+//#else 
+//#             outputStream.writeUTF("");
+//#endif                        
             outputStream.writeBoolean(firstRun);
             outputStream.writeInt(panelsState);
+//#ifndef WMUC            
             outputStream.writeInt(confMessageCount);
-
+//#else 
+//#             outputStream.writeInt(0);
+//#endif            
             outputStream.writeBoolean(fileTransfer); //newMenu
 
             outputStream.writeBoolean(lightState);
@@ -784,8 +814,8 @@ public static boolean fullscreen = true;
     private void getPhoneManufacturer() {
         if (phoneManufacturer==NOT_DETECTED) {
             String platform=getPlatformName();
-            phoneManufacturer=NONE;
-
+            phoneManufacturer=NONE;  
+            
             if (platform.endsWith("(NSG)")) {
                 phoneManufacturer=SIEMENS;
                 return;

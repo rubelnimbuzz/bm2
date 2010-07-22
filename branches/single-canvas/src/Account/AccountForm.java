@@ -60,7 +60,9 @@ public class AccountForm
     private CheckBox sslbox;
     private CheckBox plainPwdbox;
     private CheckBox compressionBox;
+//#ifndef WMUC    
     private CheckBox confOnlybox;
+//#endif    
 //#if HTTPCONNECT
 //#       private CheckBox proxybox;
 //#elif HTTPPOLL        
@@ -148,7 +150,9 @@ public class AccountForm
         sslbox = new CheckBox(SR.MS_SSL, account.getUseSSL());
         plainPwdbox = new CheckBox(SR.MS_PLAIN_PWD, account.getPlainAuth());
         compressionBox = new CheckBox(SR.MS_COMPRESSION, account.useCompression());
+//#ifndef WMUC        
         confOnlybox = new CheckBox(SR.MS_CONFERENCES_ONLY, account.isMucOnly());
+//#endif        
 //#if HTTPCONNECT
 //#        proxybox = new CheckBox(/*SR.MS_PROXY_ENABLE*/"Proxy connect", account.isEnableProxy());
 //#elif HTTPPOLL        
@@ -159,7 +163,9 @@ public class AccountForm
         itemsList.addElement(sslbox);
         itemsList.addElement(plainPwdbox);
         itemsList.addElement(compressionBox);
+//#ifndef WMUC        
         itemsList.addElement(confOnlybox);
+//#endif        
 //#if HTTPCONNECT
 //#        itemsList.addElement(proxybox);
 //#elif HTTPPOLL        
@@ -235,7 +241,9 @@ public class AccountForm
             account.setUseSSL(sslbox.getValue());
             account.setPlainAuth(plainPwdbox.getValue());
             account.setUseCompression(compressionBox.getValue());
+//#ifndef WMUC            
             account.setMucOnly(confOnlybox.getValue());
+//#endif            
 //#if HTTPCONNECT
 //#             account.setEnableProxy(proxybox.getValue());
 //#elif HTTPPOLL

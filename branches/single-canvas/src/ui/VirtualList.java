@@ -32,6 +32,9 @@ import Colors.ColorTheme;
 import Fonts.FontCache;
 import javax.microedition.lcdui.*;
 import Client.*;
+//#ifdef LIGHT_CONFIG
+//# import LightControl.CustomLight;
+//#endif
 import locale.SR;
 //#ifdef POPUPS
 import ui.controls.PopUp;
@@ -198,12 +201,7 @@ public abstract class VirtualList
     /** метрика экрана */
     int width;
     int height;
-
-    /** экранный буфер для скрытой отрисовки. используется, если платформа
-     * не поддерживает двойную буферизацию экрана
-     */
-    private Image offscreen = null;
-
+    
     protected int cursor;
 
     /**
@@ -367,7 +365,7 @@ public abstract class VirtualList
     public final void show() {
         show(midlet.BombusMod.getInstance().getCurrentDisplayable());
      }
-    public void show(Displayable parent) {
+    public final void show(Displayable parent) {
         parentView = parent;
         if (null == parent) {
             parentView = midlet.BombusMod.getInstance().getCurrentDisplayable();
@@ -405,7 +403,6 @@ public abstract class VirtualList
      * буферизации
      */
     protected void hideNotify() {
-	offscreen=null;
     }
 
     /** Вызывается перед вызовом отрисовки VirtualList. переопределяет
@@ -416,7 +413,6 @@ public abstract class VirtualList
     protected void showNotify() {
         VirtualCanvas.nativeCanvas.setOk(touchLeftCommand());
         VirtualCanvas.nativeCanvas.setCancel(touchRightCommand());
-	if (!isDoubleBuffered()) offscreen=Image.createImage(width, height);
 //#if (USE_ROTATOR)
         TimerTaskRotate.startRotate(-1, this);
 //#endif
@@ -435,8 +431,7 @@ public abstract class VirtualList
 //#ifdef GRADIENT
         iHeight=0;
         mHeight=0;
-//#endif
-        if (!isDoubleBuffered())  offscreen=Image.createImage(width, height);
+//#endif        
     }
 
     /**
@@ -449,7 +444,7 @@ public abstract class VirtualList
      */
     protected void beginPaint(){};
 
-    public void paint(Graphics graphics) {
+    public void paint(Graphics g) {
         width = getWidth();
         int offs = 0;
         if (Config.getInstance().phoneManufacturer == Config.MICROEMU) // TODO: remove when microemu fixed
@@ -457,9 +452,8 @@ public abstract class VirtualList
         height = getHeight() - offs;
 
         mHeight=0;
-        iHeight=0;
+        iHeight=0;       
         
-        Graphics g=(offscreen==null)? graphics: offscreen.getGraphics();
         
 //#ifdef POPUPS
         PopUp.getInstance().init(g, width, height);
@@ -657,9 +651,8 @@ public abstract class VirtualList
                 g.drawString(SR.MS_RECONNECT, width/2, (height/2)-(popHeight*2), Graphics.TOP | Graphics.HCENTER);
                 Progress.draw(g, reconnectPos*progressWidth/reconnectTimeout, reconnectString);
             }
-        }
+        }       
         
-        if (g != graphics) g.drawImage(offscreen, 0, 0, Graphics.LEFT | Graphics.TOP);
     }
 
     private static int reconnectPos=0;
@@ -738,25 +731,13 @@ public abstract class VirtualList
             g.fillRect(0, 0, width, h);
         }
 //#else
-//#ifdef BACK_IMAGE
-//#         if (MainBar.bg != null) {
-//#endif
-//# 
 //#             g.setColor(getMainBarBGnd());
 //#             g.fillRect(0, 0, width, h);
-//#ifdef BACK_IMAGE
-//#         }
-//#endif
-//# 
-//#endif
-//#ifdef BACK_IMAGE
-//#         if (MainBar.bg != null) {
 //#endif
         g.setColor(getMainBarRGB());
-//#ifdef BACK_IMAGE
-//#         }
-//#endif
-        infobar.drawItem(g,(phoneManufacturer==Config.NOKIA && reverse)?17:0,false);
+        ((MainBar)infobar).lShift = (Config.getInstance().phoneManufacturer == Config.NOKIA && reverse && fullscreen);
+        ((MainBar)infobar).rShift = (Config.getInstance().phoneManufacturer == Config.SONYE && reverse && fullscreen);
+        infobar.drawItem(g, 0, false);
 
     }
     
@@ -775,23 +756,13 @@ public abstract class VirtualList
             g.fillRect(0, 0, width, h);
         }
 //#else
-//#ifdef BACK_IMAGE
-//#         if (MainBar.bg != null) {
-//#endif
 //#         g.setColor(getMainBarBGnd());
 //#         g.fillRect(0, 0, width, h);
-//#ifdef BACK_IMAGE
-//#         }
-//#endif
-//#endif
-//#ifdef BACK_IMAGE
-//#         if (MainBar.bg != null) {
 //#endif
         g.setColor(getMainBarRGB());
-//#ifdef BACK_IMAGE
-//#         }
-//#endif
-        mainbar.drawItem(g,(phoneManufacturer==Config.NOKIA && !reverse)?17:0,false);
+        ((MainBar)mainbar).lShift = (Config.getInstance().phoneManufacturer == Config.NOKIA && !reverse && fullscreen);
+        ((MainBar)mainbar).rShift = (Config.getInstance().phoneManufacturer == Config.SONYE && !reverse && fullscreen);
+        mainbar.drawItem(g, 0, false);
     }
     
 
@@ -859,9 +830,26 @@ public abstract class VirtualList
     }
 
     protected int kHold;
-    protected void keyRepeated(int keyCode){ key(keyCode); }
+    protected void keyRepeated(int keyCode){ 
+        key(keyCode); 
+//#ifdef LIGHT_CONFIG      
+//#ifdef PLUGINS                
+//#         if (StaticData.getInstance().lightConfig)
+//#endif            
+//#             CustomLight.keyPressed();
+//#endif        
+    }
     protected void keyReleased(int keyCode) { kHold=0; }
-    protected void keyPressed(int keyCode) { kHold=0; key(keyCode);  }
+    protected void keyPressed(int keyCode) { 
+        kHold=0; 
+        key(keyCode); 
+//#ifdef LIGHT_CONFIG      
+//#ifdef PLUGINS                
+//#         if (StaticData.getInstance().lightConfig)
+//#endif            
+//#             CustomLight.keyPressed();
+//#endif        
+    }
     private int yPointerPos;
 
     protected void pointerPressed(int x, int y) {
@@ -871,7 +859,8 @@ public abstract class VirtualList
             return;
         }
 //#endif
-        int act=ar.pointerPressed(x, y);
+        if (ar.enabled) {
+        int act=ar.pointerPressed(x, y);        
         if (act==1) {
              touchLeftPressed();
              stickyWindow=false;
@@ -880,6 +869,7 @@ public abstract class VirtualList
             touchRightPressed();
             stickyWindow=false;
             return;
+        }
         }
         yPointerPos = y;
 
@@ -984,6 +974,7 @@ public abstract class VirtualList
     }
     protected void pointerReleased(int x, int y) { 
         scrollbar.pointerReleased(x, y, this);
+        if (ar.enabled && (ar.pointerPressed(x, y) > 0)) return;
         if (Config.getInstance().advTouch) {
             if (y > list_top + winHeight) return;
         }
@@ -1147,7 +1138,7 @@ public abstract class VirtualList
                 try {
                     String text=((VirtualElement)getFocusedObject()).getTipString();
                     if (text!=null) {
-                        setWobble(1, null, text);
+                            setWobble(1, null, text);
                     }
                 } catch (Exception e) { }
             }
@@ -1473,7 +1464,8 @@ public abstract class VirtualList
                 int f, i;
                 IconTextElement left, right;
                 
-                for (f = 1; f < sortVector.size(); f++) {
+                int j=sortVector.size();
+                for (f = 1; f < j; f++) {
                     left=(IconTextElement)sortVector.elementAt(f);
                     right=(IconTextElement)sortVector.elementAt(f-1);
                     if ( left.compare(right) >=0 ) continue;
@@ -1653,7 +1645,7 @@ class TimerTaskRotate extends Thread{
             attachedList.showBalloon=(balloon<8 && balloon>0);
             return true;
         }
-    }
+    } 
     /*
     public void destroyTask(){
         synchronized (this) { 

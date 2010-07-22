@@ -73,7 +73,7 @@ public class ConfigForm
     private CheckBox executeByNum;
     
 //#ifdef DETRANSLIT
-    private CheckBox autoDetranslit;
+//#     private CheckBox autoDetranslit;
 //#endif
 //#ifdef CLIPBOARD
     private CheckBox useClipBoard;
@@ -119,7 +119,7 @@ public class ConfigForm
 //#endif
     
 //#ifdef RUNNING_MESSAGE
-     private CheckBox notifyWhenMessageType;
+//#      private CheckBox notifyWhenMessageType;
 //#endif
 //#ifdef POPUPS
     private CheckBox popUps;
@@ -162,7 +162,7 @@ public class ConfigForm
 //#ifdef CLIENTS_ICONS
         showClientIcon = new CheckBox(SR.MS_SHOW_CLIENTS_ICONS, cf.showClientIcon);
 //#ifdef PLUGINS
-        if (sd.ClientsIcons)
+//#         if (sd.ClientsIcons)
 //#endif
             itemsList.addElement(showClientIcon);
 //#endif
@@ -192,11 +192,13 @@ public class ConfigForm
 //#endif
         eventComposing = new CheckBox(SR.MS_COMPOSING_EVENTS, cf.eventComposing); itemsList.addElement(eventComposing);
         capsState = new CheckBox(SR.MS_CAPS_STATE, cf.capsState); itemsList.addElement(capsState);
+//#ifndef WMUC        
         storeConfPresence = new CheckBox(SR.MS_STORE_PRESENCE, cf.storeConfPresence); itemsList.addElement(storeConfPresence);
+//#endif        
         autoScroll = new CheckBox(SR.MS_AUTOSCROLL, cf.autoScroll); itemsList.addElement(autoScroll);
         useTabs = new CheckBox(SR.MS_EMULATE_TABS, cf.useTabs); itemsList.addElement(useTabs);
 //#ifdef RUNNING_MESSAGE
-        notifyWhenMessageType = new CheckBox(SR.MS_RUNNING_MESSAGE, cf.notifyWhenMessageType); itemsList.addElement(notifyWhenMessageType);
+//#         notifyWhenMessageType = new CheckBox(SR.MS_RUNNING_MESSAGE, cf.notifyWhenMessageType); itemsList.addElement(notifyWhenMessageType);
 //#endif
 //#ifdef POPUPS
         popUps = new CheckBox(SR.MS_POPUPS, cf.popUps); itemsList.addElement(popUps);
@@ -208,9 +210,9 @@ public class ConfigForm
 //#endif
 //#ifdef DETRANSLIT
 //#ifdef PLUGINS
-       if (sd.DeTranslit)
+//#        if (sd.DeTranslit)
 //#endif
-        autoDetranslit = new CheckBox(SR.MS_AUTODETRANSLIT, cf.autoDeTranslit); itemsList.addElement(autoDetranslit);
+//#         autoDetranslit = new CheckBox(SR.MS_AUTODETRANSLIT, cf.autoDeTranslit); itemsList.addElement(autoDetranslit);
 //#endif
        showNickNames = new CheckBox(SR.MS_SHOW_NACKNAMES, cf.showNickNames); itemsList.addElement(showNickNames);
        swapSendAndSuspend = new CheckBox("swap \""+SR.MS_SEND+"\" and \""+SR.MS_SUSPEND+"\" commands", cf.swapSendAndSuspend); itemsList.addElement(swapSendAndSuspend);
@@ -234,7 +236,9 @@ public class ConfigForm
         itemsList.addElement(new SpacerItem(10));
         itemsList.addElement(new SimpleString(SR.MS_STARTUP_ACTIONS, true));
         autoLogin = new CheckBox(SR.MS_AUTOLOGIN, cf.autoLogin); itemsList.addElement(autoLogin);
+//#ifndef WMUC        
         autoJoinConferences = new CheckBox(SR.MS_AUTO_CONFERENCES, cf.autoJoinConferences); itemsList.addElement(autoJoinConferences);
+//#endif        
         
         itemsList.addElement(new SpacerItem(10));
         itemsList.addElement(new SimpleString(SR.MS_RECONNECT, true));
@@ -251,19 +255,19 @@ public class ConfigForm
         if (phoneManufacturer==Config.SONYE)
             itemsList.addElement(oldSE);
 
-        lightState = new CheckBox(SR.MS_FLASHLIGHT, cf.lightState);
+        lightState = new CheckBox(SR.L_CONFIG, cf.lightState);
         if (phoneManufacturer==Config.SIEMENS || phoneManufacturer==Config.SIEMENS2 || phoneManufacturer==Config.SONYE || phoneManufacturer==Config.NOKIA) itemsList.addElement(lightState);
 //#ifdef FILE_TRANSFER
         fileTransfer = new CheckBox(SR.MS_FILE_TRANSFERS, cf.fileTransfer); 
 //#ifdef PLUGINS
-        if (sd.FileTransfer)
+//#         if (sd.FileTransfer)
 //#endif
             itemsList.addElement(fileTransfer);
 //#endif
 //#ifdef HISTORY
         saveHistory = new CheckBox(SR.MS_HISTORY, cf.saveHistory); 
 //#ifdef PLUGINS
-        if (sd.History)
+//#         if (sd.History)
 //#endif
             itemsList.addElement(saveHistory);
 //#endif
@@ -372,7 +376,7 @@ public class ConfigForm
         cf.rosterStatus=rosterStatus.getValue();
 //#ifdef CLIENTS_ICONS
 //#ifdef PLUGINS
-        if (sd.ClientsIcons)
+//#         if (sd.ClientsIcons)
 //#endif
             cf.showClientIcon=showClientIcon.getValue();
 //#endif
@@ -385,12 +389,14 @@ public class ConfigForm
 //#endif
         cf.eventComposing=eventComposing.getValue();
         cf.capsState=capsState.getValue();
+//#ifndef WMUC        
         cf.storeConfPresence=storeConfPresence.getValue();
+//#endif        
         cf.autoScroll=autoScroll.getValue();
         cf.useTabs=useTabs.getValue();
         
 //#ifdef RUNNING_MESSAGE
-        cf.notifyWhenMessageType=notifyWhenMessageType.getValue();
+//#         cf.notifyWhenMessageType=notifyWhenMessageType.getValue();
 //#endif
 //#ifdef POPUPS
         cf.popUps=popUps.getValue();
@@ -403,32 +409,34 @@ public class ConfigForm
 //#endif
 //#ifdef DETRANSLIT
 //#ifdef PLUGINS
-       if (sd.DeTranslit) {
+//#        if (sd.DeTranslit) {
 //#endif
-        cf.autoDeTranslit=autoDetranslit.getValue();
+//#         cf.autoDeTranslit=autoDetranslit.getValue();
 //#ifdef PLUGINS
-       } else {
-            cf.autoDeTranslit = false;
-       }
+//#        } else {
+//#             cf.autoDeTranslit = false;
+//#        }
 //#endif
 //#endif
         cf.showNickNames=showNickNames.getValue();
         cf.executeByNum=executeByNum.getValue();
 
         cf.autoLogin=autoLogin.getValue();
+//#ifndef WMUC        
         cf.autoJoinConferences=autoJoinConferences.getValue();
+//#endif        
         
         cf.reconnectCount=Integer.parseInt(reconnectCount.getValue());
         cf.reconnectTime=Integer.parseInt(reconnectTime.getValue());
 //#ifdef FILE_TRANSFER
 //#ifdef PLUGINS
-        if (sd.FileTransfer)
+//#         if (sd.FileTransfer)
 //#endif
             cf.fileTransfer=fileTransfer.getValue();
 //#endif
 //#ifdef HISTORY
 //#ifdef PLUGINS
-        if (sd.History)
+//#         if (sd.History)
 //#endif
             cf.saveHistory=saveHistory.getValue();
 //#endif
@@ -485,7 +493,7 @@ public class ConfigForm
             VirtualList.changeOrient(cf.panelsState);
         }       
 
-        sd.roster.setLight(cf.lightState);   
+        //sd.roster.setLight(cf.lightState);   TODO: correct for new light control
 
         sd.roster.setFullScreenMode(Config.fullscreen);
 

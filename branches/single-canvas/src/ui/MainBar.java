@@ -24,16 +24,22 @@
 
 package ui;
 
+import Client.Config;
 import Fonts.FontCache;
 import images.RosterIcons;
 import javax.microedition.lcdui.Graphics;
-import javax.microedition.lcdui.Image;
+//#ifdef BACK_IMAGE
+//# import javax.microedition.lcdui.Image;
+//#endif
 
 public class MainBar extends ComplexString{
 
 //#ifdef BACK_IMAGE
 //#     public static Image bg;
 //#endif
+    
+    public boolean lShift = false;
+    public boolean rShift = false;
     
     public MainBar(int size, Object first, Object second, boolean bold) {
         this (size);
@@ -69,17 +75,23 @@ public class MainBar extends ComplexString{
 //#ifdef BACK_IMAGE
 //#         if (bg != null)
 //#             return Math.max(super.getVHeight(), bg.getHeight());
-//#endif        
+//#         else
+//#endif    
+            if (centered && Config.getInstance().advTouch)
+                return super.getVHeight() << 1;
         return super.getVHeight();
     }
     public void drawItem(Graphics g, int offset, boolean selected) {
 //#ifdef BACK_IMAGE
 //#         if (bg != null) {
+//#             int ofs = 0;
+//#             if (getVHeight() > bg.getHeight())
+//#                 ofs =  (getVHeight() - bg.getHeight()) >> 1;
 //#             for (int i=0; i < g.getClipWidth(); i++)
-//#                 g.drawImage(bg, i, 0, Graphics.TOP|Graphics.LEFT);
+//#                 g.drawImage(bg, i, ofs , Graphics.TOP|Graphics.LEFT);
 //#         }
-//#endif
-
-        super.drawItem(g, offset, selected);
+//#endif        
+        g.setClip((lShift)? 20: 0, 0, g.getClipWidth() - ((rShift)? 20: 0), g.getClipHeight());
+        super.drawItem(g, offset, selected);        
     }
 }

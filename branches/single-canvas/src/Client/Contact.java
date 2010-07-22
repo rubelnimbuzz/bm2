@@ -164,8 +164,8 @@ public class Contact extends IconTextElement{
     
     private int fontHeight;
     int ilHeight;
-    int maxImgHeight;
-
+    int maxImgHeight;   
+    
     protected Contact (){
         super(RosterIcons.getInstance());
         cf=Config.getInstance();
@@ -264,7 +264,8 @@ public class Contact extends IconTextElement{
         int nm=0;
         if (getGroupType()!=Groups.TYPE_IGNORE) {
             unreadType=Msg.MESSAGE_TYPE_IN;
-            for (int i=0; i<msgs.size(); i++ ) {
+            int j=msgs.size();
+            for (int i=0; i<j; i++ ) {
                 Msg m=(Msg)msgs.elementAt(i);
                 if (m.unread) {
                     nm++;
@@ -280,7 +281,8 @@ public class Contact extends IconTextElement{
         if (newHighLitedMsgCnt>0) return newHighLitedMsgCnt;
         int nm=0;
         if (getGroupType()!=Groups.TYPE_IGNORE) {
-            for (int i=0; i<msgs.size(); i++) {
+            int j=msgs.size();
+            for (int i=0; i<j; i++) {
                 Msg m=(Msg)msgs.elementAt(i);
                 if (m.unread && m.highlite) { 
                     nm++;
@@ -609,13 +611,13 @@ public class Contact extends IconTextElement{
         int xo=g.getClipX();
         int yo=g.getClipY();
         
-        int offset=4;
+        int offset= xo + 4;
 
         int imgH=(h-ilHeight)/2;
         
         if (getImageIndex()>-1) {
             offset+=ilHeight;
-            il.drawImage(g, getImageIndex(), 2, imgH);
+            il.drawImage(g, getImageIndex(), xo + 2, imgH);
         }
 //#ifdef CLIENTS_ICONS
         if (hasClientIcon()) {
@@ -685,7 +687,7 @@ public class Contact extends IconTextElement{
             g.setColor(ColorTheme.getColor(ColorTheme.SECOND_LINE));
             g.drawString(getSecondString(), thisOfs, y, Graphics.TOP|Graphics.LEFT);
         }
-        g.setClip(xo, yo, w, h);
+        g.setClip(xo, yo, w, h);        
     }
     
 //#ifdef CLIENTS_ICONS

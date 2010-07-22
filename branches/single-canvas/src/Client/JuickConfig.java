@@ -31,9 +31,7 @@ public class JuickConfig extends DefForm {
         super(caption);
         
         readFromStorage();
-        addJuickContactsBox();
-
-        show(parentView);
+        addJuickContactsBox();        
     }
 
     public JuickConfig( VirtualList pView) {

@@ -53,14 +53,18 @@ import Archive.MessageArchive;
 //#ifdef JUICK
 import Menu.JuickThingsMenu;
 import Menu.MyMenu;
-import ui.VirtualList;
+import io.file.transfer.TransferAcceptFile;
+import io.file.transfer.TransferDispatcher;
 //#endif
+import ui.VirtualList;
 
 public class ContactMessageList extends MessageList {
     Contact contact;
 
     MenuCommand cmdSubscribe=new MenuCommand(SR.MS_SUBSCRIBE, MenuCommand.SCREEN, 1);
-    MenuCommand cmdUnsubscribed=new MenuCommand(SR.MS_DECLINE, MenuCommand.SCREEN, 2);
+    MenuCommand cmdDecline = new MenuCommand(SR.MS_DECLINE, MenuCommand.SCREEN, 2);
+    MenuCommand cmdAcceptFile = new MenuCommand("Accept", MenuCommand.SCREEN, 1);
+    MenuCommand cmdDeclineFile = new MenuCommand(SR.MS_DECLINE, MenuCommand.SCREEN, 2);
     MenuCommand cmdMessage=new MenuCommand(SR.MS_NEW_MESSAGE,MenuCommand.SCREEN,3);
     MenuCommand cmdResume=new MenuCommand(SR.MS_RESUME,MenuCommand.SCREEN,1);
     MenuCommand cmdReply=new MenuCommand(SR.MS_REPLY,MenuCommand.SCREEN,4);
@@ -126,7 +130,6 @@ public class ContactMessageList extends MessageList {
         sd.roster.activeContact=contact;
 
         cf=Config.getInstance();
-        
         MainBar mb=new MainBar(contact);
         setMainBarItem(mb);
 
@@ -173,9 +176,18 @@ public class ContactMessageList extends MessageList {
             Msg msg=(Msg) contact.msgs.elementAt(cursor);
             if (msg.messageType==Msg.MESSAGE_TYPE_AUTH) {
                 addMenuCommand(cmdSubscribe);
-                addMenuCommand(cmdUnsubscribed);
+                addMenuCommand(cmdDecline);
             }
         } catch (Exception e) {}
+//#ifdef FILE_TRANSFER        
+        try {
+            Msg msg=(Msg) contact.msgs.elementAt(cursor);
+            if (msg.messageType==Msg.MESSAGE_TYPE_FILE_REQ) {
+                addMenuCommand(cmdAcceptFile);
+                addMenuCommand(cmdDeclineFile);
+            }
+        } catch (Exception e) {}
+//#endif        
         
         addMenuCommand(cmdMessage);
         
@@ -396,6 +408,12 @@ public void showNotify() {
 //#if (FILE_IO && HISTORY)
         if (c==cmdSaveChat) saveMessages();
 //#endif
+//#ifdef FILE_TRANSFER
+        if (c == cmdAcceptFile)
+            new TransferAcceptFile(this, TransferDispatcher.getInstance().getTransferByJid(contact.jid.getJid()));
+        if (c == cmdDeclineFile)
+            TransferDispatcher.getInstance().getTransferByJid(contact.jid.getJid()).cancel();
+//#endif        
         /** login-critical section */
         if (!sd.roster.isLoggedIn()) return;
 
@@ -420,7 +438,7 @@ public void showNotify() {
         
         if (c==cmdSubscribe) sd.roster.doSubscribe(contact);
 		
-        if (c==cmdUnsubscribed) sd.roster.sendPresence(contact.bareJid, "unsubscribed", null, false);
+        if (c==cmdDecline) sd.roster.sendPresence(contact.bareJid, "unsubscribed", null, false);
 
 //#ifdef CLIPBOARD
         if (c==cmdSendBuffer) {

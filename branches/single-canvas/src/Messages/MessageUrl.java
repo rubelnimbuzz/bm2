@@ -41,8 +41,8 @@ import Menu.MenuCommand;
 //#ifdef CLIPBOARD
 import util.ClipBoard;
 import Client.Msg;
-import ui.VirtualList;
 //#endif
+import ui.VirtualList;
 
 /**
  *

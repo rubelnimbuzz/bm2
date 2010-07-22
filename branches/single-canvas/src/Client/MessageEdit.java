@@ -89,13 +89,13 @@ public final class MessageEdit
         
         if (to != null) {
 //#ifndef WMUC            
-            if (to.origin >= Contact.ORIGIN_GROUPCHAT) {
+            if (to.origin >= Contact.ORIGIN_GROUPCHAT) 
                 textbox.addCommand(cmdInsNick);
-            }
-            if (to.origin == Contact.ORIGIN_GROUPCHAT) {
+            
+            if (to.origin == Contact.ORIGIN_GROUPCHAT) 
                 textbox.addCommand(cmdSubj);
 //#endif        
-            }
+            
             if (to.lastSendedMessage != null) {
                 textbox.addCommand(cmdLastMessage);
             }
@@ -134,7 +134,9 @@ public final class MessageEdit
 //#ifdef SMILES
         cmdSmile = new Command(SR.MS_ADD_SMILE, Command.SCREEN, 2);
 //#endif
+//#ifndef WMUC        
         cmdInsNick = new Command(SR.MS_NICKNAMES, Command.SCREEN, 3);
+//#endif        
         cmdInsMe = new Command(SR.MS_SLASHME, Command.SCREEN, 4);  // /me
 //#ifdef DETRANSLIT
 //#         cmdSendInTranslit = new Command(SR.MS_TRANSLIT, Command.SCREEN, 5);

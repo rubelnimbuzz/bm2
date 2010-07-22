@@ -44,10 +44,11 @@ public class PrivacyModifyList extends DefForm
         implements JabberBlockListener
 {
 //#ifdef PLUGINS
-    public static String plugin = new String("PLUGIN_PRIVACY");
+//#     public static String plugin = new String("PLUGIN_PRIVACY");
 //#endif
     
     private PrivacyList plist;
+    private PrivacySelect pselector;
     
     private MenuCommand cmdAdd=new MenuCommand (SR.MS_ADD_RULE, MenuCommand.SCREEN, 10);
     private MenuCommand cmdDel=new MenuCommand (SR.MS_DELETE_RULE, MenuCommand.SCREEN, 11);
@@ -58,19 +59,16 @@ public class PrivacyModifyList extends DefForm
     
     JabberStream stream=StaticData.getInstance().roster.theStream;
     
-    /** Creates a new instance of PrivacySelect
-     * @param pView
-     * @param newList
-     * @param privacyList
-     */
-    public PrivacyModifyList(VirtualList pView, PrivacyList privacyList, boolean newList) {
+    /** Creates a new instance of PrivacySelect */
+    public PrivacyModifyList(VirtualList pView, PrivacyList privacyList, boolean newList, PrivacySelect privacySelect) {
         super(null);
         setMainBarItem(new MainBar(2, null, privacyList.name, false));
 
         //commandState();
         setMenuListener(this);
 
-        plist=privacyList;
+        plist = privacyList;
+        pselector = privacySelect;
         
         if (!newList) {
             processIcon(true);
@@ -107,6 +105,9 @@ public class PrivacyModifyList extends DefForm
         PrivacyList.privacyListRq(false, list, "getlistitems");
     }*/
     
+    protected int getItemCount() { return plist.rules.size(); }
+    protected VirtualElement getItemRef(int index) { return (VirtualElement) plist.rules.elementAt(index); }
+    
     public void menuAction(MenuCommand c, VirtualList d) {
         if (c==cmdCancel) {
             stream.cancelBlockListener(this);
@@ -115,7 +116,9 @@ public class PrivacyModifyList extends DefForm
         if (c==cmdAdd) {
             new PrivacyForm(this, new PrivacyItem(), plist);
         }
-        if (c==cmdEdit) eventOk();
+        if (c==cmdEdit) {
+            eventOk();
+        }
         if (c==cmdDel) {
             Object del=getFocusedObject();
             if (del!=null) plist.rules.removeElement(del);
@@ -123,7 +126,8 @@ public class PrivacyModifyList extends DefForm
         if (c==cmdSave) {
             plist.generateList();
             stream.cancelBlockListener(this);
-            PrivacyList.privacyListRq(false, null, "setplists");
+            pselector.getLists();
+            //PrivacyList.privacyListRq(false, null, "setplists");
             destroyView();
         }
         
@@ -157,7 +161,6 @@ public class PrivacyModifyList extends DefForm
     }
     
     public int blockArrived(JabberDataBlock data){
-        PrivacyItem pitem;
         if (data.getTypeAttribute().equals("result"))
             if (data.getAttribute("id").equals("getlistitems")) {
                 data=data.findNamespace("query", "jabber:iq:privacy");
@@ -165,13 +168,9 @@ public class PrivacyModifyList extends DefForm
                     data=data.getChildBlock("list");
                     plist.rules=null;
                     plist.rules=new Vector();
-                    itemsList.removeAllElements();
                     for (Enumeration e=data.getChildBlocks().elements(); e.hasMoreElements();) {
                         JabberDataBlock item=(JabberDataBlock) e.nextElement();
-                        pitem = null;
-                        pitem = new PrivacyItem(item);
-                        plist.addRule(pitem);
-                        itemsList.addElement(pitem);
+                        plist.addRule(new PrivacyItem(item));
                     }
                 } catch (Exception e) {}
                 
@@ -181,7 +180,7 @@ public class PrivacyModifyList extends DefForm
             } //id, result
         return JabberBlockListener.BLOCK_REJECTED;
     }
-
+    
     private void updateView() {
         itemsList.removeAllElements();
         for (Enumeration e = plist.rules.elements(); e.hasMoreElements();) {

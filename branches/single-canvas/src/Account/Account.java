@@ -96,7 +96,9 @@ public class Account extends IconTextElement{
                     sd.roster.sendPresence(Presence.PRESENCE_INVISIBLE, null);    
                 } else {
                     sd.roster.sendPresence(loginstatus, null);
-                }
+                }          
+                if (Config.getInstance().phoneManufacturer == Config.MICROEMU)
+                    midlet.BombusMod.getInstance().setDisplayable(StaticData.getInstance().roster);
             }
         }
     }
@@ -152,8 +154,11 @@ public class Account extends IconTextElement{
 	    
             a.useSSL=inputStream.readBoolean();
             a.plainAuth=inputStream.readBoolean();
-            
+//#ifndef WMUC            
 	    a.mucOnly=inputStream.readBoolean();
+//#else
+//#             inputStream.readBoolean();
+//#endif            
             
 //#if HTTPPOLL || HTTPCONNECT
                 a.setEnableProxy(inputStream.readBoolean());

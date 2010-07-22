@@ -44,12 +44,12 @@ import ui.controls.form.DefForm;
  */
 public class PrivacySelect 
         extends DefForm
-        implements        
+        implements
         JabberBlockListener,
         MIDPTextBox.TextBoxNotify
 {
 //#ifdef PLUGINS
-    public static String plugin = new String("PLUGIN_PRIVACY");
+//#     public static String plugin = new String("PLUGIN_PRIVACY");
 //#endif
     
     private Vector list=new Vector();
@@ -72,7 +72,7 @@ public class PrivacySelect
 
         setMainBarItem(new MainBar(2, null, SR.MS_PRIVACY_LISTS, false));
 
-        itemsList.addElement(new PrivacyList(null));//none
+        list.addElement(new PrivacyList(null));//none
         
         setMenuListener(this);
         
@@ -95,14 +95,17 @@ public class PrivacySelect
         redraw();
     }
    
-    private void getLists(){
+    protected final void getLists() {
         try {
             Thread.sleep(500);
         } catch (Exception e) { }
         stream.addBlockListener(this);
         processIcon(true);
         PrivacyList.privacyListRq(false, null, "getplists");
-    }    
+    }
+    
+    protected int getItemCount() { return list.size(); }
+    protected VirtualElement getItemRef(int index) { return (VirtualElement) list.elementAt(index); }
     
     public void menuAction(MenuCommand c, VirtualList d) {
         if (c==cmdCancel) {
@@ -128,31 +131,27 @@ public class PrivacySelect
             getLists();
         }
         if (c==cmdDelete) {
-            PrivacyList pl=(PrivacyList) getFocusedObject();
-            if (pl!=null) {
-                if (pl.name!=null)
-                        pl.deleteList();
-                getLists();
-            }
+            cmdDelete();
         }
         if (c==cmdNewList)
             new MIDPTextBox( this, SR.MS_NEW, "", this, TextField.ANY);
         super.menuAction(c, d);
-    }    
-        
+    }
+    
     // MIDPTextBox interface
     public void OkNotify(String listName) {
         if (listName.length()>0)
-            new PrivacyModifyList(this, new PrivacyList(listName), true);
+            new PrivacyModifyList(this, new PrivacyList(listName), true, this);
     }
     
-    public int blockArrived(JabberDataBlock data){
+    public int blockArrived(JabberDataBlock data) {
         try {
             if (data.getTypeAttribute().equals("result"))
                 if (data.getAttribute("id").equals("getplists")) {
                 data=data.findNamespace("query", "jabber:iq:privacy");
                 if (data!=null) {
-                    itemsList.removeAllElements();
+                    list=null;
+                    list=new Vector();
                     String activeList="";
                     String defaultList="";
                     try {
@@ -166,14 +165,14 @@ public class PrivacySelect
                                 PrivacyList pl=new PrivacyList(name);
                                 pl.isActive=(name.equals(activeList));
                                 pl.isDefault=(name.equals(defaultList));
-                                itemsList.addElement(pl);
+                                list.addElement(pl);
                             }
                         }
                     } catch (Exception e) {}
                     PrivacyList nullList=new PrivacyList(null);
                     nullList.isActive=activeList.length()==0;
                     nullList.isDefault=defaultList.length()==0;
-                    itemsList.addElement(nullList);//none
+                    list.addElement(nullList);//none
                 }
                 
                 processIcon(false);
@@ -184,12 +183,14 @@ public class PrivacySelect
         return JabberBlockListener.BLOCK_REJECTED;
     }
 
-    public void eventOk(){
-        PrivacyList pl=(PrivacyList) getFocusedObject();
-        if (pl!=null) {
-            if (pl.name!=null) new PrivacyModifyList(this, pl, false);
+    public void eventOk() {
+        PrivacyList pl = (PrivacyList) getFocusedObject();
+        if (pl != null) {
+            if (pl.name != null)
+                new PrivacyModifyList(this, pl, false, this);
         }
     }
+
     private void generateIgnoreList(){
         JabberDataBlock ignoreList=new JabberDataBlock("list", null, null);
         ignoreList.setAttribute("name", SR.MS_IGNORE_LIST);
@@ -201,16 +202,24 @@ public class PrivacySelect
     public void keyGreen() {
         new MIDPTextBox( this, SR.MS_NEW, "", this, TextField.ANY);
     }
-        
-    protected void keyClear(){
-        new AlertBox(SR.MS_DELETE, getFocusedObject().toString()) {
+    
+    private void cmdDelete() {
+        PrivacyList pl = (PrivacyList) getFocusedObject();
+        if (pl != null) {
+            if (pl.name != null)
+                pl.deleteList();
+            getLists();
+        }
+    }
+    
+    protected void keyClear() {
+        String name = getFocusedObject().toString();
+        new AlertBox(name, SR.MS_DELETE + " \"" + name + "\"?") {
+
             public void yes() {
-                PrivacyList pl=(PrivacyList) getFocusedObject();
-                if (pl!=null) {
-                    if (pl.name!=null) pl.deleteList();
-                    getLists();
-                }
+                cmdDelete();
             }
+
             public void no() {}
         };
     }

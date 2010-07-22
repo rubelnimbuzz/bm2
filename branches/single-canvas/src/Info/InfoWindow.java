@@ -41,7 +41,9 @@ import ui.controls.form.SpacerItem;
 import Menu.MenuCommand;
 import Menu.MyMenu;
 import ui.VirtualList;
+//#ifdef CLIPBOARD
 import util.ClipBoard;
+//#endif
 
 /**
  *
@@ -278,11 +280,17 @@ public class InfoWindow
 //#endif
 //#             abilitiesList.addElement("LAST_MESSAGES");
 //#endif
+//#ifdef LIGHT_CONFIG
+//#ifdef PLUGINS        
+//#         if (sd.lightConfig)
+//#endif            
+//#             abilitiesList.addElement("LIGHT_CONFIG");
+//#endif  
 //#ifdef LOGROTATE
         abilitiesList.addElement("LOGROTATE");
 //#endif
 //#ifdef NEW_DISCO
-        abilitiesList.addElement("NEW_DISCO");
+//#         abilitiesList.addElement("NEW_DISCO");
 //#endif
 
 //#ifdef NEW_SKIN
@@ -360,6 +368,9 @@ public class InfoWindow
 //#endif
         abilitiesList.addElement("TEMPLATES");
 //#endif
+//#ifdef TLS        
+//#         abilitiesList.addElement("TLS");
+//#endif        
 //#ifdef USER_KEYS
         abilitiesList.addElement("USER_KEYS");
 //#endif

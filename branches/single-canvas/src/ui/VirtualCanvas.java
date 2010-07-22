@@ -58,8 +58,6 @@ public class VirtualCanvas extends Canvas implements CommandListener{
     }
 
     protected void paint(Graphics graphics) {
-        list.width = graphics.getClipWidth();
-        list.height = graphics.getClipHeight();
         list.paint(graphics);
     }
     protected void keyPressed(int keyCode) {
@@ -83,7 +81,7 @@ public class VirtualCanvas extends Canvas implements CommandListener{
     }
 
     protected void showNotify() {
-        //setFullScreenMode(Config.fullscreen);
+        setFullScreenMode(Config.fullscreen);
         list.showNotify();        
     }
     protected void hideNotify() {
@@ -92,7 +90,7 @@ public class VirtualCanvas extends Canvas implements CommandListener{
         }
     }
 
-    
+        
     
     protected void sizeChanged(int w, int h) {
         if (list != null)
