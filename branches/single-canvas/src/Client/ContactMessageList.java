@@ -53,10 +53,10 @@ import Archive.MessageArchive;
 //#ifdef JUICK
 import Menu.JuickThingsMenu;
 import Menu.MyMenu;
-import io.file.transfer.TransferAcceptFile;
-import io.file.transfer.TransferDispatcher;
 //#endif
 import ui.VirtualList;
+import io.file.transfer.TransferAcceptFile;
+import io.file.transfer.TransferDispatcher;
 
 public class ContactMessageList extends MessageList {
     Contact contact;

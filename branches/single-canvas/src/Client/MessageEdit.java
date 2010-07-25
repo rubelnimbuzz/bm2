@@ -39,6 +39,7 @@ import ui.controls.ExTextBox;
 //# import util.DeTranslit;
 //#endif
 import locale.SR;
+import ui.VirtualCanvas;
 /**
  *
  * @author Eugene Stahov
@@ -236,8 +237,10 @@ public final class MessageEdit
             if (c == cmdSend && !(parentView instanceof ContactMessageList))
                 parentView = new ContactMessageList(to);
          midlet.BombusMod.getInstance().setDisplayable(parentView);
-         if (parentView instanceof ContactMessageList)
-            ((ContactMessageList)parentView).forceScrolling();
+         if (parentView instanceof ContactMessageList) {             
+                ((ContactMessageList)parentView).forceScrolling();
+                VirtualCanvas.nativeCanvas.repaint();
+            }
 //#ifdef RUNNING_MESSAGE
 //#             runState = 3;
 //#else

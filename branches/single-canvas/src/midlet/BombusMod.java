@@ -73,11 +73,6 @@ public class BombusMod extends MIDlet implements Runnable{
     private static BombusMod instance;
     
     public BombusMod() {
-        
-    }
-    
-    /** Entry point  */
-    public void startApp() {        
 //#ifdef LIGHT_CONFIG        
 //#ifdef PLUGINS        
 //#     if (StaticData.getInstance().lightConfig)        
@@ -89,6 +84,11 @@ public class BombusMod extends MIDlet implements Runnable{
         display = Display.getDisplay(this);
         s = SplashScreen.getInstance();
         s.setProgress("Loading", 3); // this message will not be localized
+        
+    }
+    
+    /** Entry point  */
+    public void startApp() {        
         if (isRunning) {
             hideApp(false);
             return;

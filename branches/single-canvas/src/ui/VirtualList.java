@@ -787,7 +787,7 @@ public abstract class VirtualList
         stickyWindow=true;
         int count=getItemCount();
         if (cursor>=0) cursor=(count==0)?0:count-1;
-        redraw();
+        VirtualCanvas.nativeCanvas.repaint();
         setRotator();
         
     }
@@ -802,7 +802,7 @@ public abstract class VirtualList
         } catch (Exception ex){
         }
         stickyWindow=true;
-        redraw();
+        VirtualCanvas.nativeCanvas.repaint();
     }
     
     protected void fitCursorByTop(){

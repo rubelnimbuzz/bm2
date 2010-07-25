@@ -308,7 +308,7 @@ public class RosterToolsMenu extends Menu {
 //#         if (sd.lightConfig)
 //#endif            
 //#                 
-//#                 new LightConfigForm(display, this);
+//#                 new LightConfigForm(this);
 //#endif                
                 return;
         }
