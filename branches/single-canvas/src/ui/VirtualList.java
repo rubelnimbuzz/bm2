@@ -830,7 +830,7 @@ public abstract class VirtualList
     }
 
     protected int kHold;
-    protected void keyRepeated(int keyCode){ 
+    protected void keyRepeated(int keyCode) {
         key(keyCode); 
 //#ifdef LIGHT_CONFIG      
 //#ifdef PLUGINS                
@@ -840,8 +840,8 @@ public abstract class VirtualList
 //#endif        
     }
     protected void keyReleased(int keyCode) { kHold=0; }
-    protected void keyPressed(int keyCode) { 
-        kHold=0; 
+    protected void keyPressed(int keyCode) {
+        kHold=0;
         key(keyCode); 
 //#ifdef LIGHT_CONFIG      
 //#ifdef PLUGINS                
@@ -964,8 +964,8 @@ public abstract class VirtualList
         stickyWindow=false;
 	if (cursor>=0) {
             int pos = getElementIndexAt(win_top+y-list_top);
-            if (getItemRef(pos).isSelectable())
-                cursor= pos;
+            if ((pos >= 0) && getItemRef(pos).isSelectable())
+                cursor = pos;
             setRotator();
         }
 
@@ -1112,7 +1112,7 @@ public abstract class VirtualList
         }
     switch (keyCode) {
         case KEY_NUM1:        
-            moveCursorHome();    
+            moveCursorHome();
             break;
         case KEY_NUM2:        
             keyUp();    
@@ -1130,7 +1130,7 @@ public abstract class VirtualList
             keyDwn();    
             break;
         case KEY_STAR:
-// Здесь была 19-я команда из UserKeyExec.
+// Перемещено в UserKeyExec: #19.
             break;
 //#ifdef POPUPS
         case KEY_POUND:        
