@@ -113,6 +113,7 @@ public class UserKeysList extends DefForm
             addMenuCommand(cmdDel);
         }
         addMenuCommand(cmdRestore);
+        addMenuCommand(cmdApply);
         
 //#endif
         }

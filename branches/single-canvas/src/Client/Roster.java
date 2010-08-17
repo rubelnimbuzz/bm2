@@ -1404,7 +1404,8 @@ public class Roster
                         if (c!=null) {
                             c.vcard=vcard;
                             if (midlet.BombusMod.getInstance().getCurrentDisplayable() instanceof VirtualList) {
-                                if (c.getGroupType()==Groups.TYPE_SELF) {
+//                                if (c.getGroupType()==Groups.TYPE_SELF) { // Not able to edit VCard if self contact in roster
+                                if (c.getJid().equals(myJid.getJid())) {
                                     new VCardEdit(this, vcard);
                                 } else {
                                     new VCardView(this, c);

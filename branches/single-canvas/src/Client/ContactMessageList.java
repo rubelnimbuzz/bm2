@@ -55,8 +55,10 @@ import Menu.JuickThingsMenu;
 import Menu.MyMenu;
 //#endif
 import ui.VirtualList;
+//#ifdef FILE_TRANSFER
 import io.file.transfer.TransferAcceptFile;
 import io.file.transfer.TransferDispatcher;
+//#endif
 
 public class ContactMessageList extends MessageList {
     Contact contact;
