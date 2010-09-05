@@ -8,26 +8,84 @@
 
 Обычно выкладываются три различные сборки, отличающиеся набором [http://bm2.googlecode.com/svn/trunk/abilities.txt возможностей] (англ. abilities):
 
- * BombusModNNN.jar;
- * BombusModNNNFilinX.jar;
- * BombusModNNNClassic.jar.
+ * BombusModNNN.jar — полная сборка, со всеми возможными и невозможными abilities;
+ * BombusModNNNFilinX.jar — облегченная;
+ * BombusModNNNClassic.jar — с классическим (не графическим) меню, как в официальном бомбусе.
 
 Также время от времени появляются специфические сборки, для тестов некоторых экспериментальных патчей и отладки фич, которым ещё рано в главную ветку разработки. Скачивать их лучше, предварительно узнав для чего они предназначены.
 
 = Детали традиционных сборок =
 
-* BombusModNNN.jar - полные (с всеми возможными и невозможными абилити):
+== BombusModNNN.jar ==
 
-full_ver_newmenu_ani.abilities= HISTORY_READER=, FILE_TRANSFER=, CONSOLE=, CLIPBOARD=, BACK_IMAGE=, ARCHIVE=, RUNNING_MESSAGE=, IMPORT_EXPORT=, PLUGINS=, SERVICE_DISCOVERY=, STATS=, TEMPLATES=, PEP=, SE_LIGHT=, SASL_XGOOGLETOKEN=, ANTISPAM=, LOGROTATE=, ANISMILES=, JUICK=, CLDC=, PEP_ACTIVITY=, PEP_TUNE=, AUOTASK=, GRADIENT=, AUTOSTATUS=, NICK_COLORS=, PRIVACY=, HISTORY=, CLIENTS_ICONS=, USE_ROTATOR=, ZLIB=, POPUPS=, CAPTCHA=, DETRANSLIT=, SMILES=, CHANGE_TRANSPORT=, USER_KEYS=, COLOR_TUNE=, MENU_LISTENER=, FILE_IO=, ADHOC=, CHECK_VERSION=, LAST_MESSAGES=
+ * ADHOC
+ * ANISMILES
+ * ANTISPAM
+ * ARCHIVE
+ * AUTOTASK
+ * AUTOSTATUS
+ * BACK_IMAGE
+ * CAPTCHA
+ * CHANGE_TRANSPORT
+ * CHECK_VERSION
+ * CLIENTS_ICONS
+ * CLIPBOARD
+ * COLOR_TUNE
+ * CONSOLE
+ * DETRANSLIT
+ * FILE_IO
+ * FILE_TRANSFER
+ * GRADIENT
+ * HISTORY
+ * HISTORY_READER
+ * IMPORT_EXPORT
+ * JUICK
+ * LAST_MESSAGES
+ * LOGROTATE
+ * MENU_LISTENER
+ * NICK_COLORS
+ * PEP
+ * PEP_ACTIVITY
+ * PEP_TUNE
+ * PLUGINS
+ * POPUPS
+ * PRIVACY
+ * RUNNING_MESSAGE
+ * SASL_XGOOGLETOKEN
+ * SE_LIGHT
+ * SERVICE_DISCOVERY
+ * SMILES
+ * STATS
+ * TEMPLATES
+ * USER_KEYS
+ * USE_ROTATOR
+ * ZLIB
 
+== BombusModNNNFilinX.jar ==
 
-* BombusModNNNFilinX.jar - облегченная:
-
-FilinX.abilities=FILE_IO=, HISTORY=, USER_KEYS=, POPUPS=, IMPORT_EXPORT=, SMILES=, TEMPLATES=, JUICK=, WSYSTEMGC=, ARCHIVE=, USE_ROTATOR=, ZLIB=, MENU_LISTENER=, CLIPBOARD=, FILE_TRANSFER=, DETRANSLIT=, SERVICE_DISCOVERY=, CLIENTS_ICONS=, NICK_COLORS=
+ * ARCHIVE
+ * CLIENTS_ICONS
+ * CLIPBOARD
+ * DETRANSLIT
+ * FILE_IO
+ * FILE_TRANSFER
+ * HISTORY
+ * IMPORT_EXPORT
+ * JUICK
+ * MENU_LISTENER
+ * NICK_COLORS
+ * POPUPS
+ * SERVICE_DISCOVERY
+ * SMILES
+ * TEMPLATES
+ * USER_KEYS
+ * USE_ROTATOR
+ * WSYSTEMGC
+ * ZLIB
 
 *Вопрос:* А нужна ли облегченная сборка, после того, как порешали проблемы с памятью?
 
-* BombusModNNNClassic.jar - с классическим (не графическим) меню, как в официальном бомбусе:
+== BombusModNNNClassic.jar ==
 
 В настоящее время (с тех пор, как решена проблема с утечкой памяти) собирается с теми же абилити, что и полная сборка, за исключением отсутствующей в классической сборке абилити MENU_LISTENER.
 
